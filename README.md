@@ -1,5 +1,8 @@
 # TrotTrax
 Copyright (c) 2015 Katy Brimm
+
+Contact: kbrimm@pdx.edu
+
 This source file is licensed under the GNU General Public License. Please see the file LICENSE in this distribution for license terms.
 
 ### What Is It?
