@@ -1,0 +1,10 @@
+TrotTrax/bin/Debug/TrotTrax.vshost.exe.config
+*.exe
+TrotTrax.v12.suo
+*.sln
+*.config
+*.cache
+*.pdb
+TrotTrax/TrotTrax.csproj
+*.txt
+TrotTrax/obj/Debug/TempPE/DataSet1.Designer.cs.dll
