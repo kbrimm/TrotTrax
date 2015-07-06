@@ -8,6 +8,6 @@ namespace TrotTrax
 {
     class ShowYear
     {
-        private int yearNo;
+        // private int yearNo;
     }
 }

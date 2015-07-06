@@ -11,7 +11,7 @@ namespace TrotTrax
         public static void Main()
         {
             string halt;
-            DbDriver dataBase = new DbDriver();
+            DBDriver dataBase = new DBDriver();
 
             Console.WriteLine("Press 'enter' to continue...");
             halt = Console.ReadLine();

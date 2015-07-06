@@ -7,34 +7,34 @@ using System.Threading.Tasks;
 
 namespace TrotTrax
 {
-    class DbDriver
+    class DBDriver
     {
-        private string dbAddress;
-        private string dbName;
+        private string clubID { get; set; }
+        private string clubName { get; set; }
 
-        public DbDriver()
+        public DBDriver()
         {
-            dbName = "BHCSC";
-            dbAddress = "C:\\Program Files\\TrotTrax\\Data";
+            clubID = "BHCSC";
+            clubName = "Black Hawk Creek Saddle Club";
 
-            bool dbExists = checkDb();
+            bool dbExists = CheckDB();
 
             if (!dbExists)
             {
                 Console.WriteLine("The DB does not exist. We should build it!");
-                createDb();
+                CreateClub();
             }
             else
                 Console.WriteLine("The DB does exist! We can proceed with more interesting stuff.");
         }
 
-        public SqlConnection getConnection()
+        private SqlConnection GetConnection()
         {
             SqlConnection dbConn = null;
             Console.WriteLine("Creating connection to server.");
             try
             {
-                dbConn = new SqlConnection("Integrated Security=SSPI;Initial Catalog=" + dbName + ";Data Source=localhost;");
+                dbConn = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                 return dbConn;
             }
             catch(Exception oops)
@@ -44,13 +44,38 @@ namespace TrotTrax
             }
         }
 
-        private bool checkDb()
+        // Manages queries to database which result in a change of data. Does not retun a value.
+        public void ChangeData(string queryString)
         {
-            Console.WriteLine("Checking to see if " + dbName + " database exists.");
+            SqlConnection dbConn = GetConnection();
+            SqlCommand query = new SqlCommand(queryString, dbConn);
 
-            SqlConnection dbConn = getConnection();
-            string query = "SELECT year " +
-                "FROM " + dbName + "dbo.show_years";
+             try
+            {
+                dbConn.Open();
+                query.ExecuteNonQuery();
+                Console.WriteLine("\tQuery executed successfully.");
+            }
+            catch(Exception oops)
+            {
+                Console.WriteLine(oops.ToString() + "\n\tSomething went wrong. :(");
+            }
+            finally
+            {
+                dbConn.Close();
+            }
+        }
+
+        // Need to devise a way to check to see if the actual DB is up and running before attempting to create it a bajillion times
+        // when it only needs to create a new club.
+        private bool CheckDB()
+        {
+            Console.WriteLine("Checking to see if " + clubID + " database exists.");
+
+            SqlConnection dbConn = GetConnection();
+            string query = "SELECT id " +
+                "FROM  trax_data.dbo.club " +
+                "WHERE id = '" + clubID + "';";
             SqlCommand command = new SqlCommand(query, dbConn);
 
             Console.WriteLine("Executing query.");
@@ -60,7 +85,7 @@ namespace TrotTrax
                 object queryResult = command.ExecuteScalar();
 
                 dbConn.Close();
-                if(queryResult != null)
+                if(queryResult.ToString() == clubID)
                     return true;
                 else
                     return false;
@@ -72,32 +97,45 @@ namespace TrotTrax
             }
         }
 
-        private void createDb()
+        // Think about making the create command more specific (allocating specific file locations/sizes/whatever)
+        // This should get run only when the user selects to configure database.
+        private void CreateDB()
         {
             Console.WriteLine("Creating new DB");
 
-            SqlConnection dbConn = getConnection();
-            string commandStr = "CREATE DATABASE [" + dbName + "] ON PRIMARY " +
-                "( NAME = N'" + dbName + "', FILENAME = N'" + dbAddress + dbName + ".mdf') " +
-                " LOG ON " +
-                "( NAME = N'" + dbName + "_log', FILENAME = N'" + dbAddress + dbName + "_log.ldf') " +
-                "GO ";
-            SqlCommand command = new SqlCommand(commandStr, dbConn);
+            // Creates database "trax_data".
+            string query = "CREATE DATABASE trax_data; ";
+            ChangeData(query);
 
-            try
-            {
-                dbConn.Open();
-                command.ExecuteNonQuery();
-                Console.WriteLine("Database created successfully.");
-            }
-            catch(Exception oops)
-            {
-                Console.WriteLine(oops.ToString() + "\nSomething went wrong. :(");
-            }
-            finally
-            {
-                dbConn.Close();
-            }
+            // Creates table "dbo.club", initializes two fields.
+            query = "CREATE TABLE trax_data.dbo.club " +
+                "( " +
+                "id		VARCHAR(10)		NOT NULL, " +
+                "name	VARCHAR(100)	NULL, " +
+                "CONSTRAINT PK_club_id PRIMARY KEY CLUSTERED (id) " +
+                ");";
+            ChangeData(query);
+        }
+
+        // Enters the club in to the dbo.club table (needs to receive the full name), then creates its schema and a clubID.years table.
+        // Don't forget to validate input for escape sequences.
+        private void CreateClub()
+        {
+            Console.WriteLine("Adding " + clubName + " to club data.");
+
+            string query = "INSERT INTO trax_data.dbo.club " +
+                "VALUES ('" + clubID + "', '" + clubName + "'); ";
+            ChangeData(query);
+
+            query = "CREATE SCHEMA " + clubID + "; ";
+            ChangeData(query);
+
+            query = "CREATE TABLE trax_data." + clubID + ".year " +
+                "( " +
+                "show_year  INT NOT NULL, " +
+                "CONSTRAINT PK_year_show_year PRIMARY KEY CLUSTERED (show_year) " +
+                ");";
+            ChangeData(query);
         }
     }
 }
