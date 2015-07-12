@@ -8,3 +8,4 @@ TrotTrax.v12.suo
 TrotTrax/TrotTrax.csproj
 *.txt
 TrotTrax/obj/Debug/TempPE/DataSet1.Designer.cs.dll
+*.manifest

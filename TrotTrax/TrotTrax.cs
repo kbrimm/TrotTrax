@@ -17,11 +17,13 @@ namespace TrotTrax
     {
         public static void Main()
         {
-            string halt;
-            DBDriver dataBase = new DBDriver();
+            string input;
+            DBDriver db = new DBDriver();
+
+            db.CreateClub("bhcsc", "Black Hawk Creek Saddle Club");
 
             Console.WriteLine("Press 'enter' to continue...");
-            halt = Console.ReadLine();
+            input = Console.ReadLine();
         }
     }
 }

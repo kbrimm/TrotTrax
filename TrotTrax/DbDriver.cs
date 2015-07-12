@@ -5,9 +5,9 @@
  * Contact: kbrimm@pdx.edu
  */
 
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,133 +16,224 @@ namespace TrotTrax
 {
     class DBDriver
     {
-        private string clubID { get; set; }
-        private string clubName { get; set; }
+        private MySqlConnection connection;
+        private string server;
+        private string port;
+        private string usrID;
+        private string password;
 
+        // Initializes variables
+        // Checks for instance of database
+        // Creates trot_trax_data if not found
         public DBDriver()
         {
-            clubID = "BHCSC";
-            clubName = "Black Hawk Creek Saddle Club";
+            server = "localhost";
+            port = "3306";
+            usrID = "root";
+            password = "password";
 
-            bool dbExists = CheckDB();
+            string connString = "SERVER=" + server + "; PORT=" + port + ";" +
+                "UID=" + usrID + "; PASSWORD=" + password + ";";
 
-            if (!dbExists)
+            connection = new MySqlConnection(connString);
+            if (!CheckTTD())
             {
-                Console.WriteLine("The DB does not exist. We should build it!");
-                CreateClub();
+                string tableString = "id VARCHAR(10) NOT NULL, " +
+                        "name VARCHAR(255), " +
+                        "PRIMARY KEY (id) ";
+
+                CreateDB("trot_trax_data");
+                AddTable("trot_trax_data", "clubs", tableString);
+
             }
             else
-                Console.WriteLine("The DB does exist! We can proceed with more interesting stuff.");
+                Console.WriteLine("\tDatabase connection successful!");
         }
 
-        private SqlConnection GetConnection()
+        // The following are some basic commands for interacting with the database.
+        // They are all private, return bool, and they should all be self-explanatory.
+        // Note: The goal is to minimize the typing required in other functions,
+        //     so most of the standard beginning/end of SQL commands is embedded here.
+        private bool CreateDB(string database)
         {
-            SqlConnection dbConn = null;
-            Console.WriteLine("Creating connection to server.");
+            MySqlCommand command;
+            string query;
+
+            Console.WriteLine("Creating database:" + database + ".");
             try
             {
-                dbConn = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-                return dbConn;
+                connection.Open();
+                query = "CREATE DATABASE " + database + ";";
+                command = new MySqlCommand(query, connection);
+                command.ExecuteNonQuery();
+                connection.Close();
+                Console.WriteLine("\tSuccess! :D");
+                return true;
             }
             catch(Exception oops)
             {
-                Console.WriteLine(oops.ToString());
-                return null;
-            }
-        }
-
-        // Manages queries to database which result in a change of data. Does not retun a value.
-        public void ChangeData(string queryString)
-        {
-            SqlConnection dbConn = GetConnection();
-            SqlCommand query = new SqlCommand(queryString, dbConn);
-
-             try
-            {
-                dbConn.Open();
-                query.ExecuteNonQuery();
-                Console.WriteLine("\tQuery executed successfully.");
-            }
-            catch(Exception oops)
-            {
-                Console.WriteLine(oops.ToString() + "\n\tSomething went wrong. :(");
-            }
-            finally
-            {
-                dbConn.Close();
-            }
-        }
-
-        // Need to devise a way to check to see if the actual DB is up and running before attempting to create it a bajillion times
-        // when it only needs to create a new club.
-        private bool CheckDB()
-        {
-            Console.WriteLine("Checking to see if " + clubID + " database exists.");
-
-            SqlConnection dbConn = GetConnection();
-            string query = "SELECT id " +
-                "FROM  trax_data.dbo.club " +
-                "WHERE id = '" + clubID + "';";
-            SqlCommand command = new SqlCommand(query, dbConn);
-
-            Console.WriteLine("Executing query.");
-            try
-            {
-                dbConn.Open();
-                object queryResult = command.ExecuteScalar();
-
-                dbConn.Close();
-                if(queryResult.ToString() == clubID)
-                    return true;
-                else
-                    return false;
-            }
-            catch(Exception oops)
-            {
+                Console.WriteLine("\tSomething went wrong. :(");
                 Console.WriteLine(oops.ToString());
                 return false;
             }
         }
 
-        // Think about making the create command more specific (allocating specific file locations/sizes/whatever)
-        // This should get run only when the user selects to configure database.
-        private void CreateDB()
+        private bool DropDB(string database)
         {
-            Console.WriteLine("Creating new DB");
+            MySqlCommand command;
+            string query;
 
-            // Creates database "trax_data".
-            string query = "CREATE DATABASE trax_data; ";
-            ChangeData(query);
-
-            // Creates table "dbo.club", initializes two fields.
-            query = "CREATE TABLE trax_data.dbo.club " +
-                "( " +
-                "id		VARCHAR(10)		NOT NULL, " +
-                "name	VARCHAR(100)	NULL, " +
-                "CONSTRAINT PK_club_id PRIMARY KEY CLUSTERED (id) " +
-                ");";
-            ChangeData(query);
+            Console.WriteLine("Dropping database:" + database + ".");
+            try
+            {
+                connection.Open();
+                query = "DROP DATABASE " + database + ";";
+                command = new MySqlCommand(query, connection);
+                command.ExecuteNonQuery();
+                connection.Close();
+                Console.WriteLine("\tSuccess! :D");
+                return true;
+            }
+            catch (Exception oops)
+            {
+                Console.WriteLine("\tSomething went wrong. :(");
+                Console.WriteLine(oops.ToString());
+                return false;
+            }
         }
 
-        // Enters the club in to the dbo.club table (needs to receive the full name), then creates its schema and a clubID.years table.
-        // Don't forget to validate input for escape sequences.
-        private void CreateClub()
+        private bool AddTable(string database, string table, string tableString)
         {
-            Console.WriteLine("Adding " + clubName + " to club data.");
+            MySqlCommand command;
+            string query;
 
-            string query = "INSERT INTO trax_data.dbo.club " +
-                "VALUES ('" + clubID + "', '" + clubName + "'); ";
-            ChangeData(query);
+            try
+            {
+                connection.Open();
+                Console.WriteLine("Adding " + table + " to " + database);
+                query = "CREATE TABLE " + database + "." + table + " " +
+                    "(" + tableString + ");";
+                command = new MySqlCommand(query, connection);
+                command.ExecuteNonQuery();
+                connection.Close();
+                Console.WriteLine("\tSuccess! :D");
+                return true;
+            }
+            catch(Exception oops)
+            {
+                Console.WriteLine("\tSomething went wrong. :(");
+                Console.WriteLine(oops.ToString());
+                return false;
+            }
+        }
 
-            query = "CREATE SCHEMA " + clubID + "; ";
-            ChangeData(query);
+        private bool DropTable(string database, string table)
+        {
+            MySqlCommand command;
+            string query;
 
-            query = "CREATE TABLE trax_data." + clubID + ".year " +
-                "( " +
-                "show_year  INT NOT NULL, " +
-                "CONSTRAINT PK_year_show_year PRIMARY KEY CLUSTERED (show_year) " +
-                ");";
-            ChangeData(query);
+            try
+            {
+                connection.Open();
+                Console.WriteLine("Dropping " + table + " from " + database);
+                query = "DROP TABLE " + database + "." + table + ";" ;
+                command = new MySqlCommand(query, connection);
+                command.ExecuteNonQuery();
+                connection.Close();
+                Console.WriteLine("\tSuccess! :D");
+                return true;
+            }
+            catch (Exception oops)
+            {
+                Console.WriteLine("\tSomething went wrong. :(");
+                Console.WriteLine(oops.ToString());
+                return false;
+            }
+        }
+
+        private bool InsertData(string database, string table, string dataString)
+        {
+            MySqlCommand command;
+            string query;
+
+            try
+            {
+                connection.Open();
+                Console.WriteLine("Adding data to " + database + "." + table);
+                query = "INSERT INTO " + database + "." + table + " " +
+                    "VALUES(" + dataString + ");";
+                command = new MySqlCommand(query, connection);
+                command.ExecuteNonQuery();
+                connection.Close();
+                Console.WriteLine("\tSuccess! :D");
+                return true;
+            }
+            catch (Exception oops)
+            {
+                Console.WriteLine("\tSomething went wrong. :(");
+                Console.WriteLine(oops.ToString());
+                return false;
+            }
+        }
+
+
+        // Checks the initial instance of the trot_trax_data database.
+        private bool CheckTTD()
+        {
+            MySqlCommand command;
+            string query;
+            object checkValue;
+
+            Console.WriteLine("Welcome to TrotTrax!\nChecking database...");
+            try
+            {
+                connection.Open();
+                query = "SELECT count(*) " +
+                    "FROM information_schema.TABLES " +
+                    "WHERE (TABLE_SCHEMA = 'trot_trax_data') AND (TABLE_NAME = 'clubs');";
+                command = new MySqlCommand(query, connection);
+
+                checkValue = command.ExecuteScalar();
+                connection.Close();
+                if (checkValue.ToString() != "0")
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception oops)
+            {
+                Console.WriteLine("\tSomething went wrong. :(");
+                Console.WriteLine(oops.ToString());
+                return false;
+            }
+        }
+
+        // Creates a new club entity
+        // Inserts club data into trot_trax_data.clubs
+        // Creates new DB for club
+        // Adds show_years table to club DB
+        public void CreateClub(string id, string name)
+        {
+            string insertData = "'" + id + "', '" + name + "'";
+            string tableData = "long_year INT NOT NULL, " +
+                "yy INT NOT NULL, " +
+                "PRIMARY KEY(long_year)";
+
+            InsertData("trot_trax_data", "clubs", insertData);
+            CreateDB(id);
+            AddTable(id, "show_years", tableData);
+        }
+
+        // Creates a new show year to the club's database.
+        // Inserts year data into id.years
+        // Adds tables for year_backno, year_classes, year_horses, year_placings, year_riders, year_shows, 
+        public void CreateYear(string id, string year)
+        {
+            string backnoData;
+            string classData;
+            string horseData;
+            string riderData;
+            string showData;
         }
     }
 }
