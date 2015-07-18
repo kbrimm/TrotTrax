@@ -3,6 +3,8 @@ Requirements
 
 This document describes the requirements for Trot Trax. Essentially, this outlines the things the system needs to do and how it needs to do them.
 
+
+
 ### Contents
 + [Functional Requirements](#functional)
     + [Data Storage](#store)
@@ -10,11 +12,14 @@ This document describes the requirements for Trot Trax. Essentially, this outlin
     + [Report Generation](#report)
     + [Nice-To-Have](#nice)
 + [Nonfunctional Requirements](#nonfunctional)
++ [Copyright Notice](#copyright)
 
-Functional Requirements <a id="functional"></a>
+<a id="functional"></a>
+Functional Requirements 
 -----------------------
 
-### Data Storage <a id="store"></a>
+<a id="store"></a>
+### Data Storage 
 
 The primary function of TrotTrax is to store data. Because the information stored interacts in some fairly complicated ways, I've broken it down in to the following data storage hierarchy:
 + Club data - Name, ID
@@ -45,7 +50,8 @@ A few notes on data relationships and aggregation:
     + 40% for 1st, 30% for 2nd, 20% for 3rd, 10% for 4th
     + Jackpot classes yield double the reward
 
-### Data Manipulation <a id="manipulate"></a>
+<a id="manipulate"></a>
+### Data Manipulation 
 
 The user must be able to interact with the data in the following ways:
 + Clubs
@@ -65,7 +71,8 @@ The user must be able to interact with the data in the following ways:
     + Add new show
     + Remove empty show
     
-### Report Generation <a id="report"></a>
+<a id="report"></a>
+### Report Generation 
     
 An important secondary function of TrotTrax is to generate reports. These reports must be available in a standard, print-sized .pdf format for printing on location, emailing, or availability on the internet. 
 The following reports can be generated on a per show or yearly basis:
@@ -85,14 +92,16 @@ The following reports can be generated on a per show or yearly basis:
     + Total financial report
     + Total points for each back no
 
-### Nice To Have <a id="nice"></a>
+<a id="nice"></a>
+### Nice To Have 
 
 Nice-to-haves:
 + Family grouping for riders/back numbers
 + Owner grouping for horses
 + HTML generation for reports to post on club website
 
-Non-Functional Requirements <a id="nonfunctional"></a>
+<a id="nonfunctional"></a>
+Non-Functional Requirements 
 ---------------------------
 
 These are set in stone, and required for the initial build:
@@ -106,3 +115,13 @@ Some nice-to-haves:
 + Local network connectivity
 + Tablet-friendly interface
 + Email integration to send points and financial reports to members
+
+<a id="copyright"></a>
+Copyright Notice
+----------------
+
+TrotTrax is copyright (c) 2015 Katy Brimm
+
+This source file is licensed under the GNU General Public License. Please see the file LICENSE in this distribution for license terms.
+
+Contact: kbrimm@pdx.edu
