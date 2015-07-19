@@ -24,7 +24,7 @@ namespace TrotTrax
         private string password;
 
         // Initializes variables & checks for instance of database
-        // Creates trot_trax_data if not found
+        // Creates trax_data if not found
         //     the adds tables for club data & current data (last club and year viewed)
         public DBDriver()
         {
@@ -37,19 +37,19 @@ namespace TrotTrax
                 "UID=" + usrID + "; PASSWORD=" + password + ";";
 
             connection = new MySqlConnection(connString);
-            if (!CheckTTD())
+            if (!CheckTD())
             {
                 string tableString = "id VARCHAR(10) NOT NULL, " +
                         "name VARCHAR(255), " +
-                        "PRIMARY KEY (id) ";
+                        "PRIMARY KEY (id)";
 
-                CreateDB("trot_trax_data");
-                AddTable("trot_trax_data", "clubs", tableString);
+                CreateDB("trax_data");
+                AddTable("trax_data", "club", tableString);
 
                 tableString = "id VARCHAR(10) NOT NULL, " +
-                    "year INT NOT NULL, " +
-                    "FOREIGN KEY (id) REFERENCES clubs(id)";
-                AddTable("trot_trax_data", "current", tableString);
+                    "year INT, " +
+                    "FOREIGN KEY (id) REFERENCES trax_data.club(id) ON DELETE CASCADE";
+                AddTable("trax_data", "current", tableString);
             }
             else
                 Console.WriteLine("\tDatabase connection successful!");
@@ -93,6 +93,7 @@ namespace TrotTrax
             {
                 Console.WriteLine("\tSomething went wrong. :(");
                 Console.WriteLine(oops.ToString());
+                connection.Close();
                 return false;
             }
         }
@@ -117,6 +118,7 @@ namespace TrotTrax
             {
                 Console.WriteLine("\tSomething went wrong. :(");
                 Console.WriteLine(oops.ToString());
+                connection.Close();
                 return false;
             }
         }
@@ -143,6 +145,7 @@ namespace TrotTrax
             {
                 Console.WriteLine("\tSomething went wrong. :(");
                 Console.WriteLine(oops.ToString());
+                connection.Close();
                 return false;
             }
         }
@@ -167,13 +170,14 @@ namespace TrotTrax
             {
                 Console.WriteLine("\tSomething went wrong. :(");
                 Console.WriteLine(oops.ToString());
+                connection.Close();
                 return false;
             }
         }
 
         // dataString requries value data consistent with the fields of the target table.
         // Maybe needs stronger error checking to prevent coding errors from b0rking stuff.
-        private bool InsertData(string database, string table, string dataString)
+        private bool InsertData(string database, string table, string target, string dataString)
         {
             MySqlCommand command;
             string query;
@@ -182,7 +186,8 @@ namespace TrotTrax
             {
                 connection.Open();
                 Console.WriteLine("Adding data to " + database + "." + table);
-                query = "INSERT INTO " + database + "." + table + " " +
+                query = "INSERT " + target  + 
+                "INTO " + database + "." + table + " " +
                     "VALUES(" + dataString + ");";
                 command = new MySqlCommand(query, connection);
                 command.ExecuteNonQuery();
@@ -194,6 +199,7 @@ namespace TrotTrax
             {
                 Console.WriteLine("\tSomething went wrong. :(");
                 Console.WriteLine(oops.ToString());
+                connection.Close();
                 return false;
             }
         }
@@ -224,6 +230,7 @@ namespace TrotTrax
             {
                 Console.WriteLine("\tSomething went wrong. :(");
                 Console.WriteLine(oops.ToString());
+                connection.Close();
                 return "Object not found";
             }
         }
@@ -232,8 +239,8 @@ namespace TrotTrax
         // Because of the complexity of the interactions between the tables, I've tried to
         //     add as many pertinent comments as possible to keep things relatively clear.
 
-        // Checks the initial instance of the trot_trax_data database.
-        private bool CheckTTD()
+        // Checks the initial instance of the trax_data database.
+        private bool CheckTD()
         {
             MySqlCommand command;
             string query;
@@ -245,7 +252,7 @@ namespace TrotTrax
                 connection.Open();
                 query = "SELECT count(*) " +
                     "FROM information_schema.TABLES " +
-                    "WHERE (TABLE_SCHEMA = 'trot_trax_data') AND (TABLE_NAME = 'clubs');";
+                    "WHERE (TABLE_SCHEMA = 'trax_data') AND (TABLE_NAME = 'club');";
                 command = new MySqlCommand(query, connection);
 
                 checkValue = command.ExecuteScalar();
@@ -259,41 +266,138 @@ namespace TrotTrax
             {
                 Console.WriteLine("\tSomething went wrong. :(");
                 Console.WriteLine(oops.ToString());
+                connection.Close();
                 return false;
+            }
+        }
+
+        // Checks for an existing "current club"
+        public string CheckCurrentClub()
+        {
+            MySqlCommand command;
+            string query;
+            object checkValue;
+
+            Console.WriteLine("Checking for current club...");
+            try
+            {
+                connection.Open();
+                query = "SELECT id " +
+                    "FROM trax_data.current;";
+                command = new MySqlCommand(query, connection);
+
+                checkValue = command.ExecuteScalar();
+                connection.Close();
+                if (checkValue != null)
+                    return checkValue.ToString();
+                else
+                    return null;
+            }
+            catch (Exception oops)
+            {
+                Console.WriteLine("\tSomething went wrong. :(");
+                Console.WriteLine(oops.ToString());
+                connection.Close();
+                return "";
             }
         }
 
         // Creates a new club entity
         // Requires a name and ID (generally acronym generated from full name)
-        // Inserts club data into trot_trax_data.clubs
-        // Creates club DB
-        // Adds show_years table to club DB
+        // Inserts club data into trax_data.clubs
+        // Creates club DB & adds tables
         public void CreateClub(string id, string name)
         {
-            string insertData = "'" + id + "', '" + name + "'";
-            string tableData = "year INT NOT NULL, " +
-                "yy INT NOT NULL, " +
+            string insertClubString = "'" + id + "', '" + name + "'";
+
+            string yearString = "year INT NOT NULL, " +
                 "PRIMARY KEY(year)";
 
-            InsertData("trot_trax_data", "clubs", insertData);
-            CreateDB(id);
-            AddTable(id, "show_years", tableData);
-        }
+            // rider: rider_no int (PK), year int (FK), first_name VC(255), last_name VC(255), age INT, contact VC(255), member BOOLEAN
+            string riderString = "rider_no INT NOT NULL AUTO_INCREMENT, " +
+                "year INT NOT NULL, " +
+                "first_name VARCHAR(255) NOT NULL, " +
+                "last_name VARCHAR(255) NOT NULL, " +
+                "age INT, " +
+                "contact VARCHAR(255), " +
+                "member BOOLEAN NOT NULL, " +
+                "PRIMARY KEY (rider_no), " +
+                "FOREIGN KEY (year) REFERENCES " + id + ".show_year(year) ON DELETE CASCADE";
 
-        // Creates a new show year to the club's database
-        // Requires the club ID and the four digit year
-        // Inserts year data into id.years
-        // Adds tables for year_backno, year_classes, year_horses, year_placings, year_riders, year_shows, 
- /*       public void CreateYear(string id, string year)
-        {
-            string backnoData;      // backNo, horseNo, riderNo, totalPoints; PK backNo; FK horseNo, riderNo
-            string categoryData;    // categoryNo, description, timed; PK categoryNo
-            string classData;       // classNo, name, cost, categoryNo; PK classNo; FK categoryNo
-            string placeData;       // showDate, classNo, backNo, time, place, fee, payout, points; FK showDate, classNo, backNo
-            string horseData;       // horseNo, name, size, PK horseNo
-            string riderData;       // riderNo, firstName, lastName, age, contact, isMember, totalFees, totalPmts; PK riderNo
-            string showData;        // showDate, description, PK showDate
+            // horse: horse_no int (PK), year int (FK), name VC(255), nickname VC(255), height decimal(4,2)
+            string horseString = "horse_no INT NOT NULL AUTO_INCREMENT, " +
+                "year INT NOT NULL, " +
+                "name VARCHAR(255) NOT NULL, " +
+                "nickname VARCHAR(255), " +
+                "height DECIMAL(5,2), " +
+                "PRIMARY KEY (horse_no), " +
+                "FOREIGN KEY (year) REFERENCES " + id + ".show_year(year) ON DELETE CASCADE";
+
+            // back_no: back_no int (PK), year int (FK), rider_no int (FK), horse_no int (FK)
+            string back_noString = "back_no INT NOT NULL, " +
+                "year INT NOT NULL, " +
+                "rider_no INT NOT NULL, " +
+                "horse_no INT NOT NULL, " +
+                "PRIMARY KEY (back_no), " +
+                "FOREIGN KEY (year) REFERENCES " + id + ".show_year(year) ON DELETE CASCADE, " +
+                "FOREIGN KEY (rider_no) REFERENCES " + id + ".rider(rider_no) ON DELETE CASCADE, " +
+                "FOREIGN KEY (horse_no) REFERENCES " + id + ".horse(horse_no) ON DELETE CASCADE";
+
+            // show_list: show_no int (PK), year int (FK), date VC(10), description VC(255), comments VC(500)
+            string show_listString = "show_no INT NOT NULL AUTO_INCREMENT, " +
+                "year INT NOT NULL, " +
+                "date VARCHAR(10), " +
+                "description VARCHAR(255), " +
+                "comment VARCHAR(500), " +
+                "PRIMARY KEY (show_no), " +
+                "FOREIGN KEY (year) REFERENCES " + id + ".show_year(year) ON DELETE CASCADE";
+
+            // category: category_no int (PK), year int (FK), description VC(255), 
+            string categoryString = "category_no INT NOT NULL AUTO_INCREMENT, " +
+                "year INT NOT NULL, " +
+                "description VARCHAR(255), " +
+                "timed BOOLEAN NOT NULL, " +
+                "payout BOOLEAN NOT NULL, " +
+                "jackpot BOOLEAN NOT NULL, " +
+                "PRIMARY KEY (category_no), " +
+                "FOREIGN KEY (year) REFERENCES " + id + ".show_year(year)";
+
+            // class_list: class_no int (PK), year int (FK), category_no int (FK), name VC(255), fee decimal(5,2)
+            string class_listString = "class_no INT NOT NULL, " +
+                "year INT NOT NULL, " +
+                "category_no INT NOT NULL, " +
+                "name VARCHAR(255) NOT NULL, " +
+                "fee DECIMAL(5,2) NOT NULL, " +
+                "PRIMARY KEY (class_no), " +
+                "FOREIGN KEY (year) REFERENCES " + id + ".show_year(year) ON DELETE CASCADE, " +
+                "FOREIGN KEY (category_no) REFERENCES " + id + ".category(category_no) ON DELETE CASCADE";
+
+            // results: year int (FK), show_no (FK), class_no (FK), back_no (FK), place int, time decimal(6,3), points int, paid_in decimal(5,2), paid_out decimal (5,2)
+            string resultsString = "year INT NOT NULL, " +
+                "show_no INT NOT NULL, " +
+                "class_no INT NOT NULL, " +
+                "back_no INT NOT NULL, " +
+                "place INT, " +
+                "time DECIMAL(6,3), " +
+                "points INT, " +
+                "paid_in DECIMAL(5,3) NOT NULL, " +
+                "paid_out DECIMAL(5,3), " +
+                "FOREIGN KEY (year) REFERENCES " + id + ".show_year(year) ON DELETE CASCADE, " +
+                "FOREIGN KEY (show_no) REFERENCES " + id + ".show_list(show_no) ON DELETE CASCADE, " +
+                "FOREIGN KEY (class_no) REFERENCES " + id + ".class_list(class_no) ON DELETE CASCADE, " +
+                "FOREIGN KEY (back_no) REFERENCES " + id + ".back_no(back_no) ON DELETE CASCADE";
+
+            InsertData("trax_data", "club", "", insertClubString);
+            InsertData("trax_data", "current", "id", id);
+            CreateDB(id);
+            AddTable(id, "show_year", yearString);
+            AddTable(id, "rider", riderString);
+            AddTable(id, "horse", horseString);
+            AddTable(id, "back_no", back_noString);
+            AddTable(id, "show_list", show_listString);
+            AddTable(id, "category", categoryString);
+            AddTable(id, "class_list", class_listString);
+            AddTable(id, "results", resultsString);
         }
-  */
     }
 }

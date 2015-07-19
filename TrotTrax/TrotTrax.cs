@@ -11,23 +11,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TrotTrax
 {
     class TrotTrax
     {
+        [STAThread]
         public static void Main()
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             string input;
-     /*       DBDriver db = new DBDriver();
+            string club;
+            DBDriver db = new DBDriver();
 
-            db.CreateClub("bhcsc", "Black Hawk Creek Saddle Club");
-      */
-            ShowYearForm form = new ShowYearForm();
-            form.Show();
+
+            club = db.CheckCurrentClub();
+            if(club == null)
+            {
+                Application.Run(new NewClub());
+            }
             Console.WriteLine("Press 'enter' to continue...");
             input = Console.ReadLine();
-            form.Close();
+            club = db.CheckCurrentClub();
+      
+       //     ShowYearForm form = new ShowYearForm();
+       //     form.Show();
+            Console.WriteLine("Press 'enter' to continue...");
+            input = Console.ReadLine();
+       //     form.Close();
         }
     }
 }

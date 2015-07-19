@@ -46,11 +46,16 @@ namespace TrotTrax
             this.classList = new System.Windows.Forms.ListBox();
             this.toolBar = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeYearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeClubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modifyShowListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modifyClassListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modifyMemberListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.horseListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backNumberListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.classListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showSummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pointSummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,12 +68,7 @@ namespace TrotTrax
             this.baToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.yearToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.changeYearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.changeClubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.riderList = new System.Windows.Forms.ListBox();
-            this.horseListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.backNumberListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modifyGroup.SuspendLayout();
             this.toolBar.SuspendLayout();
             this.SuspendLayout();
@@ -137,7 +137,7 @@ namespace TrotTrax
             // 
             // currentLabel
             // 
-            this.currentLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.currentLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.currentLabel.Location = new System.Drawing.Point(12, 24);
             this.currentLabel.Name = "currentLabel";
             this.currentLabel.Size = new System.Drawing.Size(233, 107);
@@ -176,6 +176,24 @@ namespace TrotTrax
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // changeYearToolStripMenuItem
+            // 
+            this.changeYearToolStripMenuItem.Name = "changeYearToolStripMenuItem";
+            this.changeYearToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.changeYearToolStripMenuItem.Text = "Change Year";
+            // 
+            // changeClubToolStripMenuItem
+            // 
+            this.changeClubToolStripMenuItem.Name = "changeClubToolStripMenuItem";
+            this.changeClubToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.changeClubToolStripMenuItem.Text = "Change Club";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -187,17 +205,6 @@ namespace TrotTrax
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
-            // 
-            // reportsToolStripMenuItem
-            // 
-            this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.classListToolStripMenuItem,
-            this.showSummaryToolStripMenuItem,
-            this.pointSummaryToolStripMenuItem,
-            this.financialSummaryToolStripMenuItem});
-            this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
-            this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // modifyShowListToolStripMenuItem
             // 
@@ -216,6 +223,29 @@ namespace TrotTrax
             this.modifyMemberListToolStripMenuItem.Name = "modifyMemberListToolStripMenuItem";
             this.modifyMemberListToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.modifyMemberListToolStripMenuItem.Text = "Rider List";
+            // 
+            // horseListToolStripMenuItem
+            // 
+            this.horseListToolStripMenuItem.Name = "horseListToolStripMenuItem";
+            this.horseListToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.horseListToolStripMenuItem.Text = "Horse List";
+            // 
+            // backNumberListToolStripMenuItem
+            // 
+            this.backNumberListToolStripMenuItem.Name = "backNumberListToolStripMenuItem";
+            this.backNumberListToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.backNumberListToolStripMenuItem.Text = "Back Number List";
+            // 
+            // reportsToolStripMenuItem
+            // 
+            this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.classListToolStripMenuItem,
+            this.showSummaryToolStripMenuItem,
+            this.pointSummaryToolStripMenuItem,
+            this.financialSummaryToolStripMenuItem});
+            this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // classListToolStripMenuItem
             // 
@@ -243,25 +273,25 @@ namespace TrotTrax
             // backNumberToolStripMenuItem
             // 
             this.backNumberToolStripMenuItem.Name = "backNumberToolStripMenuItem";
-            this.backNumberToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.backNumberToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.backNumberToolStripMenuItem.Text = "Back Number";
             // 
             // horseToolStripMenuItem
             // 
             this.horseToolStripMenuItem.Name = "horseToolStripMenuItem";
-            this.horseToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.horseToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.horseToolStripMenuItem.Text = "Horse";
             // 
             // showToolStripMenuItem
             // 
             this.showToolStripMenuItem.Name = "showToolStripMenuItem";
-            this.showToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.showToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.showToolStripMenuItem.Text = "Show";
             // 
             // yearToolStripMenuItem1
             // 
             this.yearToolStripMenuItem1.Name = "yearToolStripMenuItem1";
-            this.yearToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.yearToolStripMenuItem1.Size = new System.Drawing.Size(146, 22);
             this.yearToolStripMenuItem1.Text = "Year";
             // 
             // financialSummaryToolStripMenuItem
@@ -278,44 +308,26 @@ namespace TrotTrax
             // memberToolStripMenuItem
             // 
             this.memberToolStripMenuItem.Name = "memberToolStripMenuItem";
-            this.memberToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.memberToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.memberToolStripMenuItem.Text = "Back Number";
             // 
             // baToolStripMenuItem
             // 
             this.baToolStripMenuItem.Name = "baToolStripMenuItem";
-            this.baToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.baToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.baToolStripMenuItem.Text = "Member";
             // 
             // showToolStripMenuItem1
             // 
             this.showToolStripMenuItem1.Name = "showToolStripMenuItem1";
-            this.showToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.showToolStripMenuItem1.Size = new System.Drawing.Size(146, 22);
             this.showToolStripMenuItem1.Text = "Show";
             // 
             // yearToolStripMenuItem2
             // 
             this.yearToolStripMenuItem2.Name = "yearToolStripMenuItem2";
-            this.yearToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.yearToolStripMenuItem2.Size = new System.Drawing.Size(146, 22);
             this.yearToolStripMenuItem2.Text = "Year";
-            // 
-            // changeYearToolStripMenuItem
-            // 
-            this.changeYearToolStripMenuItem.Name = "changeYearToolStripMenuItem";
-            this.changeYearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.changeYearToolStripMenuItem.Text = "Change Year";
-            // 
-            // changeClubToolStripMenuItem
-            // 
-            this.changeClubToolStripMenuItem.Name = "changeClubToolStripMenuItem";
-            this.changeClubToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.changeClubToolStripMenuItem.Text = "Change Club";
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
             // 
             // riderList
             // 
@@ -326,18 +338,6 @@ namespace TrotTrax
             this.riderList.ScrollAlwaysVisible = true;
             this.riderList.Size = new System.Drawing.Size(468, 511);
             this.riderList.TabIndex = 6;
-            // 
-            // horseListToolStripMenuItem
-            // 
-            this.horseListToolStripMenuItem.Name = "horseListToolStripMenuItem";
-            this.horseListToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-            this.horseListToolStripMenuItem.Text = "Horse List";
-            // 
-            // backNumberListToolStripMenuItem
-            // 
-            this.backNumberListToolStripMenuItem.Name = "backNumberListToolStripMenuItem";
-            this.backNumberListToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-            this.backNumberListToolStripMenuItem.Text = "Back Number List";
             // 
             // ShowYearForm
             // 

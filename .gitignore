@@ -9,3 +9,4 @@ TrotTrax/TrotTrax.csproj
 *.txt
 TrotTrax/obj/Debug/TempPE/DataSet1.Designer.cs.dll
 *.manifest
+*.resources
