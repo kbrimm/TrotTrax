@@ -182,13 +182,45 @@ namespace TrotTrax
             MySqlCommand command;
             string query;
 
+            if (target != String.Empty)
+                target = " (" + target + ")";
+
             try
             {
                 connection.Open();
                 Console.WriteLine("Adding data to " + database + "." + table);
-                query = "INSERT " + target  + 
-                "INTO " + database + "." + table + " " +
-                    "VALUES(" + dataString + ");";
+                query = "INSERT INTO " + database + "." + table + target + " " +
+                    "VALUES (" + dataString + ");";
+                command = new MySqlCommand(query, connection);
+                command.ExecuteNonQuery();
+                connection.Close();
+                Console.WriteLine("\tSuccess! :D");
+                return true;
+            }
+            catch (Exception oops)
+            {
+                Console.WriteLine("\tSomething went wrong. :(");
+                Console.WriteLine(oops.ToString());
+                connection.Close();
+                return false;
+            }
+        }
+
+        private bool DeleteData(string database, string table, string qualifier)
+        {
+            MySqlCommand command;
+            string query;
+
+            Console.WriteLine("Deleting data from " + database + "." + table);
+            if (qualifier != "all")
+                qualifier = " WHERE " + qualifier;
+            else
+                qualifier = String.Empty;
+            try
+            {
+                connection.Open();
+                query = "DELETE FROM " + database + "." + table + 
+                    qualifier + ";";
                 command = new MySqlCommand(query, connection);
                 command.ExecuteNonQuery();
                 connection.Close();
@@ -387,8 +419,9 @@ namespace TrotTrax
                 "FOREIGN KEY (class_no) REFERENCES " + id + ".class_list(class_no) ON DELETE CASCADE, " +
                 "FOREIGN KEY (back_no) REFERENCES " + id + ".back_no(back_no) ON DELETE CASCADE";
 
-            InsertData("trax_data", "club", "", insertClubString);
-            InsertData("trax_data", "current", "id", id);
+            InsertData("trax_data", "club", String.Empty, insertClubString);
+            DeleteData("trax_data", "current", "all");
+            InsertData("trax_data", "current", "id", "'" + id + "'");
             CreateDB(id);
             AddTable(id, "show_year", yearString);
             AddTable(id, "rider", riderString);

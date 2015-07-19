@@ -9,38 +9,31 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TrotTrax
 {
-    class TrotTrax
+    static class TrotTrax
     {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
         [STAThread]
-        public static void Main()
+        static void Main()
         {
+            string club = null;
+            DBDriver db = new DBDriver();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            string input;
-            string club;
-            DBDriver db = new DBDriver();
 
-
+            // Check for an existing club
             club = db.CheckCurrentClub();
-            if(club == null)
+            while (club == null)
             {
-                Application.Run(new NewClub());
-            }
-            Console.WriteLine("Press 'enter' to continue...");
-            input = Console.ReadLine();
-            club = db.CheckCurrentClub();
-      
-       //     ShowYearForm form = new ShowYearForm();
-       //     form.Show();
-            Console.WriteLine("Press 'enter' to continue...");
-            input = Console.ReadLine();
-       //     form.Close();
+                Application.Run(new NewClubForm());
+                club = db.CheckCurrentClub();
+            }           
         }
     }
 }
