@@ -11,24 +11,75 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TrotTrax
 {
     class ShowYear
     {
-        private DBDriver dataBase;
-        private int year { get; set; }
-        private string club { get; set; }
-        private string clubID { get; set; }
-        private List<string> showList;
-        private List<string> classList;
-        private List<string> numberList;
+        private DBDriver database;
+        public int year { get; private set; }
+        public string club { get; private set; }
+        public string clubID { get; private set; }
+        public List<ShowItem> showList;
+        public List<ClassItem> classList;
+        public List<BackNoItem> numberList;
+        public List<string> clubs;
+        public List<string> years;
 
-        ShowYear(int year, string club, string clubID)
+        public ShowYear()
         {
-            dataBase = new DBDriver(1);
+            showList = new List<ShowItem>();
+            classList = new List<ClassItem>();
+            numberList = new List<BackNoItem>();
+            database = new DBDriver(1);
 
-         //   year = dataBase.GetValue("trot_trax_data", "current", "string");
+            year = database.GetValueInt("trax_data", "current", "year", String.Empty);
+            clubID = database.GetValueString("trax_data", "current", "id", String.Empty);
+            club = database.GetValueString("trax_data", "club", "name", "id = '" + clubID + "'");
+            showList = database.GetShowItemList(clubID, year);
+            classList = database.GetClassItemList(clubID, year);
+            numberList = database.GetBackNoItemList(clubID, year);
+            clubs = database.GetValueList("trax_data", "club", "name");
+            years = database.GetValueList(clubID, "show_year", "year");
+        }
+    }
+    
+    struct ShowItem
+    {
+        public int no;
+        public string date;
+        public string description;
+
+        public override string ToString()
+        {
+            string noString = no.ToString() + ".";
+            return noString.PadRight(6) + date + "   " + description;
+        }
+    }
+
+    struct ClassItem
+    {
+        public int no;
+        public string name;
+
+        public override string ToString()
+        {
+            string noString = no.ToString() + ".";
+            return noString.PadRight(6) + name;
+        }
+    }
+
+    struct BackNoItem
+    {
+        public int no;
+        public string rider;
+        public string horse;
+
+        public override string ToString()
+        {
+            string noString = no.ToString() + ".";
+            return noString.PadRight(6) + rider.PadRight(30) + "   " + horse;
         }
     }
 }

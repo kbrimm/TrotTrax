@@ -22,18 +22,39 @@ namespace TrotTrax
         [STAThread]
         static void Main()
         {
-            string club = null;
-            DBDriver db = new DBDriver();
+            DBDriver database = new DBDriver();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Check for an existing club
-            club = db.CheckCurrentClub();
-            while (club == null)
+            CheckClub(database);
+
+            Application.Run(new ShowYearForm());
+            return;
+        }
+
+        private static void CheckClub(DBDriver database)
+        {
+            bool exists = false;
+            int count;
+
+            while(!exists)
             {
-                Application.Run(new NewClubForm());
-                club = db.CheckCurrentClub();
-            }           
+                count = database.CountValue("trax_data", "current", "id");
+                if (count == 0)
+                    Application.Run(new ClubChooserForm());
+                else
+                    exists = true;
+            }
+            exists = false;
+            while(!exists)
+            {
+                count = database.CountValue("trax_data", "current", "year");
+                if (count == 0)
+                    Application.Run(new YearChooserForm());
+                else
+                    exists = true;
+            }
         }
     }
 }
