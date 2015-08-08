@@ -81,12 +81,30 @@ namespace TrotTrax
     {
         public int no { get; set; }
         public string rider { get; set; }
+        public int riderNo { get; set; }
         public string horse { get; set; }
+        public int horseNo { get; set; }
 
         public override string ToString()
         {
             string noString = no.ToString() + ".";
             return noString.PadRight(6) + rider.PadRight(30) + "   " + horse;
         }
+    }
+
+    struct CatItem
+    {
+        public int no { get; set; }
+        public string description { get; set; }
+        public bool timed { get; set; }
+        public bool payout { get; set; }
+        public bool jackpot { get; set; }
+        public decimal fee { get; set; }
+    }
+
+    struct CatBoxItem
+    {
+        public int no { get; set; }
+        public string description { get; set; }
     }
 }

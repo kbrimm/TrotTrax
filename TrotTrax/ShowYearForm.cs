@@ -129,9 +129,25 @@ namespace TrotTrax
             showList.Visible = true;
         }
 
-        private void showListBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void viewClassBtn_Click(object sender, EventArgs e)
         {
+            int classNo = -1;
 
+            if (classListBox.SelectedItems.Count != 0)
+                classNo = Convert.ToInt32(classListBox.SelectedItems[0].Text);
+
+            if (classNo >= 0)
+            {
+                ClassListForm classList = new ClassListForm(year.year, year.clubID, classNo);
+                classList.Visible = true;
+            }
         }
+
+        private void addClassBtn_Click(object sender, EventArgs e)
+        {
+            ClassListForm classList = new ClassListForm(year.year, year.clubID);
+            classList.Visible = true;
+        }
+
     }
 }

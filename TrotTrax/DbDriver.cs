@@ -335,7 +335,7 @@ namespace TrotTrax
                 qualifier = " WHERE " + qualifier;
             if (sort != String.Empty)
                 sort = " ORDER BY " + sort;
-            query = query = "SELECT b.back_no, r.first_name, r.last_name, h.name " +
+            query = query = "SELECT b.back_no, r.first_name, r.last_name, r.rider_no, h.name, h.horse_no " +
                 "FROM " + database + "." + year + "_back_no AS b " +
                 "JOIN " + database + "." + year + "_rider AS r ON b.rider_no = r.rider_no " +
                 "JOIN " + database + "." + year + "_horse AS h ON b.horse_no = h.horse_no" +
@@ -614,6 +614,30 @@ namespace TrotTrax
             return classItemList;
         }
 
+        public List<CatItem> GetCatItemList(string database, int year, string sort)
+        {
+            MySqlDataReader reader;
+            CatItem item;
+            List<CatItem> catItemList = new List<CatItem>();
+
+            reader = GetReader(database, year + "_category", "category_no, description, timed, payout, jackpot, fee", String.Empty, sort);
+            while (reader.Read())
+            {
+                item = new CatItem();
+                item.no = reader.GetInt32(0);
+                item.description = reader.GetString(1);
+                item.timed = reader.GetBoolean(2);
+                item.payout = reader.GetBoolean(3);
+                item.jackpot = reader.GetBoolean(4);
+                item.fee = reader.GetDecimal(5);
+
+                catItemList.Add(item);
+            }
+            reader.Close();
+            connection.Close();
+            return catItemList;
+        }
+
         public List<BackNoItem> GetBackNoItemList(string database, int year, string sort)
         {
             MySqlDataReader reader;
@@ -626,7 +650,9 @@ namespace TrotTrax
                 item = new BackNoItem();
                 item.no = reader.GetInt32(0);
                 item.rider = reader.GetString(1) + " " + reader.GetString(2);
-                item.horse = reader.GetString(3);
+                item.riderNo = reader.GetInt32(3);
+                item.horse = reader.GetString(4);
+                item.horseNo = reader.GetInt32(5);
                 backNoItemList.Add(item);
             }
             reader.Close();

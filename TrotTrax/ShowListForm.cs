@@ -1,4 +1,12 @@
-﻿using System;
+﻿/* 
+ * TrotTrax
+ *     Copyright (c) 2015 Katy Brimm
+ *     This source file is licensed under the GNU General Public License. 
+ *     Please see the file LICENSE in this distribution for license terms.
+ * Contact: kbrimm@pdx.edu
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,20 +20,21 @@ namespace TrotTrax
 {
     public partial class ShowListForm : Form
     {
-        Show show;
-        bool changed;
-        bool isNew;
+        private Show show;
+        private bool isChanged;
+        private bool isNew;
 
         public ShowListForm(int year, string clubID)
         {
             show = new Show(year, clubID);
             InitializeComponent();
             PopulateClassList();
-            PopulateShowList(); 
+            PopulateShowList();
+            this.Text = "New Show Detail - TrotTrax";
             modifyBtn.Text = "Add New Show";
             deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            changed = false;
+            isChanged = false;
             isNew = true;
         }
 
@@ -35,6 +44,7 @@ namespace TrotTrax
             InitializeComponent();
             PopulateClassList();
             PopulateShowList();
+            this.Text = show.date + " Show Detail - TrotTrax";
             numberBox.Text = showNo.ToString();
             datePicker.Value = Convert.ToDateTime(show.date);
             descriptionBox.Text = show.description;
@@ -42,13 +52,15 @@ namespace TrotTrax
             showLabel.Text = show.date + "\r\nShow Detail";
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            changed = false;
+            cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            cancelBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            isChanged = false;
             isNew = false;
         }
 
         private void PopulateClassList()
         {
-            classListBox.Items.Clear();
+            this.classListBox.Items.Clear();
             foreach (ClassItem entry in show.classList)
             {
                 string[] row = { entry.name, };
@@ -58,7 +70,7 @@ namespace TrotTrax
 
         private void PopulateShowList()
         {
-            showListBox.Items.Clear();
+            this.showListBox.Items.Clear();
             foreach (ShowItem entry in show.showList)
             {
                 string value;
@@ -71,28 +83,34 @@ namespace TrotTrax
             }
         }
 
-        private void commentsBox_TextChanged(object sender, EventArgs e)
+        private void commentsBox_TextisChanged(object sender, EventArgs e)
         {
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            changed = true;
+            cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            cancelBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            isChanged = true;
         }
 
-        private void descriptionBox_TextChanged(object sender, EventArgs e)
+        private void descriptionBox_TextisChanged(object sender, EventArgs e)
         {
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            changed = true;
+            cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            cancelBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            isChanged = true;
         }
 
-        private void dateBox_ValueChanged(object sender, EventArgs e)
+        private void dateBox_ValueisChanged(object sender, EventArgs e)
         {
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            changed = true;
+            cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            cancelBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            isChanged = true;
         }
 
-        private bool abandonChanges()
+        private bool AbandonChanges()
         {
             DialogResult confirm = MessageBox.Show("Do you want to abandon your changes?",
                     "TrotTrax Confirmation", MessageBoxButtons.YesNo);
@@ -106,8 +124,8 @@ namespace TrotTrax
         {
             bool loadNew = true;
             int showNo = -1;
-            if (changed)
-                loadNew = abandonChanges();
+            if (isChanged)
+                loadNew = AbandonChanges();
             if (loadNew)
             {
                 if (showListBox.SelectedItems.Count != 0)
@@ -127,15 +145,14 @@ namespace TrotTrax
                     ShowListForm showList = new ShowListForm(show.year, show.clubID, showNo);
                     showList.Visible = true;
                 }
-                this.Close();
             }
         }
 
         private void addShowBtn_Click(object sender, EventArgs e)
         {
             bool loadNew = true;
-            if (changed)
-                loadNew = abandonChanges();
+            if (isChanged)
+                loadNew = AbandonChanges();
             if (loadNew)
             {
                 ShowListForm showList = new ShowListForm(show.year, show.clubID);
@@ -146,7 +163,7 @@ namespace TrotTrax
 
         private void modifyBtn_Click(object sender, EventArgs e)
         {
-            if (changed)
+            if (isChanged)
             {
                 DateTime date = this.datePicker.Value;
                 string dateString = date.ToString("MM/dd/yyyy");
@@ -179,6 +196,25 @@ namespace TrotTrax
             }
         }
 
+        private void cancelBtn_Click(object sender, EventArgs e)
+        {
+            if(isChanged)
+            {
+                bool reload = AbandonChanges();
+
+                if(reload)
+                {
+                    ShowListForm showList;
+                    if(isNew)
+                        showList = new ShowListForm(show.year, show.clubID);
+                    else
+                        showList = new ShowListForm(show.year, show.clubID, show.number);
+                    showList.Visible = true;
+                    this.Close();
+                }
+            }
+        }
+        
         private void InitializeComponent()
         {
             this.showLabel = new System.Windows.Forms.Label();
@@ -191,6 +227,7 @@ namespace TrotTrax
             this.cancelBtn = new System.Windows.Forms.Button();
             this.deleteBtn = new System.Windows.Forms.Button();
             this.modifyBtn = new System.Windows.Forms.Button();
+            this.commentsBox = new System.Windows.Forms.TextBox();
             this.commentsLabel = new System.Windows.Forms.Label();
             this.descriptionBox = new System.Windows.Forms.TextBox();
             this.descriptionLabel = new System.Windows.Forms.Label();
@@ -203,7 +240,6 @@ namespace TrotTrax
             this.classNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.classNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.viewClassBtn = new System.Windows.Forms.Button();
-            this.commentsBox = new System.Windows.Forms.TextBox();
             this.showListGroup.SuspendLayout();
             this.infoBox.SuspendLayout();
             this.classListGroup.SuspendLayout();
@@ -255,7 +291,7 @@ namespace TrotTrax
             // showNameHeader
             // 
             this.showNameHeader.Text = "Show Date";
-            this.showNameHeader.Width = 197;
+            this.showNameHeader.Width = 181;
             // 
             // addShowBtn
             // 
@@ -309,6 +345,7 @@ namespace TrotTrax
             this.cancelBtn.TabIndex = 10;
             this.cancelBtn.Text = "Cancel";
             this.cancelBtn.UseVisualStyleBackColor = true;
+            this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
             // 
             // deleteBtn
             // 
@@ -330,6 +367,14 @@ namespace TrotTrax
             this.modifyBtn.UseVisualStyleBackColor = true;
             this.modifyBtn.Click += new System.EventHandler(this.modifyBtn_Click);
             // 
+            // commentsBox
+            // 
+            this.commentsBox.Location = new System.Drawing.Point(9, 158);
+            this.commentsBox.Multiline = true;
+            this.commentsBox.Name = "commentsBox";
+            this.commentsBox.Size = new System.Drawing.Size(378, 261);
+            this.commentsBox.TabIndex = 7;
+            // 
             // commentsLabel
             // 
             this.commentsLabel.AutoSize = true;
@@ -345,7 +390,6 @@ namespace TrotTrax
             this.descriptionBox.Name = "descriptionBox";
             this.descriptionBox.Size = new System.Drawing.Size(378, 22);
             this.descriptionBox.TabIndex = 5;
-            this.descriptionBox.TextChanged += new System.EventHandler(this.descriptionBox_TextChanged);
             // 
             // descriptionLabel
             // 
@@ -372,7 +416,6 @@ namespace TrotTrax
             this.datePicker.Name = "datePicker";
             this.datePicker.Size = new System.Drawing.Size(161, 22);
             this.datePicker.TabIndex = 2;
-            this.datePicker.ValueChanged += new System.EventHandler(this.dateBox_ValueChanged);
             // 
             // numberBox
             // 
@@ -433,7 +476,7 @@ namespace TrotTrax
             // classNameHeader
             // 
             this.classNameHeader.Text = "Class Name";
-            this.classNameHeader.Width = 192;
+            this.classNameHeader.Width = 176;
             // 
             // viewClassBtn
             // 
@@ -445,15 +488,6 @@ namespace TrotTrax
             this.viewClassBtn.Text = "View Class";
             this.viewClassBtn.UseVisualStyleBackColor = true;
             // 
-            // commentsBox
-            // 
-            this.commentsBox.Location = new System.Drawing.Point(9, 158);
-            this.commentsBox.Multiline = true;
-            this.commentsBox.Name = "commentsBox";
-            this.commentsBox.Size = new System.Drawing.Size(378, 261);
-            this.commentsBox.TabIndex = 7;
-            this.commentsBox.TextChanged += new System.EventHandler(this.commentsBox_TextChanged);
-            // 
             // ShowListForm
             // 
             this.ClientSize = new System.Drawing.Size(904, 487);
@@ -462,7 +496,8 @@ namespace TrotTrax
             this.Controls.Add(this.showListGroup);
             this.Controls.Add(this.showLabel);
             this.Name = "ShowListForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "TrotTrax";
             this.showListGroup.ResumeLayout(false);
             this.infoBox.ResumeLayout(false);
             this.infoBox.PerformLayout();
