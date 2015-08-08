@@ -43,7 +43,6 @@ namespace TrotTrax
                 if (confirm == DialogResult.Yes)
                 {
                     string id = GetID(name);
-                    name = database.FormatString(name);
                     database.CreateClub(id, name);
                     Close();
                 }

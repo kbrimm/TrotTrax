@@ -24,8 +24,12 @@ namespace TrotTrax
 
         public ShowYearForm()
         {
-            year = new ShowYear();         
+            year = new ShowYear();
             InitializeComponent();
+            currentLabel.Text = year.club + "\n\n" + year.year + " Show Year";
+            PopulateShowList();
+            PopulateClassList();
+            PopulateBackNoList();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -34,6 +38,100 @@ namespace TrotTrax
                     "TrotTrax Confirmation", MessageBoxButtons.YesNo);
             if (confirm == DialogResult.Yes)
                 Close();
+        }
+
+        private void PopulateShowList()
+        {
+            showListBox.Items.Clear();
+            foreach (ShowItem entry in year.showList)
+            {
+                string value;
+                if(entry.description == "")
+                    value = entry.date;
+                else
+                    value = entry.date + " - " + entry.description;
+                showListBox.Items.Add(value);
+            }
+        }
+
+        private void PopulateClassList()
+        {
+            classListBox.Items.Clear();
+            foreach (ClassItem entry in year.classList)
+            {
+                string[] row = { entry.name, };
+                classListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+            }
+        }
+
+        private void PopulateBackNoList()
+        {
+            backNoListBox.Items.Clear();
+            foreach (BackNoItem entry in year.backNoList)
+            {
+                string[] row = { entry.rider, entry.horse };
+                backNoListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+            }
+        }
+
+        private void backNoListBox_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            if (e.Column == 0)
+                year.SortBackNos("b.back_no");
+            else if (e.Column == 1)
+                year.SortBackNos("r.last_name");
+            else if (e.Column == 2)
+                year.SortBackNos("h.name");
+            PopulateBackNoList();
+        }
+
+        private void classListBox_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            if (e.Column == 0)
+                year.SortClasses("class_no");
+            else if (e.Column == 1)
+                year.SortClasses("name");
+            PopulateClassList();
+        }
+
+        private void showsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowListForm showList = new ShowListForm(year.year, year.clubID);
+            showList.Visible = true;
+        }
+
+        private void viewShowBtn_Click(object sender, EventArgs e)
+        {
+            int showNo = -1;
+
+            if (showListBox.SelectedItems.Count != 0)
+            {
+                string selectedShow = showListBox.SelectedItems[0].ToString();
+                selectedShow = selectedShow.Substring(15, 10);
+                foreach (ShowItem entry in year.showList)
+                    if (entry.date == selectedShow)
+                    {
+                        showNo = entry.no;
+                        break;
+                    }
+            }
+
+            if(showNo >= 0)
+            {
+                ShowListForm showList = new ShowListForm(year.year, year.clubID, showNo);
+                showList.Visible = true;
+            }
+        }
+
+        private void addShowsBtn_Click(object sender, EventArgs e)
+        {
+            ShowListForm showList = new ShowListForm(year.year, year.clubID);
+            showList.Visible = true;
+        }
+
+        private void showListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

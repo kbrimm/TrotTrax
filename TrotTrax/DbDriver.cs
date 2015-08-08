@@ -234,7 +234,7 @@ namespace TrotTrax
                 return false;
         }
 
-        private bool UpdateData(string database, string table, string target, string data, string qualifier)
+        private bool UpdateData(string database, string table, string data, string qualifier)
         {
             string query;
             bool success;
@@ -244,26 +244,7 @@ namespace TrotTrax
             if (qualifier != String.Empty)
                 qualifier = " WHERE " + qualifier;
             query = "UPDATE " + database + "." + table + " " +
-                    "SET " + target + " = '" + data + "'" +
-                    qualifier + ";";
-            success = DoTheNonQuery(query);
-            if (success)
-                return true;
-            else
-                return false;
-        }
-
-        private bool UpdateData(string database, string table, string target, int data, string qualifier)
-        {
-            string query;
-            bool success;
-
-            Console.WriteLine("Updating data in " + database + "." + table);
-
-            if (qualifier != String.Empty)
-                qualifier = " WHERE " + qualifier;
-            query = "UPDATE " + database + "." + table + " " +
-                    "SET " + target + " = " + data + 
+                    "SET " + data +
                     qualifier + ";";
             success = DoTheNonQuery(query);
             if (success)
@@ -328,7 +309,7 @@ namespace TrotTrax
         // This is a fancy wrapper for DoTheReader.
         // Assembles the query, passes it to DoTheReader, then returns the reader to the calling function.
         // Private, because there's not much to be done with a reader as-is.
-        private MySqlDataReader GetReader(string database, string table, string columns, string qualifier)
+        private MySqlDataReader GetReader(string database, string table, string columns, string qualifier, string sort)
         {
             string query;
             MySqlDataReader reader;
@@ -336,36 +317,41 @@ namespace TrotTrax
             Console.WriteLine("Retrieving values for " + columns + " from " + database + ".");
             if (qualifier != String.Empty)
                 qualifier = " WHERE " + qualifier;
+            if (sort != String.Empty)
+                sort = " ORDER BY " + sort;
             query = "SELECT " + columns + " " +
-                "FROM " + database + "." + table + qualifier + ";";
+                "FROM " + database + "." + table + 
+                qualifier + sort + ";";
             reader = DoTheReader(query);
             return reader;
         }
 
-        private MySqlDataReader GetBackNoReader(string database, int year, string qualifier)
+        private MySqlDataReader GetBackNoReader(string database, int year, string qualifier, string sort)
         {
             string query;
             MySqlDataReader reader;
 
             if (qualifier != String.Empty)
                 qualifier = " WHERE " + qualifier;
+            if (sort != String.Empty)
+                sort = " ORDER BY " + sort;
             query = query = "SELECT b.back_no, r.first_name, r.last_name, h.name " +
                 "FROM " + database + "." + year + "_back_no AS b " +
                 "JOIN " + database + "." + year + "_rider AS r ON b.rider_no = r.rider_no " +
                 "JOIN " + database + "." + year + "_horse AS h ON b.horse_no = h.horse_no" +
-                qualifier + ";";
+                qualifier + sort + ";";
             reader = DoTheReader(query);
             return reader;
         }
 
-        public List<string> GetValueList(string database, string table, string column)
+        public List<string> GetValueList(string database, string table, string column, string sort)
         {
             MySqlDataReader reader;
             string item;
             List<string> list = new List<string>();
 
             Console.WriteLine("Procuring list of " + column + ".");
-            reader = GetReader(database, table, column, String.Empty);
+            reader = GetReader(database, table, column, String.Empty, sort);
             while (reader.Read())
             {
                 item = reader.GetString(0);
@@ -488,7 +474,8 @@ namespace TrotTrax
         // Sets club to current.
         public void CreateClub(string id, string name)
         {
-            string insertClubString = "'" + id + "', '" + name + "'";
+            string cleanName = FormatString(name);
+            string insertClubString = "'" + id + "', '" + cleanName + "'";
             string yearString = "year INT NOT NULL, " +
                 "PRIMARY KEY(year)";
 
@@ -538,7 +525,7 @@ namespace TrotTrax
 
             // show_list: show_no int (PK), date VC(10), description VC(255), comments VC(500)
             string show_listString = "show_no INT NOT NULL AUTO_INCREMENT, " +
-                "date VARCHAR(10), " +
+                "date VARCHAR(10) UNIQUE," +
                 "description VARCHAR(255), " +
                 "comment VARCHAR(500), " +
                 "PRIMARY KEY (show_no)";
@@ -585,17 +572,16 @@ namespace TrotTrax
 
         public void SetYear(int year)
         {
-            UpdateData("trax_data", "current", "year", year, String.Empty);
+            UpdateData("trax_data", "current", "year = " + year, String.Empty);
         }
 
-        public List<ShowItem> GetShowItemList(string database, int year)
+        public List<ShowItem> GetShowItemList(string database, int year, string sort)
         {
             MySqlDataReader reader;
             ShowItem item;
             List<ShowItem> showItemList = new List<ShowItem>();
 
-            Console.WriteLine("Procuring list of shows.");
-            reader = GetReader(database, year + "_show_list", "show_no, date, description", String.Empty);
+            reader = GetReader(database, year + "_show_list", "show_no, date, description", String.Empty, sort);
             while(reader.Read())
             {
                 item = new ShowItem();
@@ -609,14 +595,13 @@ namespace TrotTrax
             return showItemList;
         }
 
-        public List<ClassItem> GetClassItemList(string database, int year)
+        public List<ClassItem> GetClassItemList(string database, int year, string sort)
         {
             MySqlDataReader reader;
             ClassItem item;
             List<ClassItem> classItemList = new List<ClassItem>();
 
-            Console.WriteLine("Procuring list of classes.");
-            reader = GetReader(database, year + "_class_list", "class_no, name", String.Empty);
+            reader = GetReader(database, year + "_class_list", "class_no, name", String.Empty, sort);
             while(reader.Read())
             {
                 item = new ClassItem();
@@ -629,14 +614,13 @@ namespace TrotTrax
             return classItemList;
         }
 
-        public List<BackNoItem> GetBackNoItemList(string database, int year)
+        public List<BackNoItem> GetBackNoItemList(string database, int year, string sort)
         {
             MySqlDataReader reader;
             BackNoItem item;
             List<BackNoItem> backNoItemList = new List<BackNoItem>();
 
-            Console.WriteLine("Procuring list of shows.");
-            reader = GetBackNoReader(database, year, String.Empty);
+            reader = GetBackNoReader(database, year, String.Empty, sort);
             while(reader.Read())
             {
                 item = new BackNoItem();
@@ -649,5 +633,21 @@ namespace TrotTrax
             connection.Close();
             return backNoItemList;
         }
+
+        public bool AddValues(string database, string table, string target, string values)
+        {
+            return InsertData(database, table, target, values);
+        }
+
+        public bool ChangeValues(string database, string table, string data, string qualifier)
+        {
+            return UpdateData(database, table, data, qualifier);
+        }
+
+        public bool DeleteValues(string database, string table, string qualifier)
+        {
+            return DeleteData(database, table, qualifier);
+        }
+
     }
 }
