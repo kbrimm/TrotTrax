@@ -50,11 +50,6 @@ namespace TrotTrax
             classList = database.GetClassItemList(clubID, year, field);
         }
 
-        public void SortShows(string field)
-        {
-            showList = database.GetShowItemList(clubID, year, field);
-        }
-
         public void AddShow(DateTime date, string description, string comments)
         {
             string dateString = date.ToString("MM/dd/yyyy");

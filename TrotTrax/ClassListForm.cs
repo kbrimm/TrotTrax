@@ -54,7 +54,7 @@ namespace TrotTrax
             numberBox.Text = classNo.ToString();
             nameBox.Text = aClass.name;
             catBox.SelectedValue = aClass.catNo;
-            showLabel.Text = aClass.name + "\r\nClass Setup";
+            showLabel.Text = aClass.name + "\r\nClass Detail";
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -108,6 +108,149 @@ namespace TrotTrax
             this.catBox.DataSource = catBoxItemList;
             this.catBox.DisplayMember = "description";
             this.catBox.ValueMember = "no";
+        }
+
+        private void DataChanged(object sender, EventArgs e)
+        {
+            modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            cancelBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            isChanged = true;
+        }
+
+        private bool AbandonChanges()
+        {
+            DialogResult confirm = MessageBox.Show("Do you want to abandon your changes?",
+                    "TrotTrax Confirmation", MessageBoxButtons.YesNo);
+            if (confirm == DialogResult.Yes)
+                return true;
+            else
+                return false;
+        }
+
+        private void viewClassBtn_Click(object sender, EventArgs e)
+        {
+            if (classListBox.SelectedItems.Count != 0)
+            {
+                bool loadNew = true;
+                int classNo = -1;
+
+                if (isChanged)
+                    loadNew = AbandonChanges();
+                if (loadNew)
+                    classNo = Convert.ToInt32(classListBox.SelectedItems[0].Text);
+
+                if (classNo >= 0)
+                {
+                    ClassListForm showList = new ClassListForm(aClass.year, aClass.clubID, classNo);
+                    showList.Visible = true;
+                    this.Close();
+                }
+            }
+        }
+
+        private void newClassBtn_Click(object sender, EventArgs e)
+        {
+            ClassListForm classList = new ClassListForm(aClass.year, aClass.clubID);
+            classList.Visible = true;
+            this.Close();
+        }
+
+        private void modifyBtn_Click(object sender, EventArgs e)
+        {
+            if(isChanged)
+            {
+                string noString = this.numberBox.Text.ToString();
+                string name = this.nameBox.Text;
+                int category = Convert.ToInt32(this.catBox.SelectedValue);
+                int number;
+
+                if (noString == String.Empty || !int.TryParse(noString, out number))
+                {
+                    DialogResult confirm = MessageBox.Show("Class number must be a unique integer value.",
+                        "TrotTrax Alert", MessageBoxButtons.OK);
+                }
+                else
+                {
+                    if(isNew)
+                    {
+                        bool success = aClass.AddClass(number, category, name);
+                        if (success)
+                        {
+                            ClassListForm classList = new ClassListForm(aClass.year, aClass.clubID, number);
+                            classList.Visible = true;
+                            this.Close();
+                        }
+                        else
+                        {
+                            DialogResult confirm = MessageBox.Show("Class number must be unique.",
+                                "TrotTrax Alert", MessageBoxButtons.OK);
+                        }
+                    }                        
+                    else
+                    {
+                        bool success = aClass.ModifyClass(number, category, name);
+                        if (success)
+                        {
+                            ClassListForm classList = new ClassListForm(aClass.year, aClass.clubID, number);
+                            classList.Visible = true;
+                            this.Close();
+                        }
+                        else
+                        {
+                            DialogResult confirm = MessageBox.Show("Unable to add class at this time.",
+                                "TrotTrax Alert", MessageBoxButtons.OK);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void deleteBtn_Click(object sender, EventArgs e)
+        {
+            if(!isNew)
+            {
+                DialogResult confirm = MessageBox.Show("Are you sure you want to delete this class and all of its data?",
+                    "TrotTrax Confirmation", MessageBoxButtons.YesNo);
+                if (confirm == DialogResult.Yes)
+                {
+                    aClass.RemoveClass();
+                    ClassListForm classList = new ClassListForm(aClass.year, aClass.clubID);
+                    classList.Visible = true;
+                    this.Close();
+                }          
+            }
+        }
+
+        private void cancelBtn_Click(object sender, EventArgs e)
+        {
+            if(AbandonChanges())
+            {
+                ClassListForm classList = new ClassListForm(aClass.year, aClass.clubID, aClass.number);
+                classList.Visible = true;
+                this.Close();
+            }
+        }
+
+        private void classListBox_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            if (e.Column == 0)
+                aClass.SortClasses("class_no");
+            else if (e.Column == 1)
+                aClass.SortClasses("name");
+            PopulateClassList();
+        }
+
+        private void catListBox_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            if (e.Column == 0)
+                aClass.SortCats("category_no");
+            else if (e.Column == 1)
+                aClass.SortCats("description");
+            else if (e.Column == 5)
+                aClass.SortCats("fee");
+            PopulateCatList();
         }
     }
 }

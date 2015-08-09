@@ -57,24 +57,12 @@ namespace TrotTrax
         public int no;
         public string date;
         public string description;
-
-        public override string ToString()
-        {
-            string noString = no.ToString() + ".";
-            return noString.PadRight(6) + date + "   " + description;
-        }
     }
 
     struct ClassItem
     {
-        public int no;
-        public string name;
-
-        public override string ToString()
-        {
-            string noString = no.ToString() + ".";
-            return noString.PadRight(6) + name;
-        }
+        public int no { get; set; }
+        public string name { get; set; }
     }
 
     struct BackNoItem
@@ -84,12 +72,6 @@ namespace TrotTrax
         public int riderNo { get; set; }
         public string horse { get; set; }
         public int horseNo { get; set; }
-
-        public override string ToString()
-        {
-            string noString = no.ToString() + ".";
-            return noString.PadRight(6) + rider.PadRight(30) + "   " + horse;
-        }
     }
 
     struct CatItem
@@ -106,5 +88,11 @@ namespace TrotTrax
     {
         public int no { get; set; }
         public string description { get; set; }
+    }
+
+    struct EntryBoxItem
+    {
+        public int no { get; set; }
+        public string combo { get; set; }
     }
 }

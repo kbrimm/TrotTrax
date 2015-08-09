@@ -108,6 +108,7 @@ namespace TrotTrax
             this.newClassBtn.TabIndex = 13;
             this.newClassBtn.Text = "New Class";
             this.newClassBtn.UseVisualStyleBackColor = true;
+            this.newClassBtn.Click += new System.EventHandler(this.newClassBtn_Click);
             // 
             // classListBox
             // 
@@ -126,6 +127,8 @@ namespace TrotTrax
             this.classListBox.TabIndex = 12;
             this.classListBox.UseCompatibleStateImageBehavior = false;
             this.classListBox.View = System.Windows.Forms.View.Details;
+            this.classListBox.DoubleClick += new System.EventHandler(this.viewClassBtn_Click);
+            this.classListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.classListBox_ColumnClick);
             // 
             // classNoHeader
             // 
@@ -146,6 +149,7 @@ namespace TrotTrax
             this.viewClassBtn.TabIndex = 7;
             this.viewClassBtn.Text = "View Class";
             this.viewClassBtn.UseVisualStyleBackColor = true;
+            this.viewClassBtn.Click += new System.EventHandler(this.viewClassBtn_Click);
             // 
             // infoBox
             // 
@@ -168,11 +172,13 @@ namespace TrotTrax
             // 
             // catBox
             // 
+            this.catBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.catBox.FormattingEnabled = true;
             this.catBox.Location = new System.Drawing.Point(9, 158);
             this.catBox.Name = "catBox";
             this.catBox.Size = new System.Drawing.Size(388, 24);
             this.catBox.TabIndex = 11;
+            this.catBox.SelectedIndexChanged += new System.EventHandler(this.DataChanged);
             // 
             // cancelBtn
             // 
@@ -182,6 +188,7 @@ namespace TrotTrax
             this.cancelBtn.TabIndex = 10;
             this.cancelBtn.Text = "Cancel";
             this.cancelBtn.UseVisualStyleBackColor = true;
+            this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
             // 
             // deleteBtn
             // 
@@ -191,6 +198,7 @@ namespace TrotTrax
             this.deleteBtn.TabIndex = 9;
             this.deleteBtn.Text = "Delete";
             this.deleteBtn.UseVisualStyleBackColor = true;
+            this.deleteBtn.Click += new System.EventHandler(this.deleteBtn_Click);
             // 
             // modifyBtn
             // 
@@ -200,6 +208,7 @@ namespace TrotTrax
             this.modifyBtn.TabIndex = 8;
             this.modifyBtn.Text = "Save Changes";
             this.modifyBtn.UseVisualStyleBackColor = true;
+            this.modifyBtn.Click += new System.EventHandler(this.modifyBtn_Click);
             // 
             // catLabel
             // 
@@ -213,9 +222,11 @@ namespace TrotTrax
             // nameBox
             // 
             this.nameBox.Location = new System.Drawing.Point(9, 101);
+            this.nameBox.MaxLength = 255;
             this.nameBox.Name = "nameBox";
             this.nameBox.Size = new System.Drawing.Size(388, 22);
             this.nameBox.TabIndex = 5;
+            this.nameBox.TextChanged += new System.EventHandler(this.DataChanged);
             // 
             // descriptionLabel
             // 
@@ -233,6 +244,7 @@ namespace TrotTrax
             this.numberBox.Name = "numberBox";
             this.numberBox.Size = new System.Drawing.Size(89, 22);
             this.numberBox.TabIndex = 1;
+            this.numberBox.TextChanged += new System.EventHandler(this.DataChanged);
             // 
             // showNoLabel
             // 
@@ -290,6 +302,7 @@ namespace TrotTrax
             this.catListBox.TabIndex = 12;
             this.catListBox.UseCompatibleStateImageBehavior = false;
             this.catListBox.View = System.Windows.Forms.View.Details;
+            this.catListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.catListBox_ColumnClick);
             // 
             // catNoHeader
             // 

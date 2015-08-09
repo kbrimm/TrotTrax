@@ -364,6 +364,7 @@ namespace TrotTrax
             this.classListBox.UseCompatibleStateImageBehavior = false;
             this.classListBox.View = System.Windows.Forms.View.Details;
             this.classListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.classListBox_ColumnClick);
+            this.classListBox.DoubleClick += new System.EventHandler(this.viewClassBtn_Click);
             // 
             // classNoHeader
             // 

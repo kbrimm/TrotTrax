@@ -61,11 +61,6 @@ namespace TrotTrax
             classList = database.GetClassItemList(clubID, year, field);
         }
 
-        public void SortShows(string field)
-        {
-            showList = database.GetShowItemList(clubID, year, field);
-        }
-
         public void SortCats(string field)
         {
             catList = database.GetCatItemList(clubID, year, field);
@@ -84,8 +79,8 @@ namespace TrotTrax
         {
             string values = "class_no = '" + classNo + "', category_no = '" + newCatNo + 
                 "', name = '" + database.FormatString(className) + "'";
-            string qualifier = "show_no = " + number;
-            bool success = database.ChangeValues(clubID, year + "_show_list", values, qualifier);
+            string qualifier = "class_no = " + number;
+            bool success = database.ChangeValues(clubID, year + "_class_list", values, qualifier);
             return success;
         }
 

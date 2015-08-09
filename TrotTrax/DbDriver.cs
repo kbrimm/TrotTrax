@@ -272,7 +272,7 @@ namespace TrotTrax
 
         // qualifiers require SQL query of '[table_name] = [value]'
         // Essentially wraps ExecuteScalar, returns string value of the data found.
-        public string GetValueString(string database, string table, string column, string qualifier)
+        public bool GetValueBool(string database, string table, string column, string qualifier)
         {
             string query;
             object response;
@@ -283,11 +283,12 @@ namespace TrotTrax
             query = "SELECT " + column + " " +
                 "FROM " + database + "." + table + qualifier + ";";
             response = DoTheScalar(query);
-            if(response != null)
-                return response.ToString();
+            if (response != null)
+                return Convert.ToBoolean(response);
             else
-                return "Object not found";
+                return false;
         }
+
 
         public int GetValueInt(string database, string table, string column, string qualifier)
         {
@@ -304,6 +305,23 @@ namespace TrotTrax
                 return Convert.ToInt32(response);
             else
                 return 0;
+        }
+
+        public string GetValueString(string database, string table, string column, string qualifier)
+        {
+            string query;
+            object response;
+
+            Console.WriteLine("Retrieving value for " + column + " from " + database + ".");
+            if (qualifier != String.Empty)
+                qualifier = " WHERE " + qualifier;
+            query = "SELECT " + column + " " +
+                "FROM " + database + "." + table + qualifier + ";";
+            response = DoTheScalar(query);
+            if (response != null)
+                return response.ToString();
+            else
+                return "Object not found";
         }
 
         // This is a fancy wrapper for DoTheReader.
@@ -344,6 +362,25 @@ namespace TrotTrax
             return reader;
         }
 
+        private MySqlDataReader GetEntryReader(string database, int year, string qualifier, string sort)
+        {
+            string query;
+            MySqlDataReader reader;
+
+            if (qualifier != String.Empty)
+                qualifier = " WHERE " + qualifier;
+            if (sort != String.Empty)
+                sort = " ORDER BY " + sort;
+            query = query = "SELECT b.back_no, r.first_name, r.last_name, r.rider_no, h.name, h.horse_no " +
+                "FROM " + database + "." + year + "_back_no AS b " +
+                "JOIN " + database + "." + year + "_rider AS r ON b.rider_no = r.rider_no " +
+                "JOIN " + database + "." + year + "_horse AS h ON b.horse_no = h.horse_no " +
+                "JOIN " + database + "." + year + "_results AS s ON b.back_no = s.back_no" +        // s for Show
+                qualifier + sort + ";";
+            reader = DoTheReader(query);
+            return reader;
+        }
+
         public List<string> GetValueList(string database, string table, string column, string sort)
         {
             MySqlDataReader reader;
@@ -362,49 +399,17 @@ namespace TrotTrax
             return list;
         }
 
-        //Three-value CountValue counts entries in a specified column
-        public int CountValue(string database, string table, string column)
+        public int CountValue(string database, string table, string column, string qualifier)
         {
             string query;
             object count;
 
             Console.WriteLine("Counting entries in " + column + ":");
+            if (qualifier != String.Empty)
+                qualifier = " WHERE " + qualifier;
             query = "SELECT count(" + column + ") " +
-                "FROM " + database + "." + table + ";";
-            count = DoTheScalar(query);
-            if (count != null)
-                return Convert.ToInt32(count);
-            else
-                return 0;
-        }
-
-        // Four-value CountValue counts occurrences of a specific value in a table.
-        // Comes in string and int flavors.
-        public int CountValue(string database, string table, string column, string value)
-        {
-            string query;
-            object count;
-
-            Console.WriteLine("Counting instances of " + value + ":");
-            query = "SELECT count(*) " +
-                "FROM " + database + "." + table + " " +
-                "WHERE " + column + " = '" + value + "';";
-            count = DoTheScalar(query);
-            if (count != null)
-                return Convert.ToInt32(count);
-            else
-                return 0;
-        }
-
-        public int CountValue(string database, string table, string column, int value)
-        {
-            string query;
-            object count;
-
-            Console.WriteLine("Counting instances of " + value + ":");
-            query = "SELECT count(*) " +
-                "FROM " + database + "." + table + " " +
-                "WHERE " + column + " = " + value + ";";
+                "FROM " + database + "." + table + 
+                qualifier + ";";
             count = DoTheScalar(query);
             if (count != null)
                 return Convert.ToInt32(count);
@@ -646,6 +651,28 @@ namespace TrotTrax
 
             reader = GetBackNoReader(database, year, String.Empty, sort);
             while(reader.Read())
+            {
+                item = new BackNoItem();
+                item.no = reader.GetInt32(0);
+                item.rider = reader.GetString(1) + " " + reader.GetString(2);
+                item.riderNo = reader.GetInt32(3);
+                item.horse = reader.GetString(4);
+                item.horseNo = reader.GetInt32(5);
+                backNoItemList.Add(item);
+            }
+            reader.Close();
+            connection.Close();
+            return backNoItemList;
+        }
+
+        public List<BackNoItem> GetEntryList(string database, int year, string sort, string qualifier)
+        {
+            MySqlDataReader reader;
+            BackNoItem item;
+            List<BackNoItem> backNoItemList = new List<BackNoItem>();
+
+            reader = GetEntryReader(database, year, qualifier, sort);
+            while (reader.Read())
             {
                 item = new BackNoItem();
                 item.no = reader.GetInt32(0);
