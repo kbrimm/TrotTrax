@@ -168,18 +168,49 @@ namespace TrotTrax
         {
             if (isChanged)
             {
+                DialogResult confirm;
+                ShowListForm showList;
+                bool success;
                 DateTime date = this.datePicker.Value;
                 string dateString = date.ToString("MM/dd/yyyy");
                 string description = this.descriptionBox.Text;
                 string comments = this.commentsBox.Text;
 
                 if (isNew)
-                    show.AddShow(date, description, comments);
+                {
+                    success = show.AddShow(date, description, comments);
+                    if (success)
+                    {
+                        confirm = MessageBox.Show("Would you like to add another show?",
+                            "TrotTrax Alert", MessageBoxButtons.YesNo);
+                        if (confirm == DialogResult.Yes)
+                            showList = new ShowListForm(show.clubID, show.year);
+                        else
+                            showList = new ShowListForm(show.clubID, show.year, show.number);
+                        showList.Visible = true;
+                        this.Close();
+                    }
+                    else
+                    {
+                        confirm = MessageBox.Show("Unable to add show at this time.",
+                            "TrotTrax Alert", MessageBoxButtons.OK);
+                    }
+                }
                 else
-                    show.ModifyShow(date, description, comments);
-                ShowListForm showList = new ShowListForm(show.clubID, show.year, show.number);
-                showList.Visible = true;
-                this.Close();
+                {
+                    success = show.ModifyShow(date, description, comments);
+                    if (success)
+                    {
+                        showList = new ShowListForm(show.clubID, show.year, show.number);
+                        showList.Visible = true;
+                        this.Close();
+                    }
+                    else
+                    {
+                        confirm = MessageBox.Show("Unable to add modify show at this time.",
+                            "TrotTrax Alert", MessageBoxButtons.OK);
+                    }
+                }
             }
         }
 

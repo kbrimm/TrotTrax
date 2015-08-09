@@ -283,6 +283,7 @@ namespace TrotTrax
             this.newCatBtn.TabStop = false;
             this.newCatBtn.Text = "New Category";
             this.newCatBtn.UseVisualStyleBackColor = true;
+            this.newCatBtn.Click += new System.EventHandler(this.newCatBtn_Click);
             // 
             // catListBox
             // 
@@ -307,6 +308,7 @@ namespace TrotTrax
             this.catListBox.UseCompatibleStateImageBehavior = false;
             this.catListBox.View = System.Windows.Forms.View.Details;
             this.catListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.catListBox_ColumnClick);
+            this.catListBox.DoubleClick += new System.EventHandler(this.catViewBtn_Click);
             // 
             // catNoHeader
             // 
@@ -346,6 +348,7 @@ namespace TrotTrax
             this.catViewBtn.TabStop = false;
             this.catViewBtn.Text = "View Category";
             this.catViewBtn.UseVisualStyleBackColor = true;
+            this.catViewBtn.Click += new System.EventHandler(this.catViewBtn_Click);
             // 
             // viewShowBtn
             // 
@@ -355,7 +358,7 @@ namespace TrotTrax
             this.viewShowBtn.Size = new System.Drawing.Size(207, 25);
             this.viewShowBtn.TabIndex = 7;
             this.viewShowBtn.TabStop = false;
-            this.viewShowBtn.Text = "View Class for Show";
+            this.viewShowBtn.Text = "View Class in Show";
             this.viewShowBtn.UseVisualStyleBackColor = true;
             this.viewShowBtn.Click += new System.EventHandler(this.viewShowBtn_Click);
             // 

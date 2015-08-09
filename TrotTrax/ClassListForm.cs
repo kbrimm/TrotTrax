@@ -26,15 +26,14 @@ namespace TrotTrax
         private List<CatBoxItem> catBoxItemList = new List<CatBoxItem>();
 
 
-        public ClassListForm(int year, string clubID)
+        public ClassListForm(string clubID, int year)
         {
-            aClass = new Class(year, clubID);
+            aClass = new Class(clubID, year);
             InitializeComponent();
             PopulateClassList();
             PopulateCatList();
             PopulateShowList();
             PopulateCatBox();
-            this.Text = "New Class Detail - TrotTrax";
             modifyBtn.Text = "Add New Class";
             deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
@@ -44,9 +43,9 @@ namespace TrotTrax
             isNew = true;
         }
 
-        public ClassListForm(int year, string clubID, int classNo)
+        public ClassListForm(string clubID, int year, int classNo)
         {
-            aClass = new Class(year, clubID, classNo);
+            aClass = new Class(clubID, year, classNo);
             InitializeComponent();
             PopulateClassList();
             PopulateCatList();
@@ -146,7 +145,7 @@ namespace TrotTrax
 
                 if (classNo >= 0)
                 {
-                    ClassListForm showList = new ClassListForm(aClass.year, aClass.clubID, classNo);
+                    ClassListForm showList = new ClassListForm(aClass.clubID, aClass.year, classNo);
                     showList.Visible = true;
                     this.Close();
                 }
@@ -161,7 +160,7 @@ namespace TrotTrax
                 loadNew = AbandonChanges();
             if (loadNew)
             {
-                ClassListForm classList = new ClassListForm(aClass.year, aClass.clubID);
+                ClassListForm classList = new ClassListForm(aClass.clubID, aClass.year);
                 classList.Visible = true;
                 this.Close();
             }
@@ -171,6 +170,7 @@ namespace TrotTrax
         {
             if (isChanged)
             {
+                DialogResult confirm;
                 string noString = this.numberBox.Text.ToString();
                 string name = this.nameBox.Text;
                 int category = Convert.ToInt32(this.catBox.SelectedValue);
@@ -178,23 +178,29 @@ namespace TrotTrax
 
                 if (noString == String.Empty || !int.TryParse(noString, out number))
                 {
-                    DialogResult confirm = MessageBox.Show("Class number must be a unique integer value.",
+                    confirm = MessageBox.Show("Class number must be a unique integer value.",
                         "TrotTrax Alert", MessageBoxButtons.OK);
                 }
                 else
                 {
+                    ClassListForm classList;
                     if (isNew)
                     {
                         bool success = aClass.AddClass(number, category, name);
                         if (success)
                         {
-                            ClassListForm classList = new ClassListForm(aClass.year, aClass.clubID, number);
+                            confirm = MessageBox.Show("Would you like to add another class?",
+                                "TrotTrax Alert", MessageBoxButtons.YesNo);
+                            if (confirm == DialogResult.Yes)
+                                classList = new ClassListForm(aClass.clubID, aClass.year);
+                            else
+                                classList = new ClassListForm(aClass.clubID, aClass.year, number);
                             classList.Visible = true;
                             this.Close();
                         }
                         else
                         {
-                            DialogResult confirm = MessageBox.Show("Class number must be unique.",
+                            confirm = MessageBox.Show("Class number must be unique.",
                                 "TrotTrax Alert", MessageBoxButtons.OK);
                         }
                     }
@@ -203,13 +209,13 @@ namespace TrotTrax
                         bool success = aClass.ModifyClass(number, category, name);
                         if (success)
                         {
-                            ClassListForm classList = new ClassListForm(aClass.year, aClass.clubID, number);
+                            classList = new ClassListForm(aClass.clubID, aClass.year, number);
                             classList.Visible = true;
                             this.Close();
                         }
                         else
                         {
-                            DialogResult confirm = MessageBox.Show("Unable to add class at this time.",
+                            confirm = MessageBox.Show("Unable to add class at this time.",
                                 "TrotTrax Alert", MessageBoxButtons.OK);
                         }
                     }
@@ -221,12 +227,14 @@ namespace TrotTrax
         {
             if (!isNew)
             {
-                DialogResult confirm = MessageBox.Show("Are you sure you want to delete this class and all of its data?",
+                DialogResult confirm = MessageBox.Show("Are you sure you want to delete this class?\n" +
+                        "This operation will delete ALL data associated with this class.\n" +
+                        "This operation CANNOT be undone.",
                     "TrotTrax Confirmation", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
                 {
                     aClass.RemoveClass();
-                    ClassListForm classList = new ClassListForm(aClass.year, aClass.clubID);
+                    ClassListForm classList = new ClassListForm(aClass.clubID, aClass.year);
                     classList.Visible = true;
                     this.Close();
                 }
@@ -237,7 +245,7 @@ namespace TrotTrax
         {
             if (AbandonChanges())
             {
-                ClassListForm classList = new ClassListForm(aClass.year, aClass.clubID, aClass.number);
+                ClassListForm classList = new ClassListForm(aClass.clubID, aClass.year, aClass.number);
                 classList.Visible = true;
                 this.Close();
             }
@@ -286,6 +294,41 @@ namespace TrotTrax
                     ClassInstanceForm classInstance = new ClassInstanceForm(aClass.clubID, aClass.year, showNo, aClass.number);
                     classInstance.Visible = true;
                 }
+            }
+        }
+
+        private void catViewBtn_Click(object sender, EventArgs e)
+        {
+            if (catListBox.SelectedItems.Count != 0)
+            {
+                bool loadNew = true;
+                int catNo = -1;
+
+                if (isChanged)
+                    loadNew = AbandonChanges();
+                if (loadNew)
+                    catNo = Convert.ToInt32(catListBox.SelectedItems[0].Text);
+
+                if (catNo >= 0)
+                {
+                    CategoryListForm showList = new CategoryListForm(aClass.clubID, aClass.year, catNo);
+                    showList.Visible = true;
+                    this.Close();
+                }
+            }
+        }
+
+        private void newCatBtn_Click(object sender, EventArgs e)
+        {
+            bool loadNew = true;
+
+            if (isChanged)
+                loadNew = AbandonChanges();
+            if (loadNew)
+            {
+                CategoryListForm showList = new CategoryListForm(aClass.clubID, aClass.year);
+                showList.Visible = true;
+                this.Close();
             }
         }
     }

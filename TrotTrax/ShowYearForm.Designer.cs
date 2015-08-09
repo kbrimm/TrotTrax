@@ -45,8 +45,6 @@ namespace TrotTrax
             this.newClubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.yearOverviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.backNumbersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.horsesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ridersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,7 +95,7 @@ namespace TrotTrax
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.MenuBar;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.viewToolStripMenuItem,
@@ -157,8 +155,6 @@ namespace TrotTrax
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.yearOverviewToolStripMenuItem,
-            this.toolStripSeparator1,
             this.backNumbersToolStripMenuItem,
             this.horsesToolStripMenuItem,
             this.ridersToolStripMenuItem,
@@ -166,19 +162,6 @@ namespace TrotTrax
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
-            // 
-            // yearOverviewToolStripMenuItem
-            // 
-            this.yearOverviewToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.yearOverviewToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.yearOverviewToolStripMenuItem.Name = "yearOverviewToolStripMenuItem";
-            this.yearOverviewToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
-            this.yearOverviewToolStripMenuItem.Text = "Year Overview";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(148, 6);
             // 
             // backNumbersToolStripMenuItem
             // 
@@ -255,6 +238,7 @@ namespace TrotTrax
             this.categoriesToolStripMenuItem.Name = "categoriesToolStripMenuItem";
             this.categoriesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.categoriesToolStripMenuItem.Text = "Categories";
+            this.categoriesToolStripMenuItem.Click += new System.EventHandler(this.categoriesToolStripMenuItem_Click);
             // 
             // classListToolStripMenuItem
             // 
@@ -549,7 +533,5 @@ namespace TrotTrax
         private System.Windows.Forms.ToolStripMenuItem categoriesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem classListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pointsSchemeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem yearOverviewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }

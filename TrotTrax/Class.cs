@@ -21,18 +21,17 @@ namespace TrotTrax
         public int catNo { get; private set; }
         public string catName { get; private set; }
 
-        public Class(int year,string clubID)
+        public Class(string clubID, int year)
         {
             database = new DBDriver(1);
             this.year = year;
             this.clubID = clubID;
-
             classList = database.GetClassItemList(clubID, year, String.Empty);
             catList = database.GetCatItemList(clubID, year, String.Empty); 
             showList = database.GetShowItemList(clubID, year, "date");            
         }
 
-        public Class(int year, string clubID, int classNo)
+        public Class(string clubID, int year, int classNo)
         {
             database = new DBDriver(1);
             classList = new List<ClassItem>();
@@ -40,7 +39,6 @@ namespace TrotTrax
             this.year = year;
             this.clubID = clubID;
             number = classNo;
-
             classList = database.GetClassItemList(clubID, year, String.Empty);
             catList = database.GetCatItemList(clubID, year, String.Empty); 
             showList = database.GetShowItemList(clubID, year, "date");

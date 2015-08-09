@@ -138,16 +138,21 @@ namespace TrotTrax
 
             if (classNo >= 0)
             {
-                ClassListForm classList = new ClassListForm(year.year, year.clubID, classNo);
+                ClassListForm classList = new ClassListForm(year.clubID, year.year, classNo);
                 classList.Visible = true;
             }
         }
 
         private void addClassBtn_Click(object sender, EventArgs e)
         {
-            ClassListForm classList = new ClassListForm(year.year, year.clubID);
+            ClassListForm classList = new ClassListForm(year.clubID, year.year);
             classList.Visible = true;
         }
 
+        private void categoriesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CategoryListForm catList = new CategoryListForm(year.clubID, year.year);
+            catList.Visible = true;
+        }
     }
 }

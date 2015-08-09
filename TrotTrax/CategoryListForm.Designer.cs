@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.showLabel = new System.Windows.Forms.Label();
+            this.infoLabel = new System.Windows.Forms.Label();
             this.listGroup = new System.Windows.Forms.GroupBox();
             this.newCatBtn = new System.Windows.Forms.Button();
             this.catListBox = new System.Windows.Forms.ListView();
@@ -38,7 +38,7 @@
             this.catPayHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.catPotHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.catFeeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.catViewBtn = new System.Windows.Forms.Button();
+            this.viewCatBtn = new System.Windows.Forms.Button();
             this.classListGroup = new System.Windows.Forms.GroupBox();
             this.newClassBtn = new System.Windows.Forms.Button();
             this.classListBox = new System.Windows.Forms.ListView();
@@ -46,32 +46,32 @@
             this.classNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.viewClassBtn = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.numberLabel = new System.Windows.Forms.Label();
-            this.numberBox = new System.Windows.Forms.TextBox();
-            this.descriptionLabel = new System.Windows.Forms.Label();
-            this.descriptionBox = new System.Windows.Forms.TextBox();
-            this.timedCheckBox = new System.Windows.Forms.CheckBox();
-            this.payoutCheckBox = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.cancelBtn = new System.Windows.Forms.Button();
             this.deleteBtn = new System.Windows.Forms.Button();
             this.modifyBtn = new System.Windows.Forms.Button();
+            this.feeBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.jackpotCheckBox = new System.Windows.Forms.CheckBox();
+            this.payoutCheckBox = new System.Windows.Forms.CheckBox();
+            this.timedCheckBox = new System.Windows.Forms.CheckBox();
+            this.descriptionBox = new System.Windows.Forms.TextBox();
+            this.descriptionLabel = new System.Windows.Forms.Label();
+            this.numberBox = new System.Windows.Forms.TextBox();
+            this.numberLabel = new System.Windows.Forms.Label();
             this.listGroup.SuspendLayout();
             this.classListGroup.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // showLabel
+            // infoLabel
             // 
-            this.showLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.showLabel.Location = new System.Drawing.Point(7, 9);
-            this.showLabel.Name = "showLabel";
-            this.showLabel.Size = new System.Drawing.Size(225, 223);
-            this.showLabel.TabIndex = 8;
-            this.showLabel.Text = "New Category \r\nSetup";
-            this.showLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.infoLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.infoLabel.Location = new System.Drawing.Point(7, 9);
+            this.infoLabel.Name = "infoLabel";
+            this.infoLabel.Size = new System.Drawing.Size(225, 223);
+            this.infoLabel.TabIndex = 8;
+            this.infoLabel.Text = "New Category \r\nSetup";
+            this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // listGroup
             // 
@@ -80,7 +80,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listGroup.Controls.Add(this.newCatBtn);
             this.listGroup.Controls.Add(this.catListBox);
-            this.listGroup.Controls.Add(this.catViewBtn);
+            this.listGroup.Controls.Add(this.viewCatBtn);
             this.listGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listGroup.Location = new System.Drawing.Point(12, 238);
             this.listGroup.Name = "listGroup";
@@ -99,6 +99,7 @@
             this.newCatBtn.TabStop = false;
             this.newCatBtn.Text = "New Category";
             this.newCatBtn.UseVisualStyleBackColor = true;
+            this.newCatBtn.Click += new System.EventHandler(this.newCatBtn_Click);
             // 
             // catListBox
             // 
@@ -122,6 +123,8 @@
             this.catListBox.TabStop = false;
             this.catListBox.UseCompatibleStateImageBehavior = false;
             this.catListBox.View = System.Windows.Forms.View.Details;
+            this.catListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.catListBox_ColumnClick);
+            this.catListBox.DoubleClick += new System.EventHandler(this.viewCatBtn_Click);
             // 
             // catNoHeader
             // 
@@ -131,7 +134,7 @@
             // catDescHeader
             // 
             this.catDescHeader.Text = "Category Description";
-            this.catDescHeader.Width = 290;
+            this.catDescHeader.Width = 553;
             // 
             // catTimedHeader
             // 
@@ -151,16 +154,17 @@
             this.catFeeHeader.Text = "Entry Fee";
             this.catFeeHeader.Width = 75;
             // 
-            // catViewBtn
+            // viewCatBtn
             // 
-            this.catViewBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.catViewBtn.Location = new System.Drawing.Point(6, 206);
-            this.catViewBtn.Name = "catViewBtn";
-            this.catViewBtn.Size = new System.Drawing.Size(433, 25);
-            this.catViewBtn.TabIndex = 7;
-            this.catViewBtn.TabStop = false;
-            this.catViewBtn.Text = "View Category";
-            this.catViewBtn.UseVisualStyleBackColor = true;
+            this.viewCatBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.viewCatBtn.Location = new System.Drawing.Point(6, 206);
+            this.viewCatBtn.Name = "viewCatBtn";
+            this.viewCatBtn.Size = new System.Drawing.Size(433, 25);
+            this.viewCatBtn.TabIndex = 7;
+            this.viewCatBtn.TabStop = false;
+            this.viewCatBtn.Text = "View Category";
+            this.viewCatBtn.UseVisualStyleBackColor = true;
+            this.viewCatBtn.Click += new System.EventHandler(this.viewCatBtn_Click);
             // 
             // classListGroup
             // 
@@ -185,8 +189,10 @@
             this.newClassBtn.Name = "newClassBtn";
             this.newClassBtn.Size = new System.Drawing.Size(115, 25);
             this.newClassBtn.TabIndex = 8;
+            this.newClassBtn.TabStop = false;
             this.newClassBtn.Text = "New Class";
             this.newClassBtn.UseVisualStyleBackColor = true;
+            this.newClassBtn.Click += new System.EventHandler(this.newClassBtn_Click);
             // 
             // classListBox
             // 
@@ -206,6 +212,8 @@
             this.classListBox.TabStop = false;
             this.classListBox.UseCompatibleStateImageBehavior = false;
             this.classListBox.View = System.Windows.Forms.View.Details;
+            this.classListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.classListBox_ColumnClick);
+            this.classListBox.DoubleClick += new System.EventHandler(this.viewClassBtn_Click);
             // 
             // classNoHeader
             // 
@@ -227,15 +235,16 @@
             this.viewClassBtn.TabStop = false;
             this.viewClassBtn.Text = "View Class";
             this.viewClassBtn.UseVisualStyleBackColor = true;
+            this.viewClassBtn.Click += new System.EventHandler(this.viewClassBtn_Click);
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.cancelBtn);
             this.groupBox1.Controls.Add(this.deleteBtn);
             this.groupBox1.Controls.Add(this.modifyBtn);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.feeBox);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.checkBox1);
+            this.groupBox1.Controls.Add(this.jackpotCheckBox);
             this.groupBox1.Controls.Add(this.payoutCheckBox);
             this.groupBox1.Controls.Add(this.timedCheckBox);
             this.groupBox1.Controls.Add(this.descriptionBox);
@@ -250,23 +259,95 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Category Details";
             // 
-            // numberLabel
+            // cancelBtn
             // 
-            this.numberLabel.AutoSize = true;
-            this.numberLabel.Location = new System.Drawing.Point(6, 25);
-            this.numberLabel.Name = "numberLabel";
-            this.numberLabel.Size = new System.Drawing.Size(114, 16);
-            this.numberLabel.TabIndex = 0;
-            this.numberLabel.Text = "Category Number";
+            this.cancelBtn.Location = new System.Drawing.Point(297, 189);
+            this.cancelBtn.Name = "cancelBtn";
+            this.cancelBtn.Size = new System.Drawing.Size(100, 25);
+            this.cancelBtn.TabIndex = 8;
+            this.cancelBtn.Text = "Cancel";
+            this.cancelBtn.UseVisualStyleBackColor = true;
+            this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
             // 
-            // numberBox
+            // deleteBtn
             // 
-            this.numberBox.BackColor = System.Drawing.SystemColors.Control;
-            this.numberBox.Location = new System.Drawing.Point(9, 44);
-            this.numberBox.Name = "numberBox";
-            this.numberBox.ReadOnly = true;
-            this.numberBox.Size = new System.Drawing.Size(111, 22);
-            this.numberBox.TabIndex = 2;
+            this.deleteBtn.Location = new System.Drawing.Point(183, 189);
+            this.deleteBtn.Name = "deleteBtn";
+            this.deleteBtn.Size = new System.Drawing.Size(108, 25);
+            this.deleteBtn.TabIndex = 7;
+            this.deleteBtn.Text = "Delete";
+            this.deleteBtn.UseVisualStyleBackColor = true;
+            this.deleteBtn.Click += new System.EventHandler(this.deleteBtn_Click);
+            // 
+            // modifyBtn
+            // 
+            this.modifyBtn.Location = new System.Drawing.Point(9, 189);
+            this.modifyBtn.Name = "modifyBtn";
+            this.modifyBtn.Size = new System.Drawing.Size(168, 25);
+            this.modifyBtn.TabIndex = 6;
+            this.modifyBtn.Text = "Save Changes";
+            this.modifyBtn.UseVisualStyleBackColor = true;
+            this.modifyBtn.Click += new System.EventHandler(this.modifyBtn_Click);
+            // 
+            // feeBox
+            // 
+            this.feeBox.Location = new System.Drawing.Point(9, 149);
+            this.feeBox.Name = "feeBox";
+            this.feeBox.Size = new System.Drawing.Size(96, 22);
+            this.feeBox.TabIndex = 2;
+            this.feeBox.TextChanged += new System.EventHandler(this.DataChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 132);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(65, 16);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Entry Fee";
+            // 
+            // jackpotCheckBox
+            // 
+            this.jackpotCheckBox.AutoSize = true;
+            this.jackpotCheckBox.Location = new System.Drawing.Point(239, 163);
+            this.jackpotCheckBox.Name = "jackpotCheckBox";
+            this.jackpotCheckBox.Size = new System.Drawing.Size(112, 20);
+            this.jackpotCheckBox.TabIndex = 4;
+            this.jackpotCheckBox.Text = "Jackpot Class";
+            this.jackpotCheckBox.UseVisualStyleBackColor = true;
+            this.jackpotCheckBox.CheckedChanged += new System.EventHandler(this.DataChanged);
+            // 
+            // payoutCheckBox
+            // 
+            this.payoutCheckBox.AutoSize = true;
+            this.payoutCheckBox.Location = new System.Drawing.Point(164, 163);
+            this.payoutCheckBox.Name = "payoutCheckBox";
+            this.payoutCheckBox.Size = new System.Drawing.Size(69, 20);
+            this.payoutCheckBox.TabIndex = 3;
+            this.payoutCheckBox.Text = "Payout";
+            this.payoutCheckBox.UseVisualStyleBackColor = true;
+            this.payoutCheckBox.CheckedChanged += new System.EventHandler(this.DataChanged);
+            // 
+            // timedCheckBox
+            // 
+            this.timedCheckBox.AutoSize = true;
+            this.timedCheckBox.Location = new System.Drawing.Point(196, 132);
+            this.timedCheckBox.Name = "timedCheckBox";
+            this.timedCheckBox.Size = new System.Drawing.Size(103, 20);
+            this.timedCheckBox.TabIndex = 5;
+            this.timedCheckBox.Text = "Timed Class";
+            this.timedCheckBox.UseVisualStyleBackColor = true;
+            this.timedCheckBox.CheckedChanged += new System.EventHandler(this.DataChanged);
+            this.timedCheckBox.TextChanged += new System.EventHandler(this.DataChanged);
+            // 
+            // descriptionBox
+            // 
+            this.descriptionBox.Location = new System.Drawing.Point(9, 97);
+            this.descriptionBox.MaxLength = 255;
+            this.descriptionBox.Name = "descriptionBox";
+            this.descriptionBox.Size = new System.Drawing.Size(387, 22);
+            this.descriptionBox.TabIndex = 1;
+            this.descriptionBox.TextChanged += new System.EventHandler(this.DataChanged);
             // 
             // descriptionLabel
             // 
@@ -277,86 +358,23 @@
             this.descriptionLabel.TabIndex = 5;
             this.descriptionLabel.Text = "Description";
             // 
-            // descriptionBox
+            // numberBox
             // 
-            this.descriptionBox.Location = new System.Drawing.Point(9, 97);
-            this.descriptionBox.MaxLength = 255;
-            this.descriptionBox.Name = "descriptionBox";
-            this.descriptionBox.Size = new System.Drawing.Size(387, 22);
-            this.descriptionBox.TabIndex = 6;
+            this.numberBox.BackColor = System.Drawing.SystemColors.Control;
+            this.numberBox.Location = new System.Drawing.Point(9, 44);
+            this.numberBox.Name = "numberBox";
+            this.numberBox.ReadOnly = true;
+            this.numberBox.Size = new System.Drawing.Size(111, 22);
+            this.numberBox.TabIndex = 2;
             // 
-            // timedCheckBox
+            // numberLabel
             // 
-            this.timedCheckBox.AutoSize = true;
-            this.timedCheckBox.Location = new System.Drawing.Point(211, 163);
-            this.timedCheckBox.Name = "timedCheckBox";
-            this.timedCheckBox.Size = new System.Drawing.Size(103, 20);
-            this.timedCheckBox.TabIndex = 8;
-            this.timedCheckBox.Text = "Timed Class";
-            this.timedCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // payoutCheckBox
-            // 
-            this.payoutCheckBox.AutoSize = true;
-            this.payoutCheckBox.Location = new System.Drawing.Point(164, 137);
-            this.payoutCheckBox.Name = "payoutCheckBox";
-            this.payoutCheckBox.Size = new System.Drawing.Size(69, 20);
-            this.payoutCheckBox.TabIndex = 9;
-            this.payoutCheckBox.Text = "Payout";
-            this.payoutCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(239, 137);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(112, 20);
-            this.checkBox1.TabIndex = 10;
-            this.checkBox1.Text = "Jackpot Class";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 137);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 16);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "Entry Fee";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(9, 154);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(96, 22);
-            this.textBox1.TabIndex = 12;
-            // 
-            // cancelBtn
-            // 
-            this.cancelBtn.Location = new System.Drawing.Point(277, 189);
-            this.cancelBtn.Name = "cancelBtn";
-            this.cancelBtn.Size = new System.Drawing.Size(120, 25);
-            this.cancelBtn.TabIndex = 15;
-            this.cancelBtn.Text = "Cancel";
-            this.cancelBtn.UseVisualStyleBackColor = true;
-            // 
-            // deleteBtn
-            // 
-            this.deleteBtn.Location = new System.Drawing.Point(151, 189);
-            this.deleteBtn.Name = "deleteBtn";
-            this.deleteBtn.Size = new System.Drawing.Size(120, 25);
-            this.deleteBtn.TabIndex = 14;
-            this.deleteBtn.Text = "Delete";
-            this.deleteBtn.UseVisualStyleBackColor = true;
-            // 
-            // modifyBtn
-            // 
-            this.modifyBtn.Location = new System.Drawing.Point(9, 189);
-            this.modifyBtn.Name = "modifyBtn";
-            this.modifyBtn.Size = new System.Drawing.Size(136, 25);
-            this.modifyBtn.TabIndex = 13;
-            this.modifyBtn.Text = "Save Changes";
-            this.modifyBtn.UseVisualStyleBackColor = true;
+            this.numberLabel.AutoSize = true;
+            this.numberLabel.Location = new System.Drawing.Point(6, 25);
+            this.numberLabel.Name = "numberLabel";
+            this.numberLabel.Size = new System.Drawing.Size(114, 16);
+            this.numberLabel.TabIndex = 0;
+            this.numberLabel.Text = "Category Number";
             // 
             // CategoryListForm
             // 
@@ -366,7 +384,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.classListGroup);
             this.Controls.Add(this.listGroup);
-            this.Controls.Add(this.showLabel);
+            this.Controls.Add(this.infoLabel);
             this.Name = "CategoryListForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "New Category - TrotTrax";
@@ -380,7 +398,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label showLabel;
+        private System.Windows.Forms.Label infoLabel;
         private System.Windows.Forms.GroupBox listGroup;
         private System.Windows.Forms.Button newCatBtn;
         private System.Windows.Forms.ListView catListBox;
@@ -390,7 +408,7 @@
         private System.Windows.Forms.ColumnHeader catPayHeader;
         private System.Windows.Forms.ColumnHeader catPotHeader;
         private System.Windows.Forms.ColumnHeader catFeeHeader;
-        private System.Windows.Forms.Button catViewBtn;
+        private System.Windows.Forms.Button viewCatBtn;
         private System.Windows.Forms.GroupBox classListGroup;
         private System.Windows.Forms.Button newClassBtn;
         private System.Windows.Forms.ListView classListBox;
@@ -402,10 +420,10 @@
         private System.Windows.Forms.TextBox numberBox;
         private System.Windows.Forms.Label descriptionLabel;
         private System.Windows.Forms.TextBox descriptionBox;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox jackpotCheckBox;
         private System.Windows.Forms.CheckBox payoutCheckBox;
         private System.Windows.Forms.CheckBox timedCheckBox;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox feeBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button cancelBtn;
         private System.Windows.Forms.Button deleteBtn;

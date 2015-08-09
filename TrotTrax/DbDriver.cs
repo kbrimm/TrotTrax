@@ -289,6 +289,23 @@ namespace TrotTrax
                 return false;
         }
 
+        public decimal GetValueDecimal(string database, string table, string column, string qualifier)
+        {
+            string query;
+            object response;
+
+            Console.WriteLine("Retrieving value for " + column + " from " + database + ".");
+            if (qualifier != String.Empty)
+                qualifier = " WHERE " + qualifier;
+            query = "SELECT " + column + " " +
+                "FROM " + database + "." + table + qualifier + ";";
+            response = DoTheScalar(query);
+            if (response != null)
+                return Convert.ToDecimal(response);
+            else
+                return 0;
+        }
+
         public int GetValueInt(string database, string table, string column, string qualifier)
         {
             string query;
