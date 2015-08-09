@@ -38,6 +38,8 @@ namespace TrotTrax
             modifyBtn.Text = "Add New Class";
             deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            viewShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewShowBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             isChanged = false;
             isNew = true;
         }
@@ -47,7 +49,7 @@ namespace TrotTrax
             aClass = new Class(year, clubID, classNo);
             InitializeComponent();
             PopulateClassList();
-            PopulateCatList();            
+            PopulateCatList();
             PopulateShowList();
             PopulateCatBox();
             this.Text = aClass.name + " Detail - TrotTrax";
@@ -76,7 +78,7 @@ namespace TrotTrax
         private void PopulateCatList()
         {
             this.catListBox.Items.Clear();
-            foreach(CatItem entry in aClass.catList)
+            foreach (CatItem entry in aClass.catList)
             {
                 string[] row = { entry.description, entry.timed.ToString(), entry.payout.ToString(), 
                                   entry.jackpot.ToString(), "$" + entry.fee.ToString() };
@@ -100,9 +102,10 @@ namespace TrotTrax
 
         private void PopulateCatBox()
         {
-            foreach(CatItem entry in aClass.catList)
+            catBoxItemList.Add(new CatBoxItem() { no = 0, description = String.Empty });
+            foreach (CatItem entry in aClass.catList)
             {
-                catBoxItemList.Add(new CatBoxItem() {no = entry.no, description = entry.description});
+                catBoxItemList.Add(new CatBoxItem() { no = entry.no, description = entry.description });
             }
 
             this.catBox.DataSource = catBoxItemList;
@@ -152,14 +155,21 @@ namespace TrotTrax
 
         private void newClassBtn_Click(object sender, EventArgs e)
         {
-            ClassListForm classList = new ClassListForm(aClass.year, aClass.clubID);
-            classList.Visible = true;
-            this.Close();
+            bool loadNew = true;
+
+            if (isChanged)
+                loadNew = AbandonChanges();
+            if (loadNew)
+            {
+                ClassListForm classList = new ClassListForm(aClass.year, aClass.clubID);
+                classList.Visible = true;
+                this.Close();
+            }
         }
 
         private void modifyBtn_Click(object sender, EventArgs e)
         {
-            if(isChanged)
+            if (isChanged)
             {
                 string noString = this.numberBox.Text.ToString();
                 string name = this.nameBox.Text;
@@ -173,7 +183,7 @@ namespace TrotTrax
                 }
                 else
                 {
-                    if(isNew)
+                    if (isNew)
                     {
                         bool success = aClass.AddClass(number, category, name);
                         if (success)
@@ -187,7 +197,7 @@ namespace TrotTrax
                             DialogResult confirm = MessageBox.Show("Class number must be unique.",
                                 "TrotTrax Alert", MessageBoxButtons.OK);
                         }
-                    }                        
+                    }
                     else
                     {
                         bool success = aClass.ModifyClass(number, category, name);
@@ -209,7 +219,7 @@ namespace TrotTrax
 
         private void deleteBtn_Click(object sender, EventArgs e)
         {
-            if(!isNew)
+            if (!isNew)
             {
                 DialogResult confirm = MessageBox.Show("Are you sure you want to delete this class and all of its data?",
                     "TrotTrax Confirmation", MessageBoxButtons.YesNo);
@@ -219,13 +229,13 @@ namespace TrotTrax
                     ClassListForm classList = new ClassListForm(aClass.year, aClass.clubID);
                     classList.Visible = true;
                     this.Close();
-                }          
+                }
             }
         }
 
         private void cancelBtn_Click(object sender, EventArgs e)
         {
-            if(AbandonChanges())
+            if (AbandonChanges())
             {
                 ClassListForm classList = new ClassListForm(aClass.year, aClass.clubID, aClass.number);
                 classList.Visible = true;
@@ -251,6 +261,32 @@ namespace TrotTrax
             else if (e.Column == 5)
                 aClass.SortCats("fee");
             PopulateCatList();
+        }
+
+        private void viewShowBtn_Click(object sender, EventArgs e)
+        {
+            if (!isNew && showListBox.SelectedItems.Count != 0)
+            {
+                bool loadNew = true;
+                int showNo = -1;
+
+                if (isChanged)
+                    loadNew = AbandonChanges();
+
+                string selectedShow = showListBox.SelectedItems[0].ToString();
+                selectedShow = selectedShow.Substring(15, 10);
+                foreach (ShowItem entry in aClass.showList)
+                    if (entry.date == selectedShow)
+                    {
+                        showNo = entry.no;
+                        break;
+                    }
+                if (showNo >= 0)
+                {
+                    ClassInstanceForm classInstance = new ClassInstanceForm(aClass.clubID, aClass.year, showNo, aClass.number);
+                    classInstance.Visible = true;
+                }
+            }
         }
     }
 }

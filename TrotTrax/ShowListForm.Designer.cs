@@ -316,7 +316,7 @@
             this.Controls.Add(this.showLabel);
             this.Name = "ShowListForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "TrotTrax";
+            this.Text = "New Show - TrotTrax";
             this.showListGroup.ResumeLayout(false);
             this.infoBox.ResumeLayout(false);
             this.infoBox.PerformLayout();

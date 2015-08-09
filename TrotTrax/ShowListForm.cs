@@ -24,9 +24,9 @@ namespace TrotTrax
         private bool isChanged;
         private bool isNew;
 
-        public ShowListForm(int year, string clubID)
+        public ShowListForm(string clubID, int year)
         {
-            show = new Show(year, clubID);
+            show = new Show(clubID, year);
             InitializeComponent();
             PopulateClassList();
             PopulateShowList();
@@ -34,13 +34,15 @@ namespace TrotTrax
             modifyBtn.Text = "Add New Show";
             deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            viewClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             isChanged = false;
             isNew = true;
         }
 
-        public ShowListForm(int year, string clubID, int showNo)
+        public ShowListForm(string clubID, int year, int showNo)
         {
-            show = new Show(year, clubID, showNo);
+            show = new Show(clubID, year, showNo);
             InitializeComponent();
             PopulateClassList();
             PopulateShowList();
@@ -142,7 +144,7 @@ namespace TrotTrax
 
                 if (showNo >= 0)
                 {
-                    ShowListForm showList = new ShowListForm(show.year, show.clubID, showNo);
+                    ShowListForm showList = new ShowListForm(show.clubID, show.year, showNo);
                     showList.Visible = true;
                     this.Close();
                 }
@@ -156,7 +158,7 @@ namespace TrotTrax
                 loadNew = AbandonChanges();
             if (loadNew)
             {
-                ShowListForm showList = new ShowListForm(show.year, show.clubID);
+                ShowListForm showList = new ShowListForm(show.clubID, show.year);
                 showList.Visible = true;
                 this.Close();
             }
@@ -175,7 +177,7 @@ namespace TrotTrax
                     show.AddShow(date, description, comments);
                 else
                     show.ModifyShow(date, description, comments);
-                ShowListForm showList = new ShowListForm(show.year, show.clubID, show.number);
+                ShowListForm showList = new ShowListForm(show.clubID, show.year, show.number);
                 showList.Visible = true;
                 this.Close();
             }
@@ -190,7 +192,7 @@ namespace TrotTrax
                 if (confirm == DialogResult.Yes)
                 {
                     show.RemoveShow();
-                    ShowListForm showList = new ShowListForm(show.year, show.clubID);
+                    ShowListForm showList = new ShowListForm(show.clubID, show.year);
                     showList.Visible = true;
                     this.Close();
                 }
@@ -207,9 +209,9 @@ namespace TrotTrax
                 {
                     ShowListForm showList;
                     if(isNew)
-                        showList = new ShowListForm(show.year, show.clubID);
+                        showList = new ShowListForm(show.clubID, show.year);
                     else
-                        showList = new ShowListForm(show.year, show.clubID, show.number);
+                        showList = new ShowListForm(show.clubID, show.year, show.number);
                     showList.Visible = true;
                     this.Close();
                 }
@@ -227,7 +229,7 @@ namespace TrotTrax
 
         private void viewClassBtn_Click(object sender, EventArgs e)
         {
-            if (classListBox.SelectedItems.Count != 0)
+            if (!isNew && classListBox.SelectedItems.Count != 0)
             {
                 bool loadNew = true;
                 int selectedClass = -1;

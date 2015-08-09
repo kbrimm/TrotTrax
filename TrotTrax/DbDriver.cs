@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace TrotTrax
 {
-    class DBDriver
+    public class DBDriver
     {
         private MySqlConnection connection;
         private string server;
@@ -288,7 +288,6 @@ namespace TrotTrax
             else
                 return false;
         }
-
 
         public int GetValueInt(string database, string table, string column, string qualifier)
         {

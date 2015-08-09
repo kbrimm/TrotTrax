@@ -1,4 +1,12 @@
-﻿using System;
+﻿/* 
+ * TrotTrax
+ *     Copyright (c) 2015 Katy Brimm
+ *     This source file is licensed under the GNU General Public License. 
+ *     Please see the file LICENSE in this distribution for license terms.
+ * Contact: kbrimm@pdx.edu
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,20 +14,14 @@ using System.Threading.Tasks;
 
 namespace TrotTrax
 {
-    class Show
+    class Show : ListObject
     {
-        private DBDriver database;
-        public int year { get; set; }
-        public string clubID { get; set; }
-        public List<ShowItem> showList = new List<ShowItem>();
-        public List<ClassItem> classList = new List<ClassItem>();
-
         public int number { get; private set; }
         public string date { get; private set; }
         public string description { get; private set; }
         public string comments { get; private set; }
 
-        public Show(int year,string clubID)
+        public Show(string clubID, int year)
         {
             database = new DBDriver(1);
             this.year = year;
@@ -29,7 +31,7 @@ namespace TrotTrax
             showList = database.GetShowItemList(clubID, year, "date");
         }
 
-        public Show(int year, string clubID, int showNo)
+        public Show(string clubID, int year, int showNo)
         {
             database = new DBDriver(1);
             classList = new List<ClassItem>();
@@ -45,35 +47,45 @@ namespace TrotTrax
             comments = database.GetValueString(clubID, year + "_show_list", "comment", "show_no = " + showNo);
         }
 
-        public void SortClasses(string field)
-        {
-            classList = database.GetClassItemList(clubID, year, field);
-        }
-
-        public void AddShow(DateTime date, string description, string comments)
+        public bool AddShow(DateTime date, string description, string comments)
         {
             string dateString = date.ToString("MM/dd/yyyy");
             string target = "date, description, comment";
             string values = "'" + dateString + "', '" + database.FormatString(description) +
                 "', '" + database.FormatString(comments) + "'";
-            database.AddValues(clubID, year + "_show_list", target, values);
-            string no = database.GetValueString(clubID, year + "_show_list", "show_no", "date = '" + dateString + "'");
-            number = Convert.ToInt32(no);
+            bool success = database.AddValues(clubID, year + "_show_list", target, values);
+            if (success)
+            {
+                string no = database.GetValueString(clubID, year + "_show_list", "show_no", "date = '" + dateString + "'");
+                number = Convert.ToInt32(no);
+                showList = database.GetShowItemList(clubID, year, "date");
+            }
+            return success;
         }
 
-        public void ModifyShow(DateTime date, string description, string comments)
+        public bool ModifyShow(DateTime date, string description, string comments)
         {
             string dateString = date.ToString("MM/dd/yyyy");
             string values = "date = '" + dateString + "', description = '" + database.FormatString(description) + 
                 "', comment = '" + database.FormatString(comments) + "'";
             string qualifier = "show_no = " + number;
-            database.ChangeValues(clubID, year + "_show_list", values, qualifier);
+            bool success = database.ChangeValues(clubID, year + "_show_list", values, qualifier);
+            if(success)
+            {
+                showList = database.GetShowItemList(clubID, year, "date");
+            }
+            return success;
         }
 
-        public void RemoveShow()
+        public bool RemoveShow()
         {
             string qualifier = "show_no = " + number;
-            database.DeleteValues(clubID, year + "_show_list", qualifier);
+            bool success = database.DeleteValues(clubID, year + "_show_list", qualifier);
+            if (success)
+            {
+                showList = database.GetShowItemList(clubID, year, "date");
+            }
+            return success;
         }
     }
 }

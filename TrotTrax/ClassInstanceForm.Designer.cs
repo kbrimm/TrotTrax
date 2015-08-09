@@ -1,4 +1,12 @@
-﻿namespace TrotTrax
+﻿/* 
+ * TrotTrax
+ *     Copyright (c) 2015 Katy Brimm
+ *     This source file is licensed under the GNU General Public License. 
+ *     Please see the file LICENSE in this distribution for license terms.
+ * Contact: kbrimm@pdx.edu
+ */
+
+namespace TrotTrax
 {
     partial class ClassInstanceForm
     {
@@ -37,6 +45,8 @@
             this.classNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.viewClassBtn = new System.Windows.Forms.Button();
             this.entryGroup = new System.Windows.Forms.GroupBox();
+            this.totalBox = new System.Windows.Forms.TextBox();
+            this.totalLabel = new System.Windows.Forms.Label();
             this.entryListBox = new System.Windows.Forms.ListView();
             this.backNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.riderHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -104,9 +114,9 @@
             this.showLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.showLabel.Location = new System.Drawing.Point(12, 9);
             this.showLabel.Name = "showLabel";
-            this.showLabel.Size = new System.Drawing.Size(250, 80);
+            this.showLabel.Size = new System.Drawing.Size(250, 100);
             this.showLabel.TabIndex = 8;
-            this.showLabel.Text = "Class Name\r\nShow Date";
+            this.showLabel.Text = "Show Date\r\nNumber\r\nClass Name";
             this.showLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // classListGroup
@@ -119,9 +129,9 @@
             this.classListGroup.Controls.Add(this.classListBox);
             this.classListGroup.Controls.Add(this.viewClassBtn);
             this.classListGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.classListGroup.Location = new System.Drawing.Point(12, 92);
+            this.classListGroup.Location = new System.Drawing.Point(12, 116);
             this.classListGroup.Name = "classListGroup";
-            this.classListGroup.Size = new System.Drawing.Size(250, 383);
+            this.classListGroup.Size = new System.Drawing.Size(250, 359);
             this.classListGroup.TabIndex = 11;
             this.classListGroup.TabStop = false;
             this.classListGroup.Text = "Class List";
@@ -129,22 +139,26 @@
             // prevBtn
             // 
             this.prevBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.prevBtn.Location = new System.Drawing.Point(6, 352);
+            this.prevBtn.Location = new System.Drawing.Point(6, 328);
             this.prevBtn.Name = "prevBtn";
             this.prevBtn.Size = new System.Drawing.Size(55, 25);
             this.prevBtn.TabIndex = 14;
+            this.prevBtn.TabStop = false;
             this.prevBtn.Text = "Prev";
             this.prevBtn.UseVisualStyleBackColor = true;
+            this.prevBtn.Click += new System.EventHandler(this.prevBtn_Click);
             // 
             // nextBtn
             // 
             this.nextBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.nextBtn.Location = new System.Drawing.Point(188, 352);
+            this.nextBtn.Location = new System.Drawing.Point(188, 328);
             this.nextBtn.Name = "nextBtn";
             this.nextBtn.Size = new System.Drawing.Size(55, 25);
             this.nextBtn.TabIndex = 13;
+            this.nextBtn.TabStop = false;
             this.nextBtn.Text = "Next";
             this.nextBtn.UseVisualStyleBackColor = true;
+            this.nextBtn.Click += new System.EventHandler(this.nextBtn_Click);
             // 
             // classListBox
             // 
@@ -159,11 +173,13 @@
             this.classListBox.Location = new System.Drawing.Point(6, 25);
             this.classListBox.MultiSelect = false;
             this.classListBox.Name = "classListBox";
-            this.classListBox.Size = new System.Drawing.Size(237, 321);
+            this.classListBox.Size = new System.Drawing.Size(237, 297);
             this.classListBox.TabIndex = 12;
+            this.classListBox.TabStop = false;
             this.classListBox.UseCompatibleStateImageBehavior = false;
             this.classListBox.View = System.Windows.Forms.View.Details;
             this.classListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.classListBox_ColumnClick);
+            this.classListBox.DoubleClick += new System.EventHandler(this.viewClassBtn_Click);
             // 
             // classNoHeader
             // 
@@ -178,18 +194,22 @@
             // viewClassBtn
             // 
             this.viewClassBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.viewClassBtn.Location = new System.Drawing.Point(67, 352);
+            this.viewClassBtn.Location = new System.Drawing.Point(67, 328);
             this.viewClassBtn.Name = "viewClassBtn";
             this.viewClassBtn.Size = new System.Drawing.Size(115, 25);
             this.viewClassBtn.TabIndex = 7;
+            this.viewClassBtn.TabStop = false;
             this.viewClassBtn.Text = "View Class";
             this.viewClassBtn.UseVisualStyleBackColor = true;
+            this.viewClassBtn.Click += new System.EventHandler(this.viewClassBtn_Click);
             // 
             // entryGroup
             // 
             this.entryGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.entryGroup.Controls.Add(this.totalBox);
+            this.entryGroup.Controls.Add(this.totalLabel);
             this.entryGroup.Controls.Add(this.entryListBox);
             this.entryGroup.Controls.Add(this.removeEntryBtn);
             this.entryGroup.Controls.Add(this.viewNumber);
@@ -200,6 +220,23 @@
             this.entryGroup.TabIndex = 12;
             this.entryGroup.TabStop = false;
             this.entryGroup.Text = "Registered Entries";
+            // 
+            // totalBox
+            // 
+            this.totalBox.Location = new System.Drawing.Point(367, 180);
+            this.totalBox.Name = "totalBox";
+            this.totalBox.ReadOnly = true;
+            this.totalBox.Size = new System.Drawing.Size(69, 22);
+            this.totalBox.TabIndex = 13;
+            // 
+            // totalLabel
+            // 
+            this.totalLabel.AutoSize = true;
+            this.totalLabel.Location = new System.Drawing.Point(275, 183);
+            this.totalLabel.Name = "totalLabel";
+            this.totalLabel.Size = new System.Drawing.Size(86, 16);
+            this.totalLabel.TabIndex = 12;
+            this.totalLabel.Text = "Total Entries:";
             // 
             // entryListBox
             // 
@@ -218,6 +255,7 @@
             this.entryListBox.Name = "entryListBox";
             this.entryListBox.Size = new System.Drawing.Size(430, 148);
             this.entryListBox.TabIndex = 11;
+            this.entryListBox.TabStop = false;
             this.entryListBox.UseCompatibleStateImageBehavior = false;
             this.entryListBox.View = System.Windows.Forms.View.Details;
             this.entryListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.entryListBox_ColumnClick);
@@ -241,20 +279,23 @@
             // 
             this.removeEntryBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.removeEntryBtn.Location = new System.Drawing.Point(224, 179);
+            this.removeEntryBtn.Location = new System.Drawing.Point(125, 179);
             this.removeEntryBtn.Name = "removeEntryBtn";
-            this.removeEntryBtn.Size = new System.Drawing.Size(212, 25);
-            this.removeEntryBtn.TabIndex = 10;
+            this.removeEntryBtn.Size = new System.Drawing.Size(123, 25);
+            this.removeEntryBtn.TabIndex = 6;
+            this.removeEntryBtn.TabStop = false;
             this.removeEntryBtn.Text = "Remove Entry";
             this.removeEntryBtn.UseVisualStyleBackColor = true;
+            this.removeEntryBtn.Click += new System.EventHandler(this.removeEntryBtn_Click);
             // 
             // viewNumber
             // 
             this.viewNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.viewNumber.Location = new System.Drawing.Point(6, 179);
             this.viewNumber.Name = "viewNumber";
-            this.viewNumber.Size = new System.Drawing.Size(212, 25);
-            this.viewNumber.TabIndex = 7;
+            this.viewNumber.Size = new System.Drawing.Size(113, 25);
+            this.viewNumber.TabIndex = 5;
+            this.viewNumber.TabStop = false;
             this.viewNumber.Text = "View Number";
             this.viewNumber.UseVisualStyleBackColor = true;
             // 
@@ -279,22 +320,25 @@
             this.listBtn.Location = new System.Drawing.Point(9, 179);
             this.listBtn.Name = "listBtn";
             this.listBtn.Size = new System.Drawing.Size(165, 25);
-            this.listBtn.TabIndex = 5;
+            this.listBtn.TabIndex = 4;
             this.listBtn.Text = "Add Entry";
             this.listBtn.UseVisualStyleBackColor = true;
+            this.listBtn.Click += new System.EventHandler(this.listBtn_Click);
             // 
             // manualBtn
             // 
             this.manualBtn.Location = new System.Drawing.Point(9, 72);
             this.manualBtn.Name = "manualBtn";
             this.manualBtn.Size = new System.Drawing.Size(165, 25);
-            this.manualBtn.TabIndex = 4;
+            this.manualBtn.TabIndex = 2;
             this.manualBtn.Text = "Add Entry";
             this.manualBtn.UseVisualStyleBackColor = true;
             this.manualBtn.Click += new System.EventHandler(this.manualBtn_Click);
             // 
             // entryBox
             // 
+            this.entryBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.entryBox.DropDownWidth = 265;
             this.entryBox.FormattingEnabled = true;
             this.entryBox.Location = new System.Drawing.Point(9, 149);
             this.entryBox.Name = "entryBox";
@@ -385,7 +429,7 @@
             this.placeBtn.Location = new System.Drawing.Point(458, 215);
             this.placeBtn.Name = "placeBtn";
             this.placeBtn.Size = new System.Drawing.Size(165, 25);
-            this.placeBtn.TabIndex = 6;
+            this.placeBtn.TabIndex = 35;
             this.placeBtn.Text = "Assign Placings";
             this.placeBtn.UseVisualStyleBackColor = true;
             // 
@@ -439,140 +483,140 @@
             this.payoutBox6.Location = new System.Drawing.Point(539, 187);
             this.payoutBox6.Name = "payoutBox6";
             this.payoutBox6.Size = new System.Drawing.Size(84, 22);
-            this.payoutBox6.TabIndex = 35;
+            this.payoutBox6.TabIndex = 34;
             // 
             // payoutBox5
             // 
             this.payoutBox5.Location = new System.Drawing.Point(539, 159);
             this.payoutBox5.Name = "payoutBox5";
             this.payoutBox5.Size = new System.Drawing.Size(84, 22);
-            this.payoutBox5.TabIndex = 34;
+            this.payoutBox5.TabIndex = 29;
             // 
             // payoutBox4
             // 
             this.payoutBox4.Location = new System.Drawing.Point(539, 131);
             this.payoutBox4.Name = "payoutBox4";
             this.payoutBox4.Size = new System.Drawing.Size(84, 22);
-            this.payoutBox4.TabIndex = 33;
+            this.payoutBox4.TabIndex = 24;
             // 
             // payoutBox3
             // 
             this.payoutBox3.Location = new System.Drawing.Point(539, 103);
             this.payoutBox3.Name = "payoutBox3";
             this.payoutBox3.Size = new System.Drawing.Size(84, 22);
-            this.payoutBox3.TabIndex = 32;
+            this.payoutBox3.TabIndex = 19;
             // 
             // payoutBox2
             // 
             this.payoutBox2.Location = new System.Drawing.Point(539, 75);
             this.payoutBox2.Name = "payoutBox2";
             this.payoutBox2.Size = new System.Drawing.Size(84, 22);
-            this.payoutBox2.TabIndex = 31;
+            this.payoutBox2.TabIndex = 14;
             // 
             // ptsBox6
             // 
             this.ptsBox6.Location = new System.Drawing.Point(506, 187);
             this.ptsBox6.Name = "ptsBox6";
             this.ptsBox6.Size = new System.Drawing.Size(27, 22);
-            this.ptsBox6.TabIndex = 30;
+            this.ptsBox6.TabIndex = 33;
             // 
             // ptsBox5
             // 
             this.ptsBox5.Location = new System.Drawing.Point(506, 159);
             this.ptsBox5.Name = "ptsBox5";
             this.ptsBox5.Size = new System.Drawing.Size(27, 22);
-            this.ptsBox5.TabIndex = 29;
+            this.ptsBox5.TabIndex = 28;
             // 
             // ptsBox4
             // 
             this.ptsBox4.Location = new System.Drawing.Point(506, 131);
             this.ptsBox4.Name = "ptsBox4";
             this.ptsBox4.Size = new System.Drawing.Size(27, 22);
-            this.ptsBox4.TabIndex = 28;
+            this.ptsBox4.TabIndex = 23;
             // 
             // ptsBox3
             // 
             this.ptsBox3.Location = new System.Drawing.Point(506, 103);
             this.ptsBox3.Name = "ptsBox3";
             this.ptsBox3.Size = new System.Drawing.Size(27, 22);
-            this.ptsBox3.TabIndex = 27;
+            this.ptsBox3.TabIndex = 18;
             // 
             // ptsBox2
             // 
             this.ptsBox2.Location = new System.Drawing.Point(506, 75);
             this.ptsBox2.Name = "ptsBox2";
             this.ptsBox2.Size = new System.Drawing.Size(27, 22);
-            this.ptsBox2.TabIndex = 26;
+            this.ptsBox2.TabIndex = 13;
             // 
             // timeBox6
             // 
             this.timeBox6.Location = new System.Drawing.Point(442, 187);
             this.timeBox6.Name = "timeBox6";
             this.timeBox6.Size = new System.Drawing.Size(58, 22);
-            this.timeBox6.TabIndex = 25;
+            this.timeBox6.TabIndex = 32;
             // 
             // timeBox5
             // 
             this.timeBox5.Location = new System.Drawing.Point(442, 159);
             this.timeBox5.Name = "timeBox5";
             this.timeBox5.Size = new System.Drawing.Size(58, 22);
-            this.timeBox5.TabIndex = 24;
+            this.timeBox5.TabIndex = 27;
             // 
             // timeBox4
             // 
             this.timeBox4.Location = new System.Drawing.Point(442, 131);
             this.timeBox4.Name = "timeBox4";
             this.timeBox4.Size = new System.Drawing.Size(58, 22);
-            this.timeBox4.TabIndex = 23;
+            this.timeBox4.TabIndex = 22;
             // 
             // timeBox3
             // 
             this.timeBox3.Location = new System.Drawing.Point(442, 103);
             this.timeBox3.Name = "timeBox3";
             this.timeBox3.Size = new System.Drawing.Size(58, 22);
-            this.timeBox3.TabIndex = 22;
+            this.timeBox3.TabIndex = 17;
             // 
             // timeBox2
             // 
             this.timeBox2.Location = new System.Drawing.Point(442, 75);
             this.timeBox2.Name = "timeBox2";
             this.timeBox2.Size = new System.Drawing.Size(58, 22);
-            this.timeBox2.TabIndex = 21;
+            this.timeBox2.TabIndex = 12;
             // 
             // numberBox6
             // 
             this.numberBox6.Location = new System.Drawing.Point(37, 187);
             this.numberBox6.Name = "numberBox6";
             this.numberBox6.Size = new System.Drawing.Size(60, 22);
-            this.numberBox6.TabIndex = 20;
+            this.numberBox6.TabIndex = 30;
             // 
             // numberBox5
             // 
             this.numberBox5.Location = new System.Drawing.Point(37, 159);
             this.numberBox5.Name = "numberBox5";
             this.numberBox5.Size = new System.Drawing.Size(60, 22);
-            this.numberBox5.TabIndex = 19;
+            this.numberBox5.TabIndex = 25;
             // 
             // numberBox4
             // 
             this.numberBox4.Location = new System.Drawing.Point(37, 131);
             this.numberBox4.Name = "numberBox4";
             this.numberBox4.Size = new System.Drawing.Size(60, 22);
-            this.numberBox4.TabIndex = 18;
+            this.numberBox4.TabIndex = 20;
             // 
             // numberBox3
             // 
             this.numberBox3.Location = new System.Drawing.Point(37, 103);
             this.numberBox3.Name = "numberBox3";
             this.numberBox3.Size = new System.Drawing.Size(60, 22);
-            this.numberBox3.TabIndex = 17;
+            this.numberBox3.TabIndex = 15;
             // 
             // numberBox2
             // 
             this.numberBox2.Location = new System.Drawing.Point(37, 75);
             this.numberBox2.Name = "numberBox2";
             this.numberBox2.Size = new System.Drawing.Size(60, 22);
-            this.numberBox2.TabIndex = 16;
+            this.numberBox2.TabIndex = 10;
             // 
             // nameBox6
             // 
@@ -580,7 +624,7 @@
             this.nameBox6.Name = "nameBox6";
             this.nameBox6.ReadOnly = true;
             this.nameBox6.Size = new System.Drawing.Size(333, 22);
-            this.nameBox6.TabIndex = 15;
+            this.nameBox6.TabIndex = 31;
             // 
             // nameBox5
             // 
@@ -588,7 +632,7 @@
             this.nameBox5.Name = "nameBox5";
             this.nameBox5.ReadOnly = true;
             this.nameBox5.Size = new System.Drawing.Size(333, 22);
-            this.nameBox5.TabIndex = 14;
+            this.nameBox5.TabIndex = 26;
             // 
             // nameBox4
             // 
@@ -596,7 +640,7 @@
             this.nameBox4.Name = "nameBox4";
             this.nameBox4.ReadOnly = true;
             this.nameBox4.Size = new System.Drawing.Size(333, 22);
-            this.nameBox4.TabIndex = 13;
+            this.nameBox4.TabIndex = 21;
             // 
             // nameBox3
             // 
@@ -604,7 +648,7 @@
             this.nameBox3.Name = "nameBox3";
             this.nameBox3.ReadOnly = true;
             this.nameBox3.Size = new System.Drawing.Size(333, 22);
-            this.nameBox3.TabIndex = 12;
+            this.nameBox3.TabIndex = 16;
             // 
             // nameBox2
             // 
@@ -644,7 +688,7 @@
             this.ptsBox1.Location = new System.Drawing.Point(506, 47);
             this.ptsBox1.Name = "ptsBox1";
             this.ptsBox1.Size = new System.Drawing.Size(27, 22);
-            this.ptsBox1.TabIndex = 7;
+            this.ptsBox1.TabIndex = 8;
             // 
             // label2
             // 
@@ -678,7 +722,7 @@
             this.timeBox1.Location = new System.Drawing.Point(442, 47);
             this.timeBox1.Name = "timeBox1";
             this.timeBox1.Size = new System.Drawing.Size(58, 22);
-            this.timeBox1.TabIndex = 3;
+            this.timeBox1.TabIndex = 7;
             // 
             // nameBox1
             // 
@@ -686,14 +730,14 @@
             this.nameBox1.Name = "nameBox1";
             this.nameBox1.ReadOnly = true;
             this.nameBox1.Size = new System.Drawing.Size(333, 22);
-            this.nameBox1.TabIndex = 2;
+            this.nameBox1.TabIndex = 6;
             // 
             // numberBox1
             // 
             this.numberBox1.Location = new System.Drawing.Point(37, 47);
             this.numberBox1.Name = "numberBox1";
             this.numberBox1.Size = new System.Drawing.Size(60, 22);
-            this.numberBox1.TabIndex = 1;
+            this.numberBox1.TabIndex = 5;
             // 
             // firstLabel
             // 
@@ -719,6 +763,7 @@
             this.Text = "TrotTrax";
             this.classListGroup.ResumeLayout(false);
             this.entryGroup.ResumeLayout(false);
+            this.entryGroup.PerformLayout();
             this.addEntryGroup.ResumeLayout(false);
             this.addEntryGroup.PerformLayout();
             this.placingGroup.ResumeLayout(false);
@@ -794,5 +839,7 @@
         private System.Windows.Forms.TextBox numberBox1;
         private System.Windows.Forms.Label firstLabel;
         private System.Windows.Forms.Button placeBtn;
+        private System.Windows.Forms.TextBox totalBox;
+        private System.Windows.Forms.Label totalLabel;
     }
 }

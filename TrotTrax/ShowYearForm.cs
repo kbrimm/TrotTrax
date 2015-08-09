@@ -96,7 +96,7 @@ namespace TrotTrax
 
         private void showsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowListForm showList = new ShowListForm(year.year, year.clubID);
+            ShowListForm showList = new ShowListForm(year.clubID, year.year);
             showList.Visible = true;
         }
 
@@ -118,14 +118,14 @@ namespace TrotTrax
 
             if(showNo >= 0)
             {
-                ShowListForm showList = new ShowListForm(year.year, year.clubID, showNo);
+                ShowListForm showList = new ShowListForm(year.clubID, year.year, showNo);
                 showList.Visible = true;
             }
         }
 
         private void addShowsBtn_Click(object sender, EventArgs e)
         {
-            ShowListForm showList = new ShowListForm(year.year, year.clubID);
+            ShowListForm showList = new ShowListForm(year.clubID, year.year);
             showList.Visible = true;
         }
 

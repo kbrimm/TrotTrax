@@ -40,7 +40,7 @@ namespace TrotTrax
 
             while(!exists)
             {
-                count = database.CountValue("trax_data", "current", "id");
+                count = database.CountValue("trax_data", "current", "id", String.Empty);
                 if (count == 0)
                     Application.Run(new ClubChooserForm());
                 else
@@ -49,7 +49,7 @@ namespace TrotTrax
             exists = false;
             while(!exists)
             {
-                count = database.CountValue("trax_data", "current", "year");
+                count = database.CountValue("trax_data", "current", "year", String.Empty);
                 if (count == 0)
                     Application.Run(new YearChooserForm());
                 else

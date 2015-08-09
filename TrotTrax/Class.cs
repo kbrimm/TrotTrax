@@ -14,15 +14,8 @@ using System.Threading.Tasks;
 
 namespace TrotTrax
 {
-    class Class
+    class Class : ListObject
     {
-        private DBDriver database;
-        public int year { get; private set; }
-        public string clubID { get; private set; }
-        public List<ClassItem> classList = new List<ClassItem>();
-        public List<CatItem> catList = new List<CatItem>();
-        public List<ShowItem> showList = new List<ShowItem>();
-
         public int number { get; private set; }
         public string name { get; private set; }
         public int catNo { get; private set; }
@@ -54,17 +47,7 @@ namespace TrotTrax
             name = database.GetValueString(clubID, year + "_class_list", "name", "class_no = " + classNo);
             catNo = database.GetValueInt(clubID, year + "_class_list", "category_no", "class_no = " + classNo);
             catName = database.GetValueString(clubID, year + "_category", "description", "category_no = " + catNo);
-        }
-
-        public void SortClasses(string field)
-        {
-            classList = database.GetClassItemList(clubID, year, field);
-        }
-
-        public void SortCats(string field)
-        {
-            catList = database.GetCatItemList(clubID, year, field);
-        }
+        }       
 
         public bool AddClass(int classNo, int newCatNo, string className)
         {
