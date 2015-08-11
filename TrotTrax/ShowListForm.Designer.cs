@@ -229,7 +229,7 @@
             this.datePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.datePicker.Location = new System.Drawing.Point(123, 44);
             this.datePicker.Name = "datePicker";
-            this.datePicker.Size = new System.Drawing.Size(161, 22);
+            this.datePicker.Size = new System.Drawing.Size(112, 22);
             this.datePicker.TabIndex = 2;
             this.datePicker.ValueChanged += new System.EventHandler(this.dateBox_ValueisChanged);
             // 

@@ -207,7 +207,7 @@ namespace TrotTrax
                     }
                     else
                     {
-                        confirm = MessageBox.Show("Unable to add modify show at this time.",
+                        confirm = MessageBox.Show("Unable to modify show at this time.",
                             "TrotTrax Alert", MessageBoxButtons.OK);
                     }
                 }
@@ -218,7 +218,8 @@ namespace TrotTrax
         {
             if(!isNew)
             {
-                DialogResult confirm = MessageBox.Show("Do you really want to remove this show and all of its data?",
+                DialogResult confirm = MessageBox.Show("Do you really want to remove this show and all of its data?\n" +
+                    "This operation cannot be undone.",
                     "TrotTrax Confirmation", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
                 {

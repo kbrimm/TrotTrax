@@ -702,6 +702,49 @@ namespace TrotTrax
             connection.Close();
             return backNoItemList;
         }
+        
+        public List<HorseItem> GetHorseItemList(string database, int year, string sort)
+        {
+            MySqlDataReader reader;
+            HorseItem item;
+            List<HorseItem> horseItemList = new List<HorseItem>();
+
+
+            reader = GetReader(database, year + "_horse", "horse_no, name", String.Empty, sort);
+            while (reader.Read())
+            {
+                item = new HorseItem();
+                item.no = reader.GetInt32(0);
+                item.name = reader.GetString(1);
+                horseItemList.Add(item);
+            }
+            reader.Close();
+            connection.Close();
+            return horseItemList;
+        }
+
+        public List<RiderItem> GetRiderItemList(string database, int year, string sort)
+        {
+            MySqlDataReader reader;
+            RiderItem item;
+            List<RiderItem> riderItemList = new List<RiderItem>();
+
+            if (sort == "last_name")
+                sort = "last_name, first_name";
+
+            reader = GetReader(database, year + "_rider", "rider_no, first_name, last_name", String.Empty, sort);
+            while (reader.Read())
+            {
+                item = new RiderItem();
+                item.no = reader.GetInt32(0);
+                item.firstName = reader.GetString(1);
+                item.lastName = reader.GetString(2);
+                riderItemList.Add(item);
+            }
+            reader.Close();
+            connection.Close();
+            return riderItemList;
+        }
 
         public bool AddValues(string database, string table, string target, string values)
         {

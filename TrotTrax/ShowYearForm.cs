@@ -154,5 +154,29 @@ namespace TrotTrax
             CategoryListForm catList = new CategoryListForm(year.clubID, year.year);
             catList.Visible = true;
         }
+
+        private void ridersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RiderListForm riderList = new RiderListForm();
+            riderList.Visible = true;
+        }
+
+        private void horsesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HorseListForm horseList = new HorseListForm();
+            horseList.Visible = true;
+        }
+
+        private void viewRiderBtn_Click(object sender, EventArgs e)
+        {
+            RiderListForm riderList = new RiderListForm();
+            riderList.Visible = true;
+        }
+
+        private void viewHorseBtn_Click(object sender, EventArgs e)
+        {
+            HorseListForm horseList = new HorseListForm();
+            horseList.Visible = true;
+        }
     }
 }

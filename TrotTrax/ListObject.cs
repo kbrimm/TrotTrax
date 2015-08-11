@@ -19,10 +19,11 @@ namespace TrotTrax
         protected DBDriver database { get; set; }
         public int year { get; set; }
         public string clubID { get; set; }
-        public List<BackNoItem> backNoList = new List<BackNoItem>();
-        public List<CatItem> catList = new List<CatItem>();
-        public List<ClassItem> classList = new List<ClassItem>();
-        public List<ShowItem> showList = new List<ShowItem>();
+        public List<BackNoItem> backNoList;
+        public List<CatItem> catList;
+        public List<ClassItem> classList;
+        public List<RiderItem> riderList;
+        public List<ShowItem> showList;
 
         public void SortBackNos(string field)
         {
@@ -37,6 +38,11 @@ namespace TrotTrax
         public void SortClasses(string field)
         {
             classList = database.GetClassItemList(clubID, year, field);
+        }
+
+        public void SortRiders(string field)
+        {
+            riderList = database.GetRiderItemList(clubID, year, field);
         }
     }
 
@@ -77,10 +83,23 @@ namespace TrotTrax
         public string combo { get; set; }
     }
 
+    public struct HorseItem
+    {
+        public int no { get; set; }
+        public string name { get; set; }
+    }
+
+    public struct RiderItem
+    {
+        public int no { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+    }
+
     public struct ShowItem
     {
-        public int no;
-        public string date;
-        public string description;
+        public int no { get; set; }
+        public string date { get; set; }
+        public string description { get; set; }
     }
 }

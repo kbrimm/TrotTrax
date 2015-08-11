@@ -95,7 +95,7 @@ namespace TrotTrax
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.viewToolStripMenuItem,
@@ -165,26 +165,30 @@ namespace TrotTrax
             // 
             // backNumbersToolStripMenuItem
             // 
+            this.backNumbersToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.backNumbersToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
             this.backNumbersToolStripMenuItem.Name = "backNumbersToolStripMenuItem";
-            this.backNumbersToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.backNumbersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.backNumbersToolStripMenuItem.Text = "Back Numbers";
             // 
             // horsesToolStripMenuItem
             // 
             this.horsesToolStripMenuItem.Name = "horsesToolStripMenuItem";
-            this.horsesToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.horsesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.horsesToolStripMenuItem.Text = "Horses";
+            this.horsesToolStripMenuItem.Click += new System.EventHandler(this.horsesToolStripMenuItem_Click);
             // 
             // ridersToolStripMenuItem
             // 
             this.ridersToolStripMenuItem.Name = "ridersToolStripMenuItem";
-            this.ridersToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.ridersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ridersToolStripMenuItem.Text = "Riders";
+            this.ridersToolStripMenuItem.Click += new System.EventHandler(this.ridersToolStripMenuItem_Click);
             // 
             // showsToolStripMenuItem
             // 
             this.showsToolStripMenuItem.Name = "showsToolStripMenuItem";
-            this.showsToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.showsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.showsToolStripMenuItem.Text = "Shows";
             this.showsToolStripMenuItem.Click += new System.EventHandler(this.showsToolStripMenuItem_Click);
             // 
@@ -195,32 +199,38 @@ namespace TrotTrax
             this.membershipReportsToolStripMenuItem,
             this.showReportsToolStripMenuItem,
             this.yearlyReportsToolStripMenuItem});
+            this.reportsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.reportsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
             this.reportsToolStripMenuItem.Text = "Reports";
             // 
             // classReportsToolStripMenuItem
             // 
+            this.classReportsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
             this.classReportsToolStripMenuItem.Name = "classReportsToolStripMenuItem";
-            this.classReportsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.classReportsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.classReportsToolStripMenuItem.Text = "Class Reports";
             // 
             // membershipReportsToolStripMenuItem
             // 
+            this.membershipReportsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
             this.membershipReportsToolStripMenuItem.Name = "membershipReportsToolStripMenuItem";
-            this.membershipReportsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.membershipReportsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.membershipReportsToolStripMenuItem.Text = "Membership Reports";
             // 
             // showReportsToolStripMenuItem
             // 
+            this.showReportsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
             this.showReportsToolStripMenuItem.Name = "showReportsToolStripMenuItem";
-            this.showReportsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.showReportsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.showReportsToolStripMenuItem.Text = "Show Reports";
             // 
             // yearlyReportsToolStripMenuItem
             // 
+            this.yearlyReportsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
             this.yearlyReportsToolStripMenuItem.Name = "yearlyReportsToolStripMenuItem";
-            this.yearlyReportsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.yearlyReportsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.yearlyReportsToolStripMenuItem.Text = "Yearly Reports";
             // 
             // settingsToolStripMenuItem
@@ -249,6 +259,8 @@ namespace TrotTrax
             // 
             // pointsSchemeToolStripMenuItem
             // 
+            this.pointsSchemeToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pointsSchemeToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
             this.pointsSchemeToolStripMenuItem.Name = "pointsSchemeToolStripMenuItem";
             this.pointsSchemeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.pointsSchemeToolStripMenuItem.Text = "Points Scheme";
@@ -445,6 +457,7 @@ namespace TrotTrax
             this.viewHorseBtn.TabIndex = 10;
             this.viewHorseBtn.Text = "View Horse";
             this.viewHorseBtn.UseVisualStyleBackColor = true;
+            this.viewHorseBtn.Click += new System.EventHandler(this.viewHorseBtn_Click);
             // 
             // viewRiderBtn
             // 
@@ -455,6 +468,7 @@ namespace TrotTrax
             this.viewRiderBtn.TabIndex = 9;
             this.viewRiderBtn.Text = "View Rider";
             this.viewRiderBtn.UseVisualStyleBackColor = true;
+            this.viewRiderBtn.Click += new System.EventHandler(this.viewRiderBtn_Click);
             // 
             // viewNumber
             // 
