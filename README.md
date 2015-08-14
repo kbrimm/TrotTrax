@@ -5,6 +5,13 @@ This source file is licensed under the GNU General Public License. Please see th
 
 Contact: kbrimm@pdx.edu
 
+### Project Status
+As of Friday, August 14, TrotTrax has reached a point where it posesses most of its required functionaity. Missing features are detailed in the issues tab. For interested parties, I've included a .zip with Windows binaries in case you wanted to click around in the interface for a bit. Do take note, though, that there is an upcoming database refactor that will wipe out any data you save in this "demo-lite" version.
+
+Thank you so much for your interest in TrotTrax!
+
+- Katy (08/14/15)
+
 ### What Is It?
 TrotTrax is a desktop application to track membership, financial information, and show points for small or nonprofit horse and pony clubs. Implemented in C# with a SQL database.
 
