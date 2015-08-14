@@ -397,6 +397,27 @@ namespace TrotTrax
             return reader;
         }
 
+        private MySqlDataReader GetClassEntryReader(string database, int year, string qualifier, string sort)
+        {
+            string query;
+            MySqlDataReader reader;
+
+            if (qualifier != String.Empty)
+                qualifier = " WHERE " + qualifier;
+            if (sort != String.Empty)
+                sort = " ORDER BY " + sort;
+            query = query = "SELECT b.back_no, r.rider_no, r.first_name, r.last_name, h.horse_no, h.name, c.class_no, c.name, s.show_no, s.date , rs.place " +
+                "FROM " + database + "." + year + "_back_no AS b " +
+                "JOIN " + database + "." + year + "_rider AS r ON b.rider_no = r.rider_no " +
+                "JOIN " + database + "." + year + "_horse AS h ON b.horse_no = h.horse_no " +
+                "JOIN " + database + "." + year + "_results AS rs ON b.back_no = rs.back_no " +
+                "JOIN " + database + "." + year + "_class_list AS c ON rs.class_no = c.class_no " +
+                "JOIN " + database + "." + year + "_show_list AS s ON rs.show_no = s.show_no " +
+                qualifier + sort + ";";
+            reader = DoTheReader(query);
+            return reader;
+        }
+
         public List<string> GetValueList(string database, string table, string column, string sort)
         {
             MySqlDataReader reader;
@@ -744,6 +765,33 @@ namespace TrotTrax
             reader.Close();
             connection.Close();
             return riderItemList;
+        }
+
+        public List<ClassEntryItem> GetClassEntryItemList(string database, int year, string qualifier, string sort)
+        {
+            MySqlDataReader reader;
+            ClassEntryItem item;
+            List<ClassEntryItem> classEntryItemList = new List<ClassEntryItem>();
+
+            if (sort == "last_name")
+                sort = "last_name, first_name";
+
+            reader = GetClassEntryReader(database, year, qualifier, sort);
+            // SELECT b.back_no, r.rider_no, r.first_name, r.last_name, h.horse_no, h.name, c.class_no, c.name, s.show_no, s.date, rs.place
+            while (reader.Read())
+            {
+                item = new ClassEntryItem();
+                item.backNo = reader.GetInt32(0);
+                item.horseName = reader.GetString(5);
+                item.className = reader.GetString(7);
+                item.showDate = reader.GetString(9);
+                if (!reader.IsDBNull(10))
+                    item.place = reader.GetInt32(10) ;
+                classEntryItemList.Add(item);
+            }
+            reader.Close();
+            connection.Close();
+            return classEntryItemList;
         }
 
         public bool AddValues(string database, string table, string target, string values)

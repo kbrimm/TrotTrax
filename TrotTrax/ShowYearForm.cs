@@ -157,7 +157,7 @@ namespace TrotTrax
 
         private void ridersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RiderListForm riderList = new RiderListForm();
+            RiderListForm riderList = new RiderListForm(year.clubID, year.year);
             riderList.Visible = true;
         }
 
@@ -169,7 +169,7 @@ namespace TrotTrax
 
         private void viewRiderBtn_Click(object sender, EventArgs e)
         {
-            RiderListForm riderList = new RiderListForm();
+            RiderListForm riderList = new RiderListForm(year.clubID, year.year);
             riderList.Visible = true;
         }
 

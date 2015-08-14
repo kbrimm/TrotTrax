@@ -17,13 +17,15 @@ namespace TrotTrax
     public class ListObject
     {
         protected DBDriver database { get; set; }
-        public int year { get; set; }
         public string clubID { get; set; }
+        public int year { get; set; }
         public List<BackNoItem> backNoList;
         public List<CatItem> catList;
         public List<ClassItem> classList;
+        public List<HorseItem> horseList;
         public List<RiderItem> riderList;
         public List<ShowItem> showList;
+        public List<ClassEntryItem> classEntryList;
 
         public void SortBackNos(string field)
         {
@@ -75,6 +77,15 @@ namespace TrotTrax
     {
         public int no { get; set; }
         public string name { get; set; }
+    }
+
+    public struct ClassEntryItem
+    {
+        public int backNo { get; set; }
+        public string horseName { get; set; }
+        public string showDate { get; set; }
+        public string className { get; set; }
+        public int place { get; set; }
     }
 
     public struct EntryBoxItem
