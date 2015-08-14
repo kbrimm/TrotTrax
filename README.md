@@ -10,7 +10,7 @@ As of Friday, August 14, TrotTrax has reached a point where it posesses most of 
 
 Thank you so much for your interest in TrotTrax!
 
-- Katy (08/14/15)
+> Katy (08/14/15)
 
 ### What Is It?
 TrotTrax is a desktop application to track membership, financial information, and show points for small or nonprofit horse and pony clubs. Implemented in C# with a SQL database.
