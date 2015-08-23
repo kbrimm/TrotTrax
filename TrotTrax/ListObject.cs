@@ -22,95 +22,99 @@ namespace TrotTrax
         public List<BackNoItem> backNoList;
         public List<CatItem> catList;
         public List<ClassItem> classList;
+        public List<ClassEntryItem> classEntryList;
         public List<HorseItem> horseList;
         public List<RiderItem> riderList;
         public List<ShowItem> showList;
-        public List<ClassEntryItem> classEntryList;
 
-        public void SortBackNos(string field)
+        public void SortBackNos(string sortOn)
         {
-            backNoList = database.GetBackNoItemList(clubID, year, field);
+            backNoList = database.GetBackNoItemList(clubID, year, sortOn);
         }
 
-        public void SortCats(string field)
+        public void SortCats(string sortOn)
         {
-            catList = database.GetCatItemList(clubID, year, field);
+            catList = database.GetCatItemList(clubID, year, sortOn);
         }
         
-        public void SortClasses(string field)
+        public void SortClasses(string sortOn)
         {
-            classList = database.GetClassItemList(clubID, year, field);
+            classList = database.GetClassItemList(clubID, year, sortOn);
         }
 
-        public void SortRiders(string field)
+        public void SortRiders(string sortOn)
         {
-            riderList = database.GetRiderItemList(clubID, year, field);
+            riderList = database.GetRiderItemList(clubID, year, sortOn);
         }
     }
 
     public struct BackNoItem
     {
-        public int no { get; set; }
-        public string rider { get; set; }
-        public int riderNo { get; set; }
-        public string horse { get; set; }
-        public int horseNo { get; set; }
-    }
-
-    public struct CatBoxItem
-    {
-        public int no { get; set; }
-        public string description { get; set; }
+        public int no;
+        public string rider;
+        public int riderNo;
+        public string horse;
+        public int horseNo;
     }
     
     public struct CatItem
     {
-        public int no { get; set; }
-        public string description { get; set; }
-        public bool timed { get; set; }
-        public bool payout { get; set; }
-        public bool jackpot { get; set; }
-        public decimal fee { get; set; }
+        public int no;
+        public string description;
+        public decimal fee;
+        public bool timed;
+        public bool payout;
+        public bool jackpot;
     }
 
     public struct ClassItem
     {
-        public int no { get; set; }
-        public string name { get; set; }
+        public int no;
+        public string name;
+        public int catNo;
     }
 
     public struct ClassEntryItem
     {
-        public int backNo { get; set; }
-        public string horseName { get; set; }
-        public string showDate { get; set; }
-        public string className { get; set; }
-        public int place { get; set; }
-    }
-
-    public struct EntryBoxItem
-    {
-        public int no { get; set; }
-        public string combo { get; set; }
+        public int backNo;
+        public int riderNo;
+        public string rider;
+        public int horseNo;
+        public string horse;
+        public int showNo;
+        public string showDate;
+        public int classNo;
+        public string className;
+        public int place;
+        public int points;
+        public decimal payIn;
+        public decimal payOut;
     }
 
     public struct HorseItem
     {
-        public int no { get; set; }
-        public string name { get; set; }
+        public int no;
+        public string name;
+        public string shortName;
+        public decimal height;
     }
 
     public struct RiderItem
     {
-        public int no { get; set; }
-        public string firstName { get; set; }
-        public string lastName { get; set; }
+        public int no;
+        public string firstName;
+        public string lastName;
+        public int age;
+        public string phone;
+        public string email;
+        public bool member;
     }
 
     public struct ShowItem
     {
-        public int no { get; set; }
-        public string date { get; set; }
-        public string description { get; set; }
+        public int no;
+        public string date;
+        public string name;
+        public string comments;
     }
 }
