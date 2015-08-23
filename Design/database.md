@@ -20,16 +20,16 @@ It is worth noting that all foreign keys are set to cascade on delete, so removi
 
 ---
 
-## <club_id>
+## \<club_id\>
 
-The individual club databases, hold data for each club. Each club has one show\_year table which, predictably, holds the list of years entered by the user. The individual year tables are formatted as <year>_<table name> to eliminate the need for a million multi-column keys.
+The individual club databases, hold data for each club. Each club has one show\_year table which, predictably, holds the list of years entered by the user. The individual year tables are formatted as \<year\>_\<table name\> to eliminate the need for a million multi-column keys.
 
 ### .show_year
 | Field | Data Type | Key |
 | ----- | --------- | --- |
 | year  | int - not null | unique |
 
-### .<year>_rider
+### .\<year\>_rider
 | Field | Data Type | Key |
 | ----- | --------- | --- |
 | rider_no | int - not null, auto-increment | primary |
@@ -40,7 +40,7 @@ The individual club databases, hold data for each club. Each club has one show\_
 | email | varchar(255) | |
 | member | boolean - default false | |
 
-### .<year>_horse
+### .\<year\>_horse
 | Field | Data Type | Key |
 | ----- | --------- | --- |
 | horse_no | int - not null, auto-increment | primary |
@@ -48,14 +48,14 @@ The individual club databases, hold data for each club. Each club has one show\_
 | horse_short | varchar(255) | |
 | height | decimal(5,2) | |
 
-### .<year>_backNo
+### .\<year\>_backNo
 | Field | Data Type | Key |
 | ----- | --------- | --- |
 | back_no | int - not null | primary |
 | rider_no | int - not null | foreign |
 | back_no | int - not null | foreign |
 
-### .<year>_show
+### .\<year\>_show
 | Field | Data Type | Key |
 | ----- | --------- | --- |
 | show_no | int - not null - auto-increment | primary |
@@ -63,7 +63,7 @@ The individual club databases, hold data for each club. Each club has one show\_
 | show_name | varchar(255) | |
 | show_comment | varchar(500) | |
 
-### .<year>_category
+### .\<year\>_category
 | Field | Data Type | Key |
 | ----- | --------- | --- |
 | cat_no | int - not null, auto-increment | primary |
@@ -73,14 +73,14 @@ The individual club databases, hold data for each club. Each club has one show\_
 | payout | boolean - not null | |
 | jackpot | boolean - not null | |
 
-### .<year>_class
+### .\<year\>_class
 | Field | Data Type | Key |
 | ----- | --------- | --- |
 | class_no | int - not null | primary |
 | cat_no | int - not null| foreign |
 | class_name | varchar(255) - not null | |
 
-### .<year>_result
+### .\<year\>_result
 | Field | Data Type | Key |
 | ----- | --------- | --- |
 | show_no | int - not null | foreign |
