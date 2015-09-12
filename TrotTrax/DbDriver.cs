@@ -217,7 +217,7 @@ namespace TrotTrax
         }
 
         // tableString requires SQL formatted variable parameters and key designations.
-        private bool AddTable(string database, string table, string columntring)
+        private bool AddTable(string database, string table, string columnString)
         {
             string query;
             bool success;
@@ -225,7 +225,7 @@ namespace TrotTrax
             Console.WriteLine("Adding " + table + " to " + database + "...");
             DropTable(database, table);
             query = "CREATE TABLE " + database + "." + table + " " +
-                    "(" + columntring + ");";
+                    "(" + columnString + ");";
             success = DoTheNonQuery(query);
             if (success)
                 return true;
@@ -424,7 +424,7 @@ namespace TrotTrax
         }
 
         // Returns a single column in List<string> form.
-        public List<string> GetValueList(string database, string table, string column, string sort)
+        public List<string> GetStringList(string database, string table, string column, string sort)
         {
             MySqlDataReader reader;
             string item;
@@ -436,6 +436,26 @@ namespace TrotTrax
             {
                 item = reader.GetString(0);
                 list.Add(item);
+            }
+            reader.Close();
+            connection.Close();
+            return list;
+        }
+
+        // Returns a single column in List<string> form.
+        public List<int> GetIntList(string database, string table, string column, string sort)
+        {
+            MySqlDataReader reader;
+            int? item;
+            List<int> list = new List<int>();
+
+            Console.WriteLine("Procuring list of " + column + ".");
+            reader = GetReader(database, table, column, String.Empty, sort);
+            while (reader.Read())
+            {
+                item = reader.GetInt32(0);
+                if (item.HasValue)
+                    list.Add(Convert.ToInt32(item));
             }
             reader.Close();
             connection.Close();
@@ -797,6 +817,22 @@ namespace TrotTrax
             reader.Close();
             connection.Close();
             return showItemList;
+        }
+
+        public YearItem GetYearItem()
+        {
+            MySqlDataReader reader;
+            YearItem item;
+            string join = "FROM trot_trax.current AS cur " +
+                "JOIN trot_trax.club AS c ON cur.club_id = c.club_id";
+
+            reader = GetJoinedReader(join, "cur.club_id, c.club_name, cur.year", String.Empty, String.Empty);
+            item.id = reader.GetString(0);
+            item.name = reader.GetString(1);
+            item.year = reader.GetInt32(2);
+            reader.Close();
+            connection.Close();
+            return item;
         }
 
         public bool AddValues(string database, string table, string target, string values)

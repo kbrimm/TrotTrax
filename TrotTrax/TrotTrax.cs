@@ -23,37 +23,25 @@ namespace TrotTrax
         static void Main()
         {
             DBDriver database = new DBDriver();
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-            // Check for an existing club
-            CheckClub(database);
-
-            Application.Run(new ShowYearForm());
-            return;
-        }
-
-        private static void CheckClub(DBDriver database)
-        {
-            bool exists = false;
-            int count;
-
-            while(!exists)
+            if (database.connected)
             {
-                count = database.CountValue("trax_data", "current", "id", String.Empty);
-                if (count == 0)
-                    Application.Run(new ClubChooserForm());
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+
+                // Check for an existing club
+                int? count = database.CountValue("trax_data", "current", "id", String.Empty);
+
+                if (count.HasValue && count == 0)
+                    Application.Run(new ShowYearForm());
                 else
-                    exists = true;
+                    Application.Run(new ShowYearForm(1));
+                return;
             }
-            exists = false;
-            while(!exists)
+            else
             {
-                count = database.CountValue("trax_data", "current", "year", String.Empty);
-                if (count == 0)
-                    Application.Run(new YearChooserForm());
-                else
-                    exists = true;
+                DialogResult confirm = MessageBox.Show("Fatal error: Unable to contact database.",
+                    "TrotTrax Alert", MessageBoxButtons.OK);
+                return;
             }
         }
     }

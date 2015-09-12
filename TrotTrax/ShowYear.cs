@@ -6,7 +6,7 @@
  * Contact: kbrimm@pdx.edu
  */
  
-using System;
+using System; 
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,20 +19,26 @@ namespace TrotTrax
     {
         public string club { get; private set; }
         public List<string> clubs;
-        public List<string> years;
+        public List<int> years;
 
         public ShowYear()
         {
             database = new DBDriver(1);
 
-            year = database.GetValueInt("trax_data", "current", "year", String.Empty);
-            clubID = database.GetValueString("trax_data", "current", "id", String.Empty);
-            club = database.GetValueString("trax_data", "club", "name", "id = '" + clubID + "'");
-            showList = database.GetShowItemList(clubID, year, "date");
+            SetYearData();
+            showList = database.GetShowItemList(clubID, year, String.Empty);
             classList = database.GetClassItemList(clubID, year, String.Empty);
             backNoList = database.GetBackNoItemList(clubID, year, String.Empty);
-            clubs = database.GetValueList("trax_data", "club", "name", String.Empty);
-            years = database.GetValueList(clubID, "show_year", "year", String.Empty);
+            clubs = database.GetStringList("trot_trax", "club", "name", String.Empty);
+            years = database.GetIntList(clubID, "show_year", "year", String.Empty);
+        }
+
+        private void SetYearData()
+        {
+            YearItem item = database.GetYearItem();
+            year = item.year;
+            clubID = item.id;
+            club = item.name;
         }
     }
 }

@@ -39,10 +39,10 @@ namespace TrotTrax
             this.currentLabel = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openYearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newYearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openClubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newClubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openYearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newYearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backNumbersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,6 +77,8 @@ namespace TrotTrax
             this.viewHorseBtn = new System.Windows.Forms.Button();
             this.viewRiderBtn = new System.Windows.Forms.Button();
             this.viewNumber = new System.Windows.Forms.Button();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.showListGroup.SuspendLayout();
             this.classListGroup.SuspendLayout();
@@ -90,7 +92,7 @@ namespace TrotTrax
             this.currentLabel.Name = "currentLabel";
             this.currentLabel.Size = new System.Drawing.Size(225, 150);
             this.currentLabel.TabIndex = 3;
-            this.currentLabel.Text = "TrotTrax";
+            this.currentLabel.Text = "Welcome to\r\nTrotTrax!";
             this.currentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // menuStrip1
@@ -110,33 +112,20 @@ namespace TrotTrax
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openYearToolStripMenuItem,
             this.openClubToolStripMenuItem,
+            this.openYearToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // openYearToolStripMenuItem
-            // 
-            this.openYearToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newYearToolStripMenuItem});
-            this.openYearToolStripMenuItem.Name = "openYearToolStripMenuItem";
-            this.openYearToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
-            this.openYearToolStripMenuItem.Text = "Open Year";
-            // 
-            // newYearToolStripMenuItem
-            // 
-            this.newYearToolStripMenuItem.Name = "newYearToolStripMenuItem";
-            this.newYearToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.newYearToolStripMenuItem.Text = "New Year";
-            // 
             // openClubToolStripMenuItem
             // 
             this.openClubToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newClubToolStripMenuItem});
+            this.newClubToolStripMenuItem,
+            this.toolStripSeparator1});
             this.openClubToolStripMenuItem.Name = "openClubToolStripMenuItem";
-            this.openClubToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.openClubToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openClubToolStripMenuItem.Text = "Open Club";
             // 
             // newClubToolStripMenuItem
@@ -145,12 +134,27 @@ namespace TrotTrax
             this.newClubToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.newClubToolStripMenuItem.Text = "New Club";
             // 
+            // openYearToolStripMenuItem
+            // 
+            this.openYearToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newYearToolStripMenuItem,
+            this.toolStripSeparator2});
+            this.openYearToolStripMenuItem.Name = "openYearToolStripMenuItem";
+            this.openYearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openYearToolStripMenuItem.Text = "Open Year";
+            // 
+            // newYearToolStripMenuItem
+            // 
+            this.newYearToolStripMenuItem.Name = "newYearToolStripMenuItem";
+            this.newYearToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.newYearToolStripMenuItem.Text = "New Year";
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitMenu);
             // 
             // viewToolStripMenuItem
             // 
@@ -168,7 +172,7 @@ namespace TrotTrax
             this.backNumbersToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.backNumbersToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
             this.backNumbersToolStripMenuItem.Name = "backNumbersToolStripMenuItem";
-            this.backNumbersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.backNumbersToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.backNumbersToolStripMenuItem.Text = "Back Numbers";
             // 
             // horsesToolStripMenuItem
@@ -176,21 +180,21 @@ namespace TrotTrax
             this.horsesToolStripMenuItem.Name = "horsesToolStripMenuItem";
             this.horsesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.horsesToolStripMenuItem.Text = "Horses";
-            this.horsesToolStripMenuItem.Click += new System.EventHandler(this.horsesToolStripMenuItem_Click);
+            this.horsesToolStripMenuItem.Click += new System.EventHandler(this.NewHorse);
             // 
             // ridersToolStripMenuItem
             // 
             this.ridersToolStripMenuItem.Name = "ridersToolStripMenuItem";
             this.ridersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ridersToolStripMenuItem.Text = "Riders";
-            this.ridersToolStripMenuItem.Click += new System.EventHandler(this.ridersToolStripMenuItem_Click);
+            this.ridersToolStripMenuItem.Click += new System.EventHandler(this.NewRider);
             // 
             // showsToolStripMenuItem
             // 
             this.showsToolStripMenuItem.Name = "showsToolStripMenuItem";
-            this.showsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.showsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.showsToolStripMenuItem.Text = "Shows";
-            this.showsToolStripMenuItem.Click += new System.EventHandler(this.showsToolStripMenuItem_Click);
+            this.showsToolStripMenuItem.Click += new System.EventHandler(this.NewShow);
             // 
             // reportsToolStripMenuItem
             // 
@@ -248,21 +252,21 @@ namespace TrotTrax
             this.categoriesToolStripMenuItem.Name = "categoriesToolStripMenuItem";
             this.categoriesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.categoriesToolStripMenuItem.Text = "Categories";
-            this.categoriesToolStripMenuItem.Click += new System.EventHandler(this.categoriesToolStripMenuItem_Click);
+            this.categoriesToolStripMenuItem.Click += new System.EventHandler(this.NewCategory);
             // 
             // classListToolStripMenuItem
             // 
             this.classListToolStripMenuItem.Name = "classListToolStripMenuItem";
-            this.classListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.classListToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.classListToolStripMenuItem.Text = "Class List";
-            this.classListToolStripMenuItem.Click += new System.EventHandler(this.addClassBtn_Click);
+            this.classListToolStripMenuItem.Click += new System.EventHandler(this.NewClass);
             // 
             // pointsSchemeToolStripMenuItem
             // 
             this.pointsSchemeToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pointsSchemeToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
             this.pointsSchemeToolStripMenuItem.Name = "pointsSchemeToolStripMenuItem";
-            this.pointsSchemeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pointsSchemeToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.pointsSchemeToolStripMenuItem.Text = "Points Scheme";
             // 
             // showListGroup
@@ -296,7 +300,7 @@ namespace TrotTrax
             this.showListBox.TabIndex = 13;
             this.showListBox.UseCompatibleStateImageBehavior = false;
             this.showListBox.View = System.Windows.Forms.View.Details;
-            this.showListBox.DoubleClick += new System.EventHandler(this.viewShowBtn_Click);
+            this.showListBox.DoubleClick += new System.EventHandler(this.ViewShow);
             // 
             // showNameHeader
             // 
@@ -313,7 +317,7 @@ namespace TrotTrax
             this.addShowBtn.TabIndex = 8;
             this.addShowBtn.Text = "Add Show";
             this.addShowBtn.UseVisualStyleBackColor = true;
-            this.addShowBtn.Click += new System.EventHandler(this.addShowsBtn_Click);
+            this.addShowBtn.Click += new System.EventHandler(this.NewShow);
             // 
             // viewShowBtn
             // 
@@ -324,7 +328,7 @@ namespace TrotTrax
             this.viewShowBtn.TabIndex = 7;
             this.viewShowBtn.Text = "View Show";
             this.viewShowBtn.UseVisualStyleBackColor = true;
-            this.viewShowBtn.Click += new System.EventHandler(this.viewShowBtn_Click);
+            this.viewShowBtn.Click += new System.EventHandler(this.ViewShow);
             // 
             // classListGroup
             // 
@@ -359,8 +363,8 @@ namespace TrotTrax
             this.classListBox.TabIndex = 12;
             this.classListBox.UseCompatibleStateImageBehavior = false;
             this.classListBox.View = System.Windows.Forms.View.Details;
-            this.classListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.classListBox_ColumnClick);
-            this.classListBox.DoubleClick += new System.EventHandler(this.viewClassBtn_Click);
+            this.classListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.SortClassList);
+            this.classListBox.DoubleClick += new System.EventHandler(this.ViewClass);
             // 
             // classNoHeader
             // 
@@ -381,7 +385,7 @@ namespace TrotTrax
             this.addClassBtn.TabIndex = 8;
             this.addClassBtn.Text = "Add Class";
             this.addClassBtn.UseVisualStyleBackColor = true;
-            this.addClassBtn.Click += new System.EventHandler(this.addClassBtn_Click);
+            this.addClassBtn.Click += new System.EventHandler(this.NewClass);
             // 
             // viewClassBtn
             // 
@@ -392,7 +396,7 @@ namespace TrotTrax
             this.viewClassBtn.TabIndex = 7;
             this.viewClassBtn.Text = "View Class";
             this.viewClassBtn.UseVisualStyleBackColor = true;
-            this.viewClassBtn.Click += new System.EventHandler(this.viewClassBtn_Click);
+            this.viewClassBtn.Click += new System.EventHandler(this.ViewClass);
             // 
             // backNoGroup
             // 
@@ -430,7 +434,8 @@ namespace TrotTrax
             this.backNoListBox.TabIndex = 11;
             this.backNoListBox.UseCompatibleStateImageBehavior = false;
             this.backNoListBox.View = System.Windows.Forms.View.Details;
-            this.backNoListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.backNoListBox_ColumnClick);
+            this.backNoListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.SortBackNoList);
+            this.backNoListBox.DoubleClick += new System.EventHandler(this.ViewBackNo);
             // 
             // backNoHeader
             // 
@@ -457,7 +462,7 @@ namespace TrotTrax
             this.viewHorseBtn.TabIndex = 10;
             this.viewHorseBtn.Text = "View Horse";
             this.viewHorseBtn.UseVisualStyleBackColor = true;
-            this.viewHorseBtn.Click += new System.EventHandler(this.viewHorseBtn_Click);
+            this.viewHorseBtn.Click += new System.EventHandler(this.ViewHorse);
             // 
             // viewRiderBtn
             // 
@@ -468,7 +473,7 @@ namespace TrotTrax
             this.viewRiderBtn.TabIndex = 9;
             this.viewRiderBtn.Text = "View Rider";
             this.viewRiderBtn.UseVisualStyleBackColor = true;
-            this.viewRiderBtn.Click += new System.EventHandler(this.viewRiderBtn_Click);
+            this.viewRiderBtn.Click += new System.EventHandler(this.ViewRider);
             // 
             // viewNumber
             // 
@@ -479,6 +484,17 @@ namespace TrotTrax
             this.viewNumber.TabIndex = 7;
             this.viewNumber.Text = "View Number";
             this.viewNumber.UseVisualStyleBackColor = true;
+            this.viewNumber.Click += new System.EventHandler(this.ViewBackNo);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
             // 
             // ShowYearForm
             // 
@@ -494,6 +510,7 @@ namespace TrotTrax
             this.Name = "ShowYearForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "TrotTrax";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExitPrompt);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.showListGroup.ResumeLayout(false);
@@ -547,5 +564,7 @@ namespace TrotTrax
         private System.Windows.Forms.ToolStripMenuItem categoriesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem classListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pointsSchemeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
