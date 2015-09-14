@@ -3,7 +3,7 @@ Copyright (c) 2015 Katy Brimm
 
 This source file is licensed under the GNU General Public License. Please see the file LICENSE in this distribution for license terms.
 
-Contact: kbrimm@pdx.edu
+Contact: info@trottrax.org
 
 ### Project Status
 As of Friday, August 14, TrotTrax has reached a point where it posesses most of its required functionaity. Missing features are detailed in the issues tab. For interested parties, I've included a .zip with Windows binaries in case you wanted to click around in the interface for a bit. Do take note, though, that there is an upcoming database refactor that will wipe out any data you save in this "demo-lite" version.
