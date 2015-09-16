@@ -36,6 +36,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(YearChooserForm));
             this.yearChooserGroup = new System.Windows.Forms.GroupBox();
             this.yearPicker = new System.Windows.Forms.DateTimePicker();
             this.introLabel = new System.Windows.Forms.Label();
@@ -46,6 +47,9 @@
             // 
             // yearChooserGroup
             // 
+            this.yearChooserGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.yearChooserGroup.Controls.Add(this.yearPicker);
             this.yearChooserGroup.Controls.Add(this.introLabel);
             this.yearChooserGroup.Controls.Add(this.cancelBtn);
@@ -53,58 +57,66 @@
             this.yearChooserGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.yearChooserGroup.Location = new System.Drawing.Point(12, 12);
             this.yearChooserGroup.Name = "yearChooserGroup";
-            this.yearChooserGroup.Size = new System.Drawing.Size(335, 170);
+            this.yearChooserGroup.Size = new System.Drawing.Size(326, 135);
             this.yearChooserGroup.TabIndex = 3;
             this.yearChooserGroup.TabStop = false;
-            this.yearChooserGroup.Text = "Choose A Year";
+            this.yearChooserGroup.Text = "New Show Year";
             // 
             // yearPicker
             // 
+            this.yearPicker.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.yearPicker.CustomFormat = "yyyy";
             this.yearPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.yearPicker.Location = new System.Drawing.Point(6, 98);
+            this.yearPicker.Location = new System.Drawing.Point(6, 65);
             this.yearPicker.Name = "yearPicker";
-            this.yearPicker.Size = new System.Drawing.Size(323, 26);
+            this.yearPicker.ShowUpDown = true;
+            this.yearPicker.Size = new System.Drawing.Size(314, 26);
             this.yearPicker.TabIndex = 8;
+            this.yearPicker.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyStroke);
             // 
             // introLabel
             // 
             this.introLabel.AutoSize = true;
-            this.introLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.introLabel.Location = new System.Drawing.Point(6, 46);
+            this.introLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.introLabel.Location = new System.Drawing.Point(6, 22);
             this.introLabel.Name = "introLabel";
-            this.introLabel.Size = new System.Drawing.Size(319, 36);
+            this.introLabel.Size = new System.Drawing.Size(322, 20);
             this.introLabel.TabIndex = 7;
-            this.introLabel.Text = "Please select the year you wish to access, then\r\nclick \'Okay\'.";
+            this.introLabel.Text = "Please select the show year you wish to add:";
             // 
             // cancelBtn
             // 
-            this.cancelBtn.Location = new System.Drawing.Point(239, 130);
+            this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelBtn.Location = new System.Drawing.Point(217, 97);
             this.cancelBtn.Name = "cancelBtn";
-            this.cancelBtn.Size = new System.Drawing.Size(90, 32);
+            this.cancelBtn.Size = new System.Drawing.Size(103, 32);
             this.cancelBtn.TabIndex = 4;
             this.cancelBtn.Text = "Cancel";
             this.cancelBtn.UseVisualStyleBackColor = true;
-            this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
+            this.cancelBtn.Click += new System.EventHandler(this.CancelBtn);
             // 
             // okBtn
             // 
-            this.okBtn.Location = new System.Drawing.Point(143, 130);
+            this.okBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.okBtn.Location = new System.Drawing.Point(121, 97);
             this.okBtn.Name = "okBtn";
             this.okBtn.Size = new System.Drawing.Size(90, 32);
             this.okBtn.TabIndex = 3;
             this.okBtn.Text = "Okay";
             this.okBtn.UseVisualStyleBackColor = true;
-            this.okBtn.Click += new System.EventHandler(this.okBtn_Click);
+            this.okBtn.Click += new System.EventHandler(this.OkayBtn);
             // 
             // YearChooserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(359, 193);
+            this.ClientSize = new System.Drawing.Size(350, 158);
             this.Controls.Add(this.yearChooserGroup);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "YearChooserForm";
-            this.Text = "TrotTrax";
+            this.Text = "TrotTrax - New Show Year";
             this.yearChooserGroup.ResumeLayout(false);
             this.yearChooserGroup.PerformLayout();
             this.ResumeLayout(false);

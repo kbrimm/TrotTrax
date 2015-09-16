@@ -3,7 +3,7 @@
  *     Copyright (c) 2015 Katy Brimm
  *     This source file is licensed under the GNU General Public License. 
  *     Please see the file LICENSE in this distribution for license terms.
- * Contact: kbrimm@pdx.edu
+ * Contact: info@trottrax.org
  */
 
 using System;
@@ -32,7 +32,19 @@ namespace TrotTrax
             addShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             addShowBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             viewClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            addClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             addClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            viewNumberBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewNumberBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            viewRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewRiderBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            viewHorseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewHorseBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            viewToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+            settingsToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            settingsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
 
             isNew = true;
         }
@@ -42,7 +54,33 @@ namespace TrotTrax
         {
             year = new ShowYear();
             InitializeComponent();
-            currentLabel.Text = year.club + "\n\n" + year.year + " Show Year";
+            currentLabel.Text = year.clubName + "\n\n" + year.year + " Show Year";
+            PopulateShowList();
+            PopulateClassList();
+            PopulateBackNoList();
+
+            isNew = false;
+        }
+
+        private void RefreshOnClose(object sender, FormClosingEventArgs e)
+        {
+            Console.WriteLine("RefreshOnClose has been called.");
+            year = new ShowYear();
+            currentLabel.Text = year.clubName + "\n\n" + year.year + " Show Year";
+            addShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            addShowBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            addClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            addClassBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            viewNumberBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewNumberBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            viewRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewRiderBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            viewHorseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewHorseBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            viewToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+            settingsToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            settingsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             PopulateShowList();
             PopulateClassList();
             PopulateBackNoList();
@@ -65,14 +103,16 @@ namespace TrotTrax
 
         // Club list methods
 
-        private void PopulateClubList()
+        private void PopulateClubMenu()
         {
 
         }
 
         private void NewClub(object sender, EventArgs e)
         {
-
+            ClubChooserForm clubForm = new ClubChooserForm();
+            clubForm.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
+            clubForm.Visible = true;
         }
 
         private void ViewClub(object sender, EventArgs e)
@@ -82,14 +122,16 @@ namespace TrotTrax
 
         // Year list methods
 
-        private void PopulateYearList()
+        private void PopulateYearMenu()
         {
 
         }
 
         private void NewYear(object sender, EventArgs e)
         {
-
+            YearChooserForm yearForm = new YearChooserForm();
+            yearForm.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
+            yearForm.Visible = true;
         }
 
         private void ViewYear(object sender, EventArgs e)
@@ -114,6 +156,16 @@ namespace TrotTrax
                 else
                     value = entry.date + " - " + entry.name;
                 showListBox.Items.Add(value);
+            }
+            if (year.showList.Count() == 0)
+            {
+                viewShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                viewShowBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            }
+            else
+            {
+                viewShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                viewShowBtn.ForeColor = System.Drawing.SystemColors.ControlText;
             }
         }
 
@@ -160,6 +212,17 @@ namespace TrotTrax
             {
                 string[] row = { entry.name };
                 classListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+            }
+
+            if(year.classList.Count() == 0)
+            {
+                viewClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                viewClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            }
+            else
+            {
+                viewClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                viewClassBtn.ForeColor = System.Drawing.SystemColors.ControlText;
             }
         }
 

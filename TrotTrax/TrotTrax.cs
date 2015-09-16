@@ -3,7 +3,7 @@
  *     Copyright (c) 2015 Katy Brimm
  *     This source file is licensed under the GNU General Public License. 
  *     Please see the file LICENSE in this distribution for license terms.
- * Contact: kbrimm@pdx.edu
+ * Contact: info@trottrax.org
  */
 
 using System;
@@ -29,12 +29,12 @@ namespace TrotTrax
                 Application.SetCompatibleTextRenderingDefault(false);
 
                 // Check for an existing club
-                int? count = database.CountValue("trax_data", "current", "id", String.Empty);
+                int? count = database.CountValue("trot_trax", "current", "current_year", String.Empty);
 
-                if (count.HasValue && count == 0)
-                    Application.Run(new ShowYearForm());
-                else
+                if (count.HasValue && count > 0)
                     Application.Run(new ShowYearForm(1));
+                else
+                    Application.Run(new ShowYearForm());
                 return;
             }
             else

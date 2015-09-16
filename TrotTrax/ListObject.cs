@@ -117,11 +117,4 @@ namespace TrotTrax
         public string name;
         public string comments;
     }
-
-    public struct YearItem
-    {
-        public string id;
-        public string name;
-        public int year;
-    }
 }

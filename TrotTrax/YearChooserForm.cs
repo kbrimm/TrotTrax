@@ -3,7 +3,7 @@
  *     Copyright (c) 2015 Katy Brimm
  *     This source file is licensed under the GNU General Public License. 
  *     Please see the file LICENSE in this distribution for license terms.
- * Contact: kbrimm@pdx.edu
+ * Contact: info@trottrax.org
  */
 
 using System;
@@ -26,17 +26,23 @@ namespace TrotTrax
         public YearChooserForm()
         {
             database = new DBDriver(1);
-            clubID = database.GetValueString("trax_data", "current", "id", String.Empty);
+            clubID = database.GetValueString("trot_trax", "current", "club_id", String.Empty);
             InitializeComponent();
         }
 
-        private void okBtn_Click(object sender, EventArgs e)
+        private void OkayBtn(object sender, EventArgs e)
         {
             string date = this.yearPicker.Value.ToShortDateString();
             int year = FormatYearString(date);
-            bool yearExists = database.CheckValue(clubID, "show_year", "year", year);
-            if (yearExists)
-                database.SetYear(year);
+            if (CheckYear(clubID, year))
+            {
+                DialogResult confirm = MessageBox.Show(year + " already exists for this club. Do you wish to erase it and start over?",
+                    "TrotTrax Create Year Confirmation", MessageBoxButtons.YesNo);
+                if (confirm == DialogResult.Yes)
+                    database.CreateYear(clubID, year);
+                else
+                    database.SetYear(year);
+            }
             else
             {
                 DialogResult confirm = MessageBox.Show("Create a new show year for " + year + "?",
@@ -47,7 +53,15 @@ namespace TrotTrax
             Close();
         }
 
-        private void cancelBtn_Click(object sender, EventArgs e)
+        private void KeyStroke(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                OkayBtn(sender, e);
+            }
+        }
+
+        private void CancelBtn(object sender, EventArgs e)
         {
             Close();
         }
@@ -59,6 +73,15 @@ namespace TrotTrax
 
             year = Convert.ToInt32(date.Substring(len - 4, 4));
             return year;
+        }
+
+        private bool CheckYear(string id, int year)
+        {
+            int? yearCount = database.CountValue(id, "show_year", "year", "year = " + year);
+            if (yearCount.HasValue && yearCount > 0)
+                return true;
+            else
+                return false;
         }
     }
 }

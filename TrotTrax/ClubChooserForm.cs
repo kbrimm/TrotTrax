@@ -3,7 +3,7 @@
  *     Copyright (c) 2015 Katy Brimm
  *     This source file is licensed under the GNU General Public License. 
  *     Please see the file LICENSE in this distribution for license terms.
- * Contact: kbrimm@pdx.edu
+ * Contact: info@trottrax.org
  */
 
 using System;
@@ -28,28 +28,60 @@ namespace TrotTrax
             InitializeComponent();
         }
 
-        private void okBtn_Click(object sender, EventArgs e)
+        private void OkayBtn(object sender, EventArgs e)
         {
             string name = this.nameField.Text;
             if (name.Length > 255)
             {
-                MessageBox.Show("The club name is too long. Please enter a name less than 255 characters.", 
+                MessageBox.Show("The club name is too long. Please enter a name less than 255 characters.",
                     "TrotTrax Alert", MessageBoxButtons.OK);
             }
             else
             {
-                DialogResult confirm = MessageBox.Show("Is \"" + name + "\" correct?", 
+                DialogResult confirm = MessageBox.Show("Is \"" + name + "\" correct?",
                     "TrotTrax Club Name Confirmation", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
                 {
                     string id = GetID(name);
-                    database.CreateClub(id, name);
-                    Close();
+                    if (CheckClubName(id))
+                    {
+                        confirm = MessageBox.Show("The club \"" + name + "\" already exists. Do you wish to erase it and start over?",
+                            "TrotTrax Club Name Confirmation", MessageBoxButtons.YesNo);
+                        if (confirm == DialogResult.Yes)
+                        {
+                            database.CreateClub(id, name);
+                            YearChooserForm yearForm = new YearChooserForm();
+                            yearForm.FormClosing += new FormClosingEventHandler(this.CloseOnClose);
+                            yearForm.Visible = true;
+                            this.Visible = false;
+                        }
+                    }
+                    else
+                    {
+                        database.CreateClub(id, name);
+                        YearChooserForm yearForm = new YearChooserForm();
+                        yearForm.FormClosing += new FormClosingEventHandler(this.CloseOnClose);
+                        yearForm.Visible = true;
+                        this.Visible = false;
+                    }
                 }
             }
         }
 
-        private void cancelBtn_Click(object sender, EventArgs e)
+        private void KeyStroke(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                OkayBtn(sender, e);
+            }
+        }
+
+        private void CloseOnClose(object sender, FormClosingEventArgs e)
+        {
+            Close();
+        }
+
+        private void CancelBtn(object sender, EventArgs e)
         {
             Close();
         }
@@ -73,6 +105,15 @@ namespace TrotTrax
                 id = id.Substring(0, 10);
 
             return id.ToLower();
+        }
+
+        private bool CheckClubName(string id)
+        {
+            int? clubCount = database.CountValue("trot_trax", "club", "club_id", "club_id = '" + id + "'");
+            if (clubCount.HasValue && clubCount > 0)
+                return true;
+            else
+                return false;
         }
     }
 }

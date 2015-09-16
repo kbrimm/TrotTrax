@@ -3,7 +3,7 @@
  *     Copyright (c) 2015 Katy Brimm
  *     This source file is licensed under the GNU General Public License. 
  *     Please see the file LICENSE in this distribution for license terms.
- * Contact: kbrimm@pdx.edu
+ * Contact: info@trottrax.org
  */
 
 using MySql.Data.MySqlClient;
@@ -87,7 +87,7 @@ namespace TrotTrax
         }
 
         // Adding an integer value to the driver instantiation skips the DB initialization check.
-        public DBDriver(int value)
+        public DBDriver(int nonInitCheck)
         {
             server = "localhost";
             port = "3306";
@@ -208,7 +208,7 @@ namespace TrotTrax
             bool success;
 
             Console.WriteLine("Dropping database:" + database + "...");
-            query = "DROP DATABASE IF EXISTS" + database + ";";            
+            query = "DROP DATABASE IF EXISTS " + database + ";";            
             success = DoTheNonQuery(query);
             if(success)
                 return true;
@@ -222,8 +222,9 @@ namespace TrotTrax
             string query;
             bool success;
 
-            Console.WriteLine("Adding " + table + " to " + database + "...");
             DropTable(database, table);
+
+            Console.WriteLine("Adding " + table + " to " + database + "...");
             query = "CREATE TABLE " + database + "." + table + " " +
                     "(" + columnString + ");";
             success = DoTheNonQuery(query);
@@ -318,10 +319,14 @@ namespace TrotTrax
             query = "SELECT " + column + " " +
                 "FROM " + database + "." + table + where + ";";
             response = DoTheScalar(query);
-            if (response != null)
+            try
+            {
                 return Convert.ToBoolean(response);
-            else
+            }
+            catch 
+            {
                 return null;
+            }
         }
 
         // Optional: where
@@ -336,10 +341,14 @@ namespace TrotTrax
             query = "SELECT " + column + " " +
                 "FROM " + database + "." + table + where + ";";
             response = DoTheScalar(query);
-            if (response != null)
+            try
+            {
                 return Convert.ToDecimal(response);
-            else
+            }
+            catch
+            {
                 return null;
+            }
         }
 
         // Optional: where
@@ -349,15 +358,21 @@ namespace TrotTrax
             object response;
 
             Console.WriteLine("Retrieving value for " + column + " from " + database + ".");
+
             if (where != String.Empty)
                 where = " WHERE " + where;
             query = "SELECT " + column + " " +
                 "FROM " + database + "." + table + where + ";";
             response = DoTheScalar(query);
-            if (response != null)
+
+            try
+            {
                 return Convert.ToInt32(response);
-            else
+            }
+            catch
+            {
                 return null;
+            }
         }
 
         // Optional: where
@@ -516,7 +531,7 @@ namespace TrotTrax
                 "rider_age INT, " +
                 "phone VARCHAR(255), " +
                 "email VARCHAR(255), " +
-                "member BOOLEAN DEFAULT 'false', " +
+                "member BOOLEAN NOT NULL DEFAULT 0, " +
                 "PRIMARY KEY (rider_no)";
 
             // horse: horse_no int (PK), name VC(255), nickname VC(255), height decimal(4,2)
@@ -527,7 +542,7 @@ namespace TrotTrax
                 "PRIMARY KEY (horse_no)";
 
             // back_no: back_no int (PK), rider_no int (FK), horse_no int (FK)
-            string back_noString = "back_no INT NOT NULL, " +
+            string backNoString = "back_no INT NOT NULL, " +
                 "rider_no INT NOT NULL, " +
                 "horse_no INT NOT NULL, " +
                 "PRIMARY KEY (back_no), " +
@@ -535,7 +550,7 @@ namespace TrotTrax
                 "FOREIGN KEY (horse_no) REFERENCES " + id + "." + year + "_horse(horse_no) ON DELETE CASCADE";
 
             // show: show_no int (PK), date VC(10), description VC(255), comments VC(500)
-            string show_listString = "show_no INT NOT NULL AUTO_INCREMENT, " +
+            string showString = "show_no INT NOT NULL AUTO_INCREMENT, " +
                 "date DATE NOT NULL," +
                 "show_name VARCHAR(255), " +
                 "show_comment VARCHAR(500), " +
@@ -543,8 +558,8 @@ namespace TrotTrax
                 "PRIMARY KEY (show_no)";
 
             // category: category_no int (PK), description VC(255), 
-            string categoryString = "cat_no INT NOT NULL AUTO_INCREMENT, " +
-                "cat_desc VARCHAR(255), " +
+            string categoryString = "category_no INT NOT NULL AUTO_INCREMENT, " +
+                "category_desc VARCHAR(255), " +
                 "fee DECIMAL(5,2) NOT NULL, " +
                 "timed BOOLEAN NOT NULL, " +
                 "payout BOOLEAN NOT NULL, " +
@@ -552,7 +567,7 @@ namespace TrotTrax
                 "PRIMARY KEY (category_no)";
 
             // class: class_no int (PK), category_no int (FK), name VC(255), fee decimal(5,2)
-            string class_listString = "class_no INT NOT NULL, " +
+            string classString = "class_no INT NOT NULL, " +
                 "category_no INT NOT NULL, " +
                 "class_name VARCHAR(255) NOT NULL, " +
                 "PRIMARY KEY (class_no), " +
@@ -576,12 +591,12 @@ namespace TrotTrax
             AddTable(id, year + "_rider", riderString);
             AddTable(id, year + "_horse", horseString);
             DropTable(id, year + "_back_no");
-            AddTable(id, year + "_backNo", back_noString);
+            AddTable(id, year + "_backNo", backNoString);
             DropTable(id, year + "_show_list");
-            AddTable(id, year + "_show", show_listString);
+            AddTable(id, year + "_show", showString);
             AddTable(id, year + "_category", categoryString);
             DropTable(id, year + "_class_list");
-            AddTable(id, year + "_class", class_listString);
+            AddTable(id, year + "_class", classString);
             DropTable(id, year + "_results");
             AddTable(id, year + "_result", resultString);
             SetYear(year);
@@ -597,7 +612,7 @@ namespace TrotTrax
 
         public void SetYear(int year)
         {
-            UpdateData("trot_trax", "current", "year = " + year, String.Empty);
+            UpdateData("trot_trax", "current", "current_year = " + year, String.Empty);
         }
 
         // This set of functions now pulls ALL of the information for each group to reduce repeat queries.
@@ -609,7 +624,7 @@ namespace TrotTrax
             MySqlDataReader reader;
             BackNoItem item;
             List<BackNoItem> backNoItemList = new List<BackNoItem>();
-            string join = "FROM " + database + "." + year + "_backNo AS b " +
+            string join = database + "." + year + "_backNo AS b " +
                 "JOIN " + database + "." + year + "_rider AS r ON b.rider_no = r.rider_no " +
                 "JOIN " + database + "." + year + "_horse AS h ON b.horse_no = h.horse_no";
 
@@ -675,7 +690,7 @@ namespace TrotTrax
             if (sort == String.Empty)
                 sort = "class_no";
 
-            reader = GetReader(database, year + "_class", "class_no, class_name, cat_no", String.Empty, sort);
+            reader = GetReader(database, year + "_class", "class_no, class_name, category_no", String.Empty, sort);
             while (reader.Read())
             {
                 item = new ClassItem();
@@ -695,7 +710,7 @@ namespace TrotTrax
             MySqlDataReader reader;
             ClassEntryItem item;
             List<ClassEntryItem> classEntryItemList = new List<ClassEntryItem>();
-            string join = "FROM " + database + "." + year + "_result AS t " +
+            string join = database + "." + year + "_result AS t " +
                 "JOIN " + database + "." + year + "_backNo AS b ON t.back_no = b.back_no " +
                 "JOIN " + database + "." + year + "_rider AS r ON b.rider_no = r.rider_no " +
                 "JOIN " + database + "." + year + "_horse AS h ON b.horse_no = h.horse_no " +
@@ -819,25 +834,9 @@ namespace TrotTrax
             return showItemList;
         }
 
-        public YearItem GetYearItem()
+        public bool AddValues(string database, string table, string column, string data)
         {
-            MySqlDataReader reader;
-            YearItem item;
-            string join = "FROM trot_trax.current AS cur " +
-                "JOIN trot_trax.club AS c ON cur.club_id = c.club_id";
-
-            reader = GetJoinedReader(join, "cur.club_id, c.club_name, cur.year", String.Empty, String.Empty);
-            item.id = reader.GetString(0);
-            item.name = reader.GetString(1);
-            item.year = reader.GetInt32(2);
-            reader.Close();
-            connection.Close();
-            return item;
-        }
-
-        public bool AddValues(string database, string table, string target, string values)
-        {
-            return InsertData(database, table, target, values);
+            return InsertData(database, table, column, data);
         }
 
         public bool ChangeValues(string database, string table, string data, string where)
