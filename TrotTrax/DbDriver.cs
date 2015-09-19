@@ -528,7 +528,7 @@ namespace TrotTrax
             string riderString = "rider_no INT NOT NULL AUTO_INCREMENT, " +
                 "rider_first VARCHAR(255) NOT NULL, " +
                 "rider_last VARCHAR(255) NOT NULL, " +
-                "rider_age INT, " +
+                "rider_dob DATE, " +
                 "phone VARCHAR(255), " +
                 "email VARCHAR(255), " +
                 "member BOOLEAN NOT NULL DEFAULT 0, " +
@@ -537,8 +537,9 @@ namespace TrotTrax
             // horse: horse_no int (PK), name VC(255), nickname VC(255), height decimal(4,2)
             string horseString = "horse_no INT NOT NULL AUTO_INCREMENT, " +
                 "horse_name VARCHAR(255) NOT NULL, " +
-                "horse_short VARCHAR(255), " +
+                "horse_call VARCHAR(255), " +
                 "height DECIMAL(5,2), " +
+                "owner_name VARCHAR(255), " +
                 "PRIMARY KEY (horse_no)";
 
             // back_no: back_no int (PK), rider_no int (FK), horse_no int (FK)
@@ -580,8 +581,8 @@ namespace TrotTrax
                 "place INT, " +
                 "time DECIMAL(6,3), " +
                 "points INT DEFAULT 0, " +
-                "paid_in DECIMAL(5,3) NOT NULL DEFAULT 0, " +
-                "paid_out DECIMAL(5,3), " +
+                "paid_in DECIMAL(5,2) NOT NULL DEFAULT 0, " +
+                "paid_out DECIMAL(5,2), " +
                 "FOREIGN KEY (show_no) REFERENCES " + id + "." + year + "_show(show_no) ON DELETE CASCADE, " +
                 "FOREIGN KEY (class_no) REFERENCES " + id + "." + year + "_class(class_no) ON DELETE CASCADE, " +
                 "FOREIGN KEY (back_no) REFERENCES " + id + "." + year + "_backNo(back_no) ON DELETE CASCADE";
@@ -704,6 +705,27 @@ namespace TrotTrax
             return classItemList;
         }
 
+        //Optional: sort (default is class_name)
+        public List<ClubItem> GetClubItemList()
+        {
+            MySqlDataReader reader;
+            ClubItem item;
+            List<ClubItem> clubItemList = new List<ClubItem>();
+
+
+            reader = GetReader("trot_trax", "club", "club_id, club_name", String.Empty, "club_name");
+            while (reader.Read())
+            {
+                item = new ClubItem();
+                item.clubID = reader.GetString(0);
+                item.clubName = reader.GetString(1);
+                clubItemList.Add(item);
+            }
+            reader.Close();
+            connection.Close();
+            return clubItemList;
+        }
+
         // Optional: sort (default is back_no)
         public List<ClassEntryItem> GetEntryList(string database, int year, string where, string sort)
         {
@@ -767,14 +789,15 @@ namespace TrotTrax
             if (sort == String.Empty)
                 sort = "horse_name";
 
-            reader = GetReader(database, year + "_horse", "horse_no, horse_name, horse_short, height", String.Empty, sort);
+            reader = GetReader(database, year + "_horse", "horse_no, horse_name, horse_call, height, owner_name", String.Empty, sort);
             while (reader.Read())
             {
                 item = new HorseItem();
                 item.no = reader.GetInt32(0);
                 item.name = reader.GetString(1);
-                item.shortName = reader.GetString(2);
+                item.callName = reader.GetString(2);
                 item.height = reader.GetDecimal(3);
+                item.ownerName = reader.GetString(4);
                 horseItemList.Add(item);
             }
             reader.Close();
@@ -792,14 +815,14 @@ namespace TrotTrax
             if (sort == "rider_last" || sort == String.Empty)
                 sort = "rider_last, rider_first";
 
-            reader = GetReader(database, year + "_rider", "rider_no, first_name, last_name, rider_age, phone, email, member", String.Empty, sort);
+            reader = GetReader(database, year + "_rider", "rider_no, first_name, last_name, rider_dob, phone, email, member", String.Empty, sort);
             while (reader.Read())
             {
                 item = new RiderItem();
                 item.no = reader.GetInt32(0);
                 item.firstName = reader.GetString(1);
                 item.lastName = reader.GetString(2);
-                item.age = reader.GetInt32(3);
+                item.dob = reader.GetString(3);
                 item.phone = reader.GetString(4);
                 item.email = reader.GetString(5);
                 item.member = reader.GetBoolean(6);
