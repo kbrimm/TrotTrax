@@ -3,7 +3,7 @@
  *     Copyright (c) 2015 Katy Brimm
  *     This source file is licensed under the GNU General Public License. 
  *     Please see the file LICENSE in this distribution for license terms.
- * Contact: kbrimm@pdx.edu
+ * Contact: info@trottrax.org
  */
 
 using System;
@@ -91,12 +91,19 @@ namespace TrotTrax
         public decimal payOut;
     }
 
+    public struct ClubItem
+    {
+        public string clubID;
+        public string clubName;
+    }
+
     public struct HorseItem
     {
         public int no;
         public string name;
-        public string shortName;
+        public string callName;
         public decimal height;
+        public string ownerName;
     }
 
     public struct RiderItem
@@ -104,7 +111,7 @@ namespace TrotTrax
         public int no;
         public string firstName;
         public string lastName;
-        public int age;
+        public string dob;
         public string phone;
         public string email;
         public bool member;

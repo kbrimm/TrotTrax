@@ -616,6 +616,30 @@ namespace TrotTrax
             UpdateData("trot_trax", "current", "current_year = " + year, String.Empty);
         }
 
+        public int GetLatestYear(string id)
+        {
+            string query;
+            object response;
+
+            Console.WriteLine("Retrieving latest year for " + id + ".");
+
+            query = "SELECT year " +
+                "FROM " + id + ".show_year " +
+                "ORDER BY year DESC " +
+                "LIMIT 1;";
+            response = DoTheScalar(query);
+
+            try
+            {
+                return Convert.ToInt32(response);
+            }
+            catch
+            {
+                Console.WriteLine("No value found. :(");
+                return 0;
+            }
+        }
+
         // This set of functions now pulls ALL of the information for each group to reduce repeat queries.
         // Sort columns referred to by name - functions instituting joins should define which table to pull from.
 

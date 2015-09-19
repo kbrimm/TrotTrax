@@ -55,6 +55,8 @@ namespace TrotTrax
             year = new ShowYear();
             InitializeComponent();
             currentLabel.Text = year.clubName + "\n\n" + year.year + " Show Year";
+            PopulateClubMenu();
+            PopulateYearMenu();
             PopulateShowList();
             PopulateClassList();
             PopulateBackNoList();
@@ -62,9 +64,8 @@ namespace TrotTrax
             isNew = false;
         }
 
-        private void RefreshOnClose(object sender, FormClosingEventArgs e)
+        private void RefreshForm()
         {
-            Console.WriteLine("RefreshOnClose has been called.");
             year = new ShowYear();
             currentLabel.Text = year.clubName + "\n\n" + year.year + " Show Year";
             addShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -88,6 +89,16 @@ namespace TrotTrax
             isNew = false;
         }
 
+        private void RefreshOnClose(object sender, FormClosingEventArgs e)
+        {
+            RefreshForm();
+        }
+
+        private void RefreshOnClick(object sender, EventArgs e)
+        {
+            RefreshForm();
+        }
+
         private void ExitMenu(object sender, EventArgs e)
         {
             Close();
@@ -105,7 +116,15 @@ namespace TrotTrax
 
         private void PopulateClubMenu()
         {
-
+            foreach (ClubItem clubItem in year.clubList)
+            {
+                ToolStripMenuItem clubMenuItem = new ToolStripMenuItem();
+                clubMenuItem.Name = clubItem.clubID + "MenuEntry";
+                clubMenuItem.Size = new System.Drawing.Size(152, 22);
+                clubMenuItem.Text = clubItem.clubName;
+                clubMenuItem.Click += new System.EventHandler(this.ViewClub);
+                this.openClubToolStripMenuItem.DropDownItems.Add(clubMenuItem);
+            }
         }
 
         private void NewClub(object sender, EventArgs e)
@@ -117,14 +136,36 @@ namespace TrotTrax
 
         private void ViewClub(object sender, EventArgs e)
         {
-
+            string viewClub = Convert.ToString(sender);
+            foreach(ClubItem club in year.clubList)
+                if(club.clubName == viewClub)
+                {
+                    if (year.SetClub(club.clubID))
+                    {
+                        RefreshForm();
+                        break;
+                    }
+                    else
+                    {
+                        DialogResult confirm = MessageBox.Show("Something went wrong, unable to load club data.",
+                            "TrotTrax Alert", MessageBoxButtons.OK);
+                    }
+                }
         }
 
         // Year list methods
 
         private void PopulateYearMenu()
         {
-
+            foreach (int yearItem in year.yearList)
+            {
+                ToolStripMenuItem yearMenuItem = new ToolStripMenuItem();
+                yearMenuItem.Name = Convert.ToString(yearItem) + "MenuEntry";
+                yearMenuItem.Size = new System.Drawing.Size(152, 22);
+                yearMenuItem.Text = Convert.ToString(yearItem);
+                yearMenuItem.Click += new System.EventHandler(this.ViewYear);
+                this.openYearToolStripMenuItem.DropDownItems.Add(yearMenuItem);
+            }
         }
 
         private void NewYear(object sender, EventArgs e)
@@ -136,10 +177,19 @@ namespace TrotTrax
 
         private void ViewYear(object sender, EventArgs e)
         {
-            if (!isNew)
+            int viewYear;
+            string yearString = Convert.ToString(sender);
+
+            try
             {
-                CategoryListForm catList = new CategoryListForm(year.clubID, year.year);
-                catList.Visible = true;
+                viewYear = Convert.ToInt32(yearString);
+                year.SetYear(viewYear);
+                RefreshForm();
+            }
+            catch
+            {
+                DialogResult confirm = MessageBox.Show("Something went wrong, unable to load club data.",
+                            "TrotTrax Alert", MessageBoxButtons.OK);
             }
         }
 
