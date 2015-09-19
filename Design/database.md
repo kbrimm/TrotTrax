@@ -45,8 +45,9 @@ The individual club databases, hold data for each club. Each club has one show\_
 | ----- | --------- | --- |
 | horse_no | int - not null, auto-increment | primary |
 | horse_name | varchar(255) - not null | |
-| horse_short | varchar(255) | |
+| horse_call | varchar(255) | |
 | height | decimal(5,2) | |
+| owner_name | varchar(255) | |
 
 ### .\<year\>_backNo
 | Field | Data Type | Key |
