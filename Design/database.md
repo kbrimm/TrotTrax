@@ -35,7 +35,7 @@ The individual club databases, hold data for each club. Each club has one show\_
 | rider_no | int - not null, auto-increment | primary |
 | rider_first | varchar(255) - not null | |
 | rider_last | varchar(255) - not null | |
-| rider_age | int | |
+| rider_dob | date | |
 | phone | varchar(255) | |
 | email | varchar(255) | |
 | member | boolean - default false | |
@@ -90,5 +90,5 @@ The individual club databases, hold data for each club. Each club has one show\_
 | place | int | |
 | time | decimal(6,3) | |
 | points | int - default 0 | |
-| paid_in | decimal(5,3) - default 0 | |
-| paid_out | decimal(5,3) | |
+| paid_in | decimal(5,2) - default 0 | |
+| paid_out | decimal(5,2) | |
