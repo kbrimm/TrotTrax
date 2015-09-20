@@ -82,6 +82,8 @@ namespace TrotTrax
             viewToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             settingsToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             settingsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+            PopulateClubMenu();
+            PopulateYearMenu();
             PopulateShowList();
             PopulateClassList();
             PopulateBackNoList();
@@ -116,6 +118,9 @@ namespace TrotTrax
 
         private void PopulateClubMenu()
         {
+            while (openClubToolStripMenuItem.DropDownItems.Count > 2)
+                openClubToolStripMenuItem.DropDownItems[2].Dispose();
+
             foreach (ClubItem clubItem in year.clubList)
             {
                 ToolStripMenuItem clubMenuItem = new ToolStripMenuItem();
@@ -157,6 +162,9 @@ namespace TrotTrax
 
         private void PopulateYearMenu()
         {
+            while (openYearToolStripMenuItem.DropDownItems.Count > 2)
+                openYearToolStripMenuItem.DropDownItems[2].Dispose();
+
             foreach (int yearItem in year.yearList)
             {
                 ToolStripMenuItem yearMenuItem = new ToolStripMenuItem();
@@ -200,11 +208,12 @@ namespace TrotTrax
             showListBox.Items.Clear();
             foreach (ShowItem entry in year.showList)
             {
+                string dateString = entry.date.ToString("MM/dd/yyyy");
                 string value;
                 if(entry.name == "")
-                    value = entry.date;
+                    value = dateString;
                 else
-                    value = entry.date + " - " + entry.name;
+                    value = dateString + " - " + entry.name;
                 showListBox.Items.Add(value);
             }
             if (year.showList.Count() == 0)
@@ -225,6 +234,7 @@ namespace TrotTrax
                 if (!isNew)
                 {
                     ShowListForm showList = new ShowListForm(year.clubID, year.year);
+                    showList.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
                     showList.Visible = true;
                 }
             }
@@ -239,16 +249,20 @@ namespace TrotTrax
                 string selectedShow = showListBox.SelectedItems[0].ToString();
                 selectedShow = selectedShow.Substring(15, 10);
                 foreach (ShowItem entry in year.showList)
-                    if (entry.date == selectedShow)
+                {
+                    string dateString = entry.date.ToString("MM/dd/yyyy");
+                    if (dateString == selectedShow)
                     {
                         showNo = entry.no;
                         break;
                     }
+                }
             }
 
             if (showNo >= 0)
             {
                 ShowListForm showList = new ShowListForm(year.clubID, year.year, showNo);
+                showList.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
                 showList.Visible = true;
             }
         }

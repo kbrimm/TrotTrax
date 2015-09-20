@@ -120,7 +120,7 @@ namespace TrotTrax
     public struct ShowItem
     {
         public int no;
-        public string date;
+        public DateTime date;
         public string name;
         public string comments;
     }

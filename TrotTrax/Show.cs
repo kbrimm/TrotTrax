@@ -3,7 +3,7 @@
  *     Copyright (c) 2015 Katy Brimm
  *     This source file is licensed under the GNU General Public License. 
  *     Please see the file LICENSE in this distribution for license terms.
- * Contact: kbrimm@pdx.edu
+ * Contact: info@trottrax.org
  */
 
 using System;
@@ -18,7 +18,7 @@ namespace TrotTrax
     {
         public int number { get; private set; }
         public string date { get; private set; }
-        public string description { get; private set; }
+        public string name { get; private set; }
         public string comments { get; private set; }
 
         public Show(string clubID, int year)
@@ -39,24 +39,29 @@ namespace TrotTrax
             this.year = year;
             this.clubID = clubID;
             number = showNo;
-
+            SetShowInfo();
             classList = database.GetClassItemList(clubID, year, String.Empty);
             showList = database.GetShowItemList(clubID, year, "date");
-            date = database.GetValueString(clubID, year + "_show_list", "date", "show_no = " + showNo);
-            description = database.GetValueString(clubID, year + "_show_list", "description", "show_no = " + showNo);
-            comments = database.GetValueString(clubID, year + "_show_list", "comment", "show_no = " + showNo);
+        }
+
+        private void SetShowInfo()
+        {
+            ShowItem item = database.GetShowItem(clubID, year, number);
+            date = item.date.ToString("MM/dd/yyyy");
+            name = item.name;
+            comments = item.comments;
         }
 
         public bool AddShow(DateTime date, string description, string comments)
         {
-            string dateString = date.ToString("MM/dd/yyyy");
-            string target = "date, description, comment";
+            string dateString = date.ToString("yyyy-MM-dd");
+            string target = "date, show_name, show_comment";
             string values = "'" + dateString + "', '" + database.FormatString(description) +
                 "', '" + database.FormatString(comments) + "'";
-            bool success = database.AddValues(clubID, year + "_show_list", target, values);
+            bool success = database.AddValues(clubID, year + "_show", target, values);
             if (success)
             {
-                string no = database.GetValueString(clubID, year + "_show_list", "show_no", "date = '" + dateString + "'");
+                string no = database.GetValueString(clubID, year + "_show", "show_no", "date = '" + dateString + "'");
                 number = Convert.ToInt32(no);
                 showList = database.GetShowItemList(clubID, year, "date");
             }
@@ -65,11 +70,11 @@ namespace TrotTrax
 
         public bool ModifyShow(DateTime date, string description, string comments)
         {
-            string dateString = date.ToString("MM/dd/yyyy");
-            string values = "date = '" + dateString + "', description = '" + database.FormatString(description) + 
-                "', comment = '" + database.FormatString(comments) + "'";
+            string dateString = date.ToString("yyyy-MM-dd");
+            string values = "date = '" + dateString + "', show_name = '" + database.FormatString(description) + 
+                "', show_comment = '" + database.FormatString(comments) + "'";
             string qualifier = "show_no = " + number;
-            bool success = database.ChangeValues(clubID, year + "_show_list", values, qualifier);
+            bool success = database.ChangeValues(clubID, year + "_show", values, qualifier);
             if(success)
             {
                 showList = database.GetShowItemList(clubID, year, "date");
@@ -80,7 +85,7 @@ namespace TrotTrax
         public bool RemoveShow()
         {
             string qualifier = "show_no = " + number;
-            bool success = database.DeleteValues(clubID, year + "_show_list", qualifier);
+            bool success = database.DeleteValues(clubID, year + "_show", qualifier);
             if (success)
             {
                 showList = database.GetShowItemList(clubID, year, "date");

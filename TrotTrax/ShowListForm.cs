@@ -3,7 +3,7 @@
  *     Copyright (c) 2015 Katy Brimm
  *     This source file is licensed under the GNU General Public License. 
  *     Please see the file LICENSE in this distribution for license terms.
- * Contact: kbrimm@pdx.edu
+ * Contact: info@trottrax.org
  */
 
 using System;
@@ -31,6 +31,7 @@ namespace TrotTrax
             PopulateClassList();
             PopulateShowList();
             this.Text = "New Show Detail - TrotTrax";
+            showLabel.Text = "Adding New Show";
             modifyBtn.Text = "Add New Show";
             deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
@@ -41,7 +42,7 @@ namespace TrotTrax
         }
 
         public ShowListForm(string clubID, int year, int showNo)
-        {
+        {            
             show = new Show(clubID, year, showNo);
             InitializeComponent();
             PopulateClassList();
@@ -49,15 +50,67 @@ namespace TrotTrax
             this.Text = show.date + " Show Detail - TrotTrax";
             numberBox.Text = showNo.ToString();
             datePicker.Value = Convert.ToDateTime(show.date);
-            descriptionBox.Text = show.description;
+            descriptionBox.Text = show.name;
             commentsBox.Text = show.comments;
             showLabel.Text = show.date + "\r\nShow Detail";
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            cancelBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             isChanged = false;
             isNew = false;
+        }
+
+        private void RefreshForm(string clubID, int year)
+        {
+            show = new Show(clubID, year);
+            PopulateClassList();
+            PopulateShowList();
+            this.Text = "New Show Detail - TrotTrax";
+            showLabel.Text = "Adding New Show";
+            numberBox.Text = String.Empty;
+            descriptionBox.Text = String.Empty;
+            commentsBox.Text = String.Empty;
+            modifyBtn.Text = "Add New Show";
+            deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            viewClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            isChanged = false;
+            isNew = true;
+        }
+
+        private void RefreshForm(string clubID, int year, int showNo)
+        {
+            show = new Show(clubID, year, showNo);
+            PopulateClassList();
+            PopulateShowList();
+            this.Text = show.date + " Show Detail - TrotTrax";
+            modifyBtn.Text = "Save Changes";
+            numberBox.Text = showNo.ToString();
+            datePicker.Value = Convert.ToDateTime(show.date);
+            descriptionBox.Text = show.name;
+            commentsBox.Text = show.comments;
+            showLabel.Text = show.date + "\r\nShow Detail";
+            deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            deleteBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            isChanged = false;
+            isNew = false;
+        }
+
+        private void RefreshOnClose(object sender, FormClosingEventArgs e)
+        {
+            if(isChanged && AbandonChanges())
+                if (isNew)
+                    RefreshForm(show.clubID, show.year);
+                else
+                    RefreshForm(show.clubID, show.year, show.number);
+            else
+            {
+                PopulateClassList();
+            }
         }
 
         private void PopulateClassList()
@@ -70,39 +123,7 @@ namespace TrotTrax
             }
         }
 
-        private void PopulateShowList()
-        {
-            this.showListBox.Items.Clear();
-            foreach (ShowItem entry in show.showList)
-            {
-                string value;
-                if (entry.description == "")
-                    value = entry.date;
-                else
-                    value = entry.date + " - " + entry.description;
-                showListBox.Items.Add(value);
-            }
-        }
-
-        private void commentsBox_TextisChanged(object sender, EventArgs e)
-        {
-            modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            cancelBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            isChanged = true;
-        }
-
-        private void descriptionBox_TextisChanged(object sender, EventArgs e)
-        {
-            modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            cancelBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            isChanged = true;
-        }
-
-        private void dateBox_ValueisChanged(object sender, EventArgs e)
+        private void ChangesMade(object sender, EventArgs e)
         {
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -121,10 +142,36 @@ namespace TrotTrax
                 return false;
         }
 
-        private void viewShowBtn_Click(object sender, EventArgs e)
-        { 
-           if (showListBox.SelectedItems.Count != 0)
-           {
+        // Show list methods
+
+        private void PopulateShowList()
+        {
+            this.showListBox.Items.Clear();
+            foreach (ShowItem entry in show.showList)
+            {
+                string value;
+                string dateString = entry.date.ToString("MM/dd/yyyy");
+                if (entry.name == "")
+                    value = dateString;
+                else
+                    value = dateString + " - " + entry.name;
+                showListBox.Items.Add(value);
+            }
+        }
+
+        private void NewShow(object sender, EventArgs e)
+        {
+            bool loadNew = true;
+            if (isChanged)
+                loadNew = AbandonChanges();
+            if (loadNew)
+                RefreshForm(show.clubID, show.year);
+        }
+
+        private void ViewShow(object sender, EventArgs e)
+        {
+            if (showListBox.SelectedItems.Count != 0)
+            {
                 bool loadNew = true;
                 int showNo = -1;
 
@@ -135,122 +182,24 @@ namespace TrotTrax
                     string selectedShow = showListBox.SelectedItems[0].ToString();
                     selectedShow = selectedShow.Substring(15, 10);
                     foreach (ShowItem entry in show.showList)
-                        if (entry.date == selectedShow)
+                    {
+                        string dateString = entry.date.ToString("MM/dd/yyyy");
+                        if (dateString == selectedShow)
                         {
                             showNo = entry.no;
                             break;
                         }
+                    }
                 }
 
                 if (showNo >= 0)
-                {
-                    ShowListForm showList = new ShowListForm(show.clubID, show.year, showNo);
-                    showList.Visible = true;
-                    this.Close();
-                }
+                    RefreshForm(show.clubID, show.year, showNo);
             }
         }
 
-        private void addShowBtn_Click(object sender, EventArgs e)
-        {
-            bool loadNew = true;
-            if (isChanged)
-                loadNew = AbandonChanges();
-            if (loadNew)
-            {
-                ShowListForm showList = new ShowListForm(show.clubID, show.year);
-                showList.Visible = true;
-                this.Close();
-            }
-        }
+        // Class list methods
 
-        private void modifyBtn_Click(object sender, EventArgs e)
-        {
-            if (isChanged)
-            {
-                DialogResult confirm;
-                ShowListForm showList;
-                bool success;
-                DateTime date = this.datePicker.Value;
-                string dateString = date.ToString("MM/dd/yyyy");
-                string description = this.descriptionBox.Text;
-                string comments = this.commentsBox.Text;
-
-                if (isNew)
-                {
-                    success = show.AddShow(date, description, comments);
-                    if (success)
-                    {
-                        confirm = MessageBox.Show("Would you like to add another show?",
-                            "TrotTrax Alert", MessageBoxButtons.YesNo);
-                        if (confirm == DialogResult.Yes)
-                            showList = new ShowListForm(show.clubID, show.year);
-                        else
-                            showList = new ShowListForm(show.clubID, show.year, show.number);
-                        showList.Visible = true;
-                        this.Close();
-                    }
-                    else
-                    {
-                        confirm = MessageBox.Show("Unable to add show at this time.",
-                            "TrotTrax Alert", MessageBoxButtons.OK);
-                    }
-                }
-                else
-                {
-                    success = show.ModifyShow(date, description, comments);
-                    if (success)
-                    {
-                        showList = new ShowListForm(show.clubID, show.year, show.number);
-                        showList.Visible = true;
-                        this.Close();
-                    }
-                    else
-                    {
-                        confirm = MessageBox.Show("Unable to modify show at this time.",
-                            "TrotTrax Alert", MessageBoxButtons.OK);
-                    }
-                }
-            }
-        }
-
-        private void deleteBtn_Click(object sender, EventArgs e)
-        {
-            if(!isNew)
-            {
-                DialogResult confirm = MessageBox.Show("Do you really want to remove this show and all of its data?\n" +
-                    "This operation cannot be undone.",
-                    "TrotTrax Confirmation", MessageBoxButtons.YesNo);
-                if (confirm == DialogResult.Yes)
-                {
-                    show.RemoveShow();
-                    ShowListForm showList = new ShowListForm(show.clubID, show.year);
-                    showList.Visible = true;
-                    this.Close();
-                }
-            }
-        }
-
-        private void cancelBtn_Click(object sender, EventArgs e)
-        {
-            if(isChanged)
-            {
-                bool reload = AbandonChanges();
-
-                if(reload)
-                {
-                    ShowListForm showList;
-                    if(isNew)
-                        showList = new ShowListForm(show.clubID, show.year);
-                    else
-                        showList = new ShowListForm(show.clubID, show.year, show.number);
-                    showList.Visible = true;
-                    this.Close();
-                }
-            }
-        }
-
-        private void classListBox_ColumnClick(object sender, ColumnClickEventArgs e)
+        private void ClassSort(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
                 show.SortClasses("class_no");
@@ -259,7 +208,7 @@ namespace TrotTrax
             PopulateClassList();
         }
 
-        private void viewClassBtn_Click(object sender, EventArgs e)
+        private void ViewClass(object sender, EventArgs e)
         {
             if (!isNew && classListBox.SelectedItems.Count != 0)
             {
@@ -273,10 +222,72 @@ namespace TrotTrax
 
                 if (selectedClass >= 0)
                 {
-                    ClassInstanceForm classInstance = new ClassInstanceForm(show.clubID, show.year, show.number, selectedClass);
-                    classInstance.Visible = true;
+                    ClassInstanceForm classForm = new ClassInstanceForm(show.clubID, show.year, show.number, selectedClass);
+                    classForm.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
+                    classForm.Visible = true;
                 }
             }
+        }
+
+        // Show manipulation methods
+
+        private void RemoveShow(object sender, EventArgs e)
+        {
+            if (!isNew)
+            {
+                DialogResult confirm = MessageBox.Show("Do you really want to remove this show and all of its data?\n" +
+                    "This operation cannot be undone.",
+                    "TrotTrax Confirmation", MessageBoxButtons.YesNo);
+                if (confirm == DialogResult.Yes)
+                {
+                    show.RemoveShow();
+                    RefreshForm(show.clubID, show.year);
+                }
+            }
+        }
+
+        private void SaveShow(object sender, EventArgs e)
+        {
+            if (isChanged)
+            {
+                DialogResult confirm;
+                bool success;
+                DateTime date = this.datePicker.Value;
+                string description = this.descriptionBox.Text;
+                string comments = this.commentsBox.Text;
+
+                if (isNew)
+                {
+                    success = show.AddShow(date, description, comments);
+                    if (success)
+                    {
+                        confirm = MessageBox.Show("Would you like to add another show?",
+                            "TrotTrax Alert", MessageBoxButtons.YesNo);
+                        if (confirm == DialogResult.Yes)
+                            RefreshForm(show.clubID, show.year);
+                        else
+                            RefreshForm(show.clubID, show.year, show.number);
+                    }
+                    else
+                        confirm = MessageBox.Show("Unable to add show at this time.",
+                            "TrotTrax Alert", MessageBoxButtons.OK);
+                }
+                else
+                {
+                    success = show.ModifyShow(date, description, comments);
+                    if (success)
+                        RefreshForm(show.clubID, show.year, show.number);
+                    else
+                        confirm = MessageBox.Show("Unable to modify show at this time.",
+                            "TrotTrax Alert", MessageBoxButtons.OK);
+                }
+            }
+        }
+
+        private void CancelChanges(object sender, EventArgs e)
+        {
+            if (!isChanged || AbandonChanges())
+                this.Close();
         }
     }
 }

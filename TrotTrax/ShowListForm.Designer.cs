@@ -3,10 +3,10 @@
  *     Copyright (c) 2015 Katy Brimm
  *     This source file is licensed under the GNU General Public License. 
  *     Please see the file LICENSE in this distribution for license terms.
- * Contact: kbrimm@pdx.edu
+ * Contact: info@trottrax.org
  */
- 
- namespace TrotTrax
+
+namespace TrotTrax
 {
     partial class ShowListForm
     {
@@ -36,6 +36,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShowListForm));
             this.showLabel = new System.Windows.Forms.Label();
             this.showListGroup = new System.Windows.Forms.GroupBox();
             this.showListBox = new System.Windows.Forms.ListView();
@@ -105,7 +106,7 @@
             this.showListBox.TabIndex = 13;
             this.showListBox.UseCompatibleStateImageBehavior = false;
             this.showListBox.View = System.Windows.Forms.View.Details;
-            this.showListBox.DoubleClick += new System.EventHandler(this.viewShowBtn_Click);
+            this.showListBox.DoubleClick += new System.EventHandler(this.ViewShow);
             // 
             // showNameHeader
             // 
@@ -122,7 +123,7 @@
             this.addShowBtn.TabIndex = 8;
             this.addShowBtn.Text = "New Show";
             this.addShowBtn.UseVisualStyleBackColor = true;
-            this.addShowBtn.Click += new System.EventHandler(this.addShowBtn_Click);
+            this.addShowBtn.Click += new System.EventHandler(this.NewShow);
             // 
             // viewShowBtn
             // 
@@ -133,7 +134,7 @@
             this.viewShowBtn.TabIndex = 7;
             this.viewShowBtn.Text = "View Show";
             this.viewShowBtn.UseVisualStyleBackColor = true;
-            this.viewShowBtn.Click += new System.EventHandler(this.viewShowBtn_Click);
+            this.viewShowBtn.Click += new System.EventHandler(this.ViewShow);
             // 
             // infoBox
             // 
@@ -162,9 +163,9 @@
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(120, 25);
             this.cancelBtn.TabIndex = 10;
-            this.cancelBtn.Text = "Cancel";
+            this.cancelBtn.Text = "Close";
             this.cancelBtn.UseVisualStyleBackColor = true;
-            this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
+            this.cancelBtn.Click += new System.EventHandler(this.CancelChanges);
             // 
             // deleteBtn
             // 
@@ -174,7 +175,7 @@
             this.deleteBtn.TabIndex = 9;
             this.deleteBtn.Text = "Delete";
             this.deleteBtn.UseVisualStyleBackColor = true;
-            this.deleteBtn.Click += new System.EventHandler(this.deleteBtn_Click);
+            this.deleteBtn.Click += new System.EventHandler(this.RemoveShow);
             // 
             // modifyBtn
             // 
@@ -184,7 +185,7 @@
             this.modifyBtn.TabIndex = 8;
             this.modifyBtn.Text = "Save Changes";
             this.modifyBtn.UseVisualStyleBackColor = true;
-            this.modifyBtn.Click += new System.EventHandler(this.modifyBtn_Click);
+            this.modifyBtn.Click += new System.EventHandler(this.SaveShow);
             // 
             // commentsBox
             // 
@@ -194,7 +195,7 @@
             this.commentsBox.Name = "commentsBox";
             this.commentsBox.Size = new System.Drawing.Size(378, 261);
             this.commentsBox.TabIndex = 7;
-            this.commentsBox.TextChanged += new System.EventHandler(this.commentsBox_TextisChanged);
+            this.commentsBox.TextChanged += new System.EventHandler(this.ChangesMade);
             // 
             // commentsLabel
             // 
@@ -212,7 +213,7 @@
             this.descriptionBox.Name = "descriptionBox";
             this.descriptionBox.Size = new System.Drawing.Size(378, 22);
             this.descriptionBox.TabIndex = 5;
-            this.descriptionBox.TextChanged += new System.EventHandler(this.descriptionBox_TextisChanged);
+            this.descriptionBox.TextChanged += new System.EventHandler(this.ChangesMade);
             // 
             // descriptionLabel
             // 
@@ -239,7 +240,7 @@
             this.datePicker.Name = "datePicker";
             this.datePicker.Size = new System.Drawing.Size(112, 22);
             this.datePicker.TabIndex = 2;
-            this.datePicker.ValueChanged += new System.EventHandler(this.dateBox_ValueisChanged);
+            this.datePicker.ValueChanged += new System.EventHandler(this.ChangesMade);
             // 
             // numberBox
             // 
@@ -291,8 +292,8 @@
             this.classListBox.TabIndex = 12;
             this.classListBox.UseCompatibleStateImageBehavior = false;
             this.classListBox.View = System.Windows.Forms.View.Details;
-            this.classListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.classListBox_ColumnClick);
-            this.classListBox.DoubleClick += new System.EventHandler(this.viewClassBtn_Click);
+            this.classListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ClassSort);
+            this.classListBox.DoubleClick += new System.EventHandler(this.ViewClass);
             // 
             // classNoHeader
             // 
@@ -313,7 +314,7 @@
             this.viewClassBtn.TabIndex = 7;
             this.viewClassBtn.Text = "View Class";
             this.viewClassBtn.UseVisualStyleBackColor = true;
-            this.viewClassBtn.Click += new System.EventHandler(this.viewClassBtn_Click);
+            this.viewClassBtn.Click += new System.EventHandler(this.ViewClass);
             // 
             // ShowListForm
             // 
@@ -322,6 +323,7 @@
             this.Controls.Add(this.infoBox);
             this.Controls.Add(this.showListGroup);
             this.Controls.Add(this.showLabel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ShowListForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New Show - TrotTrax";

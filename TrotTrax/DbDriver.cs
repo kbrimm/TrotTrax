@@ -857,6 +857,24 @@ namespace TrotTrax
             return riderItemList;
         }
 
+        public ShowItem GetShowItem(string database, int year, int showNo)
+        {
+            MySqlDataReader reader;
+            ShowItem item = new ShowItem();
+
+            reader = GetReader(database, year + "_show", "show_no, date, show_name, show_comment", "show_no=" + showNo, "date");
+            while (reader.Read())
+            {
+                item.no = reader.GetInt32(0);
+                item.date = reader.GetDateTime(1);
+                item.name = reader.GetString(2);
+                item.comments = reader.GetString(3);
+            }
+            reader.Close();
+            connection.Close();
+            return item;
+        }
+
         // Optional: sort (default is date)
         public List<ShowItem> GetShowItemList(string database, int year, string sort)
         {
@@ -871,7 +889,7 @@ namespace TrotTrax
             {
                 item = new ShowItem();
                 item.no = reader.GetInt32(0);
-                item.date = reader.GetString(1);
+                item.date = reader.GetDateTime(1);
                 item.name = reader.GetString(2);
                 item.comments = reader.GetString(3);
                 showItemList.Add(item);
@@ -895,6 +913,5 @@ namespace TrotTrax
         {
             return DeleteData(database, table, where);
         }
-
     }
 }
