@@ -3,7 +3,7 @@
  *     Copyright (c) 2015 Katy Brimm
  *     This source file is licensed under the GNU General Public License. 
  *     Please see the file LICENSE in this distribution for license terms.
- * Contact: kbrimm@pdx.edu
+ * Contact: info@trottrax.org
  */
 
 using System;
@@ -20,6 +20,7 @@ namespace TrotTrax
         public string name { get; private set; }
         public int catNo { get; private set; }
         public string catName { get; private set; }
+        public decimal fee { get; private set; }
 
         public Class(string clubID, int year)
         {
@@ -27,48 +28,53 @@ namespace TrotTrax
             this.year = year;
             this.clubID = clubID;
             classList = database.GetClassItemList(clubID, year, String.Empty);
-            catList = database.GetCatItemList(clubID, year, String.Empty); 
+            catList = database.GetCategoryItemList(clubID, year, String.Empty); 
             showList = database.GetShowItemList(clubID, year, "date");            
         }
 
-        public Class(string clubID, int year, int classNo)
+        public Class(string clubID, int year, int number)
         {
             database = new DBDriver(1);
-            classList = new List<ClassItem>();
-            showList = new List<ShowItem>();
             this.year = year;
             this.clubID = clubID;
-            number = classNo;
+            this.number = number;
+            catList = database.GetCategoryItemList(clubID, year, String.Empty); 
             classList = database.GetClassItemList(clubID, year, String.Empty);
-            catList = database.GetCatItemList(clubID, year, String.Empty); 
-            showList = database.GetShowItemList(clubID, year, "date");
-            name = database.GetValueString(clubID, year + "_class_list", "name", "class_no = " + classNo);
-            catNo = database.GetValueInt(clubID, year + "_class_list", "category_no", "class_no = " + classNo);
-            catName = database.GetValueString(clubID, year + "_category", "description", "category_no = " + catNo);
-        }       
-
-        public bool AddClass(int classNo, int newCatNo, string className)
+            showList = database.GetShowItemList(clubID, year, String.Empty);
+            SetClassData();
+        }
+       
+        private void SetClassData()
         {
-            string target = "class_no, category_no, name";
-            string values = "'" + classNo + "', '" + newCatNo +
-                "', '" + database.FormatString(className) + "'";
-            bool success = database.AddValues(clubID, year + "_class_list", target, values);
+            ClassItem classItem = database.GetClassItem(clubID, year, number);
+            catNo = classItem.catNo;
+            name = classItem.name;
+            fee = classItem.fee;
+            catName = database.GetValueString(clubID, year + "_category", "category_name", "category_no=" + catNo);
+        }
+
+        public bool AddClass(int newClassNo, int newCatNo, string newClassName)
+        {
+            string columns = "class_no, category_no, class_name, fee";
+            string data = newClassNo + ", " + newCatNo +
+                ", '" + database.FormatString(newClassName) + "', " + fee;
+            bool success = database.AddValues(clubID, year + "_class", columns, data);
             return success;
         }
 
-        public bool ModifyClass(int classNo, int newCatNo, string className)
+        public bool ModifyClass(int newClassNo, int newCatNo, string newClassName)
         {
-            string values = "class_no = '" + classNo + "', category_no = '" + newCatNo + 
-                "', name = '" + database.FormatString(className) + "'";
-            string qualifier = "class_no = " + number;
-            bool success = database.ChangeValues(clubID, year + "_class_list", values, qualifier);
+            string data = "class_no = '" + newClassNo + "', category_no = '" + newCatNo + 
+                "', class_name = '" + database.FormatString(newClassName) + "'";
+            string where = "class_no = " + number;
+            bool success = database.ChangeValues(clubID, year + "_class", data, where);
             return success;
         }
 
         public void RemoveClass()
         {
-            string qualifier = "class_no = " + number;
-            database.DeleteValues(clubID, year + "_class_list", qualifier);
+            string where = "class_no = " + number;
+            database.DeleteValues(clubID, year + "_class", where);
         }
     }
 }

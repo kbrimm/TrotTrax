@@ -72,7 +72,7 @@ namespace TrotTrax
             this.showLabel.Name = "showLabel";
             this.showLabel.Size = new System.Drawing.Size(225, 80);
             this.showLabel.TabIndex = 6;
-            this.showLabel.Text = "Show \r\nDetail";
+            this.showLabel.Text = "New Show\r\nSetup";
             this.showLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // showListGroup
@@ -83,9 +83,9 @@ namespace TrotTrax
             this.showListGroup.Controls.Add(this.addShowBtn);
             this.showListGroup.Controls.Add(this.viewShowBtn);
             this.showListGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.showListGroup.Location = new System.Drawing.Point(17, 92);
+            this.showListGroup.Location = new System.Drawing.Point(12, 92);
             this.showListGroup.Name = "showListGroup";
-            this.showListGroup.Size = new System.Drawing.Size(220, 383);
+            this.showListGroup.Size = new System.Drawing.Size(225, 383);
             this.showListGroup.TabIndex = 7;
             this.showListGroup.TabStop = false;
             this.showListGroup.Text = "Show List";
@@ -102,7 +102,7 @@ namespace TrotTrax
             this.showListBox.Location = new System.Drawing.Point(7, 21);
             this.showListBox.MultiSelect = false;
             this.showListBox.Name = "showListBox";
-            this.showListBox.Size = new System.Drawing.Size(207, 325);
+            this.showListBox.Size = new System.Drawing.Size(212, 325);
             this.showListBox.TabIndex = 13;
             this.showListBox.UseCompatibleStateImageBehavior = false;
             this.showListBox.View = System.Windows.Forms.View.Details;
@@ -119,7 +119,7 @@ namespace TrotTrax
             | System.Windows.Forms.AnchorStyles.Right)));
             this.addShowBtn.Location = new System.Drawing.Point(109, 352);
             this.addShowBtn.Name = "addShowBtn";
-            this.addShowBtn.Size = new System.Drawing.Size(105, 25);
+            this.addShowBtn.Size = new System.Drawing.Size(110, 25);
             this.addShowBtn.TabIndex = 8;
             this.addShowBtn.Text = "New Show";
             this.addShowBtn.UseVisualStyleBackColor = true;

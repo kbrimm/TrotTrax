@@ -24,14 +24,16 @@ namespace TrotTrax
         private bool isChanged;
         private bool isNew;
 
+        // Form methods
+
         public ShowListForm(string clubID, int year)
         {
             show = new Show(clubID, year);
             InitializeComponent();
             PopulateClassList();
             PopulateShowList();
-            this.Text = "New Show Detail - TrotTrax";
-            showLabel.Text = "Adding New Show";
+            this.Text = "New Show - TrotTrax";
+            showLabel.Text = "New Show\nSetup";
             modifyBtn.Text = "Add New Show";
             deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
@@ -42,7 +44,7 @@ namespace TrotTrax
         }
 
         public ShowListForm(string clubID, int year, int showNo)
-        {            
+        {
             show = new Show(clubID, year, showNo);
             InitializeComponent();
             PopulateClassList();
@@ -102,134 +104,38 @@ namespace TrotTrax
 
         private void RefreshOnClose(object sender, FormClosingEventArgs e)
         {
-            if(isChanged && AbandonChanges())
+            if (AbandonChanges())
                 if (isNew)
                     RefreshForm(show.clubID, show.year);
                 else
                     RefreshForm(show.clubID, show.year, show.number);
             else
-            {
                 PopulateClassList();
-            }
-        }
-
-        private void PopulateClassList()
-        {
-            this.classListBox.Items.Clear();
-            foreach (ClassItem entry in show.classList)
-            {
-                string[] row = { entry.name, };
-                classListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
-            }
         }
 
         private void ChangesMade(object sender, EventArgs e)
         {
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            cancelBtn.ForeColor = System.Drawing.SystemColors.ControlText;
             isChanged = true;
         }
 
         private bool AbandonChanges()
         {
-            DialogResult confirm = MessageBox.Show("Do you want to abandon your changes?",
-                    "TrotTrax Confirmation", MessageBoxButtons.YesNo);
-            if (confirm == DialogResult.Yes)
-                return true;
-            else
-                return false;
-        }
-
-        // Show list methods
-
-        private void PopulateShowList()
-        {
-            this.showListBox.Items.Clear();
-            foreach (ShowItem entry in show.showList)
-            {
-                string value;
-                string dateString = entry.date.ToString("MM/dd/yyyy");
-                if (entry.name == "")
-                    value = dateString;
-                else
-                    value = dateString + " - " + entry.name;
-                showListBox.Items.Add(value);
-            }
-        }
-
-        private void NewShow(object sender, EventArgs e)
-        {
-            bool loadNew = true;
             if (isChanged)
-                loadNew = AbandonChanges();
-            if (loadNew)
-                RefreshForm(show.clubID, show.year);
-        }
-
-        private void ViewShow(object sender, EventArgs e)
-        {
-            if (showListBox.SelectedItems.Count != 0)
             {
-                bool loadNew = true;
-                int showNo = -1;
-
-                if (isChanged)
-                    loadNew = AbandonChanges();
-                if (loadNew)
-                {
-                    string selectedShow = showListBox.SelectedItems[0].ToString();
-                    selectedShow = selectedShow.Substring(15, 10);
-                    foreach (ShowItem entry in show.showList)
-                    {
-                        string dateString = entry.date.ToString("MM/dd/yyyy");
-                        if (dateString == selectedShow)
-                        {
-                            showNo = entry.no;
-                            break;
-                        }
-                    }
-                }
-
-                if (showNo >= 0)
-                    RefreshForm(show.clubID, show.year, showNo);
+                DialogResult confirm = MessageBox.Show("Do you want to abandon your changes?",
+                        "TrotTrax Confirmation", MessageBoxButtons.YesNo);
+                if (confirm == DialogResult.Yes)
+                    return true;
+                else
+                    return false;
             }
+            else
+                return true;
         }
 
-        // Class list methods
-
-        private void ClassSort(object sender, ColumnClickEventArgs e)
-        {
-            if (e.Column == 0)
-                show.SortClasses("class_no");
-            else if (e.Column == 1)
-                show.SortClasses("name");
-            PopulateClassList();
-        }
-
-        private void ViewClass(object sender, EventArgs e)
-        {
-            if (!isNew && classListBox.SelectedItems.Count != 0)
-            {
-                bool loadNew = true;
-                int selectedClass = -1;
-
-                if (isChanged)
-                    loadNew = AbandonChanges();
-                if (loadNew)
-                    selectedClass = Convert.ToInt32(classListBox.SelectedItems[0].Text);
-
-                if (selectedClass >= 0)
-                {
-                    ClassInstanceForm classForm = new ClassInstanceForm(show.clubID, show.year, show.number, selectedClass);
-                    classForm.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
-                    classForm.Visible = true;
-                }
-            }
-        }
-
-        // Show manipulation methods
+        // Show data methods
 
         private void RemoveShow(object sender, EventArgs e)
         {
@@ -286,8 +192,96 @@ namespace TrotTrax
 
         private void CancelChanges(object sender, EventArgs e)
         {
-            if (!isChanged || AbandonChanges())
+            if (AbandonChanges())
                 this.Close();
+        }
+
+        // Show list methods
+
+        private void PopulateShowList()
+        {
+            this.showListBox.Items.Clear();
+            foreach (ShowItem entry in show.showList)
+            {
+                string value;
+                string dateString = entry.date.ToString("MM/dd/yyyy");
+                if (entry.name == "")
+                    value = dateString;
+                else
+                    value = dateString + " - " + entry.name;
+                showListBox.Items.Add(value);
+            }
+        }
+
+        private void NewShow(object sender, EventArgs e)
+        {
+            if (AbandonChanges())
+                RefreshForm(show.clubID, show.year);
+        }
+
+        private void ViewShow(object sender, EventArgs e)
+        {
+            if (showListBox.SelectedItems.Count != 0)
+            {
+                int showNo = -1;
+
+                if (AbandonChanges())
+                {
+                    string selectedShow = showListBox.SelectedItems[0].ToString();
+                    selectedShow = selectedShow.Substring(15, 10);
+                    foreach (ShowItem entry in show.showList)
+                    {
+                        string dateString = entry.date.ToString("MM/dd/yyyy");
+                        if (dateString == selectedShow)
+                        {
+                            showNo = entry.no;
+                            break;
+                        }
+                    }
+                }
+
+                if (showNo >= 0)
+                    RefreshForm(show.clubID, show.year, showNo);
+            }
+        }
+
+        // Class list methods
+
+        private void PopulateClassList()
+        {
+            this.classListBox.Items.Clear();
+            foreach (ClassItem entry in show.classList)
+            {
+                string[] row = { entry.name, };
+                classListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+            }
+        }
+
+        private void ClassSort(object sender, ColumnClickEventArgs e)
+        {
+            if (e.Column == 0)
+                show.SortClasses("class_no");
+            else if (e.Column == 1)
+                show.SortClasses("name");
+            PopulateClassList();
+        }
+
+        private void ViewClass(object sender, EventArgs e)
+        {
+            if (classListBox.SelectedItems.Count != 0)
+            {
+                int selectedClass = -1;
+
+                if (AbandonChanges())
+                    selectedClass = Convert.ToInt32(classListBox.SelectedItems[0].Text);
+
+                if (selectedClass >= 0)
+                {
+                    ClassInstanceForm classForm = new ClassInstanceForm(show.clubID, show.year, show.number, selectedClass);
+                    classForm.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
+                    classForm.Visible = true;
+                }
+            }
         }
     }
 }

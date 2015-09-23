@@ -560,17 +560,15 @@ namespace TrotTrax
 
             // category: category_no int (PK), description VC(255), 
             string categoryString = "category_no INT NOT NULL AUTO_INCREMENT, " +
-                "category_desc VARCHAR(255), " +
-                "fee DECIMAL(5,2) NOT NULL, " +
-                "timed BOOLEAN NOT NULL, " +
-                "payout BOOLEAN NOT NULL, " +
-                "jackpot BOOLEAN NOT NULL, " +
+                "category_name VARCHAR(255), " +
+                "timed BOOLEAN NOT NULL DEFAULT 0, " +
                 "PRIMARY KEY (category_no)";
 
             // class: class_no int (PK), category_no int (FK), name VC(255), fee decimal(5,2)
             string classString = "class_no INT NOT NULL, " +
                 "category_no INT NOT NULL, " +
                 "class_name VARCHAR(255) NOT NULL, " +
+                "fee DECIMAL(5,2) NOT NULL, " +
                 "PRIMARY KEY (class_no), " +
                 "FOREIGN KEY (category_no) REFERENCES " + id + "." + year + "_category(category_no) ON DELETE CASCADE";
 
@@ -676,33 +674,63 @@ namespace TrotTrax
             return backNoItemList;
         }
 
-        // Optional: sort (default is cat_no)
-        public List<CatItem> GetCatItemList(string database, int year, string sort)
+        public CategoryItem GetCategoryItem(string database, int year, int catNo)
         {
             MySqlDataReader reader;
-            CatItem item;
-            List<CatItem> catItemList = new List<CatItem>();
+            CategoryItem item = new CategoryItem();
+
+            reader = GetReader(database, year + "_category", "category_no, category_name, timed", "category_no=" + catNo, "category_no");
+            while (reader.Read())
+            {
+                item.no = reader.GetInt32(0);
+                item.name = reader.GetString(1);
+                item.timed = reader.GetBoolean(2);
+            }
+            reader.Close();
+            connection.Close();
+            return item;
+        }
+
+        // Optional: sort (default is cat_no)
+        public List<CategoryItem> GetCategoryItemList(string database, int year, string sort)
+        {
+            MySqlDataReader reader;
+            CategoryItem item;
+            List<CategoryItem> CatItemList = new List<CategoryItem>();
 
             if (sort == String.Empty)
                 sort = "cat_no";
 
-            reader = GetReader(database, year + "_category", "cat_no, cat_desc, fee, timed, payout, jackpot", String.Empty, sort);
+            reader = GetReader(database, year + "_category", "category_no, category_name, timed", String.Empty, sort);
             while (reader.Read())
             {
-                item = new CatItem();
+                item = new CategoryItem();
                 item.no = reader.GetInt32(0);
-                item.description = reader.GetString(1);
-                item.fee = reader.GetDecimal(2);
-                item.timed = reader.GetBoolean(3);
-                item.payout = reader.GetBoolean(4);
-                item.jackpot = reader.GetBoolean(5);
-                
-
-                catItemList.Add(item);
+                item.name = reader.GetString(1);
+                item.timed = reader.GetBoolean(2);
+                CatItemList.Add(item);
             }
             reader.Close();
             connection.Close();
-            return catItemList;
+            return CatItemList;
+        }
+
+        public ClassItem GetClassItem(string database, int year, int classNo)
+        {
+            MySqlDataReader reader;
+            ClassItem item = new ClassItem();
+
+            reader = GetReader(database, year + "_class", "class_no, category_no, class_name, fee", "class_no=" + classNo, "class_no");
+            while(reader.Read())
+            {
+                item.no = reader.GetInt32(0);
+                item.catNo = reader.GetInt32(1);
+                item.name = reader.GetString(2);
+                item.fee = reader.GetDecimal(3);
+            }
+            reader.Close();
+            connection.Close();
+            return item;
         }
 
         //Optional: sort (default is class_name)
@@ -715,13 +743,15 @@ namespace TrotTrax
             if (sort == String.Empty)
                 sort = "class_no";
 
-            reader = GetReader(database, year + "_class", "class_no, class_name, category_no", String.Empty, sort);
+            reader = GetReader(database, year + "_class", "class_no, category_no, class_name, fee", String.Empty, sort);
             while (reader.Read())
             {
                 item = new ClassItem();
                 item.no = reader.GetInt32(0);
-                item.name = reader.GetString(1);
-                item.catNo = reader.GetInt32(2);
+                item.catNo = reader.GetInt32(1);
+                item.name = reader.GetString(2);
+                item.fee = reader.GetDecimal(3);
+                
                 classItemList.Add(item);
             }
             reader.Close();
@@ -763,7 +793,7 @@ namespace TrotTrax
                 "JOIN " + database + "." + year + "_class AS c ON t.class_no = c.class_no " +
                 "JOIN " + database + "." + year + "_show AS s ON t.show_no = s.show_no";
             string column = "b.back_no, r.rider_no, r.rider_first, r.rider_last, h.horse_no, h.horse_name, " +
-                "s.show_no, s.show_date, c.class_no, c.class_name, t.place, t.points, t.pay_in, t.pay_out";
+                "s.show_no, s.show_date, c.class_no, c.class_name, t.place, t.time, t.points, t.pay_in, t.pay_out";
 
             if (sort == "rider_last")
                 sort = "r.rider_last, r.rider_first";
@@ -792,9 +822,10 @@ namespace TrotTrax
                 item.classNo = reader.GetInt32(8);
                 item.className = reader.GetString(9);
                 item.place = reader.GetInt32(10);
-                item.points = reader.GetInt32(11);
-                item.payIn = reader.GetDecimal(12);
-                item.payOut = reader.GetDecimal(13);
+                item.time = reader.GetDecimal(11);
+                item.points = reader.GetInt32(12);
+                item.payIn = reader.GetDecimal(13);
+                item.payOut = reader.GetDecimal(14);
 
                 classEntryItemList.Add(item);
             }

@@ -20,7 +20,7 @@ namespace TrotTrax
         public string clubID { get; set; }
         public int year { get; set; }
         public List<BackNoItem> backNoList;
-        public List<CatItem> catList;
+        public List<CategoryItem> catList;
         public List<ClassItem> classList;
         public List<ClassEntryItem> classEntryList;
         public List<HorseItem> horseList;
@@ -32,9 +32,9 @@ namespace TrotTrax
             backNoList = database.GetBackNoItemList(clubID, year, sortOn);
         }
 
-        public void SortCats(string sortOn)
+        public void SortCategories(string sortOn)
         {
-            catList = database.GetCatItemList(clubID, year, sortOn);
+            catList = database.GetCategoryItemList(clubID, year, sortOn);
         }
         
         public void SortClasses(string sortOn)
@@ -57,14 +57,11 @@ namespace TrotTrax
         public int horseNo;
     }
     
-    public struct CatItem
+    public struct CategoryItem
     {
         public int no;
-        public string description;
-        public decimal fee;
+        public string name;
         public bool timed;
-        public bool payout;
-        public bool jackpot;
     }
 
     public struct ClassItem
@@ -72,6 +69,7 @@ namespace TrotTrax
         public int no;
         public string name;
         public int catNo;
+        public decimal fee;
     }
 
     public struct ClassEntryItem
@@ -86,6 +84,7 @@ namespace TrotTrax
         public int classNo;
         public string className;
         public int place;
+        public decimal time;
         public int points;
         public decimal payIn;
         public decimal payOut;

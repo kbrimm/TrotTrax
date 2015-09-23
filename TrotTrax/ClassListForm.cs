@@ -3,7 +3,7 @@
  *     Copyright (c) 2015 Katy Brimm
  *     This source file is licensed under the GNU General Public License. 
  *     Please see the file LICENSE in this distribution for license terms.
- * Contact: kbrimm@pdx.edu
+ * Contact: info@trottrax.org
  */
 
 using System;
@@ -23,20 +23,24 @@ namespace TrotTrax
         private Class aClass;
         private bool isChanged;
         private bool isNew;
-        private List<CatBoxItem> catBoxItemList = new List<CatBoxItem>();
+        private List<CategoryItem> catBoxItemList = new List<CategoryItem>();
 
+        // Form methods
 
         public ClassListForm(string clubID, int year)
         {
             aClass = new Class(clubID, year);
             InitializeComponent();
+            PopulateCategoryBox();
+            PopulateCategoryList();
             PopulateClassList();
-            PopulateCatList();
-            PopulateShowList();
-            PopulateCatBox();
+            this.Text = "New Class - TrotTrax";
+            showLabel.Text = "New Class\nSetup";
             modifyBtn.Text = "Add New Class";
             deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             viewShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             viewShowBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             isChanged = false;
@@ -47,140 +51,126 @@ namespace TrotTrax
         {
             aClass = new Class(clubID, year, classNo);
             InitializeComponent();
+            PopulateCategoryBox();
+            PopulateCategoryList();
             PopulateClassList();
-            PopulateCatList();
             PopulateShowList();
-            PopulateCatBox();
-            this.Text = aClass.name + " Detail - TrotTrax";
+            this.Text = aClass.name + " Class Detail - TrotTrax";
+            showLabel.Text = aClass.name + "\r\nClass Detail";
             numberBox.Text = classNo.ToString();
             nameBox.Text = aClass.name;
-            catBox.SelectedValue = aClass.catNo;
-            showLabel.Text = aClass.name + "\r\nClass Detail";
+            catDropDown.SelectedValue = aClass.catNo;
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            cancelBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             isChanged = false;
             isNew = false;
         }
 
-        private void PopulateClassList()
+        private void RefreshForm(string clubID, int year)
         {
-            this.classListBox.Items.Clear();
-            foreach (ClassItem entry in aClass.classList)
-            {
-                string[] row = { entry.name, };
-                classListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
-            }
+            aClass = new Class(clubID, year);
+            PopulateCategoryList();
+            PopulateCategoryBox();
+            PopulateClassList();
+            this.Text = "New Class - TrotTrax";
+            showLabel.Text = "New Class\nSetup";
+            modifyBtn.Text = "Add New Class";
+            deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            viewShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewShowBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            isChanged = false;
+            isNew = true;
         }
 
-        private void PopulateCatList()
+        private void RefreshForm(string clubID, int year, int classNo)
         {
-            this.catListBox.Items.Clear();
-            foreach (CatItem entry in aClass.catList)
-            {
-                string[] row = { entry.description, entry.timed.ToString(), entry.payout.ToString(), 
-                                  entry.jackpot.ToString(), "$" + entry.fee.ToString() };
-                catListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
-            }
+            aClass = new Class(clubID, year, classNo);
+            PopulateCategoryBox();
+            PopulateCategoryList();
+            PopulateClassList();
+            PopulateShowList();
+            this.Text = aClass.name + " Class Detail - TrotTrax";
+            showLabel.Text = aClass.name + "\r\nClass Detail";
+            numberBox.Text = classNo.ToString();
+            nameBox.Text = aClass.name;
+            catDropDown.SelectedValue = aClass.catNo;
+            modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            isChanged = false;
+            isNew = false;
         }
 
-        private void PopulateShowList()
+        private void RefreshOnClose(object sender, FormClosingEventArgs e)
         {
-            this.showListBox.Items.Clear();
-            foreach (ShowItem entry in aClass.showList)
-            {
-                string value;
-                if (entry.description == "")
-                    value = entry.date;
+            if (AbandonChanges())
+                if (isNew)
+                    RefreshForm(aClass.clubID, aClass.year);
                 else
-                    value = entry.date + " - " + entry.description;
-                showListBox.Items.Add(value);
-            }
-        }
-
-        private void PopulateCatBox()
-        {
-            catBoxItemList.Add(new CatBoxItem() { no = 0, description = String.Empty });
-            foreach (CatItem entry in aClass.catList)
+                    RefreshForm(aClass.clubID, aClass.year, aClass.number);
+            else
             {
-                catBoxItemList.Add(new CatBoxItem() { no = entry.no, description = entry.description });
+                PopulateClassList();
+                PopulateCategoryList();
+                PopulateCategoryBox();
             }
-
-            this.catBox.DataSource = catBoxItemList;
-            this.catBox.DisplayMember = "description";
-            this.catBox.ValueMember = "no";
         }
 
         private void DataChanged(object sender, EventArgs e)
         {
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            cancelBtn.ForeColor = System.Drawing.SystemColors.ControlText;
             isChanged = true;
         }
 
         private bool AbandonChanges()
         {
-            DialogResult confirm = MessageBox.Show("Do you want to abandon your changes?",
-                    "TrotTrax Confirmation", MessageBoxButtons.YesNo);
-            if (confirm == DialogResult.Yes)
-                return true;
-            else
-                return false;
-        }
-
-        private void viewClassBtn_Click(object sender, EventArgs e)
-        {
-            if (classListBox.SelectedItems.Count != 0)
-            {
-                bool loadNew = true;
-                int classNo = -1;
-
-                if (isChanged)
-                    loadNew = AbandonChanges();
-                if (loadNew)
-                    classNo = Convert.ToInt32(classListBox.SelectedItems[0].Text);
-
-                if (classNo >= 0)
-                {
-                    ClassListForm showList = new ClassListForm(aClass.clubID, aClass.year, classNo);
-                    showList.Visible = true;
-                    this.Close();
-                }
-            }
-        }
-
-        private void newClassBtn_Click(object sender, EventArgs e)
-        {
-            bool loadNew = true;
-
             if (isChanged)
-                loadNew = AbandonChanges();
-            if (loadNew)
             {
-                ClassListForm classList = new ClassListForm(aClass.clubID, aClass.year);
-                classList.Visible = true;
-                this.Close();
+                DialogResult confirm = MessageBox.Show("Do you want to abandon your changes?",
+                        "TrotTrax Confirmation", MessageBoxButtons.YesNo);
+                if (confirm == DialogResult.Yes)
+                    return true;
+                else
+                    return false;
             }
+            else
+                return true;
         }
 
-        private void modifyBtn_Click(object sender, EventArgs e)
+        // Class data methods
+
+        private void PopulateCategoryBox()
+        {
+            catBoxItemList.Add(new CategoryItem() { no = 0, name = String.Empty });
+            foreach (CategoryItem entry in aClass.catList)
+            {
+                catBoxItemList.Add(new CategoryItem() { no = entry.no, name = entry.name });
+            }
+
+            this.catDropDown.DataSource = catBoxItemList;
+            this.catDropDown.DisplayMember = "description";
+            this.catDropDown.ValueMember = "no";
+        }
+
+        private void SaveClass(object sender, EventArgs e)
         {
             if (isChanged)
             {
                 DialogResult confirm;
                 string noString = this.numberBox.Text.ToString();
                 string name = this.nameBox.Text;
-                int category = Convert.ToInt32(this.catBox.SelectedValue);
+                int category = Convert.ToInt32(this.catDropDown.SelectedValue);
                 int number;
 
                 if (noString == String.Empty || !int.TryParse(noString, out number))
-                {
                     confirm = MessageBox.Show("Class number must be a unique integer value.",
                         "TrotTrax Alert", MessageBoxButtons.OK);
-                }
+                else if (aClass.catList.Count == 0)
+                    confirm = MessageBox.Show("You must configure at least one category before adding a class to this show year.",
+                        "TrotTrax Confirmation", MessageBoxButtons.OK);
                 else
                 {
                     ClassListForm classList;
@@ -199,10 +189,8 @@ namespace TrotTrax
                             this.Close();
                         }
                         else
-                        {
                             confirm = MessageBox.Show("Class number must be unique.",
                                 "TrotTrax Alert", MessageBoxButtons.OK);
-                        }
                     }
                     else
                     {
@@ -214,16 +202,14 @@ namespace TrotTrax
                             this.Close();
                         }
                         else
-                        {
                             confirm = MessageBox.Show("Unable to add class at this time.",
                                 "TrotTrax Alert", MessageBoxButtons.OK);
-                        }
                     }
                 }
             }
         }
 
-        private void deleteBtn_Click(object sender, EventArgs e)
+        private void DeleteClass(object sender, EventArgs e)
         {
             if (!isNew)
             {
@@ -234,101 +220,149 @@ namespace TrotTrax
                 if (confirm == DialogResult.Yes)
                 {
                     aClass.RemoveClass();
-                    ClassListForm classList = new ClassListForm(aClass.clubID, aClass.year);
-                    classList.Visible = true;
-                    this.Close();
+                    RefreshForm(aClass.clubID, aClass.year);
                 }
             }
         }
 
-        private void cancelBtn_Click(object sender, EventArgs e)
+        private void CancelChanges(object sender, EventArgs e)
         {
             if (AbandonChanges())
-            {
-                ClassListForm classList = new ClassListForm(aClass.clubID, aClass.year, aClass.number);
-                classList.Visible = true;
                 this.Close();
+        }
+
+        // Class list methods
+
+        private void PopulateClassList()
+        {
+            this.classListBox.Items.Clear();
+            foreach (ClassItem entry in aClass.classList)
+            {
+                string[] row = { entry.name, };
+                classListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
             }
         }
 
-        private void classListBox_ColumnClick(object sender, ColumnClickEventArgs e)
+        private void NewClass(object sender, EventArgs e)
+        {
+            if (AbandonChanges())
+                RefreshForm(aClass.clubID, aClass.year);
+        }
+
+        private void ViewClass(object sender, EventArgs e)
+        {
+            if (classListBox.SelectedItems.Count != 0)
+            {
+                int classNo = -1;
+
+                if (AbandonChanges())
+                    classNo = Convert.ToInt32(classListBox.SelectedItems[0].Text);
+                if (classNo >= 0)
+                    RefreshForm(aClass.clubID, aClass.year, classNo);
+            }
+        }
+
+        private void SortClassList(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
                 aClass.SortClasses("class_no");
             else if (e.Column == 1)
-                aClass.SortClasses("name");
+                aClass.SortClasses("class_name");
             PopulateClassList();
         }
 
-        private void catListBox_ColumnClick(object sender, ColumnClickEventArgs e)
+        // Category list methods
+        private void PopulateCategoryList()
         {
-            if (e.Column == 0)
-                aClass.SortCats("category_no");
-            else if (e.Column == 1)
-                aClass.SortCats("description");
-            else if (e.Column == 5)
-                aClass.SortCats("fee");
-            PopulateCatList();
-        }
-
-        private void viewShowBtn_Click(object sender, EventArgs e)
-        {
-            if (!isNew && showListBox.SelectedItems.Count != 0)
+            this.catListBox.Items.Clear();
+            foreach (CategoryItem entry in aClass.catList)
             {
-                bool loadNew = true;
-                int showNo = -1;
-
-                if (isChanged)
-                    loadNew = AbandonChanges();
-
-                string selectedShow = showListBox.SelectedItems[0].ToString();
-                selectedShow = selectedShow.Substring(15, 10);
-                foreach (ShowItem entry in aClass.showList)
-                    if (entry.date == selectedShow)
-                    {
-                        showNo = entry.no;
-                        break;
-                    }
-                if (showNo >= 0)
-                {
-                    ClassInstanceForm classInstance = new ClassInstanceForm(aClass.clubID, aClass.year, showNo, aClass.number);
-                    classInstance.Visible = true;
-                }
+                string[] row = { entry.name, entry.timed.ToString() };
+                catListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
             }
         }
 
-        private void catViewBtn_Click(object sender, EventArgs e)
+        private void SortCategoryList(object sender, ColumnClickEventArgs e)
+        {
+            if (e.Column == 0)
+                aClass.SortCategories("category_no");
+            else if (e.Column == 1)
+                aClass.SortCategories("description");
+            else if (e.Column == 2)
+                aClass.SortCategories("fee");
+            PopulateCategoryList();
+        }
+
+        private void ViewCategory(object sender, EventArgs e)
         {
             if (catListBox.SelectedItems.Count != 0)
             {
-                bool loadNew = true;
                 int catNo = -1;
 
-                if (isChanged)
-                    loadNew = AbandonChanges();
-                if (loadNew)
+                if (AbandonChanges())
                     catNo = Convert.ToInt32(catListBox.SelectedItems[0].Text);
-
                 if (catNo >= 0)
                 {
-                    CategoryListForm showList = new CategoryListForm(aClass.clubID, aClass.year, catNo);
-                    showList.Visible = true;
-                    this.Close();
+                    CategoryListForm catForm = new CategoryListForm(aClass.clubID, aClass.year, catNo);
+                    catForm.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
+                    catForm.Visible = true;
                 }
             }
         }
 
-        private void newCatBtn_Click(object sender, EventArgs e)
+        private void NewCategory(object sender, EventArgs e)
         {
-            bool loadNew = true;
-
-            if (isChanged)
-                loadNew = AbandonChanges();
-            if (loadNew)
+            if (AbandonChanges())
             {
-                CategoryListForm showList = new CategoryListForm(aClass.clubID, aClass.year);
-                showList.Visible = true;
-                this.Close();
+                CategoryListForm catForm = new CategoryListForm(aClass.clubID, aClass.year);
+                catForm.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
+                catForm.Visible = true;
+            }
+        }
+
+        // Show list methods        
+
+        private void PopulateShowList()
+        {
+            this.showListBox.Items.Clear();
+            foreach (ShowItem entry in aClass.showList)
+            {
+                string value;
+                string dateString = entry.date.ToString("MM/dd/yyyy");
+                if (entry.name == "")
+                    value = dateString;
+                else
+                    value = dateString + " - " + entry.name;
+                showListBox.Items.Add(value);
+            }
+        }
+
+        private void ViewClassInstance(object sender, EventArgs e)
+        {
+            if (showListBox.SelectedItems.Count != 0)
+            {
+                int showNo = -1;
+
+                if (AbandonChanges())
+                {
+                    string selectedShow = showListBox.SelectedItems[0].ToString();
+                    selectedShow = selectedShow.Substring(15, 10);
+                    foreach (ShowItem entry in aClass.showList)
+                    {
+                        string dateString = entry.date.ToString("MM/dd/yyyy");
+                        if (dateString == selectedShow)
+                        {
+                            showNo = entry.no;
+                            break;
+                        }
+                    }
+                }
+                if (showNo >= 0)
+                {
+                    ClassInstanceForm classForm = new ClassInstanceForm(aClass.clubID, aClass.year, showNo, aClass.number);
+                    classForm.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
+                    classForm.Visible = true;
+                }
             }
         }
     }

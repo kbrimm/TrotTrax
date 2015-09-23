@@ -26,25 +26,22 @@ namespace TrotTrax
             database = new DBDriver(1);
             this.year = year;
             this.clubID = clubID;
-
             classList = database.GetClassItemList(clubID, year, String.Empty);
             showList = database.GetShowItemList(clubID, year, "date");
         }
 
-        public Show(string clubID, int year, int showNo)
+        public Show(string clubID, int year, int number)
         {
             database = new DBDriver(1);
-            classList = new List<ClassItem>();
-            showList = new List<ShowItem>();
             this.year = year;
             this.clubID = clubID;
-            number = showNo;
-            SetShowInfo();
+            this.number = number;
+            SetShowData();
             classList = database.GetClassItemList(clubID, year, String.Empty);
             showList = database.GetShowItemList(clubID, year, "date");
         }
 
-        private void SetShowInfo()
+        private void SetShowData()
         {
             ShowItem item = database.GetShowItem(clubID, year, number);
             date = item.date.ToString("MM/dd/yyyy");
