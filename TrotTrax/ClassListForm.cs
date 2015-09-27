@@ -75,6 +75,7 @@ namespace TrotTrax
             this.Text = "New Class - TrotTrax";
             showLabel.Text = "New Class\nSetup";
             modifyBtn.Text = "Add New Class";
+            feeBox.Text = "0.00";
             deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -146,9 +147,7 @@ namespace TrotTrax
         {
             catBoxItemList.Add(new CategoryItem() { no = 0, name = String.Empty });
             foreach (CategoryItem entry in aClass.catList)
-            {
                 catBoxItemList.Add(new CategoryItem() { no = entry.no, name = entry.name });
-            }
 
             this.catDropDown.DataSource = catBoxItemList;
             this.catDropDown.DisplayMember = "description";
@@ -161,9 +160,14 @@ namespace TrotTrax
             {
                 DialogResult confirm;
                 string noString = this.numberBox.Text.ToString();
-                string name = this.nameBox.Text;
-                int category = Convert.ToInt32(this.catDropDown.SelectedValue);
                 int number;
+                int category = Convert.ToInt32(this.catDropDown.SelectedValue);
+                string name = this.nameBox.Text;
+                string feeString = this.feeBox.ToString();
+                decimal fee;
+
+                if (!decimal.TryParse(feeString, out fee))
+                    fee = 0;
 
                 if (noString == String.Empty || !int.TryParse(noString, out number))
                     confirm = MessageBox.Show("Class number must be a unique integer value.",
@@ -173,20 +177,16 @@ namespace TrotTrax
                         "TrotTrax Confirmation", MessageBoxButtons.OK);
                 else
                 {
-                    ClassListForm classList;
                     if (isNew)
                     {
-                        bool success = aClass.AddClass(number, category, name);
-                        if (success)
+                        if (aClass.AddClass(number, category, name, fee))
                         {
                             confirm = MessageBox.Show("Would you like to add another class?",
                                 "TrotTrax Alert", MessageBoxButtons.YesNo);
                             if (confirm == DialogResult.Yes)
-                                classList = new ClassListForm(aClass.clubID, aClass.year);
+                                RefreshForm(aClass.clubID, aClass.year);
                             else
-                                classList = new ClassListForm(aClass.clubID, aClass.year, number);
-                            classList.Visible = true;
-                            this.Close();
+                                RefreshForm(aClass.clubID, aClass.year, number);
                         }
                         else
                             confirm = MessageBox.Show("Class number must be unique.",
@@ -194,13 +194,8 @@ namespace TrotTrax
                     }
                     else
                     {
-                        bool success = aClass.ModifyClass(number, category, name);
-                        if (success)
-                        {
-                            classList = new ClassListForm(aClass.clubID, aClass.year, number);
-                            classList.Visible = true;
-                            this.Close();
-                        }
+                        if (aClass.ModifyClass(number, category, name, fee))
+                            RefreshForm(aClass.clubID, aClass.year, number);
                         else
                             confirm = MessageBox.Show("Unable to add class at this time.",
                                 "TrotTrax Alert", MessageBoxButtons.OK);

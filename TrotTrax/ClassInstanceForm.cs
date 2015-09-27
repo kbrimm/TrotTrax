@@ -21,7 +21,7 @@ namespace TrotTrax
     public partial class ClassInstanceForm : Form
     {
         ClassInstance aClass;
-        private List<EntryBoxItem> entryBoxItemList = new List<EntryBoxItem>();
+       // private List<EntryBoxItem> entryBoxItemList = new List<EntryBoxItem>();
         bool isChanged;
         bool isFirst;
         bool isLast;
@@ -73,16 +73,16 @@ namespace TrotTrax
 
         private void PopulateListBox()
         {
-            entryBoxItemList.Add(new EntryBoxItem() { no = 0, combo = String.Empty });
+            //entryBoxItemList.Add(new EntryBoxItem() { no = 0, combo = String.Empty });
             foreach (BackNoItem entry in aClass.backNoList)
             {
-                entryBoxItemList.Add(new EntryBoxItem() { no = entry.no, 
-                    combo = entry.no + " - " + entry.rider +  " - " + entry.horse});
+               // entryBoxItemList.Add(new EntryBoxItem() { no = entry.no, 
+               //     combo = entry.no + " - " + entry.rider +  " - " + entry.horse});
             }
 
-            this.entryBox.DataSource = entryBoxItemList;
-            this.entryBox.DisplayMember = "combo";
-            this.entryBox.ValueMember = "no";
+           // this.entryBox.DataSource = entryBoxItemList;
+           // this.entryBox.DisplayMember = "combo";
+           // this.entryBox.ValueMember = "no";
         }
 
         private bool AbandonChanges()

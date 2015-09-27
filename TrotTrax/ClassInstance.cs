@@ -42,17 +42,17 @@ namespace TrotTrax
 
             classList = database.GetClassItemList(clubID, year, String.Empty);
             backNoList = database.GetBackNoItemList(clubID, year, String.Empty);
-            entryList = database.GetEntryList(clubID, year, String.Empty, qualifier);
-            placingList = database.GetEntryList(clubID, year, "place", "place IS NOT NULL AND show_no = " + showNo +
-                " AND class_no = " + classNo);
+           // entryList = database.GetEntryList(clubID, year, String.Empty, qualifier);
+           // placingList = database.GetEntryList(clubID, year, "place", "place IS NOT NULL AND show_no = " + showNo +
+           //     " AND class_no = " + classNo);
             className = database.GetValueString(clubID, year + "_class_list", "name", "class_no = " + classNo);
             showDate = database.GetValueString(clubID, year + "_show_list", "date", "show_no = " + showNo);
-            entryCount = database.CountValue(clubID, year + "_results", "back_no", "class_no = " + classNo + " AND show_no = " + showNo);
+           // entryCount = database.CountValue(clubID, year + "_results", "back_no", "class_no = " + classNo + " AND show_no = " + showNo);
         }
 
         public void SortEntries(string field)
         {
-            entryList = database.GetEntryList(clubID, year, field, qualifier);
+            //entryList = database.GetEntryList(clubID, year, field, qualifier);
         }
 
         public bool AddEntry(int backNo)
@@ -61,8 +61,8 @@ namespace TrotTrax
             bool success = database.AddValues(clubID, year + "_results", "show_no, class_no, back_no", values);
             if (success)
             {
-                entryList = database.GetEntryList(clubID, year, String.Empty, qualifier);
-                entryCount = database.CountValue(clubID, year + "_results", "back_no", "class_no = " + classNo + " AND show_no = " + showNo);
+              //  entryList = database.GetEntryList(clubID, year, String.Empty, qualifier);
+               // entryCount = database.CountValue(clubID, year + "_results", "back_no", "class_no = " + classNo + " AND show_no = " + showNo);
             }
             return success;
         }
@@ -73,8 +73,8 @@ namespace TrotTrax
             bool success = database.DeleteValues(clubID, year + "_results", where);
             if (success)
             {
-                entryList = database.GetEntryList(clubID, year, String.Empty, qualifier);
-                entryCount = database.CountValue(clubID, year + "_results", "back_no", "class_no = " + classNo + " AND show_no = " + showNo);
+               // entryList = database.GetEntryList(clubID, year, String.Empty, qualifier);
+                //entryCount = database.CountValue(clubID, year + "_results", "back_no", "class_no = " + classNo + " AND show_no = " + showNo);
             }
             return success;
         }

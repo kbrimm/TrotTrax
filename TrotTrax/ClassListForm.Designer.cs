@@ -44,7 +44,7 @@ namespace TrotTrax
             this.classNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.viewClassBtn = new System.Windows.Forms.Button();
             this.infoBox = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.feeBox = new System.Windows.Forms.TextBox();
             this.feeLabel = new System.Windows.Forms.Label();
             this.catDropDown = new System.Windows.Forms.ComboBox();
             this.cancelBtn = new System.Windows.Forms.Button();
@@ -154,7 +154,7 @@ namespace TrotTrax
             // 
             // infoBox
             // 
-            this.infoBox.Controls.Add(this.textBox1);
+            this.infoBox.Controls.Add(this.feeBox);
             this.infoBox.Controls.Add(this.feeLabel);
             this.infoBox.Controls.Add(this.catDropDown);
             this.infoBox.Controls.Add(this.cancelBtn);
@@ -173,13 +173,14 @@ namespace TrotTrax
             this.infoBox.TabStop = false;
             this.infoBox.Text = "Class Information";
             // 
-            // textBox1
+            // feeBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(9, 158);
-            this.textBox1.MaxLength = 255;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(133, 22);
-            this.textBox1.TabIndex = 7;
+            this.feeBox.Location = new System.Drawing.Point(9, 158);
+            this.feeBox.MaxLength = 255;
+            this.feeBox.Name = "feeBox";
+            this.feeBox.Size = new System.Drawing.Size(133, 22);
+            this.feeBox.TabIndex = 7;
+            this.feeBox.TextChanged += new System.EventHandler(this.DataChanged);
             // 
             // feeLabel
             // 
@@ -453,7 +454,7 @@ namespace TrotTrax
         private System.Windows.Forms.ListView showListBox;
         private System.Windows.Forms.ColumnHeader showNameHeader;
         private System.Windows.Forms.GroupBox showListGroup;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox feeBox;
         private System.Windows.Forms.Label feeLabel;
     }
 }

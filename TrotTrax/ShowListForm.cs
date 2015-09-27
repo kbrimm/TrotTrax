@@ -278,8 +278,8 @@ namespace TrotTrax
                 if (selectedClass >= 0)
                 {
                     ClassInstanceForm classForm = new ClassInstanceForm(show.clubID, show.year, show.number, selectedClass);
-                    classForm.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
                     classForm.Visible = true;
+                    this.Close();
                 }
             }
         }

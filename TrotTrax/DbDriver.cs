@@ -27,7 +27,7 @@ namespace TrotTrax
 
         // Initializes variables & checks for instance of database
         // Creates trot_trax if not found
-        //     the adds tables for club data & current data (last club and year viewed)
+        //     adds tables for club data & current data (last club and year viewed)
         public DBDriver()
         {
             server = "localhost";
@@ -48,9 +48,9 @@ namespace TrotTrax
                     "current_year INT, " +
                     "FOREIGN KEY (club_id) REFERENCES trot_trax.club(club_id) ON DELETE CASCADE";
 
-                DropDB("trax_data");
                 if (CreateDB("trot_trax"))
                 {
+                    DropDB("trax_data");
                     AddTable("trot_trax", "club", clubString);
                     AddTable("trot_trax", "current", currentString);
                     Console.WriteLine("\tDatabase creation successful.");
@@ -69,7 +69,7 @@ namespace TrotTrax
             }
         }
 
-        // Checks the initial instance of the trot_trax database.
+        // Checks the for instance of the trot_trax database.
         private bool CheckDB()
         {
             string query;
@@ -304,6 +304,26 @@ namespace TrotTrax
                 return true;
             else
                 return false;
+        }
+
+        public int GetLastIndex()
+        {
+            string query;
+            object response;
+
+            Console.WriteLine("Retrieving last index.");
+
+            query = "SELECT LAST_INSERT_ID();";
+            response = DoTheScalar(query);
+
+            try
+            {
+                return Convert.ToInt32(response);
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         // Essentially wraps ExecuteScalar, returns particular format of the data found.

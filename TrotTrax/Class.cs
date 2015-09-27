@@ -53,19 +53,19 @@ namespace TrotTrax
             catName = database.GetValueString(clubID, year + "_category", "category_name", "category_no=" + catNo);
         }
 
-        public bool AddClass(int newClassNo, int newCatNo, string newClassName)
+        public bool AddClass(int newClassNo, int newCatNo, string newClassName, decimal newFee)
         {
             string columns = "class_no, category_no, class_name, fee";
             string data = newClassNo + ", " + newCatNo +
-                ", '" + database.FormatString(newClassName) + "', " + fee;
+                ", '" + database.FormatString(newClassName) + "', " + newFee;
             bool success = database.AddValues(clubID, year + "_class", columns, data);
             return success;
         }
 
-        public bool ModifyClass(int newClassNo, int newCatNo, string newClassName)
+        public bool ModifyClass(int newClassNo, int newCatNo, string newClassName, decimal newFee)
         {
-            string data = "class_no = '" + newClassNo + "', category_no = '" + newCatNo + 
-                "', class_name = '" + database.FormatString(newClassName) + "'";
+            string data = "class_no = " + newClassNo + ", category_no = " + newCatNo + 
+                ", class_name = '" + database.FormatString(newClassName) + "', fee = " + newFee;
             string where = "class_no = " + number;
             bool success = database.ChangeValues(clubID, year + "_class", data, where);
             return success;
