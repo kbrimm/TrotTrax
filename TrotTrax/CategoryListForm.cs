@@ -131,8 +131,6 @@ namespace TrotTrax
                 bool newTimed = this.timedCheckBox.Checked;
                 DialogResult confirm;
 
-
-                CategoryListForm catList;
                 if (isNew)
                 {
                     bool success = category.AddCategory(newDescription, newTimed);

@@ -711,7 +711,7 @@ namespace TrotTrax
             return item;
         }
 
-        // Optional: sort (default is cat_no)
+        // Optional: sort (default is category_no)
         public List<CategoryItem> GetCategoryItemList(string database, int year, string sort)
         {
             MySqlDataReader reader;
@@ -719,7 +719,7 @@ namespace TrotTrax
             List<CategoryItem> CatItemList = new List<CategoryItem>();
 
             if (sort == String.Empty)
-                sort = "cat_no";
+                sort = "category_no";
 
             reader = GetReader(database, year + "_category", "category_no, category_name, timed", String.Empty, sort);
             while (reader.Read())

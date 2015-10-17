@@ -23,7 +23,7 @@ namespace TrotTrax
         private Class aClass;
         private bool isChanged;
         private bool isNew;
-        private List<CategoryItem> catBoxItemList = new List<CategoryItem>();
+        private List<DropDownItem> dropDownList;
 
         // Form methods
 
@@ -31,7 +31,7 @@ namespace TrotTrax
         {
             aClass = new Class(clubID, year);
             InitializeComponent();
-            PopulateCategoryBox();
+            PopulateDropDown();
             PopulateCategoryList();
             PopulateClassList();
             this.Text = "New Class - TrotTrax";
@@ -51,7 +51,7 @@ namespace TrotTrax
         {
             aClass = new Class(clubID, year, classNo);
             InitializeComponent();
-            PopulateCategoryBox();
+            PopulateDropDown();
             PopulateCategoryList();
             PopulateClassList();
             PopulateShowList();
@@ -59,7 +59,9 @@ namespace TrotTrax
             showLabel.Text = aClass.name + "\r\nClass Detail";
             numberBox.Text = classNo.ToString();
             nameBox.Text = aClass.name;
+            feeBox.Text = aClass.fee.ToString();
             catDropDown.SelectedValue = aClass.catNo;
+            modifyBtn.Text = "Save Changes";
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             isChanged = false;
@@ -70,7 +72,7 @@ namespace TrotTrax
         {
             aClass = new Class(clubID, year);
             PopulateCategoryList();
-            PopulateCategoryBox();
+            PopulateDropDown();
             PopulateClassList();
             this.Text = "New Class - TrotTrax";
             showLabel.Text = "New Class\nSetup";
@@ -89,7 +91,7 @@ namespace TrotTrax
         private void RefreshForm(string clubID, int year, int classNo)
         {
             aClass = new Class(clubID, year, classNo);
-            PopulateCategoryBox();
+            PopulateDropDown();
             PopulateCategoryList();
             PopulateClassList();
             PopulateShowList();
@@ -97,7 +99,9 @@ namespace TrotTrax
             showLabel.Text = aClass.name + "\r\nClass Detail";
             numberBox.Text = classNo.ToString();
             nameBox.Text = aClass.name;
+            feeBox.Text = aClass.fee.ToString();
             catDropDown.SelectedValue = aClass.catNo;
+            modifyBtn.Text = "Save Changes";
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             isChanged = false;
@@ -115,7 +119,7 @@ namespace TrotTrax
             {
                 PopulateClassList();
                 PopulateCategoryList();
-                PopulateCategoryBox();
+                PopulateDropDown();
             }
         }
 
@@ -143,15 +147,20 @@ namespace TrotTrax
 
         // Class data methods
 
-        private void PopulateCategoryBox()
+        private void PopulateDropDown()
         {
-            catBoxItemList.Add(new CategoryItem() { no = 0, name = String.Empty });
-            foreach (CategoryItem entry in aClass.catList)
-                catBoxItemList.Add(new CategoryItem() { no = entry.no, name = entry.name });
+            // Initializes box with a 'null' item for display purposes.
+            dropDownList = new List<DropDownItem>();
+            dropDownList.Add(new DropDownItem() { no = 0, name = String.Empty });
 
-            this.catDropDown.DataSource = catBoxItemList;
-            this.catDropDown.DisplayMember = "description";
-            this.catDropDown.ValueMember = "no";
+            // Adds the contents of the category item list retrieved from the database.
+            foreach (CategoryItem entry in aClass.catList)
+                dropDownList.Add(new DropDownItem() { no = entry.no, name = entry.name });
+
+            // Sets this list as the menu's data source and tells the menu which parts to show.
+            catDropDown.DataSource = dropDownList;
+            catDropDown.DisplayMember = "name";
+            catDropDown.ValueMember = "no";
         }
 
         private void SaveClass(object sender, EventArgs e)
@@ -230,7 +239,7 @@ namespace TrotTrax
 
         private void PopulateClassList()
         {
-            this.classListBox.Items.Clear();
+            classListBox.Items.Clear();
             foreach (ClassItem entry in aClass.classList)
             {
                 string[] row = { entry.name, };
@@ -269,7 +278,7 @@ namespace TrotTrax
         // Category list methods
         private void PopulateCategoryList()
         {
-            this.catListBox.Items.Clear();
+            catListBox.Items.Clear();
             foreach (CategoryItem entry in aClass.catList)
             {
                 string[] row = { entry.name, entry.timed.ToString() };

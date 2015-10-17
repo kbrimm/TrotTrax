@@ -96,6 +96,12 @@ namespace TrotTrax
         public string clubName;
     }
 
+    public struct DropDownItem
+    {
+        public int no { get; set; }
+        public string name { get; set; }
+    }
+
     public struct HorseItem
     {
         public int no;
