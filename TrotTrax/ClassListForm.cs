@@ -172,20 +172,28 @@ namespace TrotTrax
                 int number;
                 int category = Convert.ToInt32(this.catDropDown.SelectedValue);
                 string name = this.nameBox.Text;
-                string feeString = this.feeBox.ToString();
+                bool validFee;
+                string feeString = this.feeBox.ToString().Substring(36);
                 decimal fee;
 
-                if (!decimal.TryParse(feeString, out fee))
-                    fee = 0;
-
-                if (noString == String.Empty || !int.TryParse(noString, out number))
-                    confirm = MessageBox.Show("Class number must be a unique integer value.",
+                // Reject save conditions: fee is not a decimal, class number is not an integer, class is not in a category
+                // Otherwise, proceed.
+                Console.WriteLine("String value for fee: " + feeString);
+                Console.WriteLine("Length of string: " + feeString.Length);
+                validFee = decimal.TryParse(feeString, System.Globalization.NumberStyles.Any, new System.Globalization.CultureInfo("en-US"), out fee);
+                Console.WriteLine("Parsed value for fee: " + fee);
+                if (!validFee)
+                    confirm = MessageBox.Show("Fee must be a decimal value.",
+                        "TrotTrax Alert", MessageBoxButtons.OK);   
+                else if (noString == String.Empty || !int.TryParse(noString, out number))
+                    confirm = MessageBox.Show("Class number must be an integer value.",
                         "TrotTrax Alert", MessageBoxButtons.OK);
                 else if (aClass.catList.Count == 0)
                     confirm = MessageBox.Show("You must configure at least one category before adding a class to this show year.",
                         "TrotTrax Confirmation", MessageBoxButtons.OK);
                 else
                 {
+                    // If it's a new class, check that the class number is unique, prompt for more additions.
                     if (isNew)
                     {
                         if (aClass.AddClass(number, category, name, fee))
@@ -197,16 +205,19 @@ namespace TrotTrax
                             else
                                 RefreshForm(aClass.clubID, aClass.year, number);
                         }
+                        // Something went wrong, it's probably the class number.
                         else
                             confirm = MessageBox.Show("Class number must be unique.",
                                 "TrotTrax Alert", MessageBoxButtons.OK);
                     }
+                    // Otherwise: do or do not, there is no try.
                     else
                     {
                         if (aClass.ModifyClass(number, category, name, fee))
                             RefreshForm(aClass.clubID, aClass.year, number);
+                        // Unless something terrible happens.
                         else
-                            confirm = MessageBox.Show("Unable to add class at this time.",
+                            confirm = MessageBox.Show("Something went wrong. Unable to save class at this time.",
                                 "TrotTrax Alert", MessageBoxButtons.OK);
                     }
                 }

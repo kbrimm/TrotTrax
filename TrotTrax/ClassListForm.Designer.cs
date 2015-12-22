@@ -36,6 +36,7 @@ namespace TrotTrax
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClassListForm));
             this.showLabel = new System.Windows.Forms.Label();
             this.classListGroup = new System.Windows.Forms.GroupBox();
             this.newClassBtn = new System.Windows.Forms.Button();
@@ -412,6 +413,7 @@ namespace TrotTrax
             this.Controls.Add(this.infoBox);
             this.Controls.Add(this.classListGroup);
             this.Controls.Add(this.showLabel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ClassListForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New Class - TrotTrax";

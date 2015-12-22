@@ -100,9 +100,9 @@
             this.riderListGroup.Controls.Add(this.addRiderBtn);
             this.riderListGroup.Controls.Add(this.viewRiderBtn);
             this.riderListGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.riderListGroup.Location = new System.Drawing.Point(17, 92);
+            this.riderListGroup.Location = new System.Drawing.Point(12, 92);
             this.riderListGroup.Name = "riderListGroup";
-            this.riderListGroup.Size = new System.Drawing.Size(220, 383);
+            this.riderListGroup.Size = new System.Drawing.Size(225, 386);
             this.riderListGroup.TabIndex = 10;
             this.riderListGroup.TabStop = false;
             this.riderListGroup.Text = "Rider List";
@@ -121,7 +121,7 @@
             this.riderListBox.Location = new System.Drawing.Point(7, 21);
             this.riderListBox.MultiSelect = false;
             this.riderListBox.Name = "riderListBox";
-            this.riderListBox.Size = new System.Drawing.Size(207, 325);
+            this.riderListBox.Size = new System.Drawing.Size(212, 328);
             this.riderListBox.TabIndex = 13;
             this.riderListBox.UseCompatibleStateImageBehavior = false;
             this.riderListBox.View = System.Windows.Forms.View.Details;
@@ -145,9 +145,9 @@
             // 
             this.addRiderBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.addRiderBtn.Location = new System.Drawing.Point(109, 352);
+            this.addRiderBtn.Location = new System.Drawing.Point(109, 355);
             this.addRiderBtn.Name = "addRiderBtn";
-            this.addRiderBtn.Size = new System.Drawing.Size(105, 25);
+            this.addRiderBtn.Size = new System.Drawing.Size(110, 25);
             this.addRiderBtn.TabIndex = 8;
             this.addRiderBtn.Text = "New Rider";
             this.addRiderBtn.UseVisualStyleBackColor = true;
@@ -156,7 +156,7 @@
             // viewRiderBtn
             // 
             this.viewRiderBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.viewRiderBtn.Location = new System.Drawing.Point(7, 352);
+            this.viewRiderBtn.Location = new System.Drawing.Point(7, 355);
             this.viewRiderBtn.Name = "viewRiderBtn";
             this.viewRiderBtn.Size = new System.Drawing.Size(95, 25);
             this.viewRiderBtn.TabIndex = 7;

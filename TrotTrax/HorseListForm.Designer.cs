@@ -50,6 +50,8 @@ namespace TrotTrax
             this.placeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.viewNumber = new System.Windows.Forms.Button();
             this.infoBox = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.heightBox = new System.Windows.Forms.Label();
             this.nickNameBox = new System.Windows.Forms.TextBox();
             this.callNameLabel = new System.Windows.Forms.Label();
             this.cancelBtn = new System.Windows.Forms.Button();
@@ -65,8 +67,6 @@ namespace TrotTrax
             this.riderLastHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.viewRiderBtn = new System.Windows.Forms.Button();
             this.showLabel = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.heightBox = new System.Windows.Forms.Label();
             this.horseBox.SuspendLayout();
             this.entryGroup.SuspendLayout();
             this.infoBox.SuspendLayout();
@@ -196,9 +196,9 @@ namespace TrotTrax
             // viewNumber
             // 
             this.viewNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.viewNumber.Location = new System.Drawing.Point(441, 179);
+            this.viewNumber.Location = new System.Drawing.Point(435, 179);
             this.viewNumber.Name = "viewNumber";
-            this.viewNumber.Size = new System.Drawing.Size(207, 25);
+            this.viewNumber.Size = new System.Drawing.Size(213, 25);
             this.viewNumber.TabIndex = 5;
             this.viewNumber.TabStop = false;
             this.viewNumber.Text = "View Class";
@@ -224,6 +224,23 @@ namespace TrotTrax
             this.infoBox.TabIndex = 17;
             this.infoBox.TabStop = false;
             this.infoBox.Text = "Rider Information";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(232, 141);
+            this.textBox1.MaxLength = 255;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(184, 22);
+            this.textBox1.TabIndex = 14;
+            // 
+            // heightBox
+            // 
+            this.heightBox.AutoSize = true;
+            this.heightBox.Location = new System.Drawing.Point(229, 122);
+            this.heightBox.Name = "heightBox";
+            this.heightBox.Size = new System.Drawing.Size(47, 16);
+            this.heightBox.TabIndex = 13;
+            this.heightBox.Text = "Height";
             // 
             // nickNameBox
             // 
@@ -311,9 +328,9 @@ namespace TrotTrax
             this.riderListGroup.Controls.Add(this.riderListBox);
             this.riderListGroup.Controls.Add(this.viewRiderBtn);
             this.riderListGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.riderListGroup.Location = new System.Drawing.Point(677, 12);
+            this.riderListGroup.Location = new System.Drawing.Point(671, 12);
             this.riderListGroup.Name = "riderListGroup";
-            this.riderListGroup.Size = new System.Drawing.Size(220, 250);
+            this.riderListGroup.Size = new System.Drawing.Size(226, 250);
             this.riderListGroup.TabIndex = 16;
             this.riderListGroup.TabStop = false;
             this.riderListGroup.Text = "Shown By";
@@ -365,23 +382,6 @@ namespace TrotTrax
             this.showLabel.TabIndex = 15;
             this.showLabel.Text = "New Horse Detail";
             this.showLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(232, 141);
-            this.textBox1.MaxLength = 255;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(184, 22);
-            this.textBox1.TabIndex = 14;
-            // 
-            // heightBox
-            // 
-            this.heightBox.AutoSize = true;
-            this.heightBox.Location = new System.Drawing.Point(229, 122);
-            this.heightBox.Name = "heightBox";
-            this.heightBox.Size = new System.Drawing.Size(47, 16);
-            this.heightBox.TabIndex = 13;
-            this.heightBox.Text = "Height";
             // 
             // HorseListForm
             // 

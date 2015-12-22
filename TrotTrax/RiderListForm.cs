@@ -77,8 +77,8 @@ namespace TrotTrax
             classEntryListBox.Items.Clear();
             foreach (ClassEntryItem entry in rider.classEntryList)
             {
-                string[] row = { entry.horseName, entry.showDate, entry.className, entry.place.ToString() };
-                classEntryListBox.Items.Add(entry.backNo.ToString()).SubItems.AddRange(row);
+               // string[] row = { entry.horseName, entry.showDate, entry.className, entry.place.ToString() };
+               // classEntryListBox.Items.Add(entry.backNo.ToString()).SubItems.AddRange(row);
             }
         }
 

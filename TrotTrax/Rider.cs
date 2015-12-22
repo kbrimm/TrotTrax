@@ -43,7 +43,7 @@ namespace TrotTrax
             phone = database.GetValueString(clubID, year + "_rider", "contact", "rider_no = " + riderNo);
             riderList = database.GetRiderItemList(clubID, year, "last_name");
             horseList = database.GetHorseItemList(clubID, year, String.Empty);
-            classEntryList = database.GetClassEntryItemList(clubID, year, "r.rider_no = " + riderNo, "s.date");
+           // classEntryList = database.GetClassEntryItemList(clubID, year, "r.rider_no = " + riderNo, "s.date");
         }
     }
 }
