@@ -25,6 +25,8 @@ namespace TrotTrax
 
         public bool connected;
 
+        #region Constructors/Initializers
+
         // Initializes variables & checks for instance of database
         // Creates trot_trax if not found
         //     adds tables for club data & current data (last club and year viewed)
@@ -100,6 +102,10 @@ namespace TrotTrax
             connection = new MySqlConnection(connString);
         }
 
+        #endregion
+
+        #region Executors
+
         private bool DoTheNonQuery(string query)
         {
             MySqlCommand command;
@@ -166,7 +172,9 @@ namespace TrotTrax
                 return null;
             }
         }
-        
+
+        #endregion
+
         // Santizes user strings to prevent injection errors or other horrible things.
         public string FormatString(string stringIn)
         {
@@ -181,6 +189,8 @@ namespace TrotTrax
             }
             return newString;
         }
+
+        #region Basic operators - add/drop/insert/update/delete
 
         // The following are some basic commands for interacting with the database.
         // They are all private, return bool, and they should all be self-explanatory.
@@ -325,6 +335,29 @@ namespace TrotTrax
                 return 0;
             }
         }
+
+
+        // Public wrapper for insert
+        public bool AddValues(string database, string table, string column, string data)
+        {
+            return InsertData(database, table, column, data);
+        }
+
+        // Public wrapper for update
+        public bool ChangeValues(string database, string table, string data, string where)
+        {
+            return UpdateData(database, table, data, where);
+        }
+
+        // Public wrapper for delete
+        public bool DeleteValues(string database, string table, string where)
+        {
+            return DeleteData(database, table, where);
+        }
+
+        #endregion
+
+        #region Generic data getters
 
         // Essentially wraps ExecuteScalar, returns particular format of the data found.
         // Optional: where
@@ -515,6 +548,8 @@ namespace TrotTrax
             else
                 return null;
         }
+
+        #endregion
 
         // The following functions provide specific database interaction functionality.
         // Because of the complexity of the interactions between the tables, I've tried to
@@ -890,7 +925,7 @@ namespace TrotTrax
             if (sort == "rider_last" || sort == String.Empty)
                 sort = "rider_last, rider_first";
 
-            reader = GetReader(database, year + "_rider", "rider_no, first_name, last_name, rider_dob, phone, email, member", String.Empty, sort);
+            reader = GetReader(database, year + "_rider", "rider_no, rider_first, rider_last, rider_dob, phone, email, member", String.Empty, sort);
             while (reader.Read())
             {
                 item = new RiderItem();
@@ -948,21 +983,6 @@ namespace TrotTrax
             reader.Close();
             connection.Close();
             return showItemList;
-        }
-
-        public bool AddValues(string database, string table, string column, string data)
-        {
-            return InsertData(database, table, column, data);
-        }
-
-        public bool ChangeValues(string database, string table, string data, string where)
-        {
-            return UpdateData(database, table, data, where);
-        }
-
-        public bool DeleteValues(string database, string table, string where)
-        {
-            return DeleteData(database, table, where);
         }
     }
 }

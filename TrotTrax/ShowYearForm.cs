@@ -27,26 +27,8 @@ namespace TrotTrax
         public ShowYearForm()
         {
             InitializeComponent();
-            viewShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            viewShowBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            addShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            addShowBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            viewClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            viewClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            addClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            addClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            viewNumberBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            viewNumberBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            viewRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            viewRiderBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            viewHorseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            viewHorseBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            viewToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            viewToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
-            settingsToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            settingsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
-
             isNew = true;
+            ActiveButtons(isNew);
         }
 
         // Passing an integer value indicates that there is data in trot_trax.current
@@ -54,41 +36,110 @@ namespace TrotTrax
         {
             year = new ShowYear();
             InitializeComponent();
-            currentLabel.Text = year.clubName + "\n\n" + year.year + " Show Year";
+            isNew = false;
+            ActiveButtons(isNew);
             PopulateClubMenu();
             PopulateYearMenu();
             PopulateShowList();
             PopulateClassList();
             PopulateBackNoList();
 
-            isNew = false;
+            currentLabel.Text = year.clubName + "\n\n" + year.year + " Show Year";
         }
 
         private void RefreshForm()
         {
             year = new ShowYear();
-            currentLabel.Text = year.clubName + "\n\n" + year.year + " Show Year";
-            addShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            addShowBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            addClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            addClassBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            viewNumberBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            viewNumberBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            viewRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            viewRiderBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            viewHorseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            viewHorseBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            viewToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            viewToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
-            settingsToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            settingsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+            isNew = false;
+            ActiveButtons(isNew);
+
             PopulateClubMenu();
             PopulateYearMenu();
             PopulateShowList();
             PopulateClassList();
             PopulateBackNoList();
+        }
 
-            isNew = false;
+        private void ActiveButtons(bool isNew)
+        {
+            if(isNew)
+            {
+                // If there's no data in the show, all menu items and view buttons are greyed out.
+                viewToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                viewToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+                reportsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                reportsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+                settingsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                settingsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;                
+
+                addShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                addShowBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+                showsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                showsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+
+                addClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                addClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+                classesToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                classesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+
+                addNumberBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                addNumberBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+                backNumbersToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                backNumbersToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+
+                riderListBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                riderListBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+                ridersToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                ridersToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+                
+                horseListBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                horseListBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+                horsesToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                horsesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+            }
+            else
+            {
+                // Otherwise we can open any menu or blank form.
+                viewToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                viewToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+                reportsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                reportsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+                settingsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                settingsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+
+                addShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                addShowBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+                showsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                showsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+
+                addClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                addClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+                classesToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                classesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+
+                addNumberBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                addNumberBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+                backNumbersToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                backNumbersToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+
+                riderListBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                riderListBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+                ridersToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                ridersToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+
+                horseListBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                horseListBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+                horsesToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                horsesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+            }
+
+            // These buttons depend on the presence of particular data.
+            viewShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewShowBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            viewClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            viewNumberBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewNumberBtn.ForeColor = System.Drawing.SystemColors.ControlText;
         }
 
         private void RefreshOnClose(object sender, FormClosingEventArgs e)
@@ -216,12 +267,8 @@ namespace TrotTrax
                     value = dateString + " - " + entry.name;
                 showListBox.Items.Add(value);
             }
-            if (year.showList.Count() == 0)
-            {
-                viewShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                viewShowBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            }
-            else
+
+            if (year.showList.Count() > 0)
             {
                 viewShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 viewShowBtn.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -278,12 +325,7 @@ namespace TrotTrax
                 classListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
             }
 
-            if(year.classList.Count() == 0)
-            {
-                viewClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                viewClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            }
-            else
+            if(year.classList.Count() > 0)
             {
                 viewClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 viewClassBtn.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -332,6 +374,12 @@ namespace TrotTrax
                 string[] row = { entry.rider, entry.horse };
                 backNoListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
             }
+
+            if (year.backNoList.Count() > 0)
+            {
+                viewNumberBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                viewNumberBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            }
         }
 
         private void SortBackNoList(object sender, ColumnClickEventArgs e)
@@ -350,7 +398,21 @@ namespace TrotTrax
             
         }
 
+        private void ViewBackNo(object sender, EventArgs e)
+        {
+
+        }
+
         private void NewRider(object sender, EventArgs e)
+        {
+            if (!isNew)
+            {
+                RiderListForm riderList = new RiderListForm(year.clubID, year.year);
+                riderList.Visible = true;
+            }
+        }
+
+        private void ViewRider(object sender, EventArgs e)
         {
             if (!isNew)
             {
@@ -365,20 +427,6 @@ namespace TrotTrax
             {
                 HorseListForm horseList = new HorseListForm();
                 horseList.Visible = true;
-            }
-        }
-
-        private void ViewBackNo(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void ViewRider(object sender, EventArgs e)
-        {
-            if (!isNew)
-            {
-                RiderListForm riderList = new RiderListForm(year.clubID, year.year);
-                riderList.Visible = true;
             }
         }
 

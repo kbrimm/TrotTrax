@@ -18,17 +18,17 @@ using System.Windows.Forms;
 
 namespace TrotTrax
 {
-    public partial class ClassInstanceForm : Form
+    public partial class ResultsForm : Form
     {
-        ClassInstance aClass;
+        Results aClass;
        // private List<EntryBoxItem> entryBoxItemList = new List<EntryBoxItem>();
         bool isChanged;
         bool isFirst;
         bool isLast;
 
-        public ClassInstanceForm(string clubID, int year, int showNo, int classNo)
+        public ResultsForm(string clubID, int year, int showNo, int classNo)
         {
-            aClass = new ClassInstance(clubID, year, showNo, classNo);
+            aClass = new Results(clubID, year, showNo, classNo);
             InitializeComponent();
             this.Text = aClass.showDate + " " + aClass.className + " - TrotTrax";
             showLabel.Text = aClass.showDate + "\n" + classNo + ". " + aClass.className;
@@ -195,7 +195,7 @@ namespace TrotTrax
 
                 if (classNo >= 0)
                 {
-                    ClassInstanceForm classInstance = new ClassInstanceForm(aClass.clubID, aClass.year, aClass.showNo, classNo);
+                    ResultsForm classInstance = new ResultsForm(aClass.clubID, aClass.year, aClass.showNo, classNo);
                     classInstance.Visible = true;
                     this.Close();
                 }
@@ -212,7 +212,7 @@ namespace TrotTrax
                     loadNew = AbandonChanges();
                 if (loadNew)
                 {
-                    ClassInstanceForm classInstance = new ClassInstanceForm(aClass.clubID, aClass.year, aClass.showNo, aClass.GetPrev());
+                    ResultsForm classInstance = new ResultsForm(aClass.clubID, aClass.year, aClass.showNo, aClass.GetPrev());
                     classInstance.Visible = true;
                     this.Close();
                 }
@@ -229,7 +229,7 @@ namespace TrotTrax
                     loadNew = AbandonChanges();
                 if (loadNew)
                 {
-                    ClassInstanceForm classInstance = new ClassInstanceForm(aClass.clubID, aClass.year, aClass.showNo, aClass.GetNext());
+                    ResultsForm classInstance = new ResultsForm(aClass.clubID, aClass.year, aClass.showNo, aClass.GetNext());
                     classInstance.Visible = true;
                     this.Close();
                 }

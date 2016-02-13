@@ -67,6 +67,7 @@ namespace TrotTrax
             PopulateClassList();
             PopulateShowList();
             this.Text = "New Show Detail - TrotTrax";
+            this.ActiveControl = datePicker;
             showLabel.Text = "Adding New Show";
             numberBox.Text = String.Empty;
             descriptionBox.Text = String.Empty;
@@ -277,7 +278,7 @@ namespace TrotTrax
 
                 if (selectedClass >= 0)
                 {
-                    ClassInstanceForm classForm = new ClassInstanceForm(show.clubID, show.year, show.number, selectedClass);
+                    ResultsForm classForm = new ResultsForm(show.clubID, show.year, show.number, selectedClass);
                     classForm.Visible = true;
                     this.Close();
                 }

@@ -103,7 +103,7 @@ namespace TrotTrax
             this.showListBox.MultiSelect = false;
             this.showListBox.Name = "showListBox";
             this.showListBox.Size = new System.Drawing.Size(212, 325);
-            this.showListBox.TabIndex = 13;
+            this.showListBox.TabIndex = 10;
             this.showListBox.UseCompatibleStateImageBehavior = false;
             this.showListBox.View = System.Windows.Forms.View.Details;
             this.showListBox.DoubleClick += new System.EventHandler(this.ViewShow);
@@ -120,7 +120,7 @@ namespace TrotTrax
             this.addShowBtn.Location = new System.Drawing.Point(109, 352);
             this.addShowBtn.Name = "addShowBtn";
             this.addShowBtn.Size = new System.Drawing.Size(110, 25);
-            this.addShowBtn.TabIndex = 8;
+            this.addShowBtn.TabIndex = 12;
             this.addShowBtn.Text = "New Show";
             this.addShowBtn.UseVisualStyleBackColor = true;
             this.addShowBtn.Click += new System.EventHandler(this.NewShow);
@@ -131,7 +131,7 @@ namespace TrotTrax
             this.viewShowBtn.Location = new System.Drawing.Point(7, 352);
             this.viewShowBtn.Name = "viewShowBtn";
             this.viewShowBtn.Size = new System.Drawing.Size(95, 25);
-            this.viewShowBtn.TabIndex = 7;
+            this.viewShowBtn.TabIndex = 11;
             this.viewShowBtn.Text = "View Show";
             this.viewShowBtn.UseVisualStyleBackColor = true;
             this.viewShowBtn.Click += new System.EventHandler(this.ViewShow);
@@ -162,7 +162,7 @@ namespace TrotTrax
             this.cancelBtn.Location = new System.Drawing.Point(267, 432);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(120, 25);
-            this.cancelBtn.TabIndex = 10;
+            this.cancelBtn.TabIndex = 9;
             this.cancelBtn.Text = "Close";
             this.cancelBtn.UseVisualStyleBackColor = true;
             this.cancelBtn.Click += new System.EventHandler(this.CancelChanges);
@@ -172,7 +172,7 @@ namespace TrotTrax
             this.deleteBtn.Location = new System.Drawing.Point(141, 432);
             this.deleteBtn.Name = "deleteBtn";
             this.deleteBtn.Size = new System.Drawing.Size(120, 25);
-            this.deleteBtn.TabIndex = 9;
+            this.deleteBtn.TabIndex = 8;
             this.deleteBtn.Text = "Delete";
             this.deleteBtn.UseVisualStyleBackColor = true;
             this.deleteBtn.Click += new System.EventHandler(this.RemoveShow);
@@ -182,7 +182,7 @@ namespace TrotTrax
             this.modifyBtn.Location = new System.Drawing.Point(9, 432);
             this.modifyBtn.Name = "modifyBtn";
             this.modifyBtn.Size = new System.Drawing.Size(126, 25);
-            this.modifyBtn.TabIndex = 8;
+            this.modifyBtn.TabIndex = 7;
             this.modifyBtn.Text = "Save Changes";
             this.modifyBtn.UseVisualStyleBackColor = true;
             this.modifyBtn.Click += new System.EventHandler(this.SaveShow);
@@ -194,7 +194,7 @@ namespace TrotTrax
             this.commentsBox.Multiline = true;
             this.commentsBox.Name = "commentsBox";
             this.commentsBox.Size = new System.Drawing.Size(378, 261);
-            this.commentsBox.TabIndex = 7;
+            this.commentsBox.TabIndex = 6;
             this.commentsBox.TextChanged += new System.EventHandler(this.ChangesMade);
             // 
             // commentsLabel
@@ -289,7 +289,7 @@ namespace TrotTrax
             this.classListBox.MultiSelect = false;
             this.classListBox.Name = "classListBox";
             this.classListBox.Size = new System.Drawing.Size(237, 401);
-            this.classListBox.TabIndex = 12;
+            this.classListBox.TabIndex = 13;
             this.classListBox.UseCompatibleStateImageBehavior = false;
             this.classListBox.View = System.Windows.Forms.View.Details;
             this.classListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ClassSort);
@@ -311,7 +311,7 @@ namespace TrotTrax
             this.viewClassBtn.Location = new System.Drawing.Point(128, 432);
             this.viewClassBtn.Name = "viewClassBtn";
             this.viewClassBtn.Size = new System.Drawing.Size(115, 25);
-            this.viewClassBtn.TabIndex = 7;
+            this.viewClassBtn.TabIndex = 14;
             this.viewClassBtn.Text = "View Class";
             this.viewClassBtn.UseVisualStyleBackColor = true;
             this.viewClassBtn.Click += new System.EventHandler(this.ViewClass);

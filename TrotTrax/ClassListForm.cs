@@ -374,7 +374,7 @@ namespace TrotTrax
                 }
                 if (showNo >= 0)
                 {
-                    ClassInstanceForm classForm = new ClassInstanceForm(aClass.clubID, aClass.year, showNo, aClass.number);
+                    ResultsForm classForm = new ResultsForm(aClass.clubID, aClass.year, showNo, aClass.number);
                     classForm.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
                     classForm.Visible = true;
                 }

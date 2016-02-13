@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace TrotTrax
 {
-    class ClassInstance : ListObject
+    class Results : ListObject
     {
         public List<BackNoItem> entryList = new List<BackNoItem>();
         public List<BackNoItem> placingList = new List<BackNoItem>();
@@ -31,7 +31,7 @@ namespace TrotTrax
         //public bool isJackpot { get; private set; }
         //public decimal fee { get; private set; }
 
-        public ClassInstance(string clubID, int year, int showNo, int classNo)
+        public Results(string clubID, int year, int showNo, int classNo)
         {
             database = new DBDriver(1);
             this.clubID = clubID;
