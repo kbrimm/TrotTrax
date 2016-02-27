@@ -47,6 +47,7 @@
             this.infoBox = new System.Windows.Forms.GroupBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.emailLabel = new System.Windows.Forms.Label();
+            this.cancelBtn = new System.Windows.Forms.Button();
             this.phoneBox = new System.Windows.Forms.TextBox();
             this.phoneLabel = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -56,7 +57,6 @@
             this.birthdayPicker = new System.Windows.Forms.DateTimePicker();
             this.lastNameBox = new System.Windows.Forms.TextBox();
             this.lastNameLabel = new System.Windows.Forms.Label();
-            this.cancelBtn = new System.Windows.Forms.Button();
             this.deleteBtn = new System.Windows.Forms.Button();
             this.modifyBtn = new System.Windows.Forms.Button();
             this.firstNameBox = new System.Windows.Forms.TextBox();
@@ -89,7 +89,7 @@
             this.showLabel.Name = "showLabel";
             this.showLabel.Size = new System.Drawing.Size(225, 80);
             this.showLabel.TabIndex = 9;
-            this.showLabel.Text = "New Rider Detail";
+            this.showLabel.Text = "New Rider Setup";
             this.showLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // riderListGroup
@@ -148,7 +148,7 @@
             this.addRiderBtn.Location = new System.Drawing.Point(109, 355);
             this.addRiderBtn.Name = "addRiderBtn";
             this.addRiderBtn.Size = new System.Drawing.Size(110, 25);
-            this.addRiderBtn.TabIndex = 8;
+            this.addRiderBtn.TabIndex = 10;
             this.addRiderBtn.Text = "New Rider";
             this.addRiderBtn.UseVisualStyleBackColor = true;
             this.addRiderBtn.Click += new System.EventHandler(this.NewRiderAction);
@@ -159,7 +159,7 @@
             this.viewRiderBtn.Location = new System.Drawing.Point(7, 355);
             this.viewRiderBtn.Name = "viewRiderBtn";
             this.viewRiderBtn.Size = new System.Drawing.Size(95, 25);
-            this.viewRiderBtn.TabIndex = 7;
+            this.viewRiderBtn.TabIndex = 9;
             this.viewRiderBtn.Text = "View Rider";
             this.viewRiderBtn.UseVisualStyleBackColor = true;
             this.viewRiderBtn.Click += new System.EventHandler(this.LoadRiderAction);
@@ -168,6 +168,7 @@
             // 
             this.infoBox.Controls.Add(this.textBox3);
             this.infoBox.Controls.Add(this.emailLabel);
+            this.infoBox.Controls.Add(this.cancelBtn);
             this.infoBox.Controls.Add(this.phoneBox);
             this.infoBox.Controls.Add(this.phoneLabel);
             this.infoBox.Controls.Add(this.checkBox1);
@@ -177,7 +178,6 @@
             this.infoBox.Controls.Add(this.birthdayPicker);
             this.infoBox.Controls.Add(this.lastNameBox);
             this.infoBox.Controls.Add(this.lastNameLabel);
-            this.infoBox.Controls.Add(this.cancelBtn);
             this.infoBox.Controls.Add(this.deleteBtn);
             this.infoBox.Controls.Add(this.modifyBtn);
             this.infoBox.Controls.Add(this.firstNameBox);
@@ -198,7 +198,7 @@
             this.textBox3.MaxLength = 255;
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(260, 22);
-            this.textBox3.TabIndex = 23;
+            this.textBox3.TabIndex = 5;
             this.textBox3.TextAlignChanged += new System.EventHandler(this.DataChanged);
             // 
             // emailLabel
@@ -210,13 +210,22 @@
             this.emailLabel.TabIndex = 22;
             this.emailLabel.Text = "E Mail";
             // 
+            // cancelBtn
+            // 
+            this.cancelBtn.Location = new System.Drawing.Point(284, 217);
+            this.cancelBtn.Name = "cancelBtn";
+            this.cancelBtn.Size = new System.Drawing.Size(132, 25);
+            this.cancelBtn.TabIndex = 8;
+            this.cancelBtn.Text = "Close";
+            this.cancelBtn.UseVisualStyleBackColor = true;
+            // 
             // phoneBox
             // 
             this.phoneBox.Location = new System.Drawing.Point(9, 189);
             this.phoneBox.MaxLength = 255;
             this.phoneBox.Name = "phoneBox";
             this.phoneBox.Size = new System.Drawing.Size(141, 22);
-            this.phoneBox.TabIndex = 21;
+            this.phoneBox.TabIndex = 4;
             this.phoneBox.TextAlignChanged += new System.EventHandler(this.DataChanged);
             // 
             // phoneLabel
@@ -271,7 +280,7 @@
             this.birthdayPicker.Location = new System.Drawing.Point(9, 136);
             this.birthdayPicker.Name = "birthdayPicker";
             this.birthdayPicker.Size = new System.Drawing.Size(188, 22);
-            this.birthdayPicker.TabIndex = 15;
+            this.birthdayPicker.TabIndex = 3;
             this.birthdayPicker.Value = new System.DateTime(2015, 8, 10, 20, 26, 32, 0);
             this.birthdayPicker.ValueChanged += new System.EventHandler(this.DataChanged);
             // 
@@ -281,7 +290,7 @@
             this.lastNameBox.MaxLength = 255;
             this.lastNameBox.Name = "lastNameBox";
             this.lastNameBox.Size = new System.Drawing.Size(213, 22);
-            this.lastNameBox.TabIndex = 12;
+            this.lastNameBox.TabIndex = 2;
             this.lastNameBox.TextAlignChanged += new System.EventHandler(this.DataChanged);
             // 
             // lastNameLabel
@@ -293,30 +302,23 @@
             this.lastNameLabel.TabIndex = 11;
             this.lastNameLabel.Text = "Last Name";
             // 
-            // cancelBtn
-            // 
-            this.cancelBtn.Location = new System.Drawing.Point(267, 217);
-            this.cancelBtn.Name = "cancelBtn";
-            this.cancelBtn.Size = new System.Drawing.Size(120, 25);
-            this.cancelBtn.TabIndex = 10;
-            this.cancelBtn.Text = "Cancel";
-            this.cancelBtn.UseVisualStyleBackColor = true;
-            // 
             // deleteBtn
             // 
-            this.deleteBtn.Location = new System.Drawing.Point(141, 217);
+            this.deleteBtn.Location = new System.Drawing.Point(146, 217);
             this.deleteBtn.Name = "deleteBtn";
-            this.deleteBtn.Size = new System.Drawing.Size(120, 25);
-            this.deleteBtn.TabIndex = 9;
+            this.deleteBtn.Size = new System.Drawing.Size(132, 25);
+            this.deleteBtn.TabIndex = 7;
             this.deleteBtn.Text = "Delete";
             this.deleteBtn.UseVisualStyleBackColor = true;
             // 
             // modifyBtn
             // 
+            this.modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             this.modifyBtn.Location = new System.Drawing.Point(6, 217);
             this.modifyBtn.Name = "modifyBtn";
-            this.modifyBtn.Size = new System.Drawing.Size(129, 25);
-            this.modifyBtn.TabIndex = 8;
+            this.modifyBtn.Size = new System.Drawing.Size(134, 25);
+            this.modifyBtn.TabIndex = 6;
             this.modifyBtn.Text = "Save Changes";
             this.modifyBtn.UseVisualStyleBackColor = true;
             // 
@@ -326,7 +328,7 @@
             this.firstNameBox.MaxLength = 255;
             this.firstNameBox.Name = "firstNameBox";
             this.firstNameBox.Size = new System.Drawing.Size(188, 22);
-            this.firstNameBox.TabIndex = 5;
+            this.firstNameBox.TabIndex = 1;
             this.firstNameBox.TextChanged += new System.EventHandler(this.DataChanged);
             // 
             // firstNameLabel
@@ -345,7 +347,7 @@
             this.numberBox.Name = "numberBox";
             this.numberBox.ReadOnly = true;
             this.numberBox.Size = new System.Drawing.Size(89, 22);
-            this.numberBox.TabIndex = 1;
+            this.numberBox.TabIndex = 16;
             // 
             // showNoLabel
             // 
@@ -389,7 +391,7 @@
             this.classEntryListBox.MultiSelect = false;
             this.classEntryListBox.Name = "classEntryListBox";
             this.classEntryListBox.Size = new System.Drawing.Size(642, 148);
-            this.classEntryListBox.TabIndex = 11;
+            this.classEntryListBox.TabIndex = 15;
             this.classEntryListBox.TabStop = false;
             this.classEntryListBox.UseCompatibleStateImageBehavior = false;
             this.classEntryListBox.View = System.Windows.Forms.View.Details;
@@ -424,7 +426,7 @@
             this.viewNumber.Location = new System.Drawing.Point(435, 179);
             this.viewNumber.Name = "viewNumber";
             this.viewNumber.Size = new System.Drawing.Size(213, 25);
-            this.viewNumber.TabIndex = 5;
+            this.viewNumber.TabIndex = 12;
             this.viewNumber.TabStop = false;
             this.viewNumber.Text = "View Class";
             this.viewNumber.UseVisualStyleBackColor = true;
@@ -457,7 +459,7 @@
             this.horseListBox.MultiSelect = false;
             this.horseListBox.Name = "horseListBox";
             this.horseListBox.Size = new System.Drawing.Size(213, 192);
-            this.horseListBox.TabIndex = 13;
+            this.horseListBox.TabIndex = 14;
             this.horseListBox.UseCompatibleStateImageBehavior = false;
             this.horseListBox.View = System.Windows.Forms.View.Details;
             // 
@@ -476,7 +478,7 @@
             this.viewHorseBtn.Location = new System.Drawing.Point(7, 219);
             this.viewHorseBtn.Name = "viewHorseBtn";
             this.viewHorseBtn.Size = new System.Drawing.Size(213, 25);
-            this.viewHorseBtn.TabIndex = 7;
+            this.viewHorseBtn.TabIndex = 11;
             this.viewHorseBtn.Text = "View Horse";
             this.viewHorseBtn.UseVisualStyleBackColor = true;
             // 
@@ -492,7 +494,7 @@
             this.Controls.Add(this.showLabel);
             this.Name = "RiderListForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "New Rider Detail - TrotTrax";
+            this.Text = "New Rider - TrotTrax";
             this.riderListGroup.ResumeLayout(false);
             this.infoBox.ResumeLayout(false);
             this.infoBox.PerformLayout();

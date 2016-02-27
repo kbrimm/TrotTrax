@@ -29,9 +29,7 @@ namespace TrotTrax
                 Application.SetCompatibleTextRenderingDefault(false);
 
                 // Check for an existing club
-                int? count = database.CountValue("trot_trax", "current", "current_year", String.Empty);
-
-                if (count.HasValue && count > 0)
+                if (database.HasCurrent())
                     Application.Run(new ShowYearForm(1));
                 else
                     Application.Run(new ShowYearForm());

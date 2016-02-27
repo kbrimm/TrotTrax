@@ -57,7 +57,7 @@ namespace TrotTrax
         {
             string columns = "class_no, category_no, class_name, fee";
             string data = newClassNo + ", " + newCatNo +
-                ", '" + database.FormatString(newClassName) + "', " + newFee;
+                ", '" + database.CleanString(newClassName) + "', " + newFee;
             bool success = database.AddValues(clubID, year + "_class", columns, data);
             return success;
         }
@@ -65,7 +65,7 @@ namespace TrotTrax
         public bool ModifyClass(int newClassNo, int newCatNo, string newClassName, decimal newFee)
         {
             string data = "class_no = " + newClassNo + ", category_no = " + newCatNo + 
-                ", class_name = '" + database.FormatString(newClassName) + "', fee = " + newFee;
+                ", class_name = '" + database.CleanString(newClassName) + "', fee = " + newFee;
             string where = "class_no = " + number;
             bool success = database.ChangeValues(clubID, year + "_class", data, where);
             return success;

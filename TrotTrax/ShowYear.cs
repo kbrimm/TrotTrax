@@ -26,11 +26,10 @@ namespace TrotTrax
             database = new DBDriver(1);
 
             CastYearData();
-            clubID = database.GetValueString("trot_trax", "current", "club_id", String.Empty);
-            clubName = database.GetValueString("trot_trax", "club", "club_name", "club_id = '" + clubID + "'");
+            clubName = database.GetCurrentClubName();
 
             clubList = database.GetClubItemList();
-            yearList = database.GetIntList(clubID, "show_year", "year", String.Empty);
+            yearList = database.GetYearItemList();
 
             backNoList = database.GetBackNoItemList(clubID, year, String.Empty);
             classList = database.GetClassItemList(clubID, year, String.Empty);

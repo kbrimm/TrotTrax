@@ -24,6 +24,7 @@ namespace TrotTrax
         bool isNew;
         bool isChanged;
 
+        // New rider
         public RiderListForm(string clubID, int year)
         {
             rider = new Rider(clubID, year);
@@ -34,11 +35,12 @@ namespace TrotTrax
             isChanged = false;
         }
 
+        // Existing rider
         public RiderListForm(string clubID, int year, int riderNo)
         {
             rider = new Rider(clubID, year, riderNo);
             InitializeComponent();
-            numberBox.Text = rider.riderNo.ToString();
+            numberBox.Text = rider.number.ToString();
             firstNameBox.Text = rider.firstName;
             lastNameBox.Text = rider.lastName;
             phoneBox.Text = rider.phone;
@@ -50,6 +52,43 @@ namespace TrotTrax
             PopulateClassEntryList();
             isNew = false;
             isChanged = false;
+        }
+
+        private void RefreshForm(string clubID, int year)
+        {
+            rider = new Rider(clubID, year);
+            PopulateRiderList();
+            PopulateHorseList();
+            isNew = true;
+            isChanged = false;
+        }
+
+        private void RefreshForm(string clubID, int year, int riderNo)
+        {
+
+        }
+
+        private void DataChanged(object sender, EventArgs e)
+        {
+            isChanged = true;
+            cancelBtn.Text = "Cancel";
+            modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+        }
+
+        private bool AbandonChanges()
+        {
+            if (isChanged)
+            {
+                DialogResult confirm = MessageBox.Show("Do you want to abandon your changes?",
+                        "TrotTrax Confirmation", MessageBoxButtons.YesNo);
+                if (confirm == DialogResult.Yes)
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return true;
         }
 
         private void PopulateRiderList()
@@ -75,27 +114,14 @@ namespace TrotTrax
         private void PopulateClassEntryList()
         {
             classEntryListBox.Items.Clear();
-            foreach (ClassEntryItem entry in rider.classEntryList)
+            foreach (ResultItem entry in rider.classEntryList)
             {
                // string[] row = { entry.horseName, entry.showDate, entry.className, entry.place.ToString() };
                // classEntryListBox.Items.Add(entry.backNo.ToString()).SubItems.AddRange(row);
             }
         }
 
-        private bool AbandonChanges()
-        {
-            DialogResult confirm = MessageBox.Show("Do you want to abandon your changes?",
-                    "TrotTrax Confirmation", MessageBoxButtons.YesNo);
-            if (confirm == DialogResult.Yes)
-                return true;
-            else
-                return false;
-        }
 
-        private void DataChanged(object sender, EventArgs e)
-        {
-            isChanged = true;
-        }
 
         private void NewRiderAction(object sender, EventArgs e)
         {

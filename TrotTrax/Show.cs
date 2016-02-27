@@ -52,10 +52,10 @@ namespace TrotTrax
         public bool AddShow(DateTime date, string description, string comments)
         {
             string dateString = date.ToString("yyyy-MM-dd");
-            string target = "date, show_name, show_comment";
-            string values = "'" + dateString + "', '" + database.FormatString(description) +
-                "', '" + database.FormatString(comments) + "'";
-            bool success = database.AddValues(clubID, year + "_show", target, values);
+            string columns = "date, show_name, show_comment";
+            string values = "'" + dateString + "', '" + database.CleanString(description) +
+                "', '" + database.CleanString(comments) + "'";
+            bool success = database.AddValues(clubID, year + "_show", columns, values);
             if (success)
             {
                 string no = database.GetValueString(clubID, year + "_show", "show_no", "date = '" + dateString + "'");
@@ -68,8 +68,8 @@ namespace TrotTrax
         public bool ModifyShow(DateTime date, string description, string comments)
         {
             string dateString = date.ToString("yyyy-MM-dd");
-            string values = "date = '" + dateString + "', show_name = '" + database.FormatString(description) + 
-                "', show_comment = '" + database.FormatString(comments) + "'";
+            string values = "date = '" + dateString + "', show_name = '" + database.CleanString(description) + 
+                "', show_comment = '" + database.CleanString(comments) + "'";
             string qualifier = "show_no = " + number;
             bool success = database.ChangeValues(clubID, year + "_show", values, qualifier);
             if(success)

@@ -50,7 +50,7 @@ namespace TrotTrax
         public bool AddCategory(string newDesc, bool newTimed)
         {
             string column = "category_name, timed";
-            string data = "'" + database.FormatString(newDesc) + "', " + newTimed;
+            string data = "'" + database.CleanString(newDesc) + "', " + newTimed;
             bool success = database.AddValues(clubID, year + "_category", column, data);
             number = database.GetLastIndex();
             return success;
@@ -58,7 +58,7 @@ namespace TrotTrax
 
         public bool ModifyCategory(string newDesc, bool newTimed)
         {
-            string data = "category_name = '" + database.FormatString(newDesc) + 
+            string data = "category_name = '" + database.CleanString(newDesc) + 
                 "', timed = " + newTimed;
             string where = "category_no = " + number;
             bool success = database.ChangeValues(clubID, year + "_category", data, where);

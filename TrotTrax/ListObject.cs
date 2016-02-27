@@ -21,30 +21,30 @@ namespace TrotTrax
         public int year { get; set; }
         public List<BackNoItem> backNoList;
         public List<CategoryItem> catList;
-        public List<ClassItem> classList;
-        public List<ClassEntryItem> classEntryList;
+        public List<ClassItem> classList;        
         public List<HorseItem> horseList;
+        public List<ResultItem> resultList;
         public List<RiderItem> riderList;
         public List<ShowItem> showList;
 
-        public void SortBackNos(string sortOn)
+        public void SortBackNos(string sort)
         {
-            backNoList = database.GetBackNoItemList(clubID, year, sortOn);
+            backNoList = database.GetBackNoItemList(clubID, year, sort);
         }
 
-        public void SortCategories(string sortOn)
+        public void SortCategories(string sort)
         {
-            catList = database.GetCategoryItemList(clubID, year, sortOn);
+            catList = database.GetCategoryItemList(clubID, year, sort);
         }
         
-        public void SortClasses(string sortOn)
+        public void SortClasses(string sort)
         {
-            classList = database.GetClassItemList(clubID, year, sortOn);
+            classList = database.GetClassItemList(clubID, year, sort);
         }
 
-        public void SortRiders(string sortOn)
+        public void SortRiders(string sort)
         {
-            riderList = database.GetRiderItemList(clubID, year, sortOn);
+            riderList = database.GetRiderItemList(sort);
         }
     }
 
@@ -72,24 +72,6 @@ namespace TrotTrax
         public decimal fee;
     }
 
-    public struct ClassEntryItem
-    {
-        public int backNo;
-        public int riderNo;
-        public string rider;
-        public int horseNo;
-        public string horse;
-        public int showNo;
-        public string showDate;
-        public int classNo;
-        public string className;
-        public int place;
-        public decimal time;
-        public int points;
-        public decimal payIn;
-        public decimal payOut;
-    }
-
     public struct ClubItem
     {
         public string clubID;
@@ -111,12 +93,30 @@ namespace TrotTrax
         public string ownerName;
     }
 
+    public struct ResultItem
+    {
+        public int backNo;
+        public int riderNo;
+        public string rider;
+        public int horseNo;
+        public string horse;
+        public int showNo;
+        public string showDate;
+        public int classNo;
+        public string className;
+        public int place;
+        public decimal time;
+        public int points;
+        public decimal payIn;
+        public decimal payOut;
+    }
+
     public struct RiderItem
     {
         public int no;
         public string firstName;
         public string lastName;
-        public string dob;
+        public DateTime dob;
         public string phone;
         public string email;
         public bool member;
