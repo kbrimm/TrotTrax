@@ -27,9 +27,9 @@ namespace TrotTrax
             database = new DBDriver(1);
             this.year = year;
             this.clubID = clubID;
-            classList = database.GetClassItemList(clubID, year, String.Empty);
-            catList = database.GetCategoryItemList(clubID, year, String.Empty); 
-            showList = database.GetShowItemList(clubID, year, "date");            
+            classList = database.GetClassItemList();
+            catList = database.GetCategoryItemList(); 
+            showList = database.GetShowItemList();            
         }
 
         public Class(string clubID, int year, int number)
@@ -38,43 +38,45 @@ namespace TrotTrax
             this.year = year;
             this.clubID = clubID;
             this.number = number;
-            catList = database.GetCategoryItemList(clubID, year, String.Empty); 
-            classList = database.GetClassItemList(clubID, year, String.Empty);
-            showList = database.GetShowItemList(clubID, year, String.Empty);
+            catList = database.GetCategoryItemList(); 
+            classList = database.GetClassItemList();
+            showList = database.GetShowItemList();
             SetClassData();
         }
        
         private void SetClassData()
         {
-            ClassItem classItem = database.GetClassItem(clubID, year, number);
+            ClassItem classItem = database.GetClassItem(number);
             catNo = classItem.catNo;
             name = classItem.name;
             fee = classItem.fee;
-            catName = database.GetValueString(clubID, year + "_category", "category_name", "category_no=" + catNo);
+            CategoryItem catItem = database.GetCategoryItem(catNo);
+            catName = catItem.name;
         }
 
         public bool AddClass(int newClassNo, int newCatNo, string newClassName, decimal newFee)
         {
-            string columns = "class_no, category_no, class_name, fee";
-            string data = newClassNo + ", " + newCatNo +
-                ", '" + database.CleanString(newClassName) + "', " + newFee;
-            bool success = database.AddValues(clubID, year + "_class", columns, data);
+            bool success = database.AddClassItem(newClassNo, newCatNo, newClassName, newFee);
             return success;
         }
 
         public bool ModifyClass(int newClassNo, int newCatNo, string newClassName, decimal newFee)
         {
-            string data = "class_no = " + newClassNo + ", category_no = " + newCatNo + 
-                ", class_name = '" + database.CleanString(newClassName) + "', fee = " + newFee;
-            string where = "class_no = " + number;
-            bool success = database.ChangeValues(clubID, year + "_class", data, where);
+            bool success = database.UpdateClassItem(newClassNo, newCatNo, newClassName, newFee);
             return success;
         }
 
-        public void RemoveClass()
+        public bool RemoveClass()
         {
-            string where = "class_no = " + number;
-            database.DeleteValues(clubID, year + "_class", where);
+            bool success = database.DeleteClassItem(number);
+            return success;
         }
+    }
+
+    public enum ClassSort
+    {
+        Default,
+        Name,
+        Category
     }
 }

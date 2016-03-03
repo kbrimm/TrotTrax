@@ -47,19 +47,20 @@ namespace TrotTrax
         }
 
         // Optional: sort (default is rider_last)
-        public List<RiderItem> GetRiderItemList(string sort)
+        public List<RiderItem> GetRiderItemList(RiderSort sort = RiderSort.Default)
         {
             // Case statment for sort column
+            string sortString;
             switch (sort)
             {
-                case "riderNo": sort = "rider_no"; break;
-                case "first": sort = "rider_first, rider_last"; break;
-                case "dob": sort = "rider_dob, rider_last"; break;
-                default: sort = "rider_last, rider_first"; break;
+                case RiderSort.Number: sortString = "rider_no"; break;
+                case RiderSort.FirstName: sortString = "rider_first, rider_last"; break;
+                case RiderSort.BirthDate: sortString = "rider_dob, rider_last"; break;
+                default: sortString = "rider_last, rider_first"; break;
             }
 
             string query = "SELECT rider_no, rider_first, rider_last, rider_dob, phone, email, member FROM " + year + 
-                "_rider ORDER BY " + sort + ";";
+                "_rider ORDER BY " + sortString + ";";
             SQLiteDataReader reader = DoTheReader(clubConn, query);
             List<RiderItem> riderItemList = new List<RiderItem>();
             RiderItem item;
@@ -112,7 +113,7 @@ namespace TrotTrax
         {
             SQLiteCommand query = new SQLiteCommand();
             query.CommandText = "UPDATE " + year + "_rider SET rider_no = @noparam, rider_first @firstparam, " +
-                "rider_last = @lastparam, rider_dob = @dobparam, phone = @phoneparam, email = @emailparam, member = @memberparam) " +
+                "rider_last = @lastparam, rider_dob = @dobparam, phone = @phoneparam, email = @emailparam, member = @memberparam " +
                 "WHERE rider_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", riderNo));

@@ -106,8 +106,6 @@ namespace TrotTrax
 
         #endregion
 
-        // TO DO: THIS
-
         #region Insert Statements
 
         public bool AddResultItem(int riderNo, string first, string last, DateTime dob, string phone, string email, bool member)

@@ -31,9 +31,9 @@ namespace TrotTrax
             clubList = database.GetClubItemList();
             yearList = database.GetYearItemList();
 
-            backNoList = database.GetBackNoItemList(clubID, year, String.Empty);
-            classList = database.GetClassItemList(clubID, year, String.Empty);
-            showList = database.GetShowItemList(clubID, year, String.Empty);
+            backNoList = database.GetBackNoItemList(String.Empty);
+            classList = database.GetClassItemList(String.Empty);
+            showList = database.GetShowItemList(String.Empty);
         }
 
         public bool SetClub(string clubID)

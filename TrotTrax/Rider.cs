@@ -29,8 +29,8 @@ namespace TrotTrax
             database = new DBDriver(1);
             this.clubID = clubID;
             this.year = year;
-            riderList = database.GetRiderItemList(clubID, year, "rider_last");
-            horseList = database.GetHorseItemList(clubID, year, String.Empty);
+            riderList = database.GetRiderItemList();
+            horseList = database.GetHorseItemList();
         }
 
         public Rider(string clubID, int year, int riderNo)
@@ -40,14 +40,14 @@ namespace TrotTrax
             this.year = year;
             this.number = riderNo;
             SetRiderData();
-            riderList = database.GetRiderItemList(clubID, year, "rider_last");
-            horseList = database.GetHorseItemList(clubID, year, String.Empty);
+            riderList = database.GetRiderItemList();
+            horseList = database.GetHorseItemList();
             // classEntryList = database.GetClassEntryItemList(clubID, year, "r.rider_no = " + riderNo, "s.date");
         }
 
         private void SetRiderData()
         {
-            RiderItem riderItem = database.GetRiderItem(clubID, year, number);
+            RiderItem riderItem = database.GetRiderItem(number);
             firstName = riderItem.firstName;
             lastName = riderItem.lastName;
             dob = riderItem.dob;
@@ -56,49 +56,30 @@ namespace TrotTrax
             member = riderItem.member;
         }
 
-        public bool AddRider(string firstName, string lastName, DateTime dob, string phone, 
+        public bool AddRider(int riderNo, string firstName, string lastName, DateTime dob, string phone, 
             string email, bool member)
         {
-            string dobString = dob.ToString("yyyy-MM-dd");
-            string columns = "rider_first, rider_last, rider_dob, " +
-                "phone, email, member";
-            string values = "'" + database.CleanString(firstName) + "', '" + database.CleanString(lastName) +
-                "', " + dobString + ", '" + database.CleanString(phone) + "', '" + database.CleanString(email) +
-                "', " + member;
-            bool success = database.AddValues(clubID, year + "_rider", columns, values);
-            if (success)
-            {
-                this.number = number;
-                riderList = database.GetRiderItemList(clubID, year, "rider_last");
-            }
-            return success;
+            return database.AddRiderItem(riderNo, firstName, lastName, dob, phone, email, member);
         }
 
         public bool ModifyRider(int number, string firstName, string lastName, DateTime dob, string phone, 
             string email, bool member)
         {
-            string dobString = dob.ToString("yyyy-MM-dd");
-            string data = "rider_first = '" + database.CleanString(firstName) + "', rider_last = '" + 
-                database.CleanString(lastName) + "', rider_dob = " + dobString + ", phone = '" + database.CleanString(phone) + 
-                "', email = '" + database.CleanString(email) + "', member = " + member;
-            string where = "rider_first = '" + database.CleanString(firstName) + "', rider_last = '" + database.CleanString(lastName) + "'";
-            bool success = database.ChangeValues(clubID, year + "_rider", data, where);
-            if (success)
-            {
-                riderList = database.GetRiderItemList(clubID, year, "rider_last");
-            }
-            return success;
+            return database.UpdateRiderItem(number, firstName, lastName, dob, phone, email, member);
         }
 
         public bool RemoveRider()
         {
-            string where = "rider_no = " + number;
-            bool success = database.DeleteValues(clubID, year + "_rider", where);
-            if (success)
-            {
-                riderList = database.GetRiderItemList(clubID, year, "rider_last");
-            }
-            return success;
+            return database.DeleteRiderItem(number);
         }
+    }
+
+    public enum RiderSort
+    {
+        Default,
+        Number,
+        FirstName,
+        LastName,
+        BirthDate
     }
 }

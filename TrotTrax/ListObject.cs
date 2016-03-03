@@ -29,17 +29,17 @@ namespace TrotTrax
 
         public void SortBackNos(string sort)
         {
-            backNoList = database.GetBackNoItemList(clubID, year, sort);
+            backNoList = database.GetBackNoItemList(sort);
         }
 
         public void SortCategories(string sort)
         {
-            catList = database.GetCategoryItemList(clubID, year, sort);
+            catList = database.GetCategoryItemList(sort);
         }
         
         public void SortClasses(string sort)
         {
-            classList = database.GetClassItemList(clubID, year, sort);
+            classList = database.GetClassItemList(sort);
         }
 
         public void SortRiders(string sort)

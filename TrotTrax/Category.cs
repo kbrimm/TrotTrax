@@ -71,4 +71,11 @@ namespace TrotTrax
             database.DeleteValues(clubID, year + "_category", where);
         }
     }
+
+    public enum CategorySort
+    {
+        Default,
+        Name,
+        Number
+    }
 }

@@ -46,17 +46,18 @@ namespace TrotTrax
         }
 
         // Optional: sort (default is horse_name)
-        public List<HorseItem> GetHorseItemList(string sort)
+        public List<HorseItem> GetHorseItemList(HorseSort sort = HorseSort.Default)
         {
             // Case statment for sort column
+            string sortString;
             switch (sort)
             {
-                case "owner": sort = "owner_name, horse_name"; break;
-                default: sort = "horse_name"; break;
+                case HorseSort.Owner: sortString = "owner_name, horse_name"; break;
+                default: sortString = "horse_name"; break;
             }
 
             string query = "SELECT horse_no, horse_name, horse_call, height, owner_name FROM " + year +
-                "_horse ORDER BY " + sort + ";";
+                "_horse ORDER BY " + sortString + ";";
             SQLiteDataReader reader = DoTheReader(clubConn, query);
             List<HorseItem> horseItemList = new List<HorseItem>();
             HorseItem item;

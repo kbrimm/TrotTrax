@@ -43,7 +43,7 @@ namespace TrotTrax
         }
 
         // Optional: sort (default is date)
-        public List<ShowItem> GetShowItemList(string sort)
+        public List<ShowItem> GetShowItemList(string sort = null)
         {
             // Case statment for sort column
             switch(sort)

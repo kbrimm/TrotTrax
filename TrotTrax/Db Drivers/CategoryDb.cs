@@ -17,45 +17,115 @@ namespace TrotTrax
 {
     public partial class DBDriver
     {
-        public CategoryItem GetCategoryItem(string database, int year, int catNo)
-        {
-            SQLiteDataReader reader;
-            CategoryItem item = new CategoryItem();
+        // Interactions for <year>_category table
 
-            reader = GetReader(database, year + "_category", "category_no, category_name, timed", "category_no=" + catNo, "category_no");
+        #region Select Statements
+
+        public CategoryItem GetCategoryItem(int catNo)
+        {
+            // Construct and execute the query
+            SQLiteCommand query = new SQLiteCommand();
+            query.CommandText = "SELECT category_no, category_name, timed FROM " + year +
+                "_category WHERE category_no = @noparam;";
+            query.CommandType = System.Data.CommandType.Text;
+            query.Parameters.Add(new SQLiteParameter("@noparam", catNo));
+            SQLiteDataReader reader = DoTheReader(clubConn, query);
+
+            // Read the results
+            CategoryItem item = new CategoryItem();
             while (reader.Read())
             {
                 item.no = reader.GetInt32(0);
                 item.name = reader.GetString(1);
-                item.timed = reader.GetBoolean(2);
+                item.timed = (bool)IntToBool(reader.GetInt32(2));
             }
             reader.Close();
-            connection.Close();
+            clubConn.Close();
             return item;
         }
 
         // Optional: sort (default is category_no)
-        public List<CategoryItem> GetCategoryItemList(string database, int year, string sort)
+        public List<CategoryItem> GetCategoryItemList(CategorySort sort = CategorySort.Default)
         {
-            SQLiteDataReader reader;
+            // Case statment for sort column
+            string sortString;
+            switch (sort)
+            {
+                case CategorySort.Name: sortString = "category_name"; break;
+                default: sortString = "category_no"; break;
+            }
+
+            // Construct and execute the query
+            string query = "SELECT category_no, category_name, timed FROM " + year +
+                "_category ORDER BY " + sortString + ";";
+            SQLiteDataReader reader = DoTheReader(clubConn, query);
+            List<CategoryItem> catItemList = new List<CategoryItem>();
             CategoryItem item;
-            List<CategoryItem> CatItemList = new List<CategoryItem>();
 
-            if (sort == String.Empty)
-                sort = "category_no";
-
-            reader = GetReader(database, year + "_category", "category_no, category_name, timed", String.Empty, sort);
+            // Read the results
+            reader = DoTheReader(clubConn, query);
             while (reader.Read())
             {
                 item = new CategoryItem();
                 item.no = reader.GetInt32(0);
-                item.name = reader.GetString(1);
-                item.timed = reader.GetBoolean(2);
-                CatItemList.Add(item);
+                item.name = reader.GetString(2);
+                item.timed = (bool)IntToBool(reader.GetInt32(3));
+                catItemList.Add(item);
             }
             reader.Close();
-            connection.Close();
-            return CatItemList;
+            clubConn.Close();
+            return catItemList;
         }
+
+        #endregion
+
+        #region Insert Statements
+
+        public bool AddClassItem(int catNo, string catName, bool timed)
+        {
+            // Construct and execute the query
+            SQLiteCommand query = new SQLiteCommand();
+            query.CommandText = "INSERT INTO " + year + "_cateory " +
+                "(category_no, category_name, timed) " +
+                "VALUES (@noparam, @nameparam, @timedparam)";
+            query.CommandType = System.Data.CommandType.Text;
+            query.Parameters.Add(new SQLiteParameter("@noparam", catNo));
+            query.Parameters.Add(new SQLiteParameter("@nameparam", catName));
+            query.Parameters.Add(new SQLiteParameter("@timedparam", BoolToInt(timed)));
+            return DoTheNonQuery(clubConn, query);
+        }
+
+        #endregion
+
+        #region Update Statements
+
+        public bool UpdateClassItem(int catNo, string catName, bool timed)
+        {
+            // Construct and execute the query
+            SQLiteCommand query = new SQLiteCommand();
+            query.CommandText = "UPDATE " + year + "_category SET category_name = @nameparam, timed = @timedparam " +
+                "WHERE category_no = @noparam;";
+            query.CommandType = System.Data.CommandType.Text;
+            query.Parameters.Add(new SQLiteParameter("@noparam", catNo));
+            query.Parameters.Add(new SQLiteParameter("@nameparam", catName));
+            query.Parameters.Add(new SQLiteParameter("@timedparam", BoolToInt(timed)));
+            return DoTheNonQuery(clubConn, query);
+        }
+
+        #endregion
+
+        #region Delete Statements
+
+        public bool DeleteClassItem(int classNo)
+        {
+            // Construct and execute the query
+            SQLiteCommand query = new SQLiteCommand();
+            query.CommandText = "DELETE FROM " + year + "_cateory WHERE category_no = @noparam;";
+            query.CommandType = System.Data.CommandType.Text;
+            query.Parameters.Add(new SQLiteParameter("@noparam", classNo));
+            return DoTheNonQuery(clubConn, query);
+        }
+
+        #endregion
     }
 }
