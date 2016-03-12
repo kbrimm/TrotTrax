@@ -114,7 +114,7 @@ namespace TrotTrax
         private void PopulateClassEntryList()
         {
             classEntryListBox.Items.Clear();
-            foreach (ResultItem entry in rider.classEntryList)
+            foreach (ResultItem entry in rider.resultList)
             {
                // string[] row = { entry.horseName, entry.showDate, entry.className, entry.place.ToString() };
                // classEntryListBox.Items.Add(entry.backNo.ToString()).SubItems.AddRange(row);

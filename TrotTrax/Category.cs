@@ -25,8 +25,8 @@ namespace TrotTrax
             database = new DBDriver(1);
             this.clubID = clubID;
             this.year = year;
-            classList = database.GetClassItemList(clubID, year, String.Empty);
-            catList = database.GetCategoryItemList(clubID, year, String.Empty);
+            classList = database.GetClassItemList();
+            catList = database.GetCategoryItemList();
         }
 
         public Category(string clubID, int year, int number)
@@ -36,39 +36,30 @@ namespace TrotTrax
             this.year = year;
             this.number = number;
             SetCategoryData();
-            classList = database.GetClassItemList(clubID, year, String.Empty);
-            catList = database.GetCategoryItemList(clubID, year, String.Empty);
+            classList = database.GetClassItemList();
+            catList = database.GetCategoryItemList();
         }
 
         private void SetCategoryData()
         {
-            CategoryItem item = database.GetCategoryItem(clubID, year, number);
+            CategoryItem item = database.GetCategoryItem(number);
             name = item.name;
             timed = item.timed;
         }
 
-        public bool AddCategory(string newDesc, bool newTimed)
+        public bool AddCategory(int catNo, string newDesc, bool newTimed)
         {
-            string column = "category_name, timed";
-            string data = "'" + database.CleanString(newDesc) + "', " + newTimed;
-            bool success = database.AddValues(clubID, year + "_category", column, data);
-            number = database.GetLastIndex();
-            return success;
+            return database.AddCategoryItem(catNo, newDesc, newTimed);
         }
 
         public bool ModifyCategory(string newDesc, bool newTimed)
         {
-            string data = "category_name = '" + database.CleanString(newDesc) + 
-                "', timed = " + newTimed;
-            string where = "category_no = " + number;
-            bool success = database.ChangeValues(clubID, year + "_category", data, where);
-            return success;
+            return database.UpdateCategoryItem(number, newDesc, newTimed);
         }
 
-        public void RemoveCat()
+        public bool RemoveCat()
         {
-            string where = "category_no = " + number;
-            database.DeleteValues(clubID, year + "_category", where);
+            return database.DeleteCategoryItem(number);
         }
     }
 

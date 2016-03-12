@@ -159,13 +159,14 @@ namespace TrotTrax
             {
                 DialogResult confirm;
                 bool success;
+                int number = Convert.ToInt32(this.datePicker.Text);
                 DateTime date = this.datePicker.Value;
                 string description = this.descriptionBox.Text;
                 string comments = this.commentsBox.Text;
 
                 if (isNew)
                 {
-                    success = show.AddShow(date, description, comments);
+                    success = show.AddShow(number, date, description, comments);
                     if (success)
                     {
                         confirm = MessageBox.Show("Would you like to add another show?",
@@ -258,12 +259,12 @@ namespace TrotTrax
             }
         }
 
-        private void ClassSort(object sender, ColumnClickEventArgs e)
+        private void SortClass(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
-                show.SortClasses("class_no");
+                show.SortClasses(ClassSort.Number);
             else if (e.Column == 1)
-                show.SortClasses("name");
+                show.SortClasses(ClassSort.Name);
             PopulateClassList();
         }
 

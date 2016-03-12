@@ -32,17 +32,17 @@ namespace TrotTrax
             backNoList = database.GetBackNoItemList(sort);
         }
 
-        public void SortCategories(string sort)
+        public void SortCategories(CategorySort sort)
         {
             catList = database.GetCategoryItemList(sort);
         }
         
-        public void SortClasses(string sort)
+        public void SortClasses(ClassSort sort)
         {
             classList = database.GetClassItemList(sort);
         }
 
-        public void SortRiders(string sort)
+        public void SortRiders(RiderSort sort)
         {
             riderList = database.GetRiderItemList(sort);
         }

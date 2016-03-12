@@ -28,7 +28,8 @@ namespace TrotTrax
                 "_horse WHERE horse_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", horseNo));
-            SQLiteDataReader reader = DoTheReader(clubConn, query);
+            query.Connection = clubConn;
+            SQLiteDataReader reader = DoTheReader(query);
             HorseItem item = new HorseItem();
 
             while (reader.Read())
@@ -94,8 +95,8 @@ namespace TrotTrax
             query.Parameters.Add(new SQLiteParameter("@callparam", callName));
             query.Parameters.Add(new SQLiteParameter("@height", height));
             query.Parameters.Add(new SQLiteParameter("@ownerparam", owner));
-
-            return DoTheNonQuery(clubConn, query);
+            query.Connection = clubConn;
+            return DoTheNonQuery(query);
         }
 
         #endregion
@@ -114,8 +115,8 @@ namespace TrotTrax
             query.Parameters.Add(new SQLiteParameter("@height", height));
             query.Parameters.Add(new SQLiteParameter("@ownerparam", owner));
             query.Parameters.Add(new SQLiteParameter("@noparam", horseNo));
-
-            return DoTheNonQuery(clubConn, query);
+            query.Connection = clubConn;
+            return DoTheNonQuery(query);
         }
 
         #endregion
@@ -128,8 +129,8 @@ namespace TrotTrax
             query.CommandText = "DELETE FROM " + year + "_horse WHERE horse_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", horseNo));
-
-            return DoTheNonQuery(clubConn, query);
+            query.Connection = clubConn;
+            return DoTheNonQuery(query);
         }
 
         #endregion

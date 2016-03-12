@@ -29,7 +29,8 @@ namespace TrotTrax
                 "_category WHERE category_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", catNo));
-            SQLiteDataReader reader = DoTheReader(clubConn, query);
+            query.Connection = clubConn;
+            SQLiteDataReader reader = DoTheReader(query);
 
             // Read the results
             CategoryItem item = new CategoryItem();
@@ -81,7 +82,7 @@ namespace TrotTrax
 
         #region Insert Statements
 
-        public bool AddClassItem(int catNo, string catName, bool timed)
+        public bool AddCategoryItem(int catNo, string catName, bool timed)
         {
             // Construct and execute the query
             SQLiteCommand query = new SQLiteCommand();
@@ -92,14 +93,16 @@ namespace TrotTrax
             query.Parameters.Add(new SQLiteParameter("@noparam", catNo));
             query.Parameters.Add(new SQLiteParameter("@nameparam", catName));
             query.Parameters.Add(new SQLiteParameter("@timedparam", BoolToInt(timed)));
-            return DoTheNonQuery(clubConn, query);
+            query.Connection = clubConn;
+
+            return DoTheNonQuery(query);
         }
 
         #endregion
 
         #region Update Statements
 
-        public bool UpdateClassItem(int catNo, string catName, bool timed)
+        public bool UpdateCategoryItem(int catNo, string catName, bool timed)
         {
             // Construct and execute the query
             SQLiteCommand query = new SQLiteCommand();
@@ -109,21 +112,25 @@ namespace TrotTrax
             query.Parameters.Add(new SQLiteParameter("@noparam", catNo));
             query.Parameters.Add(new SQLiteParameter("@nameparam", catName));
             query.Parameters.Add(new SQLiteParameter("@timedparam", BoolToInt(timed)));
-            return DoTheNonQuery(clubConn, query);
+            query.Connection = clubConn;
+
+            return DoTheNonQuery(query);
         }
 
         #endregion
 
         #region Delete Statements
 
-        public bool DeleteClassItem(int classNo)
+        public bool DeleteCategoryItem(int classNo)
         {
             // Construct and execute the query
             SQLiteCommand query = new SQLiteCommand();
             query.CommandText = "DELETE FROM " + year + "_cateory WHERE category_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", classNo));
-            return DoTheNonQuery(clubConn, query);
+            query.Connection = clubConn;
+
+            return DoTheNonQuery(query);
         }
 
         #endregion

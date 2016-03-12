@@ -24,7 +24,7 @@ namespace TrotTrax
         
         public ClubChooserForm()
         {
-            database = new DBDriver(1);
+            database = new DBDriver();
             InitializeComponent();
         }
 
@@ -43,13 +43,14 @@ namespace TrotTrax
                 if (confirm == DialogResult.Yes)
                 {
                     string id = GetID(name);
-                    if (CheckClubName(id))
+                    if (database.CheckClubExists(id))
                     {
                         confirm = MessageBox.Show("The club \"" + name + "\" already exists. Do you wish to erase it and start over?",
                             "TrotTrax Club Name Confirmation", MessageBoxButtons.YesNo);
                         if (confirm == DialogResult.Yes)
                         {
-                            database.CreateClub(id, name);
+                            database.AddClub(id, name);
+                            database.SetCurrentClub(id);
                             YearChooserForm yearForm = new YearChooserForm();
                             yearForm.FormClosing += new FormClosingEventHandler(this.CloseOnClose);
                             yearForm.Visible = true;
@@ -58,7 +59,8 @@ namespace TrotTrax
                     }
                     else
                     {
-                        database.CreateClub(id, name);
+                        database.AddClub(id, name);
+                        database.SetCurrentClub(id);
                         YearChooserForm yearForm = new YearChooserForm();
                         yearForm.FormClosing += new FormClosingEventHandler(this.CloseOnClose);
                         yearForm.Visible = true;
@@ -105,15 +107,6 @@ namespace TrotTrax
                 id = id.Substring(0, 10);
 
             return id.ToLower();
-        }
-
-        private bool CheckClubName(string id)
-        {
-            int? clubCount = database.CountValue("trot_trax", "club", "club_id", "club_id = '" + id + "'");
-            if (clubCount.HasValue && clubCount > 0)
-                return true;
-            else
-                return false;
         }
     }
 }

@@ -20,21 +20,25 @@ namespace TrotTrax
     {
         #region Select statements
 
-        private string GetCurrentClubId()
+        public string GetCurrentClubId()
         {
             string query = "SELECT club_id FROM current LIMIT 1;";
             object response = DoTheScalar(trotTraxConn, query);
-            return response.ToString();
+            if (response != null)
+                return response.ToString();
+            else
+                return null;
         }
 
         public string GetCurrentClubName()
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "SELECT club_name FROM club WHERE club_id = @idparam";
+            query.CommandText = "SELECT club_name FROM club WHERE club_id = @idparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@idparam", GetCurrentClubId()));
+            query.Connection = trotTraxConn;
 
-            object response = DoTheScalar(trotTraxConn, query);
+            object response = DoTheScalar(query);
             return response.ToString();
         }
 
@@ -43,6 +47,33 @@ namespace TrotTrax
         {
             string clubSelect = "SELECT club_id FROM club ORDER BY club_id LIMIT 1;";
             return DoTheScalar(trotTraxConn, clubSelect).ToString();
+        }
+
+        public bool CheckClubExists(string id)
+        {
+            SQLiteCommand query = new SQLiteCommand();
+            object response;
+            int count = -1;
+
+            query.CommandText = "SELECT COUNT(*) FROM club WHERE club_id = @idparam;";
+            query.CommandType = System.Data.CommandType.Text;
+            query.Parameters.Add(new SQLiteParameter("@idparam", id));
+            query.Connection = trotTraxConn;
+            response = DoTheScalar(query);
+
+            try
+            {
+                count = Convert.ToInt32(response);
+                if (count > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch
+            {
+                Console.WriteLine("No value for club " + id + " found. :(");
+                return false;
+            }
         }
 
         public List<ClubItem> GetClubItemList()
@@ -77,11 +108,12 @@ namespace TrotTrax
         {
             // Construct and execute club table creation query
             SQLiteCommand clubInsert = new SQLiteCommand();
-            clubInsert.CommandText = "INSERT INTO club (club_id, club_name) VALUES (@idparam, @nameparam)";
+            clubInsert.CommandText = "INSERT INTO club (club_id, club_name) VALUES (@idparam, @nameparam);";
             clubInsert.CommandType = System.Data.CommandType.Text;
             clubInsert.Parameters.Add(new SQLiteParameter("@idparam", id));
             clubInsert.Parameters.Add(new SQLiteParameter("@nameparam", name));
-            bool success = DoTheNonQuery(trotTraxConn, clubInsert);
+            clubInsert.Connection = trotTraxConn;
+            bool success = DoTheNonQuery(clubInsert);
 
             // If club successfully added, create database and year table
             if(success)
@@ -109,7 +141,8 @@ namespace TrotTrax
                 "DELETE FROM current WHERE club_id = @idparam;";
             clubDelete.CommandType = System.Data.CommandType.Text;
             clubDelete.Parameters.Add(new SQLiteParameter("@idparam", id));
-            if (DoTheNonQuery(trotTraxConn, clubDelete))
+            clubDelete.Connection = trotTraxConn;
+            if (DoTheNonQuery(clubDelete))
             {
                 Console.Out.WriteLine(id + " deleted from club database.");
             }

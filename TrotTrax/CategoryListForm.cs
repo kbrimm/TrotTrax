@@ -127,13 +127,14 @@ namespace TrotTrax
         {
             if (isChanged)
             {
+                int newNo = Convert.ToInt32(this.numberBox.Text);
                 string newDescription = this.descriptionBox.Text;
                 bool newTimed = this.timedCheckBox.Checked;
                 DialogResult confirm;
 
                 if (isNew)
                 {
-                    bool success = category.AddCategory(newDescription, newTimed);
+                    bool success = category.AddCategory(newNo, newDescription, newTimed);
                     if (success)
                     {
                         confirm = MessageBox.Show("Would you like to add another category?",
@@ -196,11 +197,9 @@ namespace TrotTrax
         private void SortCats(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
-                category.SortCategories("category_no");
+                category.SortCategories(CategorySort.Number);
             else if (e.Column == 1)
-                category.SortCategories("description");
-            else if (e.Column == 5)
-                category.SortCategories("fee");
+                category.SortCategories(CategorySort.Name);
             PopulateCatList();
         }
 
@@ -239,9 +238,9 @@ namespace TrotTrax
         private void SortClasses(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
-                category.SortClasses("class_no");
+                category.SortClasses(ClassSort.Number);
             else if (e.Column == 1)
-                category.SortClasses("name");
+                category.SortClasses(ClassSort.Name);
             PopulateClassList();
         }
 

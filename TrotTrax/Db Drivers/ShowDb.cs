@@ -27,7 +27,8 @@ namespace TrotTrax
             query.CommandText = "SELECT show_no, date, show_name, show_comment FROM " + year + "_show WHERE show_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", showNo));
-            SQLiteDataReader reader = DoTheReader(clubConn, query);
+            query.Connection = clubConn;
+            SQLiteDataReader reader = DoTheReader(query);
             ShowItem item = new ShowItem();
 
             while (reader.Read())
@@ -43,17 +44,18 @@ namespace TrotTrax
         }
 
         // Optional: sort (default is date)
-        public List<ShowItem> GetShowItemList(string sort = null)
+        public List<ShowItem> GetShowItemList(ShowSort sort = ShowSort.Default)
         {
             // Case statment for sort column
+            string sortString;
             switch(sort)
             {
-                case "showNo": sort = "show_no"; break;
-                case "name": sort = "show_name"; break;
-                default: sort = "date"; break;
+                case ShowSort.Number: sortString = "show_no"; break;
+                case ShowSort.Name: sortString = "show_name"; break;
+                default: sortString = "date"; break;
             }
 
-            string query = "SELECT show_no, date, show_name, show_comment FROM " + year + "_show ORDER BY " + sort + ";";
+            string query = "SELECT show_no, date, show_name, show_comment FROM " + year + "_show ORDER BY " + sortString + ";";
             SQLiteDataReader reader = DoTheReader(clubConn, query);
             List<ShowItem> showItemList = new List<ShowItem>();
             ShowItem item;
@@ -87,8 +89,9 @@ namespace TrotTrax
             query.Parameters.Add(new SQLiteParameter("@dateparam", DateToString(date)));
             query.Parameters.Add(new SQLiteParameter("@nameparam", name));
             query.Parameters.Add(new SQLiteParameter("@commentparam", comment));
+            query.Connection = clubConn;
 
-            return DoTheNonQuery(clubConn, query);
+            return DoTheNonQuery(query);
         }
 
         #endregion
@@ -105,8 +108,9 @@ namespace TrotTrax
             query.Parameters.Add(new SQLiteParameter("@dateparam", DateToString(date)));
             query.Parameters.Add(new SQLiteParameter("@nameparam", name));
             query.Parameters.Add(new SQLiteParameter("@commentparam", comment));
+            query.Connection = clubConn;
 
-            return DoTheNonQuery(clubConn, query);
+            return DoTheNonQuery(query);
         }
 
         #endregion
@@ -119,8 +123,9 @@ namespace TrotTrax
             query.CommandText = "DELETE FROM " + year + "_show WHERE show_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", showNo));
+            query.Connection = clubConn;
 
-            return DoTheNonQuery(clubConn, query);
+            return DoTheNonQuery(query);
         }
 
         #endregion

@@ -25,43 +25,25 @@ namespace TrotTrax
         {
             database = new DBDriver(1);
 
-            CastYearData();
+            year = database.GetCurrentYear();
             clubName = database.GetCurrentClubName();
 
             clubList = database.GetClubItemList();
             yearList = database.GetYearItemList();
 
-            backNoList = database.GetBackNoItemList(String.Empty);
-            classList = database.GetClassItemList(String.Empty);
-            showList = database.GetShowItemList(String.Empty);
+            backNoList = database.GetBackNoItemList();
+            classList = database.GetClassItemList();
+            showList = database.GetShowItemList();
         }
 
         public bool SetClub(string clubID)
         {
-            // Assigns new data to trot_trax.current
-            // Uses latest year for clubID
-            int setYear = database.GetLatestYear(clubID);
-
-            if (setYear > 0)
-            {
-                database.SetClub(clubID);
-                database.SetYear(setYear);
-                return true;
-            }
-            else
-                return false;
+            return database.SetCurrentClub(clubID);
         }
 
         public void SetYear(int setYear)
         {
-            database.SetYear(setYear);
-        }
-
-        private void CastYearData()
-        {
-            int? tryYear = database.GetValueInt("trot_trax", "current", "current_year", String.Empty);
-            if (tryYear.HasValue)
-                year = tryYear.Value;
+            database.SetCurrentYear(setYear);
         }
     }
 }

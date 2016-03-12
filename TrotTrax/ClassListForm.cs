@@ -280,9 +280,9 @@ namespace TrotTrax
         private void SortClassList(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
-                aClass.SortClasses("class_no");
+                aClass.SortClasses(ClassSort.Number);
             else if (e.Column == 1)
-                aClass.SortClasses("class_name");
+                aClass.SortClasses(ClassSort.Name);
             PopulateClassList();
         }
 
@@ -300,11 +300,9 @@ namespace TrotTrax
         private void SortCategoryList(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
-                aClass.SortCategories("category_no");
+                aClass.SortCategories(CategorySort.Number);
             else if (e.Column == 1)
-                aClass.SortCategories("description");
-            else if (e.Column == 2)
-                aClass.SortCategories("fee");
+                aClass.SortCategories(CategorySort.Name);
             PopulateCategoryList();
         }
 

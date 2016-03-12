@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace TrotTrax
 {
-    private partial class DBDriver
+    public partial class DBDriver
     {
         private SQLiteConnection trotTraxConn;
         private SQLiteConnection clubConn;
@@ -40,20 +40,11 @@ namespace TrotTrax
                 string clubString = "CREATE TABLE club ( club_id TEXT NOT NULL, club_name TEXT, PRIMARY KEY (club_id) );";
                 string currentString = "CREATE TABLE current ( club_id TEXT NOT NULL, current_year INTEGER, " +
                     "FOREIGN KEY (club_id) REFERENCES club(club_id) ON DELETE CASCADE );";
-                SQLiteConnection.CreateFile("trot_trax.db");
 
-                if (CheckDB())
-                {
-                    DoTheNonQuery(trotTraxConn, clubString);
-                    DoTheNonQuery(trotTraxConn, currentString);
-                    Console.WriteLine("\tDatabase creation successful.");
-                    connected = true;
-                }
-                else
-                {
-                    Console.WriteLine("Unable to create database.");
-                    connected = false;
-                }
+                DoTheNonQuery(trotTraxConn, clubString);
+                DoTheNonQuery(trotTraxConn, currentString);
+                Console.WriteLine("\tDatabase creation successful.");
+                connected = true;
             }
             else
             {
@@ -66,38 +57,31 @@ namespace TrotTrax
         public DBDriver(int skipCheck)
         {
             trotTraxConn = new SQLiteConnection("Data Source=trot_trax.db;Version=3;");
-            clubConn = new SQLiteConnection("Data Source=" + GetCurrentClubId() + ".db;Version=3;"); 
+            string clubId = GetCurrentClubId();
+            if (clubId != null)
+                clubConn = new SQLiteConnection("Data Source=" + clubId + ".db;Version=3;");
+            else
+                clubConn = null;
             year = GetCurrentYear();           
         }
 
         // Checks the for instance of the trot_trax database.
         private bool CheckDB()
         {
-            string query = "SELECT count(*) FROM sqlite_maser WHERE type='table' AND name='trot_trax';";
+            string query = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='current';";
+            int response = 0;
 
             Console.WriteLine("Welcome to TrotTrax!\nChecking database...");
-            return DoTheNonQuery(trotTraxConn, query);    
+            response = Convert.ToInt32(DoTheScalar(trotTraxConn, query));
+            if (response > 0)
+                return true;
+            else
+                return false;
         }
 
         #endregion
 
-        #region String Management
-
-        // Santizes user strings to prevent injection errors or other horrible things.
-        private string CleanString(string stringIn)
-        {
-            string newString = String.Empty;
-
-            foreach (char c in stringIn)
-            {
-                if (c == '\'')
-                    newString += '’';
-                else
-                    newString += c;
-            }
-            return newString;
-        }
-
+        #region Input translators
         // SQLite does not support a date format, so we need to use a string that will sort properly.
         private string DateToString(DateTime date)
         {
@@ -143,6 +127,7 @@ namespace TrotTrax
 
             try
             {
+                conn.Close();
                 conn.Open();
                 command = new SQLiteCommand(query, conn);
                 command.ExecuteNonQuery();
@@ -159,13 +144,14 @@ namespace TrotTrax
             }
         }
 
-        private bool DoTheNonQuery(SQLiteConnection conn, SQLiteCommand query)
+        private bool DoTheNonQuery(SQLiteCommand query)
         {
             try
             {
-                conn.Open();
+                query.Connection.Close();
+                query.Connection.Open();
                 query.ExecuteNonQuery();
-                conn.Close();
+                query.Connection.Close();
                 Console.WriteLine("\tSuccess! :D");
                 return true;
             }
@@ -173,7 +159,7 @@ namespace TrotTrax
             {
                 Console.WriteLine("\tSomething went wrong. :(");
                 Console.WriteLine(oops.ToString());
-                conn.Close();
+                query.Connection.Close();
                 return false;
             }
         }
@@ -185,6 +171,7 @@ namespace TrotTrax
 
             try
             {
+                conn.Close();
                 conn.Open();
                 command = new SQLiteCommand(query, conn);
                 value = command.ExecuteScalar();
@@ -201,14 +188,15 @@ namespace TrotTrax
             }
         }
 
-        private object DoTheScalar(SQLiteConnection conn, SQLiteCommand query)
+        private object DoTheScalar(SQLiteCommand query)
         {
             Object value;
             try
             {
-                conn.Open();
+                query.Connection.Close();
+                query.Connection.Open();
                 value = query.ExecuteScalar();
-                conn.Close();
+                query.Connection.Close();
                 Console.WriteLine("\tSuccess! :D");
                 return value;
             }
@@ -216,7 +204,7 @@ namespace TrotTrax
             {
                 Console.WriteLine("\tSomething went wrong. :(");
                 Console.WriteLine(oops.ToString());
-                conn.Close();
+                query.Connection.Close();
                 return null;
             }
         }
@@ -228,6 +216,7 @@ namespace TrotTrax
 
             try
             {
+                conn.Close();
                 conn.Open();
                 command = new SQLiteCommand(query, conn);
                 reader = command.ExecuteReader();
@@ -243,13 +232,14 @@ namespace TrotTrax
             }
         }
 
-        private SQLiteDataReader DoTheReader(SQLiteConnection conn, SQLiteCommand query)
+        private SQLiteDataReader DoTheReader(SQLiteCommand query)
         {
             SQLiteDataReader reader;
 
             try
             {
-                conn.Open();
+                query.Connection.Close();
+                query.Connection.Open();
                 reader = query.ExecuteReader();
                 Console.WriteLine("\tSuccess! :D");
                 return reader;
@@ -258,14 +248,14 @@ namespace TrotTrax
             {
                 Console.WriteLine("\tSomething went wrong. :(");
                 Console.WriteLine(oops.ToString());
-                conn.Close();
+                query.Connection.Close();
                 return null;
             }
         }
 
         #endregion   
 
-        #region Other bizz
+        #region Current table interactions
 
         // Checks the current table: returns true if it has a value, false otherwise.
         public bool HasCurrent()
@@ -291,26 +281,47 @@ namespace TrotTrax
             }
         }
 
-        #endregion
-
-        #region Table creators
-
-        // Resets data in current, sets club as current
-        public void SetCurrent(string id, int year)
+        // Resets data in current, sets club as current, calls SetCurrentYear
+        public bool SetCurrentClub(string id, int? year = null)
         {
+            // Delete existing current data
+            string currentDelete = "DELETE FROM current;";
+            
             // Construct club id insertion command
             SQLiteCommand currentInsert = new SQLiteCommand();
-            currentInsert.CommandText = "INSERT INTO current (club_id, current_year) VALUES (@idparam, @yearparam)";
+            currentInsert.CommandText = "INSERT INTO current (club_id) VALUES (@idparam)";
             currentInsert.CommandType = System.Data.CommandType.Text;
             currentInsert.Parameters.Add(new SQLiteParameter("@idparam", id));
-            currentInsert.Parameters.Add(new SQLiteParameter("@yearparam", year));
-
-            string currentDelete = "DELETE FROM current;";
-            if (DoTheNonQuery(trotTraxConn, currentDelete) && DoTheNonQuery(trotTraxConn, currentInsert))
+            currentInsert.Connection = trotTraxConn;
+            
+            if (DoTheNonQuery(trotTraxConn, currentDelete) && DoTheNonQuery(currentInsert))
             {
-                this.year = year;
-                SQLiteConnection.CreateFile(id + ".db");
+                clubConn = new SQLiteConnection("Data Source=" + id + ".db;Version=3;");
+                return true;
             }
+            return false;
+        }
+
+        // Sets current year - if no year is passed in, the most current for the club is used.
+        public int SetCurrentYear(int? year = null)
+        {
+            // If no year value is passed in, find the most current year for the club.
+            if (year == null)
+            {
+                string yearSelect = "SELECT year FROM show_year ORDER BY year DESC LIMIT 1;";
+                year = (int)DoTheScalar(clubConn, yearSelect);
+            }
+
+            // Update the current values
+            SQLiteCommand currentUpdate = new SQLiteCommand();
+            currentUpdate.CommandText = "UPDATE current SET current_year = @yearparam WHERE club_id = @idparam";
+            currentUpdate.CommandType = System.Data.CommandType.Text;
+            currentUpdate.Parameters.Add(new SQLiteParameter("@yearparam", year));
+            currentUpdate.Parameters.Add(new SQLiteParameter("@idparam", GetCurrentClubId()));
+            currentUpdate.Connection = trotTraxConn;
+            DoTheNonQuery(currentUpdate);
+            this.year = (int)year;
+            return (int)year;
         }
 
         #endregion

@@ -77,6 +77,7 @@ namespace TrotTrax
     {
         Default,
         Name,
+        Number,
         Category
     }
 }

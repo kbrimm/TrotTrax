@@ -40,14 +40,14 @@ namespace TrotTrax
             this.showNo = showNo;
             qualifier = "s.show_no = " + showNo + " AND s.class_no = " + classNo;
 
-            classList = database.GetClassItemList(clubID, year, String.Empty);
-            backNoList = database.GetBackNoItemList(clubID, year, String.Empty);
-           // entryList = database.GetEntryList(clubID, year, String.Empty, qualifier);
-           // placingList = database.GetEntryList(clubID, year, "place", "place IS NOT NULL AND show_no = " + showNo +
-           //     " AND class_no = " + classNo);
-            className = database.GetValueString(clubID, year + "_class_list", "name", "class_no = " + classNo);
-            showDate = database.GetValueString(clubID, year + "_show_list", "date", "show_no = " + showNo);
-           // entryCount = database.CountValue(clubID, year + "_results", "back_no", "class_no = " + classNo + " AND show_no = " + showNo);
+            classList = database.GetClassItemList();
+            backNoList = database.GetBackNoItemList();
+            // entryList = database.GetEntryList(clubID, year, String.Empty, qualifier);
+            // placingList = database.GetEntryList(clubID, year, "place", "place IS NOT NULL AND show_no = " + showNo +
+            //     " AND class_no = " + classNo);
+            // className = database.GetValueString(clubID, year + "_class_list", "name", "class_no = " + classNo);
+            // showDate = database.GetValueString(clubID, year + "_show_list", "date", "show_no = " + showNo);
+            // entryCount = database.CountValue(clubID, year + "_results", "back_no", "class_no = " + classNo + " AND show_no = " + showNo);
         }
 
         public void SortEntries(string field)
@@ -57,26 +57,12 @@ namespace TrotTrax
 
         public bool AddEntry(int backNo)
         {
-            string values = showNo + ", " + classNo + ", " + backNo;
-            bool success = database.AddValues(clubID, year + "_results", "show_no, class_no, back_no", values);
-            if (success)
-            {
-              //  entryList = database.GetEntryList(clubID, year, String.Empty, qualifier);
-               // entryCount = database.CountValue(clubID, year + "_results", "back_no", "class_no = " + classNo + " AND show_no = " + showNo);
-            }
-            return success;
+            return false;
         }
 
         public bool RemoveEntry(int backNo)
         {
-            string where = "show_no = " + showNo + " AND class_no = " + classNo + " AND back_no = " + backNo;
-            bool success = database.DeleteValues(clubID, year + "_results", where);
-            if (success)
-            {
-               // entryList = database.GetEntryList(clubID, year, String.Empty, qualifier);
-                //entryCount = database.CountValue(clubID, year + "_results", "back_no", "class_no = " + classNo + " AND show_no = " + showNo);
-            }
-            return success;
+            return false;
         }
 
         public bool IsFirstClass()
@@ -132,5 +118,21 @@ namespace TrotTrax
             }
             return 0;
         }
+    }
+
+    public enum ResultSort
+    {
+        Default,
+        Place,
+        Class,
+        Show
+    }
+
+    public enum ResultFiler
+    {
+        Default,
+        Rider,
+        Horse,
+        BackNo
     }
 }

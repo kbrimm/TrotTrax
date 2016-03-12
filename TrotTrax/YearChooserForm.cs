@@ -21,12 +21,10 @@ namespace TrotTrax
     public partial class YearChooserForm : Form
     {
         DBDriver database;
-        string clubID;
 
         public YearChooserForm()
         {
-            database = new DBDriver(1);
-            clubID = database.GetValueString("trot_trax", "current", "club_id", String.Empty);
+            database = new DBDriver(0);
             InitializeComponent();
         }
 
@@ -34,21 +32,24 @@ namespace TrotTrax
         {
             string date = this.yearPicker.Value.ToShortDateString();
             int year = FormatYearString(date);
-            if (CheckYear(clubID, year))
+
+            // Check to see if the current year exists for this club.
+            // If yes, prompt for overwrite. If not, create new.
+            if (database.CheckYearExists(year))
             {
-                DialogResult confirm = MessageBox.Show(year + " already exists for this club. Do you wish to erase it and start over?",
+                DialogResult confirm = MessageBox.Show(year + " already exists for this club. Do you wish to delete it and start over?",
                     "TrotTrax Create Year Confirmation", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
-                    database.CreateYear(clubID, year);
-                else
-                    database.SetYear(year);
+                    database.AddYear(year);
+                database.SetCurrentYear(year);
             }
             else
             {
                 DialogResult confirm = MessageBox.Show("Create a new show year for " + year + "?",
                     "TrotTrax Create Year Confirmation", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
-                    database.CreateYear(clubID, year);
+                    database.AddYear(year);
+                database.SetCurrentYear(year);
             }
             Close();
         }
@@ -73,15 +74,6 @@ namespace TrotTrax
 
             year = Convert.ToInt32(date.Substring(len - 4, 4));
             return year;
-        }
-
-        private bool CheckYear(string id, int year)
-        {
-            int? yearCount = database.CountValue(id, "show_year", "year", "year = " + year);
-            if (yearCount.HasValue && yearCount > 0)
-                return true;
-            else
-                return false;
         }
     }
 }

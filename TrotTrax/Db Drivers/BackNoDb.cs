@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 
 namespace TrotTrax
 {
-    // Methods for interacting with the <club_name>.<show_year>_backNo table
     public partial class DBDriver
     {
         // Interactions for <year>_backNo table
@@ -30,7 +29,8 @@ namespace TrotTrax
                 "JOIN " + year + "_horse AS h ON b.horse_no = h.horse_no WHERE backNo_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", backNo));
-            SQLiteDataReader reader = DoTheReader(clubConn, query);
+            query.Connection = clubConn;
+            SQLiteDataReader reader = DoTheReader(query);
             BackNoItem item = new BackNoItem();
 
             while (reader.Read())
@@ -96,8 +96,9 @@ namespace TrotTrax
             query.Parameters.Add(new SQLiteParameter("@noparam", backNo));
             query.Parameters.Add(new SQLiteParameter("@riderparam", riderNo));
             query.Parameters.Add(new SQLiteParameter("@horseparam", horseNo));
+            query.Connection = clubConn;
 
-            return DoTheNonQuery(clubConn, query);
+            return DoTheNonQuery(query);
         }
 
         #endregion
@@ -113,8 +114,9 @@ namespace TrotTrax
             query.Parameters.Add(new SQLiteParameter("@noparam", backNo));
             query.Parameters.Add(new SQLiteParameter("@riderparam", riderNo));
             query.Parameters.Add(new SQLiteParameter("@horseparam", horseNo));
+            query.Connection = clubConn;
 
-            return DoTheNonQuery(clubConn, query);
+            return DoTheNonQuery(query);
         }
 
         #endregion
@@ -127,8 +129,9 @@ namespace TrotTrax
             query.CommandText = "DELETE FROM " + year + "_backNo WHERE backNo_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", backNo));
+            query.Connection = clubConn;
 
-            return DoTheNonQuery(clubConn, query);
+            return DoTheNonQuery(query);
         }
 
         #endregion

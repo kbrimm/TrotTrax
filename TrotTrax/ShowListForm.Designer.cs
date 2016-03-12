@@ -292,7 +292,7 @@ namespace TrotTrax
             this.classListBox.TabIndex = 13;
             this.classListBox.UseCompatibleStateImageBehavior = false;
             this.classListBox.View = System.Windows.Forms.View.Details;
-            this.classListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ClassSort);
+            this.classListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.SortClass);
             this.classListBox.DoubleClick += new System.EventHandler(this.ViewClass);
             // 
             // classNoHeader

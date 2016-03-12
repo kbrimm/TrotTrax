@@ -110,9 +110,9 @@ namespace TrotTrax
         private void classListBox_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
-                aClass.SortClasses("class_no");
+                aClass.SortClasses(ClassSort.Number);
             else if (e.Column == 1)
-                aClass.SortClasses("name");
+                aClass.SortClasses(ClassSort.Name);
             PopulateClassList();
         }
 

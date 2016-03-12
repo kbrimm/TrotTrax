@@ -55,6 +55,30 @@ namespace TrotTrax
             }
         }
 
+        public bool CheckYearExists(int year)
+        {
+            string query;
+            object response;
+            int count = -1;
+            
+            query = "SELECT COUNT(*) FROM show_year WHERE year = " + year + ";";
+            response = DoTheScalar(clubConn, query);
+
+            try
+            {
+                count = Convert.ToInt32(response);
+                if (count > 0)
+                    return true;
+                else
+                    return false;
+            }
+            catch
+            {
+                Console.WriteLine("No value for year " + year + " found. :(");
+                return false;
+            }
+        }
+
         public List<int> GetYearItemList()
         {
             SQLiteDataReader reader;
@@ -78,7 +102,7 @@ namespace TrotTrax
         // Creates a new year for the current club
         // Generates table set for new year
         // Adds year to show_year table
-        private void AddYear(int year)
+        public void AddYear(int year)
         {
             string yearInsert = "INSERT INTO show_year (year) VALUES(" + year + ");";
 
@@ -133,7 +157,7 @@ namespace TrotTrax
 
         #region Delete statements
 
-        public void DeleteYear(int year)
+        public bool DeleteYear(int year)
         {
             string showYearDelete = "DELETE FROM show_year WHERE year = " + year + ";";
             if(DoTheNonQuery(clubConn, showYearDelete))
@@ -142,8 +166,9 @@ namespace TrotTrax
                     "DROP TABLE " + year + "_class ; DROP TABLE " + year + "_category ; " +
                     "DROP TABLE " + year + "_show ; DROP TABLE " + year + "_backNo ; " +
                     "DROP TABLE " + year + "_horse ; DROP TABLE " + year + "_rider;";
-                DoTheNonQuery(clubConn, dropYearTables);
+                return DoTheNonQuery(clubConn, dropYearTables);
             }
+            return false;
         }
 
         #endregion

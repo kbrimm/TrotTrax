@@ -11,3 +11,7 @@ TrotTrax/obj/Debug/TempPE/DataSet1.Designer.cs.dll
 *.manifest
 *.resources
 *.settings
+*.db
+*.xml
+TrotTrax/SQLite/System.Data.SQLite.dll
+*.dll
