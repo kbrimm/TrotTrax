@@ -20,15 +20,19 @@ namespace TrotTrax
         public string name { get; private set; }
         public bool timed { get; private set; }
 
+        // New category item.
         public Category(string clubID, int year)
         {
             database = new DBDriver(1);
             this.clubID = clubID;
             this.year = year;
+            // If this is a new item, pull in the next number from the database.
+            number = database.GetNextCategoryNumber();
             classList = database.GetClassItemList();
             catList = database.GetCategoryItemList();
         }
 
+        // Existing cateogry item.
         public Category(string clubID, int year, int number)
         {
             database = new DBDriver(1);
@@ -47,9 +51,9 @@ namespace TrotTrax
             timed = item.timed;
         }
 
-        public bool AddCategory(int catNo, string newDesc, bool newTimed)
+        public bool AddCategory(string newDesc, bool newTimed)
         {
-            return database.AddCategoryItem(catNo, newDesc, newTimed);
+            return database.AddCategoryItem(number, newDesc, newTimed);
         }
 
         public bool ModifyCategory(string newDesc, bool newTimed)
@@ -67,6 +71,7 @@ namespace TrotTrax
     {
         Default,
         Name,
-        Number
+        Number,
+        Timed
     }
 }

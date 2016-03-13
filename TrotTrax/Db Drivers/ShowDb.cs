@@ -24,7 +24,7 @@ namespace TrotTrax
         public ShowItem GetShowItem(int showNo)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "SELECT show_no, date, show_name, show_comment FROM " + year + "_show WHERE show_no = @noparam;";
+            query.CommandText = "SELECT show_no, date, show_name, show_comment FROM [" + year + "_show] WHERE show_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", showNo));
             query.Connection = clubConn;
@@ -55,7 +55,7 @@ namespace TrotTrax
                 default: sortString = "date"; break;
             }
 
-            string query = "SELECT show_no, date, show_name, show_comment FROM " + year + "_show ORDER BY " + sortString + ";";
+            string query = "SELECT show_no, date, show_name, show_comment FROM [" + year + "_show] ORDER BY " + sortString + ";";
             SQLiteDataReader reader = DoTheReader(clubConn, query);
             List<ShowItem> showItemList = new List<ShowItem>();
             ShowItem item;
@@ -82,7 +82,7 @@ namespace TrotTrax
         public bool AddShowItem(int showNo, DateTime date, string name, string comment)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "INSERT INTO " + year + "_show (show_no, date, show_name, show_comment) " +
+            query.CommandText = "INSERT INTO [" + year + "_show] (show_no, date, show_name, show_comment) " +
                 "VALUES (@noparam, @dateparam, @nameparam, @commentparam)";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", showNo));
@@ -101,7 +101,7 @@ namespace TrotTrax
         public bool UpdateShowItem(int showNo, DateTime date, string name, string comment)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "UPDATE " + year + "_show SET date = @dateparam, show_name = @nameparam, show_comment = @commentparam " +
+            query.CommandText = "UPDATE [" + year + "_show] SET date = @dateparam, show_name = @nameparam, show_comment = @commentparam " +
                 "WHERE show_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", showNo));
@@ -120,7 +120,7 @@ namespace TrotTrax
         public bool DeleteShowItem(int showNo)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "DELETE FROM " + year + "_show WHERE show_no = @noparam;";
+            query.CommandText = "DELETE FROM [" + year + "_show] WHERE show_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", showNo));
             query.Connection = clubConn;

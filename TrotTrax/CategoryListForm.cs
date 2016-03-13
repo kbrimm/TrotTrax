@@ -20,68 +20,89 @@ namespace TrotTrax
 {
     public partial class CategoryListForm : Form
     {
+        System.Drawing.Font menuItalicText = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic,
+            System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        System.Drawing.Font italicText = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic,
+            System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        System.Drawing.Color grayText = System.Drawing.SystemColors.GrayText;
+        System.Drawing.Font menuRegularText = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular,
+            System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        System.Drawing.Font regularText = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular,
+            System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        System.Drawing.Color blackText = System.Drawing.SystemColors.ControlText;
+        
         private Category category;
         private bool isChanged;
         private bool isNew;
 
+        #region Constructors
+        // Load a new category form.
         public CategoryListForm(string clubID, int year)
         {
             category = new Category(clubID, year);
             InitializeComponent();
             PopulateCatList();
             PopulateClassList();
-            modifyBtn.Text = "Add New Category";
-            deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.numberBox.Text = category.number.ToString();
+            this.modifyBtn.Text = "Add New Category";
+            this.deleteBtn.Font = italicText;
+            this.deleteBtn.ForeColor = grayText;
             isChanged = false;
             isNew = true;
         }
 
+        // Load an existing category form.
         public CategoryListForm(string clubID, int year, int catNo)
         {
             category = new Category(clubID, year, catNo);
             InitializeComponent();
             PopulateCatList();
             PopulateClassList();
-            this.Text = category.name + " Detail - TrotTrax";
-            infoLabel.Text = category.name + "\nCategory Detail";
-            numberBox.Text = category.number.ToString();
-            descriptionBox.Text = category.name;
-            timedCheckBox.Checked = category.timed;
-            modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            cancelBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.Text = category.name + " Category Detail - TrotTrax";
+            this.infoLabel.Text = category.name + "\nCategory Detail";
+            this.numberBox.Text = category.number.ToString();
+            this.descriptionBox.Text = category.name;
+            this.timedCheckBox.Checked = category.timed;
+            this.modifyBtn.Font = italicText;
+            this.modifyBtn.ForeColor = grayText;
+            this.cancelBtn.Font = italicText;
+            this.cancelBtn.ForeColor = grayText;
             isChanged = false;
             isNew = false;
         }
 
+        #endregion
+
+        #region Refresh Form
+        // Refresh to new category form.
         private void RefreshForm(string clubID, int year)
         {
             category = new Category(clubID, year);
             PopulateCatList();
             PopulateClassList();
-            modifyBtn.Text = "Add New Category";
-            deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.numberBox.Text = category.number.ToString();
+            this.modifyBtn.Text = "Add New Category";
+            this.deleteBtn.Font = italicText;
+            this.deleteBtn.ForeColor = grayText;
             isChanged = false;
             isNew = true;
         }
 
+        // Refresh to existing category form.
         private void RefreshForm(string clubID, int year, int catNo)
         {
             category = new Category(clubID, year, catNo);
             PopulateCatList();
             PopulateClassList();
-            this.Text = category.name + " Detail - TrotTrax";
-            infoLabel.Text = category.name + "\nCategory Detail";
-            numberBox.Text = category.number.ToString();
-            descriptionBox.Text = category.name;
-            timedCheckBox.Checked = category.timed;
-            modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            cancelBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.Text = category.name + " Category Detail - TrotTrax";
+            this.infoLabel.Text = category.name + "\nCategory Detail";
+            this.numberBox.Text = category.number.ToString();
+            this.descriptionBox.Text = category.name;
+            this.timedCheckBox.Checked = category.timed;
+            this.modifyBtn.Font = italicText;
+            this.modifyBtn.ForeColor = grayText;
+            this.cancelBtn.Font = italicText;
+            this.cancelBtn.ForeColor = grayText;
             isChanged = false;
             isNew = false;
         }
@@ -97,15 +118,21 @@ namespace TrotTrax
                 PopulateClassList();
         }
 
+        #endregion
+
+        #region Form Changes
+
+        // When changes are made, activates relevant buttons.
         private void DataChanged(object sender, EventArgs e)
         {
-            modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            cancelBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.modifyBtn.Font = regularText;
+            this.modifyBtn.ForeColor = blackText;
+            this.cancelBtn.Font = regularText;
+            this.cancelBtn.ForeColor = blackText;
             isChanged = true;
         }
 
+        // On form close, prompt to abandon unsaved changes.
         private bool AbandonChanges()
         {
             if (isChanged)
@@ -121,20 +148,24 @@ namespace TrotTrax
                 return true;
         }
 
-        // Category data methods
+        #endregion
 
-        private void SaveCat(object sender, EventArgs e)
+        #region Category Data
+
+        // Gets user-entered description and timed value
+        // For new categories, adds to database, prompts to add more automatically.
+        // For existing categories, modifies existing entry.
+        private void SaveCategory(object sender, EventArgs e)
         {
             if (isChanged)
             {
-                int newNo = Convert.ToInt32(this.numberBox.Text);
                 string newDescription = this.descriptionBox.Text;
                 bool newTimed = this.timedCheckBox.Checked;
                 DialogResult confirm;
 
                 if (isNew)
                 {
-                    bool success = category.AddCategory(newNo, newDescription, newTimed);
+                    bool success = category.AddCategory(newDescription, newTimed);
                     if (success)
                     {
                         confirm = MessageBox.Show("Would you like to add another category?",
@@ -160,12 +191,13 @@ namespace TrotTrax
             }
         }
 
+        // Deletes category item from database. Prompts user, as this has a delete-on-cascade effect.
         private void DeleteCat(object sender, EventArgs e)
         {
             if (!isNew)
             {
                 DialogResult confirm = MessageBox.Show("Are you sure you want to delete this category?\n" +
-                    "This operation will delete ALL classes in this category, and any data associated with them.\n" +
+                    "This operation will delete ALL classes in this category, and any data associated with them. " +
                     "This operation CANNOT be undone.",
                     "TrotTrax Confirmation", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
@@ -176,14 +208,18 @@ namespace TrotTrax
             }
         }
 
+        // Exits without saving. Prompts for abandoned changes.
         private void CancelChanges(object sender, EventArgs e)
         {
             if (AbandonChanges())
                 this.Close();
         }
 
-        // Category list methods
+        #endregion
 
+        #region Category List
+
+        // Populates catList from database.
         private void PopulateCatList()
         {
             this.catListBox.Items.Clear();
@@ -194,6 +230,7 @@ namespace TrotTrax
             }
         }
 
+        // Sorts catList based on column clicks by repopulating catList.
         private void SortCats(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
@@ -203,12 +240,14 @@ namespace TrotTrax
             PopulateCatList();
         }
 
+        // Refreshes to new category form.
         private void NewCat(object sender, EventArgs e)
         {
             if (AbandonChanges())
                 RefreshForm(category.clubID, category.year);
         }
 
+        // If category is selected from list, refreshes to existing category form.
         private void ViewCat(object sender, EventArgs e)
         {
             if (catListBox.SelectedItems.Count != 0)
@@ -223,8 +262,11 @@ namespace TrotTrax
             }
         }
 
-        // Class list methods
+        #endregion
 
+        #region Class List
+
+        // Populates classList from database.
         private void PopulateClassList()
         {
             this.classListBox.Items.Clear();
@@ -235,6 +277,7 @@ namespace TrotTrax
             }
         }
 
+        // Sorts classList based on column clicks by repopulating classList.
         private void SortClasses(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
@@ -244,6 +287,7 @@ namespace TrotTrax
             PopulateClassList();
         }
 
+        // Loads new class form, closes current.
         private void NewClass(object sender, EventArgs e)
         {
             if (AbandonChanges())
@@ -254,6 +298,7 @@ namespace TrotTrax
             }
         }
 
+        // If class is selected from list, loads existing class window, closes current.
         private void ViewClass(object sender, EventArgs e)
         {
             if (classListBox.SelectedItems.Count != 0)
@@ -271,5 +316,6 @@ namespace TrotTrax
                 }
             }
         }
+        #endregion
     }
 }

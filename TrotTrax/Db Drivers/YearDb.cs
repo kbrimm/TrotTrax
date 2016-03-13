@@ -85,7 +85,7 @@ namespace TrotTrax
             List<int> yearItemList = new List<int>();
             string query = "SELECT year FROM show_year ORDER BY year DESC;";
 
-            reader = DoTheReader(trotTraxConn, query);
+            reader = DoTheReader(clubConn, query);
             while (reader.Read())
             {
                 yearItemList.Add(reader.GetInt32(0));
@@ -107,50 +107,58 @@ namespace TrotTrax
             string yearInsert = "INSERT INTO show_year (year) VALUES(" + year + ");";
 
             // rider: rider_no int (PK), first_name VC(255), last_name VC(255), age INT, contact VC(255), member BOOLEAN
-            string riderTable = "CREATE TABLE " + year + "_rider ( rider_no INTEGER NOT NULL AUTO_INCREMENT, " +
+            string riderTable = "CREATE TABLE [" + year + "_rider] ( rider_no INTEGER NOT NULL, " +
                 "rider_first TEXT NOT NULL, rider_last TEXT NOT NULL, rider_dob TEXT, phone TEXT, " +
                 "email TEXT, member INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (rider_no) );";
 
             // horse: horse_no int (PK), name VC(255), nickname VC(255), height decimal(4,2)
-            string horseTable = "CREATE TABLE " + year + "_horse ( horse_no INTEGER NOT NULL AUTO_INCREMENT, " +
+            string horseTable = "CREATE TABLE [" + year + "_horse] ( horse_no INTEGER NOT NULL, " +
                 "horse_name TEXT NOT NULL, horse_call TEXT, height REAL, owner_name TEXT, PRIMARY KEY (horse_no) );";
 
             // back_no: back_no int (PK), rider_no int (FK), horse_no int (FK)
-            string backNoTable = "CREATE TABLE " + year + "_backNo ( back_no INTEGER NOT NULL, " +
+            string backNoTable = "CREATE TABLE [" + year + "_backNo] ( back_no INTEGER NOT NULL, " +
                 "rider_no INTEGER NOT NULL, horse_no INTEGER NOT NULL, PRIMARY KEY (back_no), " +
-                "FOREIGN KEY (rider_no) REFERENCES " + year + "_rider(rider_no) ON DELETE CASCADE, " +
-                "FOREIGN KEY (horse_no) REFERENCES " + year + "_horse(horse_no) ON DELETE CASCADE );";
+                "FOREIGN KEY (rider_no) REFERENCES [" + year + "_rider](rider_no) ON DELETE CASCADE, " +
+                "FOREIGN KEY (horse_no) REFERENCES [" + year + "_horse](horse_no) ON DELETE CASCADE );";
 
             // show: show_no int (PK), date VC(10), description VC(255), comments VC(500)
-            string showTable = "CREATE TABLE " + year + "_show ( show_no INTEGER NOT NULL AUTO_INCREMENT, " +
+            string showTable = "CREATE TABLE [" + year + "_show] ( show_no INTEGER NOT NULL, " +
                 "date TEXT NOT NULL, show_name TEXT, show_comment TEXT, UNIQUE (date), PRIMARY KEY (show_no) );";
 
             // category: category_no int (PK), description VC(255), 
-            string categoryTable = "CREATE TABLE " + year + "_category ( category_no INTEGER NOT NULL AUTO_INCREMENT, " +
+            string categoryTable = "CREATE TABLE [" + year + "_category] ( category_no INTEGER NOT NULL, " +
                 "category_name TEXT, timed INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (category_no) );";
 
             // class: class_no int (PK), category_no int (FK), name VC(255), fee decimal(5,2)
-            string classTable = "CREATE TABLE " + year + "_class ( class_no INTEGER NOT NULL, category_no INTEGER NOT NULL, " +
+            string classTable = "CREATE TABLE [" + year + "_class] ( class_no INTEGER NOT NULL, category_no INTEGER NOT NULL, " +
                 "class_name TEXT NOT NULL, fee NUMERIC NOT NULL, PRIMARY KEY (class_no), " +
-                "FOREIGN KEY (category_no) REFERENCES " + year + "_category(category_no) ON DELETE CASCADE );";
+                "FOREIGN KEY (category_no) REFERENCES [" + year + "_category](category_no) ON DELETE CASCADE );";
 
             // result: show_no (FK), class_no (FK), back_no (FK), place int, time decimal(6,3), points int, paid_in decimal(5,2), paid_out decimal (5,2)
-            string resultTable = "CREATE TABLE " + year + "_result ( show_no INTEGER NOT NULL, class_no INTEGER NOT NULL, " +
+            string resultTable = "CREATE TABLE [" + year + "_result] ( show_no INTEGER NOT NULL, class_no INTEGER NOT NULL, " +
                 "back_no INTEGER NOT NULL, place INTEGER, time NUMERIC, points INTEGER DEFAULT 0, " +
                 "paid_in NUMERIC NOT NULL DEFAULT 0, paid_out NUMERIC, " +
-                "FOREIGN KEY (show_no) REFERENCES " + year + "_show(show_no) ON DELETE CASCADE, " +
-                "FOREIGN KEY (class_no) REFERENCES " + year + "_class(class_no) ON DELETE CASCADE, " +
-                "FOREIGN KEY (back_no) REFERENCES " + year + "_backNo(back_no) ON DELETE CASCADE );";
+                "FOREIGN KEY (show_no) REFERENCES [" + year + "_show](show_no) ON DELETE CASCADE, " +
+                "FOREIGN KEY (class_no) REFERENCES [" + year + "_class](class_no) ON DELETE CASCADE, " +
+                "FOREIGN KEY (back_no) REFERENCES [" + year + "_backNo](back_no) ON DELETE CASCADE );";
 
             // And go!
-            DoTheNonQuery(clubConn, yearInsert);
-            DoTheNonQuery(clubConn, riderTable);
-            DoTheNonQuery(clubConn, horseTable);
-            DoTheNonQuery(clubConn, backNoTable);
-            DoTheNonQuery(clubConn, showTable);
-            DoTheNonQuery(clubConn, categoryTable);
-            DoTheNonQuery(clubConn, classTable);
-            DoTheNonQuery(clubConn, resultTable);
+            if(DoTheNonQuery(clubConn, yearInsert))
+                Console.WriteLine(year + " successfully inserted into show_year");
+            if (DoTheNonQuery(clubConn, riderTable))
+                Console.WriteLine(year + "_rider successfully created.");
+            if (DoTheNonQuery(clubConn, horseTable))
+                Console.WriteLine(year + "_horse successfully created.");
+            if(DoTheNonQuery(clubConn, backNoTable))
+                Console.WriteLine(year + "_backNo successfully created.");
+            if(DoTheNonQuery(clubConn, showTable))
+                Console.WriteLine(year + "_show successfully created.");
+            if(DoTheNonQuery(clubConn, categoryTable))
+                Console.WriteLine(year + "_category successfully created.");
+            if(DoTheNonQuery(clubConn, classTable))
+                Console.WriteLine(year + "_class successfully created.");
+            if(DoTheNonQuery(clubConn, resultTable))
+                Console.WriteLine(year + "_result successfully created.");
         }
 
         #endregion
@@ -162,10 +170,10 @@ namespace TrotTrax
             string showYearDelete = "DELETE FROM show_year WHERE year = " + year + ";";
             if(DoTheNonQuery(clubConn, showYearDelete))
             {
-                string dropYearTables = "DROP TABLE " + year + "_result ; " +
-                    "DROP TABLE " + year + "_class ; DROP TABLE " + year + "_category ; " +
-                    "DROP TABLE " + year + "_show ; DROP TABLE " + year + "_backNo ; " +
-                    "DROP TABLE " + year + "_horse ; DROP TABLE " + year + "_rider;";
+                string dropYearTables = "DROP TABLE [" + year + "_result] ; " +
+                    "DROP TABLE [" + year + "_class] ; DROP TABLE [" + year + "_category] ; " +
+                    "DROP TABLE [" + year + "_show] ; DROP TABLE [" + year + "_backNo] ; " +
+                    "DROP TABLE [" + year + "_horse] ; DROP TABLE [" + year + "_rider];";
                 return DoTheNonQuery(clubConn, dropYearTables);
             }
             return false;

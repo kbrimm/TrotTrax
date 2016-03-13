@@ -20,7 +20,7 @@ namespace TrotTrax
 {
     public partial class YearChooserForm : Form
     {
-        DBDriver database;
+        private DBDriver database;
 
         public YearChooserForm()
         {

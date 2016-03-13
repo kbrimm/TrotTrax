@@ -24,9 +24,9 @@ namespace TrotTrax
         public BackNoItem GetBackNoItem(int backNo)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "SELECT b.back_no, r.rider_no, r.rider_first, r.rider_last, h.horse_no, h.horse_name FROM "
-                + year + "_backNo AS b JOIN " + year + "_rider AS r ON b.rider_no = r.rider_no " +
-                "JOIN " + year + "_horse AS h ON b.horse_no = h.horse_no WHERE backNo_no = @noparam;";
+            query.CommandText = "SELECT b.back_no, r.rider_no, r.rider_first, r.rider_last, h.horse_no, h.horse_name FROM ["
+                + year + "_backNo] AS b JOIN [" + year + "_rider] AS r ON b.rider_no = r.rider_no " +
+                "JOIN [" + year + "_horse] AS h ON b.horse_no = h.horse_no WHERE backNo_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", backNo));
             query.Connection = clubConn;
@@ -57,9 +57,9 @@ namespace TrotTrax
                 default: sort = "b.back_no"; break;
             }
 
-            string query = "SELECT b.back_no, r.rider_no, r.rider_first, r.rider_last, h.horse_no, h.horse_name FROM "
-                + year + "_backNo AS b JOIN " + year + "_rider AS r ON b.rider_no = r.rider_no " +
-                "JOIN " + year + "_horse AS h ON b.horse_no = h.horse_no ORDER BY " + sort + ";";
+            string query = "SELECT b.back_no, r.rider_no, r.rider_first, r.rider_last, h.horse_no, h.horse_name FROM ["
+                + year + "_backNo] AS b JOIN [" + year + "_rider] AS r ON b.rider_no = r.rider_no " +
+                "JOIN [" + year + "_horse] AS h ON b.horse_no = h.horse_no ORDER BY " + sort + ";";
             SQLiteDataReader reader = DoTheReader(clubConn, query);
             List<BackNoItem> backNoItemList = new List<BackNoItem>();
             BackNoItem item;
@@ -89,7 +89,7 @@ namespace TrotTrax
         public bool AddBackNoItem(int backNo, int riderNo, string horseNo)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "INSERT INTO " + year + "_backNo " +
+            query.CommandText = "INSERT INTO [" + year + "_backNo] " +
                 "(backNo_no, rider_no, horse_no) " +
                 "VALUES (@noparam, @riderparam, @horseparam)";
             query.CommandType = System.Data.CommandType.Text;
@@ -108,7 +108,7 @@ namespace TrotTrax
         public bool UpdateBackNoItem(int backNo, int riderNo, string horseNo)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "UPDATE " + year + "_backNo SET rider_no = @riderparam, horse_no = @horseparam " +
+            query.CommandText = "UPDATE [" + year + "_backNo] SET rider_no = @riderparam, horse_no = @horseparam " +
                 "WHERE backNo_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", backNo));
@@ -126,7 +126,7 @@ namespace TrotTrax
         public bool DeleteBackNoItem(int backNo)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "DELETE FROM " + year + "_backNo WHERE backNo_no = @noparam;";
+            query.CommandText = "DELETE FROM [" + year + "_backNo] WHERE backNo_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", backNo));
             query.Connection = clubConn;

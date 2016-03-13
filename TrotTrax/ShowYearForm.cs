@@ -57,7 +57,7 @@ namespace TrotTrax
             PopulateClassList();
             PopulateBackNoList();
 
-            currentLabel.Text = year.clubName + "\n\n" + year.year + " Show Year";
+            this.currentLabel.Text = year.clubName + "\n\n" + year.year + " Show Year";
         }
 
         #endregion

@@ -70,7 +70,7 @@
             this.infoLabel.Location = new System.Drawing.Point(7, 9);
             this.infoLabel.Name = "infoLabel";
             this.infoLabel.Size = new System.Drawing.Size(225, 170);
-            this.infoLabel.TabIndex = 8;
+            this.infoLabel.TabIndex = 0;
             this.infoLabel.Text = "New Category \r\nSetup";
             this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -86,7 +86,7 @@
             this.listGroup.Location = new System.Drawing.Point(12, 185);
             this.listGroup.Name = "listGroup";
             this.listGroup.Size = new System.Drawing.Size(629, 290);
-            this.listGroup.TabIndex = 13;
+            this.listGroup.TabIndex = 0;
             this.listGroup.TabStop = false;
             this.listGroup.Text = "Category List";
             // 
@@ -96,7 +96,7 @@
             this.newCatBtn.Location = new System.Drawing.Point(266, 259);
             this.newCatBtn.Name = "newCatBtn";
             this.newCatBtn.Size = new System.Drawing.Size(356, 25);
-            this.newCatBtn.TabIndex = 13;
+            this.newCatBtn.TabIndex = 7;
             this.newCatBtn.TabStop = false;
             this.newCatBtn.Text = "New Category";
             this.newCatBtn.UseVisualStyleBackColor = true;
@@ -144,7 +144,7 @@
             this.viewCatBtn.Location = new System.Drawing.Point(6, 259);
             this.viewCatBtn.Name = "viewCatBtn";
             this.viewCatBtn.Size = new System.Drawing.Size(254, 25);
-            this.viewCatBtn.TabIndex = 7;
+            this.viewCatBtn.TabIndex = 6;
             this.viewCatBtn.TabStop = false;
             this.viewCatBtn.Text = "View Category";
             this.viewCatBtn.UseVisualStyleBackColor = true;
@@ -162,7 +162,7 @@
             this.classListGroup.Location = new System.Drawing.Point(647, 12);
             this.classListGroup.Name = "classListGroup";
             this.classListGroup.Size = new System.Drawing.Size(250, 463);
-            this.classListGroup.TabIndex = 14;
+            this.classListGroup.TabIndex = 0;
             this.classListGroup.TabStop = false;
             this.classListGroup.Text = "Class List";
             // 
@@ -172,7 +172,7 @@
             this.newClassBtn.Location = new System.Drawing.Point(129, 432);
             this.newClassBtn.Name = "newClassBtn";
             this.newClassBtn.Size = new System.Drawing.Size(115, 25);
-            this.newClassBtn.TabIndex = 8;
+            this.newClassBtn.TabIndex = 9;
             this.newClassBtn.TabStop = false;
             this.newClassBtn.Text = "New Class";
             this.newClassBtn.UseVisualStyleBackColor = true;
@@ -215,7 +215,7 @@
             this.viewClassBtn.Location = new System.Drawing.Point(6, 432);
             this.viewClassBtn.Name = "viewClassBtn";
             this.viewClassBtn.Size = new System.Drawing.Size(115, 25);
-            this.viewClassBtn.TabIndex = 7;
+            this.viewClassBtn.TabIndex = 8;
             this.viewClassBtn.TabStop = false;
             this.viewClassBtn.Text = "View Class";
             this.viewClassBtn.UseVisualStyleBackColor = true;
@@ -235,7 +235,7 @@
             this.groupBox1.Location = new System.Drawing.Point(238, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(403, 167);
-            this.groupBox1.TabIndex = 15;
+            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Category Details";
             // 
@@ -244,7 +244,7 @@
             this.cancelBtn.Location = new System.Drawing.Point(296, 134);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(100, 25);
-            this.cancelBtn.TabIndex = 8;
+            this.cancelBtn.TabIndex = 5;
             this.cancelBtn.Text = "Cancel";
             this.cancelBtn.UseVisualStyleBackColor = true;
             this.cancelBtn.Click += new System.EventHandler(this.CancelChanges);
@@ -254,7 +254,7 @@
             this.deleteBtn.Location = new System.Drawing.Point(183, 134);
             this.deleteBtn.Name = "deleteBtn";
             this.deleteBtn.Size = new System.Drawing.Size(108, 25);
-            this.deleteBtn.TabIndex = 7;
+            this.deleteBtn.TabIndex = 4;
             this.deleteBtn.Text = "Delete";
             this.deleteBtn.UseVisualStyleBackColor = true;
             this.deleteBtn.Click += new System.EventHandler(this.DeleteCat);
@@ -264,10 +264,10 @@
             this.modifyBtn.Location = new System.Drawing.Point(9, 134);
             this.modifyBtn.Name = "modifyBtn";
             this.modifyBtn.Size = new System.Drawing.Size(168, 25);
-            this.modifyBtn.TabIndex = 6;
+            this.modifyBtn.TabIndex = 3;
             this.modifyBtn.Text = "Save Changes";
             this.modifyBtn.UseVisualStyleBackColor = true;
-            this.modifyBtn.Click += new System.EventHandler(this.SaveCat);
+            this.modifyBtn.Click += new System.EventHandler(this.SaveCategory);
             // 
             // timedCheckBox
             // 
@@ -275,7 +275,7 @@
             this.timedCheckBox.Location = new System.Drawing.Point(293, 44);
             this.timedCheckBox.Name = "timedCheckBox";
             this.timedCheckBox.Size = new System.Drawing.Size(103, 20);
-            this.timedCheckBox.TabIndex = 5;
+            this.timedCheckBox.TabIndex = 2;
             this.timedCheckBox.Text = "Timed Class";
             this.timedCheckBox.UseVisualStyleBackColor = true;
             this.timedCheckBox.CheckedChanged += new System.EventHandler(this.DataChanged);
@@ -306,7 +306,8 @@
             this.numberBox.Name = "numberBox";
             this.numberBox.ReadOnly = true;
             this.numberBox.Size = new System.Drawing.Size(278, 22);
-            this.numberBox.TabIndex = 2;
+            this.numberBox.TabIndex = 0;
+            this.numberBox.TabStop = false;
             // 
             // numberLabel
             // 

@@ -71,7 +71,7 @@ namespace TrotTrax
             string query = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='current';";
             int response = 0;
 
-            Console.WriteLine("Welcome to TrotTrax!\nChecking database...");
+            Console.WriteLine("\tChecking database...");
             response = Convert.ToInt32(DoTheScalar(trotTraxConn, query));
             if (response > 0)
                 return true;
@@ -124,7 +124,7 @@ namespace TrotTrax
         private bool DoTheNonQuery(SQLiteConnection conn, string query)
         {
             SQLiteCommand command;
-
+            Console.WriteLine("Executing " + query);
             try
             {
                 conn.Close();
@@ -146,6 +146,7 @@ namespace TrotTrax
 
         private bool DoTheNonQuery(SQLiteCommand query)
         {
+            Console.WriteLine("Executing " + query.CommandText);
             try
             {
                 query.Connection.Close();
@@ -168,7 +169,7 @@ namespace TrotTrax
         {
             SQLiteCommand command;
             object value;
-
+            Console.WriteLine("Executing " + query);
             try
             {
                 conn.Close();
@@ -191,6 +192,7 @@ namespace TrotTrax
         private object DoTheScalar(SQLiteCommand query)
         {
             Object value;
+            Console.WriteLine("Executing " + query.CommandText);
             try
             {
                 query.Connection.Close();
@@ -212,8 +214,8 @@ namespace TrotTrax
         private SQLiteDataReader DoTheReader(SQLiteConnection conn, string query)
         {
             SQLiteCommand command;
-            SQLiteDataReader reader;          
-
+            SQLiteDataReader reader;
+            Console.WriteLine("Executing " + query);
             try
             {
                 conn.Close();
@@ -235,7 +237,7 @@ namespace TrotTrax
         private SQLiteDataReader DoTheReader(SQLiteCommand query)
         {
             SQLiteDataReader reader;
-
+            Console.WriteLine("Executing " + query.CommandText);
             try
             {
                 query.Connection.Close();

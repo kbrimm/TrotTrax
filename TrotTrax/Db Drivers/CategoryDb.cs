@@ -25,8 +25,8 @@ namespace TrotTrax
         {
             // Construct and execute the query
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "SELECT category_no, category_name, timed FROM " + year +
-                "_category WHERE category_no = @noparam;";
+            query.CommandText = "SELECT category_no, category_name, timed FROM [" + year +
+                "_category] WHERE category_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", catNo));
             query.Connection = clubConn;
@@ -57,25 +57,34 @@ namespace TrotTrax
             }
 
             // Construct and execute the query
-            string query = "SELECT category_no, category_name, timed FROM " + year +
-                "_category ORDER BY " + sortString + ";";
+            string query = "SELECT category_no, category_name, timed FROM [" + year +
+                "_category] ORDER BY " + sortString + ";";
             SQLiteDataReader reader = DoTheReader(clubConn, query);
             List<CategoryItem> catItemList = new List<CategoryItem>();
             CategoryItem item;
 
             // Read the results
-            reader = DoTheReader(clubConn, query);
             while (reader.Read())
             {
                 item = new CategoryItem();
                 item.no = reader.GetInt32(0);
-                item.name = reader.GetString(2);
-                item.timed = (bool)IntToBool(reader.GetInt32(3));
+                item.name = reader.GetString(1);
+                item.timed = (bool)IntToBool(reader.GetInt32(2));
                 catItemList.Add(item);
             }
             reader.Close();
             clubConn.Close();
             return catItemList;
+        }
+
+        public int GetNextCategoryNumber()
+        {
+            string query = "SELECT category_no FROM [" + year + "_category] ORDER BY category_no DESC LIMIT 1;";
+            object value = DoTheScalar(clubConn, query);
+            if (value != null)
+                return Convert.ToInt32(value) + 1;
+            else
+                return 1;
         }
 
         #endregion
@@ -86,7 +95,7 @@ namespace TrotTrax
         {
             // Construct and execute the query
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "INSERT INTO " + year + "_cateory " +
+            query.CommandText = "INSERT INTO [" + year + "_category] " +
                 "(category_no, category_name, timed) " +
                 "VALUES (@noparam, @nameparam, @timedparam)";
             query.CommandType = System.Data.CommandType.Text;
@@ -106,7 +115,7 @@ namespace TrotTrax
         {
             // Construct and execute the query
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "UPDATE " + year + "_category SET category_name = @nameparam, timed = @timedparam " +
+            query.CommandText = "UPDATE [" + year + "_category] SET category_name = @nameparam, timed = @timedparam " +
                 "WHERE category_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", catNo));
@@ -125,7 +134,7 @@ namespace TrotTrax
         {
             // Construct and execute the query
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "DELETE FROM " + year + "_cateory WHERE category_no = @noparam;";
+            query.CommandText = "DELETE FROM [" + year + "_cateory] WHERE category_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", classNo));
             query.Connection = clubConn;
