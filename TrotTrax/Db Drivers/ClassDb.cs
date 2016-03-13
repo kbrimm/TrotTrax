@@ -83,6 +83,26 @@ namespace TrotTrax
             return classItemList;
         }
 
+        public int GetNextClassNumber()
+        {
+            string query = "SELECT class_no FROM [" + year + "_class] ORDER BY class_no DESC LIMIT 1;";
+            object value = DoTheScalar(clubConn, query);
+            if (value != null)
+                return Convert.ToInt32(value) + 1;
+            else
+                return 1;
+        }
+
+        public bool CheckNoUsed(int number)
+        {
+            string query = "SELECT COUNT(*) FROM [" + year + "_class] WHERE class_no = " + number + ";";
+            object value = DoTheScalar(clubConn, query);
+            if (value != null && Convert.ToInt32(value) > 0)
+                return true;
+            else
+                return false;
+        }
+
         #endregion
 
         #region Insert Statements
@@ -93,7 +113,7 @@ namespace TrotTrax
             SQLiteCommand query = new SQLiteCommand();
             query.CommandText = "INSERT INTO [" + year + "_class] " +
                 "(class_no, category_no, class_name, fee) " +
-                "VALUES (@noparam, @catparam, @nameparam, @feeparam)";
+                "VALUES (@noparam, @catparam, @nameparam, @feeparam);";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", classNo));
             query.Parameters.Add(new SQLiteParameter("@catparam", category));
@@ -111,7 +131,7 @@ namespace TrotTrax
         {
             // Construct and execute the query
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "UPDATE [" + year + "_class] SET category_no = @catparam, class_name = @nameparam, fee = @feeparam" +
+            query.CommandText = "UPDATE [" + year + "_class] SET category_no = @catparam, class_name = @nameparam, fee = @feeparam " +
                 "WHERE class_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", classNo));

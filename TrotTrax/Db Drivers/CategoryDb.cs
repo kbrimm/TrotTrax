@@ -53,6 +53,7 @@ namespace TrotTrax
             switch (sort)
             {
                 case CategorySort.Name: sortString = "category_name"; break;
+                case CategorySort.Timed: sortString = "timed"; break;
                 default: sortString = "category_no"; break;
             }
 
@@ -134,7 +135,7 @@ namespace TrotTrax
         {
             // Construct and execute the query
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "DELETE FROM [" + year + "_cateory] WHERE category_no = @noparam;";
+            query.CommandText = "DELETE FROM [" + year + "_category] WHERE category_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", classNo));
             query.Connection = clubConn;

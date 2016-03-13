@@ -20,17 +20,6 @@ namespace TrotTrax
 {
     public partial class CategoryListForm : Form
     {
-        System.Drawing.Font menuItalicText = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic,
-            System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        System.Drawing.Font italicText = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic,
-            System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        System.Drawing.Color grayText = System.Drawing.SystemColors.GrayText;
-        System.Drawing.Font menuRegularText = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular,
-            System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        System.Drawing.Font regularText = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular,
-            System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        System.Drawing.Color blackText = System.Drawing.SystemColors.ControlText;
-        
         private Category category;
         private bool isChanged;
         private bool isNew;
@@ -41,12 +30,27 @@ namespace TrotTrax
         {
             category = new Category(clubID, year);
             InitializeComponent();
+            SetNewCategoryData();
+        }
+
+        private void SetNewCategoryData()
+        {
             PopulateCatList();
             PopulateClassList();
+            this.Text = "New Category - TrotTrax";
+            this.infoLabel.Text = "New Category\nSetup";
             this.numberBox.Text = category.number.ToString();
-            this.modifyBtn.Text = "Add New Category";
-            this.deleteBtn.Font = italicText;
-            this.deleteBtn.ForeColor = grayText;
+            this.descriptionBox.Text = String.Empty;
+            this.descriptionBox.Focus();
+            this.timedCheckBox.Checked = false;
+            this.modifyBtn.Text = "Add Category";
+
+            // Modify btn is disabled until changes are made. Cannot delete an unsaved record.
+            this.modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0))); ;
+            this.modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0))); ;
+            this.deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+
             isChanged = false;
             isNew = true;
         }
@@ -56,17 +60,27 @@ namespace TrotTrax
         {
             category = new Category(clubID, year, catNo);
             InitializeComponent();
+            SetExistingCategoryData();
+        }
+
+        private void SetExistingCategoryData()
+        {
             PopulateCatList();
             PopulateClassList();
             this.Text = category.name + " Category Detail - TrotTrax";
             this.infoLabel.Text = category.name + "\nCategory Detail";
             this.numberBox.Text = category.number.ToString();
             this.descriptionBox.Text = category.name;
+            this.descriptionBox.Focus();
             this.timedCheckBox.Checked = category.timed;
-            this.modifyBtn.Font = italicText;
-            this.modifyBtn.ForeColor = grayText;
-            this.cancelBtn.Font = italicText;
-            this.cancelBtn.ForeColor = grayText;
+            this.modifyBtn.Text = "Save Changes";
+
+            // Modify btn is disabled until changes are made.
+            this.modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0))); ;
+            this.modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0))); ;
+            this.deleteBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+
             isChanged = false;
             isNew = false;
         }
@@ -74,37 +88,19 @@ namespace TrotTrax
         #endregion
 
         #region Refresh Form
+
         // Refresh to new category form.
         private void RefreshForm(string clubID, int year)
         {
             category = new Category(clubID, year);
-            PopulateCatList();
-            PopulateClassList();
-            this.numberBox.Text = category.number.ToString();
-            this.modifyBtn.Text = "Add New Category";
-            this.deleteBtn.Font = italicText;
-            this.deleteBtn.ForeColor = grayText;
-            isChanged = false;
-            isNew = true;
+            SetNewCategoryData();
         }
 
         // Refresh to existing category form.
         private void RefreshForm(string clubID, int year, int catNo)
         {
             category = new Category(clubID, year, catNo);
-            PopulateCatList();
-            PopulateClassList();
-            this.Text = category.name + " Category Detail - TrotTrax";
-            this.infoLabel.Text = category.name + "\nCategory Detail";
-            this.numberBox.Text = category.number.ToString();
-            this.descriptionBox.Text = category.name;
-            this.timedCheckBox.Checked = category.timed;
-            this.modifyBtn.Font = italicText;
-            this.modifyBtn.ForeColor = grayText;
-            this.cancelBtn.Font = italicText;
-            this.cancelBtn.ForeColor = grayText;
-            isChanged = false;
-            isNew = false;
+            SetExistingCategoryData();
         }
 
         private void RefreshOnClose(object sender, FormClosingEventArgs e)
@@ -125,10 +121,10 @@ namespace TrotTrax
         // When changes are made, activates relevant buttons.
         private void DataChanged(object sender, EventArgs e)
         {
-            this.modifyBtn.Font = regularText;
-            this.modifyBtn.ForeColor = blackText;
-            this.cancelBtn.Font = regularText;
-            this.cancelBtn.ForeColor = blackText;
+            this.modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cancelBtn.ForeColor = System.Drawing.SystemColors.ControlText;
             isChanged = true;
         }
 
@@ -146,6 +142,15 @@ namespace TrotTrax
             }
             else
                 return true;
+        }
+
+        // Toggles timed checkbox on a keypress.
+        private void ToggleTimed(object sender, KeyPressEventArgs e)
+        {
+            if (this.timedCheckBox.Checked)
+                this.timedCheckBox.Checked = false;
+            else
+                this.timedCheckBox.Checked = true;
         }
 
         #endregion
@@ -202,7 +207,7 @@ namespace TrotTrax
                     "TrotTrax Confirmation", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
                 {
-                    category.RemoveCat();
+                    category.RemoveCategory();
                     RefreshForm(category.clubID, category.year);
                 }             
             }
@@ -237,6 +242,8 @@ namespace TrotTrax
                 category.SortCategories(CategorySort.Number);
             else if (e.Column == 1)
                 category.SortCategories(CategorySort.Name);
+            else if (e.Column == 2)
+                category.SortCategories(CategorySort.Timed);
             PopulateCatList();
         }
 
@@ -298,7 +305,7 @@ namespace TrotTrax
             }
         }
 
-        // If class is selected from list, loads existing class window, closes current.
+        // If class is selected from list, loads existing class form, closes current.
         private void ViewClass(object sender, EventArgs e)
         {
             if (classListBox.SelectedItems.Count != 0)
@@ -317,5 +324,6 @@ namespace TrotTrax
             }
         }
         #endregion
+
     }
 }

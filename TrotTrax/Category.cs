@@ -20,6 +20,8 @@ namespace TrotTrax
         public string name { get; private set; }
         public bool timed { get; private set; }
 
+        #region Constructors
+
         // New category item.
         public Category(string clubID, int year)
         {
@@ -32,7 +34,7 @@ namespace TrotTrax
             catList = database.GetCategoryItemList();
         }
 
-        // Existing cateogry item.
+        // Existing category item.
         public Category(string clubID, int year, int number)
         {
             database = new DBDriver(1);
@@ -43,6 +45,8 @@ namespace TrotTrax
             classList = database.GetClassItemList();
             catList = database.GetCategoryItemList();
         }
+
+        #endregion
 
         private void SetCategoryData()
         {
@@ -61,7 +65,7 @@ namespace TrotTrax
             return database.UpdateCategoryItem(number, newDesc, newTimed);
         }
 
-        public bool RemoveCat()
+        public bool RemoveCategory()
         {
             return database.DeleteCategoryItem(number);
         }

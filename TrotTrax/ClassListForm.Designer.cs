@@ -63,7 +63,7 @@ namespace TrotTrax
             this.catDescHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.catTimedHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.catViewBtn = new System.Windows.Forms.Button();
-            this.viewShowBtn = new System.Windows.Forms.Button();
+            this.viewResultBtn = new System.Windows.Forms.Button();
             this.showListBox = new System.Windows.Forms.ListView();
             this.showNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.showListGroup = new System.Windows.Forms.GroupBox();
@@ -79,7 +79,7 @@ namespace TrotTrax
             this.showLabel.Location = new System.Drawing.Point(12, 9);
             this.showLabel.Name = "showLabel";
             this.showLabel.Size = new System.Drawing.Size(250, 80);
-            this.showLabel.TabIndex = 7;
+            this.showLabel.TabIndex = 0;
             this.showLabel.Text = "New Class \r\nSetup";
             this.showLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -105,7 +105,7 @@ namespace TrotTrax
             this.newClassBtn.Location = new System.Drawing.Point(129, 352);
             this.newClassBtn.Name = "newClassBtn";
             this.newClassBtn.Size = new System.Drawing.Size(115, 25);
-            this.newClassBtn.TabIndex = 8;
+            this.newClassBtn.TabIndex = 0;
             this.newClassBtn.Text = "New Class";
             this.newClassBtn.UseVisualStyleBackColor = true;
             this.newClassBtn.Click += new System.EventHandler(this.NewClass);
@@ -147,7 +147,7 @@ namespace TrotTrax
             this.viewClassBtn.Location = new System.Drawing.Point(6, 352);
             this.viewClassBtn.Name = "viewClassBtn";
             this.viewClassBtn.Size = new System.Drawing.Size(115, 25);
-            this.viewClassBtn.TabIndex = 7;
+            this.viewClassBtn.TabIndex = 0;
             this.viewClassBtn.TabStop = false;
             this.viewClassBtn.Text = "View Class";
             this.viewClassBtn.UseVisualStyleBackColor = true;
@@ -170,7 +170,7 @@ namespace TrotTrax
             this.infoBox.Location = new System.Drawing.Point(268, 12);
             this.infoBox.Name = "infoBox";
             this.infoBox.Size = new System.Drawing.Size(403, 220);
-            this.infoBox.TabIndex = 11;
+            this.infoBox.TabIndex = 0;
             this.infoBox.TabStop = false;
             this.infoBox.Text = "Class Information";
             // 
@@ -180,7 +180,7 @@ namespace TrotTrax
             this.feeBox.MaxLength = 255;
             this.feeBox.Name = "feeBox";
             this.feeBox.Size = new System.Drawing.Size(133, 22);
-            this.feeBox.TabIndex = 7;
+            this.feeBox.TabIndex = 3;
             this.feeBox.TextChanged += new System.EventHandler(this.DataChanged);
             // 
             // feeLabel
@@ -199,7 +199,7 @@ namespace TrotTrax
             this.catDropDown.Location = new System.Drawing.Point(148, 156);
             this.catDropDown.Name = "catDropDown";
             this.catDropDown.Size = new System.Drawing.Size(249, 24);
-            this.catDropDown.TabIndex = 3;
+            this.catDropDown.TabIndex = 4;
             this.catDropDown.SelectedIndexChanged += new System.EventHandler(this.DataChanged);
             // 
             // cancelBtn
@@ -207,7 +207,7 @@ namespace TrotTrax
             this.cancelBtn.Location = new System.Drawing.Point(277, 188);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(120, 25);
-            this.cancelBtn.TabIndex = 6;
+            this.cancelBtn.TabIndex = 7;
             this.cancelBtn.Text = "Cancel";
             this.cancelBtn.UseVisualStyleBackColor = true;
             this.cancelBtn.Click += new System.EventHandler(this.CancelChanges);
@@ -217,7 +217,7 @@ namespace TrotTrax
             this.deleteBtn.Location = new System.Drawing.Point(148, 188);
             this.deleteBtn.Name = "deleteBtn";
             this.deleteBtn.Size = new System.Drawing.Size(123, 25);
-            this.deleteBtn.TabIndex = 5;
+            this.deleteBtn.TabIndex = 6;
             this.deleteBtn.Text = "Delete";
             this.deleteBtn.UseVisualStyleBackColor = true;
             this.deleteBtn.Click += new System.EventHandler(this.DeleteClass);
@@ -227,7 +227,7 @@ namespace TrotTrax
             this.modifyBtn.Location = new System.Drawing.Point(6, 188);
             this.modifyBtn.Name = "modifyBtn";
             this.modifyBtn.Size = new System.Drawing.Size(136, 25);
-            this.modifyBtn.TabIndex = 4;
+            this.modifyBtn.TabIndex = 5;
             this.modifyBtn.Text = "Save Changes";
             this.modifyBtn.UseVisualStyleBackColor = true;
             this.modifyBtn.Click += new System.EventHandler(this.SaveClass);
@@ -289,7 +289,7 @@ namespace TrotTrax
             this.catGroup.Location = new System.Drawing.Point(268, 238);
             this.catGroup.Name = "catGroup";
             this.catGroup.Size = new System.Drawing.Size(403, 237);
-            this.catGroup.TabIndex = 12;
+            this.catGroup.TabIndex = 0;
             this.catGroup.TabStop = false;
             this.catGroup.Text = "Category Details";
             // 
@@ -299,7 +299,7 @@ namespace TrotTrax
             this.newCatBtn.Location = new System.Drawing.Point(214, 206);
             this.newCatBtn.Name = "newCatBtn";
             this.newCatBtn.Size = new System.Drawing.Size(183, 25);
-            this.newCatBtn.TabIndex = 13;
+            this.newCatBtn.TabIndex = 0;
             this.newCatBtn.TabStop = false;
             this.newCatBtn.Text = "New Category";
             this.newCatBtn.UseVisualStyleBackColor = true;
@@ -347,23 +347,23 @@ namespace TrotTrax
             this.catViewBtn.Location = new System.Drawing.Point(6, 206);
             this.catViewBtn.Name = "catViewBtn";
             this.catViewBtn.Size = new System.Drawing.Size(202, 25);
-            this.catViewBtn.TabIndex = 7;
+            this.catViewBtn.TabIndex = 0;
             this.catViewBtn.TabStop = false;
             this.catViewBtn.Text = "View Category";
             this.catViewBtn.UseVisualStyleBackColor = true;
             this.catViewBtn.Click += new System.EventHandler(this.ViewCategory);
             // 
-            // viewShowBtn
+            // viewResultBtn
             // 
-            this.viewShowBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.viewShowBtn.Location = new System.Drawing.Point(7, 432);
-            this.viewShowBtn.Name = "viewShowBtn";
-            this.viewShowBtn.Size = new System.Drawing.Size(207, 25);
-            this.viewShowBtn.TabIndex = 7;
-            this.viewShowBtn.TabStop = false;
-            this.viewShowBtn.Text = "View Class in Show";
-            this.viewShowBtn.UseVisualStyleBackColor = true;
-            this.viewShowBtn.Click += new System.EventHandler(this.ViewClassInstance);
+            this.viewResultBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.viewResultBtn.Location = new System.Drawing.Point(7, 432);
+            this.viewResultBtn.Name = "viewResultBtn";
+            this.viewResultBtn.Size = new System.Drawing.Size(207, 25);
+            this.viewResultBtn.TabIndex = 8;
+            this.viewResultBtn.TabStop = false;
+            this.viewResultBtn.Text = "View Class Results";
+            this.viewResultBtn.UseVisualStyleBackColor = true;
+            this.viewResultBtn.Click += new System.EventHandler(this.ViewResults);
             // 
             // showListBox
             // 
@@ -382,7 +382,7 @@ namespace TrotTrax
             this.showListBox.TabStop = false;
             this.showListBox.UseCompatibleStateImageBehavior = false;
             this.showListBox.View = System.Windows.Forms.View.Details;
-            this.showListBox.DoubleClick += new System.EventHandler(this.ViewClassInstance);
+            this.showListBox.DoubleClick += new System.EventHandler(this.ViewResults);
             // 
             // showNameHeader
             // 
@@ -394,12 +394,12 @@ namespace TrotTrax
             this.showListGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.showListGroup.Controls.Add(this.showListBox);
-            this.showListGroup.Controls.Add(this.viewShowBtn);
+            this.showListGroup.Controls.Add(this.viewResultBtn);
             this.showListGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.showListGroup.Location = new System.Drawing.Point(677, 12);
             this.showListGroup.Name = "showListGroup";
             this.showListGroup.Size = new System.Drawing.Size(220, 463);
-            this.showListGroup.TabIndex = 13;
+            this.showListGroup.TabIndex = 0;
             this.showListGroup.TabStop = false;
             this.showListGroup.Text = "Show List";
             // 
@@ -452,7 +452,7 @@ namespace TrotTrax
         private System.Windows.Forms.ColumnHeader catDescHeader;
         private System.Windows.Forms.Button catViewBtn;
         private System.Windows.Forms.ColumnHeader catTimedHeader;
-        private System.Windows.Forms.Button viewShowBtn;
+        private System.Windows.Forms.Button viewResultBtn;
         private System.Windows.Forms.ListView showListBox;
         private System.Windows.Forms.ColumnHeader showNameHeader;
         private System.Windows.Forms.GroupBox showListGroup;

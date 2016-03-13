@@ -280,6 +280,7 @@
             this.timedCheckBox.UseVisualStyleBackColor = true;
             this.timedCheckBox.CheckedChanged += new System.EventHandler(this.DataChanged);
             this.timedCheckBox.TextChanged += new System.EventHandler(this.DataChanged);
+            this.timedCheckBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ToggleTimed);
             // 
             // descriptionBox
             // 
