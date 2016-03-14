@@ -27,6 +27,8 @@ namespace TrotTrax
         public List<RiderItem> riderList;
         public List<ShowItem> showList;
 
+        #region Sort Fns
+
         public void SortBackNos(string sort)
         {
             backNoList = database.GetBackNoItemList(sort);
@@ -45,6 +47,13 @@ namespace TrotTrax
         public void SortRiders(RiderSort sort)
         {
             riderList = database.GetRiderItemList(sort);
+        }
+
+        #endregion
+
+        public bool CheckNoUsed(FormType type, int classNo)
+        {
+            return database.CheckIndexUsed(type, classNo);
         }
     }
 
@@ -128,5 +137,16 @@ namespace TrotTrax
         public DateTime date;
         public string name;
         public string comments;
+    }
+
+    public enum FormType
+    {
+        BackNo,
+        Category,
+        Class,
+        Horse,
+        Rider,
+        Result,
+        Show
     }
 }

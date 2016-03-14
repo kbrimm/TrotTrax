@@ -67,6 +67,7 @@ namespace TrotTrax
             this.showListBox = new System.Windows.Forms.ListView();
             this.showNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.showListGroup = new System.Windows.Forms.GroupBox();
+            this.dollarLabel = new System.Windows.Forms.Label();
             this.classListGroup.SuspendLayout();
             this.infoBox.SuspendLayout();
             this.catGroup.SuspendLayout();
@@ -106,6 +107,7 @@ namespace TrotTrax
             this.newClassBtn.Name = "newClassBtn";
             this.newClassBtn.Size = new System.Drawing.Size(115, 25);
             this.newClassBtn.TabIndex = 0;
+            this.newClassBtn.TabStop = false;
             this.newClassBtn.Text = "New Class";
             this.newClassBtn.UseVisualStyleBackColor = true;
             this.newClassBtn.Click += new System.EventHandler(this.NewClass);
@@ -155,6 +157,7 @@ namespace TrotTrax
             // 
             // infoBox
             // 
+            this.infoBox.Controls.Add(this.dollarLabel);
             this.infoBox.Controls.Add(this.feeBox);
             this.infoBox.Controls.Add(this.feeLabel);
             this.infoBox.Controls.Add(this.catDropDown);
@@ -176,10 +179,10 @@ namespace TrotTrax
             // 
             // feeBox
             // 
-            this.feeBox.Location = new System.Drawing.Point(9, 158);
+            this.feeBox.Location = new System.Drawing.Point(24, 158);
             this.feeBox.MaxLength = 255;
             this.feeBox.Name = "feeBox";
-            this.feeBox.Size = new System.Drawing.Size(133, 22);
+            this.feeBox.Size = new System.Drawing.Size(118, 22);
             this.feeBox.TabIndex = 3;
             this.feeBox.TextChanged += new System.EventHandler(this.DataChanged);
             // 
@@ -360,7 +363,6 @@ namespace TrotTrax
             this.viewResultBtn.Name = "viewResultBtn";
             this.viewResultBtn.Size = new System.Drawing.Size(207, 25);
             this.viewResultBtn.TabIndex = 8;
-            this.viewResultBtn.TabStop = false;
             this.viewResultBtn.Text = "View Class Results";
             this.viewResultBtn.UseVisualStyleBackColor = true;
             this.viewResultBtn.Click += new System.EventHandler(this.ViewResults);
@@ -402,6 +404,15 @@ namespace TrotTrax
             this.showListGroup.TabIndex = 0;
             this.showListGroup.TabStop = false;
             this.showListGroup.Text = "Show List";
+            // 
+            // dollarLabel
+            // 
+            this.dollarLabel.AutoSize = true;
+            this.dollarLabel.Location = new System.Drawing.Point(6, 161);
+            this.dollarLabel.Name = "dollarLabel";
+            this.dollarLabel.Size = new System.Drawing.Size(15, 16);
+            this.dollarLabel.TabIndex = 0;
+            this.dollarLabel.Text = "$";
             // 
             // ClassListForm
             // 
@@ -458,5 +469,6 @@ namespace TrotTrax
         private System.Windows.Forms.GroupBox showListGroup;
         private System.Windows.Forms.TextBox feeBox;
         private System.Windows.Forms.Label feeLabel;
+        private System.Windows.Forms.Label dollarLabel;
     }
 }

@@ -27,7 +27,7 @@ namespace TrotTrax
             database = new DBDriver(1);
             this.year = year;
             this.clubID = clubID;
-            number = database.GetNextClassNumber();
+            number = database.GetNextIndex(FormType.Class);
             classList = database.GetClassItemList();
             catList = database.GetCategoryItemList(); 
             showList = database.GetShowItemList();            
@@ -53,11 +53,6 @@ namespace TrotTrax
             fee = classItem.fee;
             CategoryItem catItem = database.GetCategoryItem(catNo);
             catName = catItem.name;
-        }
-
-        public bool CheckNoUsed(int classNo)
-        {
-            return database.CheckNoUsed(classNo);
         }
 
         public bool AddClass(int newClassNo, int newCatNo, string newClassName, decimal newFee)

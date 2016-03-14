@@ -83,26 +83,6 @@ namespace TrotTrax
             return classItemList;
         }
 
-        public int GetNextClassNumber()
-        {
-            string query = "SELECT class_no FROM [" + year + "_class] ORDER BY class_no DESC LIMIT 1;";
-            object value = DoTheScalar(clubConn, query);
-            if (value != null)
-                return Convert.ToInt32(value) + 1;
-            else
-                return 1;
-        }
-
-        public bool CheckNoUsed(int number)
-        {
-            string query = "SELECT COUNT(*) FROM [" + year + "_class] WHERE class_no = " + number + ";";
-            object value = DoTheScalar(clubConn, query);
-            if (value != null && Convert.ToInt32(value) > 0)
-                return true;
-            else
-                return false;
-        }
-
         #endregion
 
         #region Insert Statements

@@ -78,16 +78,6 @@ namespace TrotTrax
             return catItemList;
         }
 
-        public int GetNextCategoryNumber()
-        {
-            string query = "SELECT category_no FROM [" + year + "_category] ORDER BY category_no DESC LIMIT 1;";
-            object value = DoTheScalar(clubConn, query);
-            if (value != null)
-                return Convert.ToInt32(value) + 1;
-            else
-                return 1;
-        }
-
         #endregion
 
         #region Insert Statements

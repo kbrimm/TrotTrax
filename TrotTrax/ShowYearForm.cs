@@ -25,7 +25,7 @@ namespace TrotTrax
 
         #region Constructors 
 
-        // No arguments opens an blank show year panel, prompts user to enter club/year.
+        // No arguments opens an blank show year panel.
         public ShowYearForm()
         {
             InitializeComponent();
@@ -64,6 +64,8 @@ namespace TrotTrax
             PopulateShowList();
             PopulateClassList();
             PopulateBackNoList();
+
+            this.currentLabel.Text = year.clubName + "\n\n" + year.year + " Show Year";
         }
 
         private void ActiveButtons()
@@ -461,7 +463,9 @@ namespace TrotTrax
 
         #endregion
 
-        // Other toolbar methods
+        // Reports Menu
+
+        #region Settings Menu
 
         private void NewCategory(object sender, EventArgs e)
         {
@@ -471,5 +475,7 @@ namespace TrotTrax
                 catList.Visible = true;
             }
         }
+
+        #endregion
     }
 }

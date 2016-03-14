@@ -24,83 +24,86 @@ namespace TrotTrax
         private bool isChanged;
         private bool isNew;
 
-        // Form methods
-
+        #region Constructors
+        // New show form.
         public ShowListForm(string clubID, int year)
         {
             show = new Show(clubID, year);
             InitializeComponent();
+            SetNewData();
+        }
+
+        private void SetNewData()
+        {
             PopulateClassList();
             PopulateShowList();
             this.Text = "New Show - TrotTrax";
-            showLabel.Text = "New Show\nSetup";
-            modifyBtn.Text = "Add New Show";
+            this.showLabel.Text = "New Show\nSetup";
+            this.numberBox.Text = show.number.ToString();
+            this.numberBox.Focus();
+            this.descriptionBox.Text = String.Empty;
+            this.commentsBox.Text = String.Empty;
+            this.modifyBtn.Text = "Add Show";
+
+            // Modify btn is disabled until changes are made. Cannot delete or view results for an unsaved record.
+            modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            viewClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            viewClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            viewResultsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewResultsBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+
             isChanged = false;
             isNew = true;
         }
 
+        // Existing show form.
         public ShowListForm(string clubID, int year, int showNo)
         {
             show = new Show(clubID, year, showNo);
             InitializeComponent();
+            SetExistingData();
+        }
+
+        private void SetExistingData()
+        {
             PopulateClassList();
             PopulateShowList();
             this.Text = show.date + " Show Detail - TrotTrax";
-            numberBox.Text = showNo.ToString();
+            numberBox.Text = show.number.ToString();
+            this.numberBox.Focus();
             datePicker.Value = Convert.ToDateTime(show.date);
             descriptionBox.Text = show.name;
             commentsBox.Text = show.comments;
             showLabel.Text = show.date + "\r\nShow Detail";
+
+            // Modify btn is disabled until changes are made.
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            deleteBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            viewResultsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewResultsBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+
             isChanged = false;
             isNew = false;
         }
 
+        #endregion
+
+        #region Refresh Form
+        // Refresh to new show form.
         private void RefreshForm(string clubID, int year)
         {
             show = new Show(clubID, year);
-            PopulateClassList();
-            PopulateShowList();
-            this.Text = "New Show Detail - TrotTrax";
-            this.ActiveControl = datePicker;
-            showLabel.Text = "Adding New Show";
-            numberBox.Text = String.Empty;
-            descriptionBox.Text = String.Empty;
-            commentsBox.Text = String.Empty;
-            modifyBtn.Text = "Add New Show";
-            deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            viewClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            viewClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            isChanged = false;
-            isNew = true;
+            SetNewData();
         }
 
+        // Refresh to existing show form.
         private void RefreshForm(string clubID, int year, int showNo)
         {
             show = new Show(clubID, year, showNo);
-            PopulateClassList();
-            PopulateShowList();
-            this.Text = show.date + " Show Detail - TrotTrax";
-            modifyBtn.Text = "Save Changes";
-            numberBox.Text = showNo.ToString();
-            datePicker.Value = Convert.ToDateTime(show.date);
-            descriptionBox.Text = show.name;
-            commentsBox.Text = show.comments;
-            showLabel.Text = show.date + "\r\nShow Detail";
-            deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            deleteBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            isChanged = false;
-            isNew = false;
+            SetExistingData();
         }
 
         private void RefreshOnClose(object sender, FormClosingEventArgs e)
@@ -114,6 +117,11 @@ namespace TrotTrax
                 PopulateClassList();
         }
 
+        #endregion
+
+        #region Form Changes
+
+        // When changes are made, activates relevant buttons.
         private void ChangesMade(object sender, EventArgs e)
         {
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -121,6 +129,7 @@ namespace TrotTrax
             isChanged = true;
         }
 
+        // On form close, prompt to abandon unsaved changes.
         private bool AbandonChanges()
         {
             if (isChanged)
@@ -136,30 +145,20 @@ namespace TrotTrax
                 return true;
         }
 
-        // Show data methods
+        #endregion
 
-        private void RemoveShow(object sender, EventArgs e)
-        {
-            if (!isNew)
-            {
-                DialogResult confirm = MessageBox.Show("Do you really want to remove this show and all of its data?\n" +
-                    "This operation cannot be undone.",
-                    "TrotTrax Confirmation", MessageBoxButtons.YesNo);
-                if (confirm == DialogResult.Yes)
-                {
-                    show.RemoveShow();
-                    RefreshForm(show.clubID, show.year);
-                }
-            }
-        }
+        #region Show Data
 
+        // Gets user-entered number, date, description, and comments.
+        // For new categories, adds to database, prompts to add more automatically.
+        // For existing categories, modifies existing entry.
         private void SaveShow(object sender, EventArgs e)
         {
             if (isChanged)
             {
                 DialogResult confirm;
                 bool success;
-                int number = Convert.ToInt32(this.datePicker.Text);
+                int number = VerifyNumber(this.numberBox.Text);
                 DateTime date = this.datePicker.Value;
                 string description = this.descriptionBox.Text;
                 string comments = this.commentsBox.Text;
@@ -177,7 +176,7 @@ namespace TrotTrax
                             RefreshForm(show.clubID, show.year, show.number);
                     }
                     else
-                        confirm = MessageBox.Show("Unable to add show at this time.",
+                        confirm = MessageBox.Show("Something went wrong. Unable to add show at this time.",
                             "TrotTrax Alert", MessageBoxButtons.OK);
                 }
                 else
@@ -186,8 +185,49 @@ namespace TrotTrax
                     if (success)
                         RefreshForm(show.clubID, show.year, show.number);
                     else
-                        confirm = MessageBox.Show("Unable to modify show at this time.",
+                        confirm = MessageBox.Show("Something went wrong. Unable to save show at this time.",
                             "TrotTrax Alert", MessageBoxButtons.OK);
+                }
+            }
+        }
+
+        #region Entry Verifiers
+
+        // Verifies class number input - returns -1 on fail.
+        private int VerifyNumber(string noString)
+        {
+            DialogResult confirm;
+            int number;
+
+            if (noString == String.Empty || !int.TryParse(noString, out number))
+            {
+                confirm = MessageBox.Show("Show number must be an integer value.", "TrotTrax Alert", MessageBoxButtons.OK);
+                return -1;
+            }
+
+            // If we're assigning a new number to a show, it needs to be checked.
+            if ((isNew || number != show.number) && show.CheckNoUsed(FormType.Show, number))
+            {
+                confirm = MessageBox.Show("Show number already exists.", "TrotTrax Alert", MessageBoxButtons.OK);
+                return -1;
+            }
+
+            return number;
+        }
+
+        #endregion
+
+        private void DeleteShow(object sender, EventArgs e)
+        {
+            if (!isNew)
+            {
+                DialogResult confirm = MessageBox.Show("Do you really want to remove this show and all of its data?\n" +
+                    "This operation cannot be undone.",
+                    "TrotTrax Confirmation", MessageBoxButtons.YesNo);
+                if (confirm == DialogResult.Yes)
+                {
+                    show.RemoveShow();
+                    RefreshForm(show.clubID, show.year);
                 }
             }
         }
@@ -198,8 +238,11 @@ namespace TrotTrax
                 this.Close();
         }
 
-        // Show list methods
+        #endregion
 
+        #region Show List
+
+        // Populates showList from database.
         private void PopulateShowList()
         {
             this.showListBox.Items.Clear();
@@ -215,12 +258,14 @@ namespace TrotTrax
             }
         }
 
+        // Refreshes to new show form.
         private void NewShow(object sender, EventArgs e)
         {
             if (AbandonChanges())
                 RefreshForm(show.clubID, show.year);
         }
 
+        // If show is selected, refreshes to exisitng show.
         private void ViewShow(object sender, EventArgs e)
         {
             if (showListBox.SelectedItems.Count != 0)
@@ -247,8 +292,11 @@ namespace TrotTrax
             }
         }
 
-        // Class list methods
+        #endregion
 
+        #region Class List
+
+        // Populates classList from database.
         private void PopulateClassList()
         {
             this.classListBox.Items.Clear();
@@ -259,6 +307,7 @@ namespace TrotTrax
             }
         }
 
+        // Sorts classList according to column clicks.
         private void SortClass(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
@@ -268,7 +317,8 @@ namespace TrotTrax
             PopulateClassList();
         }
 
-        private void ViewClass(object sender, EventArgs e)
+        // If class selected, launches results form for current show and selected class.
+        private void ViewResults(object sender, EventArgs e)
         {
             if (classListBox.SelectedItems.Count != 0)
             {
@@ -285,5 +335,6 @@ namespace TrotTrax
                 }
             }
         }
+        #endregion
     }
 }

@@ -29,7 +29,7 @@ namespace TrotTrax
             this.clubID = clubID;
             this.year = year;
             // If this is a new item, pull in the next number from the database.
-            number = database.GetNextCategoryNumber();
+            number = database.GetNextIndex(FormType.Category);
             classList = database.GetClassItemList();
             catList = database.GetCategoryItemList();
         }

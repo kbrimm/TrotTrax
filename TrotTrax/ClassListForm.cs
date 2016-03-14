@@ -32,10 +32,10 @@ namespace TrotTrax
         {
             aClass = new Class(clubID, year);
             InitializeComponent();
-            SetNewClassData();
+            SetNewData();
         }
 
-        private void SetNewClassData()
+        private void SetNewData()
         {
             PopulateDropDown();
             PopulateCategoryList();
@@ -65,10 +65,10 @@ namespace TrotTrax
         {
             aClass = new Class(clubID, year, classNo);
             InitializeComponent();
-            SetExistingClassData();
+            SetExistingData();
         }
 
-        private void SetExistingClassData()
+        private void SetExistingData()
         {
             PopulateDropDown();
             PopulateCategoryList();
@@ -79,7 +79,7 @@ namespace TrotTrax
             this.numberBox.Text = aClass.number.ToString();
             this.nameBox.Text = aClass.name;
             this.nameBox.Focus();
-            this.feeBox.Text = aClass.fee.ToString();
+            this.feeBox.Text = aClass.fee.ToString("#,##0.00");
             this.catDropDown.SelectedValue = aClass.catNo;
             this.modifyBtn.Text = "Save Changes";
 
@@ -95,6 +95,8 @@ namespace TrotTrax
             isNew = false;
         }
 
+
+
         #endregion
 
         #region Refresh Form
@@ -103,14 +105,14 @@ namespace TrotTrax
         private void RefreshForm(string clubID, int year)
         {
             aClass = new Class(clubID, year);
-            SetNewClassData();
+            SetNewData();
         }
 
         // Refresh to existing class form.
         private void RefreshForm(string clubID, int year, int classNo)
         {
             aClass = new Class(clubID, year, classNo);
-            SetExistingClassData();
+            SetExistingData();
         }
 
         private void RefreshOnClose(object sender, FormClosingEventArgs e)
@@ -169,7 +171,7 @@ namespace TrotTrax
 
             // Adds the contents of the category item list retrieved from the database.
             foreach (CategoryItem entry in aClass.catList)
-                dropDownList.Add(new DropDownItem() { no = entry.no, name = entry.name });
+                dropDownList.Add(new DropDownItem() { no = entry.no, name = entry.no + " - " + entry.name });
 
             // Sets this list as the menu's data source and tells the menu which parts to show.
             catDropDown.DataSource = dropDownList;
@@ -179,13 +181,15 @@ namespace TrotTrax
 
         // Gets user-entered class number, name, fee, and category.
         // Validates that fee is not a decimal, class number is a unique value, class is not in a category
+        // For new classes, adds to database, prompts to add more automatically.
+        // For existing classes, modifies existing entry.
         private void SaveClass(object sender, EventArgs e)
         {
             if (isChanged)
             {
                 DialogResult confirm;
                 string name = this.nameBox.Text;
-                int number = VerifyClassNo(this.numberBox.Text.ToString());
+                int number = VerifyNumber(this.numberBox.Text.ToString());
                 decimal fee = VerifyFee(this.feeBox.Text.ToString());
                 int category = VerifyCategory(this.catDropDown.SelectedValue);
  
@@ -210,12 +214,30 @@ namespace TrotTrax
                     // Otherwise: do or do not, there is no try.
                     else
                     {
-                        if (aClass.ModifyClass(number, category, name, fee))
-                            RefreshForm(aClass.clubID, aClass.year, number);
-                        // Unless something terrible happens.
+                        // If this update does not change the class number, just update the entry.
+                        // Otherwise, insert new class at new number, delete current.
+                        if(number == aClass.number)
+                        {
+                            if (aClass.ModifyClass(number, category, name, fee))
+                                RefreshForm(aClass.clubID, aClass.year, number);
+                            // Unless something terrible happens.
+                            else
+                                confirm = MessageBox.Show("Something went wrong. Unable to save class at this time.",
+                                    "TrotTrax Alert", MessageBoxButtons.OK);
+                        }
                         else
-                            confirm = MessageBox.Show("Something went wrong. Unable to save class at this time.",
-                                "TrotTrax Alert", MessageBoxButtons.OK);
+                        {
+                            if (aClass.AddClass(number, category, name, fee))
+                            {
+                                aClass.RemoveClass();
+                                RefreshForm(aClass.clubID, aClass.year, number);
+                            }
+                            // Unless something terrible happens.
+                            else
+                                confirm = MessageBox.Show("Something went wrong. Unable to save class at this time.",
+                                    "TrotTrax Alert", MessageBoxButtons.OK);
+                        }
+                        
                     }
                 }
             }
@@ -224,7 +246,7 @@ namespace TrotTrax
         #region Data Verifiers
 
         // Verifies class number input - returns -1 on fail.
-        private int VerifyClassNo(string noString)
+        private int VerifyNumber(string noString)
         {
             DialogResult confirm;
             int number;
@@ -235,7 +257,8 @@ namespace TrotTrax
                 return -1;
             }
 
-            if (isNew && aClass.CheckNoUsed(number))
+            // If we're assigning a new number to a class, it needs to be checked.
+            if ((isNew || number != aClass.number) && aClass.CheckNoUsed(FormType.Class, number))
             {
                 confirm = MessageBox.Show("Class number already exists.", "TrotTrax Alert", MessageBoxButtons.OK);
                 return -1;

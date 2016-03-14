@@ -81,7 +81,7 @@ namespace TrotTrax
 
         #endregion
 
-        #region Input translators
+        #region Input Translators
         // SQLite does not support a date format, so we need to use a string that will sort properly.
         private string DateToString(DateTime date)
         {
@@ -119,7 +119,7 @@ namespace TrotTrax
 
         #endregion
 
-        #region Query executors
+        #region Query Executors
 
         private bool DoTheNonQuery(SQLiteConnection conn, string query)
         {
@@ -257,7 +257,7 @@ namespace TrotTrax
 
         #endregion   
 
-        #region Current table interactions
+        #region Current Table
 
         // Checks the current table: returns true if it has a value, false otherwise.
         public bool HasCurrent()
@@ -324,6 +324,67 @@ namespace TrotTrax
             DoTheNonQuery(currentUpdate);
             this.year = (int)year;
             return (int)year;
+        }
+
+        #endregion
+
+        #region Index Checkers
+
+        // Returns 1 + the greatest index.
+        // Returns 1 for empty database, -1 for invalid selector.
+        public int GetNextIndex(FormType type)
+        {
+            string formString;
+            switch (type)
+            {
+                case FormType.Category: formString = "category"; break;
+                case FormType.Class: formString = "class"; break;
+                case FormType.Horse: formString = "horse"; break;
+                case FormType.Rider: formString = "rider"; break;
+                case FormType.Show: formString = "show"; break;
+                default: formString = String.Empty; break;
+            }
+
+            if (formString.Equals(String.Empty))
+            {
+                Console.WriteLine("\tInvalid selector.");
+                return -1;
+            }
+
+            string query = "SELECT " + formString + "_no FROM [" + year + "_" + formString + "] ORDER BY " + formString + "_no DESC LIMIT 1;";
+            object value = DoTheScalar(clubConn, query);
+            if (value != null)
+                return Convert.ToInt32(value) + 1;
+            else
+                return 1;
+        }
+
+        // Returns true if requested index is in use, false otherwise.
+        public bool CheckIndexUsed(FormType type, int number)
+        {
+            string formString;
+            switch (type)
+            {
+                case FormType.Category: formString = "category"; break;
+                case FormType.Class: formString = "class"; break;
+                case FormType.Horse: formString = "horse"; break;
+                case FormType.Rider: formString = "rider"; break;
+                case FormType.Show: formString = "show"; break;
+                default: formString = String.Empty; break;
+            }
+
+            if (formString.Equals(String.Empty))
+            {
+                Console.WriteLine("\tInvalid selector.");
+                return false;
+            }
+
+            string query = "SELECT COUNT(*) FROM [" + year + "_" + formString + "] WHERE " + formString + "_no = " + number + ";";
+            object value = DoTheScalar(clubConn, query);
+            if (value != null && Convert.ToInt32(value) > 0)
+                return true;
+            else
+                return false;
         }
 
         #endregion

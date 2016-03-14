@@ -30,10 +30,10 @@ namespace TrotTrax
         {
             category = new Category(clubID, year);
             InitializeComponent();
-            SetNewCategoryData();
+            SetNewData();
         }
 
-        private void SetNewCategoryData()
+        private void SetNewData()
         {
             PopulateCatList();
             PopulateClassList();
@@ -60,10 +60,10 @@ namespace TrotTrax
         {
             category = new Category(clubID, year, catNo);
             InitializeComponent();
-            SetExistingCategoryData();
+            SetExistingData();
         }
 
-        private void SetExistingCategoryData()
+        private void SetExistingData()
         {
             PopulateCatList();
             PopulateClassList();
@@ -93,14 +93,14 @@ namespace TrotTrax
         private void RefreshForm(string clubID, int year)
         {
             category = new Category(clubID, year);
-            SetNewCategoryData();
+            SetNewData();
         }
 
         // Refresh to existing category form.
         private void RefreshForm(string clubID, int year, int catNo)
         {
             category = new Category(clubID, year, catNo);
-            SetExistingCategoryData();
+            SetExistingData();
         }
 
         private void RefreshOnClose(object sender, FormClosingEventArgs e)
