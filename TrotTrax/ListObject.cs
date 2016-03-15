@@ -29,9 +29,14 @@ namespace TrotTrax
 
         #region Sort Fns
 
-        public void SortBackNos(string sort)
+        public void SortBackNos(BackNoSort sort)
         {
             backNoList = database.GetBackNoItemList(sort);
+        }
+
+        public void SortBackNos(BackNoSort sort, BackNoFilter filter, int number)
+        {
+            backNoList = database.GetBackNoItemList(filter, number, sort);
         }
 
         public void SortCategories(CategorySort sort)
@@ -44,6 +49,11 @@ namespace TrotTrax
             classList = database.GetClassItemList(sort);
         }
 
+        public void SortHorses(HorseSort sort)
+        {
+            horseList = database.GetHorseItemList(sort);
+        }
+
         public void SortRiders(RiderSort sort)
         {
             riderList = database.GetRiderItemList(sort);
@@ -51,7 +61,7 @@ namespace TrotTrax
 
         #endregion
 
-        public bool CheckNoUsed(FormType type, int classNo)
+        public bool CheckIndexUsed(FormType type, int classNo)
         {
             return database.CheckIndexUsed(type, classNo);
         }
@@ -129,6 +139,7 @@ namespace TrotTrax
         public string phone;
         public string email;
         public bool member;
+        public string comments;
     }
 
     public struct ShowItem

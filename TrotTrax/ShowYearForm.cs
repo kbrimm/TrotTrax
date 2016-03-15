@@ -407,11 +407,11 @@ namespace TrotTrax
         private void SortBackNoList(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
-                year.SortBackNos("back_no");
+                year.SortBackNos(BackNoSort.Number);
             else if (e.Column == 1)
-                year.SortBackNos("rider_last");
+                year.SortBackNos(BackNoSort.Rider);
             else if (e.Column == 2)
-                year.SortBackNos("horse_name");
+                year.SortBackNos(BackNoSort.Horse);
             PopulateBackNoList();
         }
 

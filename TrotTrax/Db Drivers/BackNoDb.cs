@@ -26,7 +26,7 @@ namespace TrotTrax
             SQLiteCommand query = new SQLiteCommand();
             query.CommandText = "SELECT b.back_no, r.rider_no, r.rider_first, r.rider_last, h.horse_no, h.horse_name FROM ["
                 + year + "_backNo] AS b JOIN [" + year + "_rider] AS r ON b.rider_no = r.rider_no " +
-                "JOIN [" + year + "_horse] AS h ON b.horse_no = h.horse_no WHERE backNo_no = @noparam;";
+                "JOIN [" + year + "_horse] AS h ON b.horse_no = h.horse_no WHERE back_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", backNo));
             query.Connection = clubConn;
@@ -47,19 +47,66 @@ namespace TrotTrax
         }
 
         //Optional: sort (default is backNo_no)
-        public List<BackNoItem> GetBackNoItemList(string sort = null)
+        public List<BackNoItem> GetBackNoItemList(BackNoSort sort = BackNoSort.Default)
         {
             // Case statment for sort column
+            string sortString;
             switch (sort)
             {
-                case "rider": sort = "r.rider_last, r.rider_first"; break;
-                case "horse": sort = "h.horse_name"; break;
-                default: sort = "b.back_no"; break;
+                case BackNoSort.Horse: sortString = "h.horse_name"; break;
+                case BackNoSort.Rider: sortString = "r.rider_last, r.rider_first"; break;
+                default: sortString = "b.back_no"; break;
             }
 
             string query = "SELECT b.back_no, r.rider_no, r.rider_first, r.rider_last, h.horse_no, h.horse_name FROM ["
                 + year + "_backNo] AS b JOIN [" + year + "_rider] AS r ON b.rider_no = r.rider_no " +
-                "JOIN [" + year + "_horse] AS h ON b.horse_no = h.horse_no ORDER BY " + sort + ";";
+                "JOIN [" + year + "_horse] AS h ON b.horse_no = h.horse_no ORDER BY " + sortString + ";";
+            SQLiteDataReader reader = DoTheReader(clubConn, query);
+            List<BackNoItem> backNoItemList = new List<BackNoItem>();
+            BackNoItem item;
+
+            reader = DoTheReader(clubConn, query);
+            while (reader.Read())
+            {
+                item = new BackNoItem();
+
+                item.no = reader.GetInt32(0);
+                item.riderNo = reader.GetInt32(1);
+                item.rider = reader.GetString(2) + " " + reader.GetString(3);
+                item.horseNo = reader.GetInt32(4);
+                item.horse = reader.GetString(5);
+
+                backNoItemList.Add(item);
+            }
+            reader.Close();
+            clubConn.Close();
+            return backNoItemList;
+        }
+
+        public List<BackNoItem> GetBackNoItemList(BackNoFilter filter, int number, BackNoSort sort = BackNoSort.Default)
+        {
+            // Case statment for sort column
+            string sortString;
+            switch (sort)
+            {
+                case BackNoSort.Horse: sortString = "h.horse_name"; break;
+                case BackNoSort.Rider: sortString = "r.rider_last, r.rider_first"; break;
+                default: sortString = "b.back_no"; break;
+            }
+            
+            // Case statment for filter column
+            string filterString;
+            switch (filter)
+            {
+                case BackNoFilter.Horse: filterString = "h.horse_no"; break;
+                case BackNoFilter.Rider: filterString = "r.rider_no"; break;
+                default: filterString = "b.back_no"; break;
+            }
+
+            string query = "SELECT b.back_no, r.rider_no, r.rider_first, r.rider_last, h.horse_no, h.horse_name FROM ["
+                + year + "_backNo] AS b JOIN [" + year + "_rider] AS r ON b.rider_no = r.rider_no " +
+                "JOIN [" + year + "_horse] AS h ON b.horse_no = h.horse_no WHERE " + filterString + " = " + number +
+                " ORDER BY " + sortString + ";";
             SQLiteDataReader reader = DoTheReader(clubConn, query);
             List<BackNoItem> backNoItemList = new List<BackNoItem>();
             BackNoItem item;

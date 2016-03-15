@@ -17,7 +17,7 @@ namespace TrotTrax
     class Show : ListObject
     {
         public int number { get; private set; }
-        public string date { get; private set; }
+        public DateTime date { get; private set; }
         public string name { get; private set; }
         public string comments { get; private set; }
 
@@ -45,7 +45,7 @@ namespace TrotTrax
         private void SetShowData()
         {
             ShowItem item = database.GetShowItem(number);
-            date = item.date.ToString("MM/dd/yyyy");
+            date = item.date;
             name = item.name;
             comments = item.comments;
         }

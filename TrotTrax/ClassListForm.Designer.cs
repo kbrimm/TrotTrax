@@ -45,9 +45,10 @@ namespace TrotTrax
             this.classNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.viewClassBtn = new System.Windows.Forms.Button();
             this.infoBox = new System.Windows.Forms.GroupBox();
+            this.dollarLabel = new System.Windows.Forms.Label();
             this.feeBox = new System.Windows.Forms.TextBox();
             this.feeLabel = new System.Windows.Forms.Label();
-            this.catDropDown = new System.Windows.Forms.ComboBox();
+            this.catComboBox = new System.Windows.Forms.ComboBox();
             this.cancelBtn = new System.Windows.Forms.Button();
             this.deleteBtn = new System.Windows.Forms.Button();
             this.modifyBtn = new System.Windows.Forms.Button();
@@ -67,7 +68,6 @@ namespace TrotTrax
             this.showListBox = new System.Windows.Forms.ListView();
             this.showNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.showListGroup = new System.Windows.Forms.GroupBox();
-            this.dollarLabel = new System.Windows.Forms.Label();
             this.classListGroup.SuspendLayout();
             this.infoBox.SuspendLayout();
             this.catGroup.SuspendLayout();
@@ -160,7 +160,7 @@ namespace TrotTrax
             this.infoBox.Controls.Add(this.dollarLabel);
             this.infoBox.Controls.Add(this.feeBox);
             this.infoBox.Controls.Add(this.feeLabel);
-            this.infoBox.Controls.Add(this.catDropDown);
+            this.infoBox.Controls.Add(this.catComboBox);
             this.infoBox.Controls.Add(this.cancelBtn);
             this.infoBox.Controls.Add(this.deleteBtn);
             this.infoBox.Controls.Add(this.modifyBtn);
@@ -176,6 +176,15 @@ namespace TrotTrax
             this.infoBox.TabIndex = 0;
             this.infoBox.TabStop = false;
             this.infoBox.Text = "Class Information";
+            // 
+            // dollarLabel
+            // 
+            this.dollarLabel.AutoSize = true;
+            this.dollarLabel.Location = new System.Drawing.Point(6, 161);
+            this.dollarLabel.Name = "dollarLabel";
+            this.dollarLabel.Size = new System.Drawing.Size(15, 16);
+            this.dollarLabel.TabIndex = 0;
+            this.dollarLabel.Text = "$";
             // 
             // feeBox
             // 
@@ -195,15 +204,15 @@ namespace TrotTrax
             this.feeLabel.TabIndex = 8;
             this.feeLabel.Text = "Entry Fee";
             // 
-            // catDropDown
+            // catComboBox
             // 
-            this.catDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.catDropDown.FormattingEnabled = true;
-            this.catDropDown.Location = new System.Drawing.Point(148, 156);
-            this.catDropDown.Name = "catDropDown";
-            this.catDropDown.Size = new System.Drawing.Size(249, 24);
-            this.catDropDown.TabIndex = 4;
-            this.catDropDown.SelectedIndexChanged += new System.EventHandler(this.DataChanged);
+            this.catComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.catComboBox.FormattingEnabled = true;
+            this.catComboBox.Location = new System.Drawing.Point(148, 156);
+            this.catComboBox.Name = "catComboBox";
+            this.catComboBox.Size = new System.Drawing.Size(249, 24);
+            this.catComboBox.TabIndex = 4;
+            this.catComboBox.SelectedIndexChanged += new System.EventHandler(this.DataChanged);
             // 
             // cancelBtn
             // 
@@ -405,15 +414,6 @@ namespace TrotTrax
             this.showListGroup.TabStop = false;
             this.showListGroup.Text = "Show List";
             // 
-            // dollarLabel
-            // 
-            this.dollarLabel.AutoSize = true;
-            this.dollarLabel.Location = new System.Drawing.Point(6, 161);
-            this.dollarLabel.Name = "dollarLabel";
-            this.dollarLabel.Size = new System.Drawing.Size(15, 16);
-            this.dollarLabel.TabIndex = 0;
-            this.dollarLabel.Text = "$";
-            // 
             // ClassListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -447,7 +447,7 @@ namespace TrotTrax
         private System.Windows.Forms.Button viewClassBtn;
         private System.Windows.Forms.Button newClassBtn;
         private System.Windows.Forms.GroupBox infoBox;
-        private System.Windows.Forms.ComboBox catDropDown;
+        private System.Windows.Forms.ComboBox catComboBox;
         private System.Windows.Forms.Button cancelBtn;
         private System.Windows.Forms.Button deleteBtn;
         private System.Windows.Forms.Button modifyBtn;

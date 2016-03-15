@@ -80,7 +80,7 @@ namespace TrotTrax
             this.nameBox.Text = aClass.name;
             this.nameBox.Focus();
             this.feeBox.Text = aClass.fee.ToString("#,##0.00");
-            this.catDropDown.SelectedValue = aClass.catNo;
+            this.catComboBox.SelectedValue = aClass.catNo;
             this.modifyBtn.Text = "Save Changes";
 
             // Modify btn is disabled until changes are made.
@@ -94,8 +94,6 @@ namespace TrotTrax
             isChanged = false;
             isNew = false;
         }
-
-
 
         #endregion
 
@@ -174,24 +172,25 @@ namespace TrotTrax
                 dropDownList.Add(new DropDownItem() { no = entry.no, name = entry.no + " - " + entry.name });
 
             // Sets this list as the menu's data source and tells the menu which parts to show.
-            catDropDown.DataSource = dropDownList;
-            catDropDown.DisplayMember = "name";
-            catDropDown.ValueMember = "no";
+            catComboBox.DataSource = dropDownList;
+            catComboBox.DisplayMember = "name";
+            catComboBox.ValueMember = "no";
         }
 
         // Gets user-entered class number, name, fee, and category.
         // Validates that fee is not a decimal, class number is a unique value, class is not in a category
         // For new classes, adds to database, prompts to add more automatically.
-        // For existing classes, modifies existing entry.
+        // For existing categories, modifies existing entry for same number,
+        // or inserts new and deletes old entry for different number.
         private void SaveClass(object sender, EventArgs e)
         {
             if (isChanged)
             {
                 DialogResult confirm;
                 string name = this.nameBox.Text;
-                int number = VerifyNumber(this.numberBox.Text.ToString());
-                decimal fee = VerifyFee(this.feeBox.Text.ToString());
-                int category = VerifyCategory(this.catDropDown.SelectedValue);
+                int number = VerifyNumber(this.numberBox.Text);
+                decimal fee = VerifyFee(this.feeBox.Text);
+                int category = VerifyCategory(this.catComboBox.SelectedValue);
  
                 if(number > 0 && fee > 0 && category > 0)
                 {
@@ -227,6 +226,8 @@ namespace TrotTrax
                         }
                         else
                         {
+                            // The deletion of the existing number relies on successful insertion of the new,
+                            // so in the event of catastrophic failure, the data should hopefully still be there somewhere.
                             if (aClass.AddClass(number, category, name, fee))
                             {
                                 aClass.RemoveClass();
@@ -258,7 +259,7 @@ namespace TrotTrax
             }
 
             // If we're assigning a new number to a class, it needs to be checked.
-            if ((isNew || number != aClass.number) && aClass.CheckNoUsed(FormType.Class, number))
+            if ((isNew || number != aClass.number) && aClass.CheckIndexUsed(FormType.Class, number))
             {
                 confirm = MessageBox.Show("Class number already exists.", "TrotTrax Alert", MessageBoxButtons.OK);
                 return -1;
@@ -292,7 +293,7 @@ namespace TrotTrax
         private int VerifyCategory(object categoryObject)
         {
             DialogResult confirm;
-            int category = Convert.ToInt32(this.catDropDown.SelectedValue);
+            int category = Convert.ToInt32(this.catComboBox.SelectedValue);
 
             if (aClass.catList.Count == 0)
             {
@@ -340,6 +341,18 @@ namespace TrotTrax
                 string[] row = { entry.name, };
                 classListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
             }
+
+            // If the classList box is empty, no view option.
+            if (classListBox.Items.Count == 0)
+            {
+                this.viewClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.viewClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            }
+            else
+            {
+                this.viewClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.viewClassBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            }
         }
 
         // Sorts classList based on column clicks.
@@ -385,6 +398,18 @@ namespace TrotTrax
                 string[] row = { entry.name, entry.timed.ToString() };
                 catListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
             }
+
+            // If the catList box is empty, no view option.
+            if (catListBox.Items.Count == 0)
+            {
+                this.catViewBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.catViewBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            }
+            else
+            {
+                this.catViewBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.catViewBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            }
         }
 
         private void SortCategoryList(object sender, ColumnClickEventArgs e)
@@ -396,7 +421,7 @@ namespace TrotTrax
             PopulateCategoryList();
         }
 
-        // Loads new categor form, closes current.
+        // Loads new category form, closes current.
         private void NewCategory(object sender, EventArgs e)
         {
             if (AbandonChanges())
@@ -473,6 +498,17 @@ namespace TrotTrax
                     classForm.Visible = true;
                     this.Close();
                 }
+            }
+
+            if (showListBox.Items.Count == 0)
+            {
+                this.viewResultBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.viewResultBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            }
+            else
+            {
+                this.viewResultBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.viewResultBtn.ForeColor = System.Drawing.SystemColors.ControlText;
             }
         }
 

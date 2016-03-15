@@ -69,21 +69,19 @@ namespace TrotTrax
         {
             PopulateClassList();
             PopulateShowList();
-            this.Text = show.date + " Show Detail - TrotTrax";
+            this.Text = show.date.ToString("MM/dd/yyyy") + " Show Detail - TrotTrax";
             numberBox.Text = show.number.ToString();
             this.numberBox.Focus();
-            datePicker.Value = Convert.ToDateTime(show.date);
+            datePicker.Value = show.date;
             descriptionBox.Text = show.name;
             commentsBox.Text = show.comments;
-            showLabel.Text = show.date + "\r\nShow Detail";
+            showLabel.Text = show.date.ToString("MM/dd/yyyy") + "\r\nShow Detail";
 
             // Modify btn is disabled until changes are made.
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             deleteBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            viewResultsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            viewResultsBtn.ForeColor = System.Drawing.SystemColors.ControlText;
 
             isChanged = false;
             isNew = false;
@@ -151,7 +149,8 @@ namespace TrotTrax
 
         // Gets user-entered number, date, description, and comments.
         // For new categories, adds to database, prompts to add more automatically.
-        // For existing categories, modifies existing entry.
+        // For existing categories, modifies existing entry for same number,
+        // or inserts new and deletes old entry for different number.
         private void SaveShow(object sender, EventArgs e)
         {
             if (isChanged)
@@ -181,17 +180,36 @@ namespace TrotTrax
                 }
                 else
                 {
-                    success = show.ModifyShow(date, description, comments);
-                    if (success)
-                        RefreshForm(show.clubID, show.year, show.number);
+                    // If this update does not change the class number, just update the entry.
+                    // Otherwise, insert new class at new number, delete current.
+                    if (number == show.number)
+                    {
+                        if (show.ModifyShow(date, description, comments))
+                            RefreshForm(show.clubID, show.year, number);
+                        // Unless something terrible happens.
+                        else
+                            confirm = MessageBox.Show("Something went wrong. Unable to save show at this time.",
+                                "TrotTrax Alert", MessageBoxButtons.OK);
+                    }
                     else
-                        confirm = MessageBox.Show("Something went wrong. Unable to save show at this time.",
-                            "TrotTrax Alert", MessageBoxButtons.OK);
+                    {
+                        // The deletion of the existing number relies on successful insertion of the new,
+                        // so in the event of catastrophic failure, the data should hopefully still be there somewhere.
+                        if (show.AddShow(number, date, description, comments))
+                        {
+                            show.RemoveShow();
+                            RefreshForm(show.clubID, show.year, number);
+                        }
+                        // Unless something terrible happens.
+                        else
+                            confirm = MessageBox.Show("Something went wrong. Unable to save show at this time.",
+                                "TrotTrax Alert", MessageBoxButtons.OK);
+                    }
                 }
             }
         }
 
-        #region Entry Verifiers
+        #region Data Verifiers
 
         // Verifies class number input - returns -1 on fail.
         private int VerifyNumber(string noString)
@@ -199,14 +217,15 @@ namespace TrotTrax
             DialogResult confirm;
             int number;
 
+            // If the number field is empty or not a valid integer
             if (noString == String.Empty || !int.TryParse(noString, out number))
             {
                 confirm = MessageBox.Show("Show number must be an integer value.", "TrotTrax Alert", MessageBoxButtons.OK);
                 return -1;
             }
 
-            // If we're assigning a new number to a show, it needs to be checked.
-            if ((isNew || number != show.number) && show.CheckNoUsed(FormType.Show, number))
+            // If we're assigning a new number to a show, see if it exists.
+            if ((isNew || number != show.number) && show.CheckIndexUsed(FormType.Show, number))
             {
                 confirm = MessageBox.Show("Show number already exists.", "TrotTrax Alert", MessageBoxButtons.OK);
                 return -1;
@@ -256,6 +275,17 @@ namespace TrotTrax
                     value = dateString + " - " + entry.name;
                 showListBox.Items.Add(value);
             }
+
+            if (showListBox.Items.Count == 0)
+            {
+                this.viewShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.viewShowBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            }
+            else
+            {
+                this.viewShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.viewShowBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            }
         }
 
         // Refreshes to new show form.
@@ -304,6 +334,17 @@ namespace TrotTrax
             {
                 string[] row = { entry.name, };
                 classListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+            }
+
+            if (classListBox.Items.Count == 0)
+            {
+                this.viewResultsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.viewResultsBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            }
+            else
+            {
+                this.viewResultsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.viewResultsBtn.ForeColor = System.Drawing.SystemColors.ControlText;
             }
         }
 

@@ -109,7 +109,7 @@ namespace TrotTrax
             // rider: rider_no int (PK), first_name VC(255), last_name VC(255), age INT, contact VC(255), member BOOLEAN
             string riderTable = "CREATE TABLE [" + year + "_rider] ( rider_no INTEGER NOT NULL, " +
                 "rider_first TEXT NOT NULL, rider_last TEXT NOT NULL, rider_dob TEXT, phone TEXT, " +
-                "email TEXT, member INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (rider_no) );";
+                "email TEXT, member INTEGER NOT NULL DEFAULT 0, rider_comment TEXT, PRIMARY KEY (rider_no) );";
 
             // horse: horse_no int (PK), name VC(255), nickname VC(255), height decimal(4,2)
             string horseTable = "CREATE TABLE [" + year + "_horse] ( horse_no INTEGER NOT NULL, " +

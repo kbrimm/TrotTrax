@@ -233,6 +233,17 @@ namespace TrotTrax
                 string[] row = { entry.name, entry.timed.ToString() };
                 catListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
             }
+
+            if (catListBox.Items.Count == 0)
+            {
+                this.viewCatBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.viewCatBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            }
+            else
+            {
+                this.viewCatBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.viewCatBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            }
         }
 
         // Sorts catList based on column clicks by repopulating catList.
@@ -281,6 +292,17 @@ namespace TrotTrax
             {
                 string[] row = { entry.name, };
                 classListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+            }
+
+            if (classListBox.Items.Count == 0)
+            {
+                this.viewClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.viewClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            }
+            else
+            {
+                this.viewClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.viewClassBtn.ForeColor = System.Drawing.SystemColors.ControlText;
             }
         }
 

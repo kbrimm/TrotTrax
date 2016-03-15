@@ -53,8 +53,10 @@ namespace TrotTrax
             string sortString;
             switch (sort)
             {
+                case HorseSort.Name: sortString = "horse_name"; break;
+                case HorseSort.CallName: sortString = "horse_call"; break;
                 case HorseSort.Owner: sortString = "owner_name, horse_name"; break;
-                default: sortString = "horse_name"; break;
+                default: sortString = "horse_no"; break;
             }
 
             string query = "SELECT horse_no, horse_name, horse_call, height, owner_name FROM [" + year +

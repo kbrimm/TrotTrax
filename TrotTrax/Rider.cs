@@ -23,14 +23,18 @@ namespace TrotTrax
         public string phone { get; private set; }
         public string email { get; private set; }
         public bool member { get; private set; }
+        public string comment { get; private set; }
 
         public Rider(string clubID, int year)
         {
             database = new DBDriver(1);
             this.clubID = clubID;
             this.year = year;
+            number = database.GetNextIndex(FormType.Rider);
+            backNoList = database.GetBackNoItemList(BackNoFilter.Rider, number);
+            horseList = database.GetHorseItemList(HorseSort.Name);
             riderList = database.GetRiderItemList();
-            horseList = database.GetHorseItemList();
+            
         }
 
         public Rider(string clubID, int year, int riderNo)
@@ -40,9 +44,9 @@ namespace TrotTrax
             this.year = year;
             this.number = riderNo;
             SetRiderData();
-            riderList = database.GetRiderItemList();
+            backNoList = database.GetBackNoItemList(BackNoFilter.Rider, number);
             horseList = database.GetHorseItemList();
-            // classEntryList = database.GetClassEntryItemList(clubID, year, "r.rider_no = " + riderNo, "s.date");
+            riderList = database.GetRiderItemList();
         }
 
         private void SetRiderData()
@@ -57,15 +61,15 @@ namespace TrotTrax
         }
 
         public bool AddRider(int riderNo, string firstName, string lastName, DateTime dob, string phone, 
-            string email, bool member)
+            string email, bool member, string comment)
         {
-            return database.AddRiderItem(riderNo, firstName, lastName, dob, phone, email, member);
+            return database.AddRiderItem(riderNo, firstName, lastName, dob, phone, email, member, comment);
         }
 
-        public bool ModifyRider(int number, string firstName, string lastName, DateTime dob, string phone, 
-            string email, bool member)
+        public bool ModifyRider(int number, string firstName, string lastName, DateTime dob, string phone,
+            string email, bool member, string comment)
         {
-            return database.UpdateRiderItem(number, firstName, lastName, dob, phone, email, member);
+            return database.UpdateRiderItem(number, firstName, lastName, dob, phone, email, member, comment);
         }
 
         public bool RemoveRider()
