@@ -4,19 +4,21 @@
 
 This database serves as the "directory" for TrotTrax. It contains a table for all of the available clubs, as well as a table that lists the last club and year the user was working with. The club ID is an acronym for the club's name, and is generated during new club creation.
 
-It is worth noting that all foreign keys are set to cascade on delete, so removing data with a primary key will result in the deletion of all its related data.
+All foreign keys are set to cascade on delete, so removing data with a primary key will result in the deletion of all its related data.
+
+Update: Since changing DBMS to SQLite, things like dates and booleans are no longer supported, and the length limitations on INTEGER fields have been removed.
 
 ### .club
 | Field | Data Type | Key |
 | ----- | --------- | --- |
-| club\_id | varchar(10) - not null | primary |
-| club\_name | varchar(255) | |
+| club\_id | TEXT - not null | primary |
+| club\_name | TEXT | |
 
 ### .current
 | Field  | Data Type | Key |
 | ------ | --------- | --- |
-| club_id | varchar(10) - not null | foreign |
-| current_year | int | |
+| club_id | TEXT - not null | foreign |
+| current_year | INTEGER | |
 
 ---
 
@@ -27,68 +29,69 @@ The individual club databases, hold data for each club. Each club has one show\_
 ### .show_year
 | Field | Data Type | Key |
 | ----- | --------- | --- |
-| year  | int - not null | unique |
+| year  | INTEGER - not null | unique |
 
 ### .\<year\>_rider
 | Field | Data Type | Key |
 | ----- | --------- | --- |
-| rider_no | int - not null, auto-increment | primary |
-| rider_first | varchar(255) - not null | |
-| rider_last | varchar(255) - not null | |
-| rider_dob | date | |
-| phone | varchar(255) | |
-| email | varchar(255) | |
-| member | boolean - default false | |
+| rider_no | INTEGER - not null, auto-increment | primary |
+| rider_first | TEXT - not null | |
+| rider_last | TEXT - not null | |
+| rider_dob | INTEGER(date) | |
+| phone | TEXT | |
+| email | TEXT | |
+| member | INTEGER(boolean) - default 0 | |
+| rider_comment | TEXT | |
 
 ### .\<year\>_horse
 | Field | Data Type | Key |
 | ----- | --------- | --- |
-| horse_no | int - not null, auto-increment | primary |
-| horse_name | varchar(255) - not null | |
-| horse_call | varchar(255) | |
-| height | decimal(5,2) | |
-| owner_name | varchar(255) | |
+| horse_no | INTEGER - not null, auto-increment | primary |
+| horse_name | TEXT - not null | |
+| horse_alt | TEXT | |
+| height | TEXT | |
+| owner_name | TEXT | |
+| horse_comment | TEXT | |
 
 ### .\<year\>_backNo
 | Field | Data Type | Key |
 | ----- | --------- | --- |
-| back_no | int - not null | primary |
-| rider_no | int - not null | foreign |
-| back_no | int - not null | foreign |
+| back_no | INTEGER - not null | primary |
+| rider_no | INTEGER - not null | foreign |
+| back_no | INTEGER - not null | foreign |
 
 ### .\<year\>_show
 | Field | Data Type | Key |
 | ----- | --------- | --- |
-| show_no | int - not null - auto-increment | primary |
-| date | date - not null | unique |
-| show_name | varchar(255) | |
-| show_comment | varchar(500) | |
+| show_no | INTEGER - not null - auto-increment | primary |
+| date | INTEGER(date) - not null | unique |
+| show_name | TEXT | |
+| show_comment | TEXT | |
 
 ### .\<year\>_category
 | Field | Data Type | Key |
 | ----- | --------- | --- |
-| cat_no | int - not null, auto-increment | primary |
-| cat_desc | varchar(255) | |
-| fee | decimal(5,2) - not null | |
-| timed | boolean - not null | |
-| payout | boolean - not null | |
-| jackpot | boolean - not null | |
+| cat_no | INTEGER - not null, auto-increment | primary |
+| cat_desc | TEXT | |
+| timed | INTEGER(boolean) - not null | |
 
 ### .\<year\>_class
 | Field | Data Type | Key |
 | ----- | --------- | --- |
-| class_no | int - not null | primary |
-| cat_no | int - not null| foreign |
-| class_name | varchar(255) - not null | |
+| class_no | INTEGER - not null | primary |
+| cat_no | INTEGER - not null| foreign |
+| class_name | TEXT - not null | |
+| timed | INTEGER | |
+| fee | REAL | |
 
 ### .\<year\>_result
 | Field | Data Type | Key |
 | ----- | --------- | --- |
-| show_no | int - not null | foreign |
-| class_no | int - not null | foreign |
-| back_no | int - not null | foreign |
-| place | int | |
-| time | decimal(6,3) | |
-| points | int - default 0 | |
-| paid_in | decimal(5,2) - default 0 | |
-| paid_out | decimal(5,2) | |
+| show_no | INTEGER - not null | foreign |
+| class_no | INTEGER - not null | foreign |
+| back_no | INTEGER - not null | foreign |
+| place | INTEGER | |
+| time | REAL | |
+| points | INTEGER - default 0 | |
+| paid_in | REAL - default 0 | |
+| paid_out | REAL | |
