@@ -447,7 +447,7 @@ namespace TrotTrax
         {
             if (!isNew)
             {
-                HorseListForm horseList = new HorseListForm();
+                HorseListForm horseList = new HorseListForm(year.clubID, year.year);
                 horseList.Visible = true;
             }
         }
@@ -456,7 +456,7 @@ namespace TrotTrax
         {
             if (!isNew)
             {
-                HorseListForm horseList = new HorseListForm();
+                HorseListForm horseList = new HorseListForm(year.clubID, year.year);
                 horseList.Visible = true;
             }
         }

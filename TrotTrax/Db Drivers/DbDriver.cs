@@ -124,7 +124,7 @@ namespace TrotTrax
         private bool DoTheNonQuery(SQLiteConnection conn, string query)
         {
             SQLiteCommand command;
-            Console.WriteLine("Executing " + query);
+            Console.WriteLine("Executing non-query: " + query);
             try
             {
                 conn.Close();
@@ -146,7 +146,7 @@ namespace TrotTrax
 
         private bool DoTheNonQuery(SQLiteCommand query)
         {
-            Console.WriteLine("Executing " + query.CommandText);
+            Console.WriteLine("Executing non-query: " + query.CommandText);
             try
             {
                 query.Connection.Close();
@@ -169,7 +169,7 @@ namespace TrotTrax
         {
             SQLiteCommand command;
             object value;
-            Console.WriteLine("Executing " + query);
+            Console.WriteLine("Executing scalar: " + query);
             try
             {
                 conn.Close();
@@ -192,7 +192,7 @@ namespace TrotTrax
         private object DoTheScalar(SQLiteCommand query)
         {
             Object value;
-            Console.WriteLine("Executing " + query.CommandText);
+            Console.WriteLine("Executing scalar: " + query.CommandText);
             try
             {
                 query.Connection.Close();
@@ -215,7 +215,7 @@ namespace TrotTrax
         {
             SQLiteCommand command;
             SQLiteDataReader reader;
-            Console.WriteLine("Executing " + query);
+            Console.WriteLine("Executing reader: " + query);
             try
             {
                 conn.Close();
@@ -237,7 +237,7 @@ namespace TrotTrax
         private SQLiteDataReader DoTheReader(SQLiteCommand query)
         {
             SQLiteDataReader reader;
-            Console.WriteLine("Executing " + query.CommandText);
+            Console.WriteLine("Executing reader: " + query.CommandText);
             try
             {
                 query.Connection.Close();

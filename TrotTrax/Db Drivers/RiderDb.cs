@@ -41,6 +41,7 @@ namespace TrotTrax
                 item.phone = reader.GetString(4);
                 item.email = reader.GetString(5);
                 item.member = (bool)IntToBool(reader.GetInt32(6));
+                item.comments = reader.GetString(7);
             }
             reader.Close();
             clubConn.Close();
@@ -103,7 +104,7 @@ namespace TrotTrax
             query.Parameters.Add(new SQLiteParameter("@dobparam", DateToString(dob)));
             query.Parameters.Add(new SQLiteParameter("@phoneparam", phone));
             query.Parameters.Add(new SQLiteParameter("@emailparam", email));
-            query.Parameters.Add(new SQLiteParameter("@member", BoolToInt(member)));
+            query.Parameters.Add(new SQLiteParameter("@memberparam", BoolToInt(member)));
             query.Parameters.Add(new SQLiteParameter("@commentparam", comment));
             query.Connection = clubConn;
 
@@ -118,8 +119,8 @@ namespace TrotTrax
             bool member, string comment)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "UPDATE [" + year + "_rider] SET rider_no = @noparam, rider_first @firstparam, " +
-                "rider_last = @lastparam, rider_dob = @dobparam, phone = @phoneparam, email = @emailparam, member = @memberparam " +
+            query.CommandText = "UPDATE [" + year + "_rider] SET rider_no = @noparam, rider_first = @firstparam, " +
+                "rider_last = @lastparam, rider_dob = @dobparam, phone = @phoneparam, email = @emailparam, member = @memberparam, " +
                 "rider_comment = @commentparam WHERE rider_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", riderNo));
@@ -128,7 +129,7 @@ namespace TrotTrax
             query.Parameters.Add(new SQLiteParameter("@dobparam", DateToString(dob)));
             query.Parameters.Add(new SQLiteParameter("@phoneparam", phone));
             query.Parameters.Add(new SQLiteParameter("@emailparam", email));
-            query.Parameters.Add(new SQLiteParameter("@member", BoolToInt(member)));
+            query.Parameters.Add(new SQLiteParameter("@memberparam", BoolToInt(member)));
             query.Parameters.Add(new SQLiteParameter("@commentparam", comment));
             query.Connection = clubConn;
 

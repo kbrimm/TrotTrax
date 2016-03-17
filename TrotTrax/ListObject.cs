@@ -107,9 +107,10 @@ namespace TrotTrax
     {
         public int no;
         public string name;
-        public string callName;
-        public decimal height;
+        public string altName;
+        public string height;
         public string ownerName;
+        public string comments;
     }
 
     public struct ResultItem

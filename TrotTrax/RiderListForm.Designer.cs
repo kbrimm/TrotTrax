@@ -36,6 +36,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RiderListForm));
             this.riderLabel = new System.Windows.Forms.Label();
             this.riderListGroup = new System.Windows.Forms.GroupBox();
             this.riderListBox = new System.Windows.Forms.ListView();
@@ -71,7 +72,6 @@
             this.horseComboBox = new System.Windows.Forms.ComboBox();
             this.addHorseBtn = new System.Windows.Forms.Button();
             this.horseListBox = new System.Windows.Forms.ListView();
-            this.horseNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.backNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.horseNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.viewHorseBtn = new System.Windows.Forms.Button();
@@ -269,6 +269,7 @@
             this.memberCheckBox.Text = "Paid Member";
             this.memberCheckBox.UseVisualStyleBackColor = true;
             this.memberCheckBox.CheckedChanged += new System.EventHandler(this.DataChanged);
+            this.memberCheckBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ToggleMember);
             // 
             // ageBox
             // 
@@ -333,7 +334,7 @@
             this.deleteBtn.TabIndex = 10;
             this.deleteBtn.Text = "Delete";
             this.deleteBtn.UseVisualStyleBackColor = true;
-            this.deleteBtn.Click += new System.EventHandler(this.DeleteClass);
+            this.deleteBtn.Click += new System.EventHandler(this.DeleteRider);
             // 
             // modifyBtn
             // 
@@ -345,7 +346,7 @@
             this.modifyBtn.TabIndex = 9;
             this.modifyBtn.Text = "Save Changes";
             this.modifyBtn.UseVisualStyleBackColor = true;
-            this.modifyBtn.Click += new System.EventHandler(this.SaveClass);
+            this.modifyBtn.Click += new System.EventHandler(this.SaveRider);
             // 
             // firstNameBox
             // 
@@ -415,7 +416,7 @@
             this.backNoBox.Location = new System.Drawing.Point(75, 377);
             this.backNoBox.Name = "backNoBox";
             this.backNoBox.Size = new System.Drawing.Size(145, 22);
-            this.backNoBox.TabIndex = 3;
+            this.backNoBox.TabIndex = 12;
             this.backNoBox.TextChanged += new System.EventHandler(this.HorseChanged);
             // 
             // horseComboBox
@@ -424,7 +425,7 @@
             this.horseComboBox.Location = new System.Drawing.Point(7, 405);
             this.horseComboBox.Name = "horseComboBox";
             this.horseComboBox.Size = new System.Drawing.Size(213, 24);
-            this.horseComboBox.TabIndex = 2;
+            this.horseComboBox.TabIndex = 13;
             this.horseComboBox.SelectedIndexChanged += new System.EventHandler(this.HorseChanged);
             // 
             // addHorseBtn
@@ -433,8 +434,7 @@
             this.addHorseBtn.Location = new System.Drawing.Point(7, 435);
             this.addHorseBtn.Name = "addHorseBtn";
             this.addHorseBtn.Size = new System.Drawing.Size(213, 25);
-            this.addHorseBtn.TabIndex = 1;
-            this.addHorseBtn.TabStop = false;
+            this.addHorseBtn.TabIndex = 14;
             this.addHorseBtn.Text = "Add Horse";
             this.addHorseBtn.UseVisualStyleBackColor = true;
             // 
@@ -444,7 +444,6 @@
             this.horseListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.horseListBox.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.horseNoHeader,
             this.backNoHeader,
             this.horseNameHeader});
             this.horseListBox.FullRowSelect = true;
@@ -458,10 +457,6 @@
             this.horseListBox.UseCompatibleStateImageBehavior = false;
             this.horseListBox.View = System.Windows.Forms.View.Details;
             this.horseListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.SortHorseList);
-            // 
-            // horseNoHeader
-            // 
-            this.horseNoHeader.Width = 0;
             // 
             // backNoHeader
             // 
@@ -493,6 +488,7 @@
             this.Controls.Add(this.infoBox);
             this.Controls.Add(this.riderListGroup);
             this.Controls.Add(this.riderLabel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RiderListForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New Rider - TrotTrax";
@@ -538,7 +534,6 @@
         private System.Windows.Forms.ColumnHeader horseNameHeader;
         private System.Windows.Forms.Button viewHorseBtn;
         private System.Windows.Forms.ColumnHeader noHeader;
-        private System.Windows.Forms.ColumnHeader horseNoHeader;
         private System.Windows.Forms.Label commentsLabel;
         private System.Windows.Forms.TextBox commentsBox;
         private System.Windows.Forms.ColumnHeader backNoHeader;

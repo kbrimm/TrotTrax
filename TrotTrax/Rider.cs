@@ -58,6 +58,7 @@ namespace TrotTrax
             phone = riderItem.phone;
             email = riderItem.email;
             member = riderItem.member;
+            comment = riderItem.comments;
         }
 
         public bool AddRider(int riderNo, string firstName, string lastName, DateTime dob, string phone, 

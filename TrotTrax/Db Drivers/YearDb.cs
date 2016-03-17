@@ -113,7 +113,7 @@ namespace TrotTrax
 
             // horse: horse_no int (PK), name VC(255), nickname VC(255), height decimal(4,2)
             string horseTable = "CREATE TABLE [" + year + "_horse] ( horse_no INTEGER NOT NULL, " +
-                "horse_name TEXT NOT NULL, horse_call TEXT, height REAL, owner_name TEXT, PRIMARY KEY (horse_no) );";
+                "horse_name TEXT NOT NULL, horse_alt TEXT, height TEXT, owner_name TEXT, horse_comment TEXT, PRIMARY KEY (horse_no) );";
 
             // back_no: back_no int (PK), rider_no int (FK), horse_no int (FK)
             string backNoTable = "CREATE TABLE [" + year + "_backNo] ( back_no INTEGER NOT NULL, " +

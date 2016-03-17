@@ -83,6 +83,7 @@ namespace TrotTrax
             this.showLabel.TabIndex = 0;
             this.showLabel.Text = "New Class \r\nSetup";
             this.showLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.showLabel.UseMnemonic = false;
             // 
             // classListGroup
             // 

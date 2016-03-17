@@ -24,7 +24,7 @@ namespace TrotTrax
         public HorseItem GetHorseItem(int horseNo)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "SELECT horse_no, horse_name, horse_call, height, owner_name FROM [" + year +
+            query.CommandText = "SELECT horse_no, horse_name, horse_alt, height, owner_name, horse_comment FROM [" + year +
                 "_horse] WHERE horse_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", horseNo));
@@ -37,9 +37,10 @@ namespace TrotTrax
                 item = new HorseItem();
                 item.no = reader.GetInt32(0);
                 item.name = reader.GetString(1);
-                item.callName = reader.GetString(2);
-                item.height = reader.GetDecimal(3);
+                item.altName = reader.GetString(2);
+                item.height = reader.GetString(3);
                 item.ownerName = reader.GetString(4);
+                item.comments = reader.GetString(5);
             }
             reader.Close();
             clubConn.Close();
@@ -54,12 +55,12 @@ namespace TrotTrax
             switch (sort)
             {
                 case HorseSort.Name: sortString = "horse_name"; break;
-                case HorseSort.CallName: sortString = "horse_call"; break;
+                case HorseSort.CallName: sortString = "horse_alt"; break;
                 case HorseSort.Owner: sortString = "owner_name, horse_name"; break;
                 default: sortString = "horse_no"; break;
             }
 
-            string query = "SELECT horse_no, horse_name, horse_call, height, owner_name FROM [" + year +
+            string query = "SELECT horse_no, horse_name, horse_alt, height, owner_name, horse_comment FROM [" + year +
                 "_horse] ORDER BY " + sortString + ";";
             SQLiteDataReader reader = DoTheReader(clubConn, query);
             List<HorseItem> horseItemList = new List<HorseItem>();
@@ -71,9 +72,10 @@ namespace TrotTrax
                 item = new HorseItem();
                 item.no = reader.GetInt32(0);
                 item.name = reader.GetString(1);
-                item.callName = reader.GetString(2);
-                item.height = reader.GetDecimal(3);
+                item.altName = reader.GetString(2);
+                item.height = reader.GetString(3);
                 item.ownerName = reader.GetString(4);
+                item.comments = reader.GetString(5);
                 horseItemList.Add(item);
             }
             reader.Close();
@@ -85,18 +87,19 @@ namespace TrotTrax
 
         #region Insert Statements
 
-        public bool AddHorseItem(int horseNo, string name, string callName, decimal height, string owner)
+        public bool AddHorseItem(int horseNo, string name, string altName, string height, string owner, string comment)
         {
             SQLiteCommand query = new SQLiteCommand();
             query.CommandText = "INSERT INTO [" + year + "_horse] " +
-                "(horse_no, horse_name, horse_call, height, owner_name) " +
-                "VALUES (@noparam, @nameparam, @callparam, @heightparam, @ownerparam)";
+                "(horse_no, horse_name, horse_alt, height, owner_name, horse_comment) " +
+                "VALUES (@noparam, @nameparam, @altparam, @heightparam, @ownerparam, @commentparam)";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", horseNo));
             query.Parameters.Add(new SQLiteParameter("@nameparam", name));
-            query.Parameters.Add(new SQLiteParameter("@callparam", callName));
-            query.Parameters.Add(new SQLiteParameter("@height", height));
+            query.Parameters.Add(new SQLiteParameter("@altparam", altName));
+            query.Parameters.Add(new SQLiteParameter("@heightparam", height));
             query.Parameters.Add(new SQLiteParameter("@ownerparam", owner));
+            query.Parameters.Add(new SQLiteParameter("@commentparam", comment));
             query.Connection = clubConn;
             return DoTheNonQuery(query);
         }
@@ -105,18 +108,19 @@ namespace TrotTrax
 
         #region Update Statements
 
-        public bool UpdateHorseItem(int horseNo, string name, string callName, decimal height, string owner)
+        public bool UpdateHorseItem(int horseNo, string name, string altName, string height, string owner, string comment)
         {
             SQLiteCommand query = new SQLiteCommand();
             query.CommandText = "UPDATE [" + year + "_horse] SET horse_no = @noparam, horse_name = @nameparam, " +
-                "horse_call = @callparam, height = @heightparam, owner = @ownerparam " +
+                "horse_alt = @altparam, height = @heightparam, owner = @ownerparam, horse_comment = @commentparam " +
                 "WHERE horse_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@nameparam", name));
-            query.Parameters.Add(new SQLiteParameter("@callparam", callName));
+            query.Parameters.Add(new SQLiteParameter("@altparam", altName));
             query.Parameters.Add(new SQLiteParameter("@height", height));
             query.Parameters.Add(new SQLiteParameter("@ownerparam", owner));
             query.Parameters.Add(new SQLiteParameter("@noparam", horseNo));
+            query.Parameters.Add(new SQLiteParameter("@commentparam", comment));
             query.Connection = clubConn;
             return DoTheNonQuery(query);
         }
