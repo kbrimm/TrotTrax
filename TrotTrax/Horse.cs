@@ -31,7 +31,7 @@ namespace TrotTrax
             number = database.GetNextIndex(FormType.Horse);
             backNoList = database.GetBackNoItemList(BackNoFilter.Horse, number);
             horseList = database.GetHorseItemList(HorseSort.Name);
-            
+            riderList = database.GetRiderItemList();
         }
 
         public Horse(string clubID, int year, int horseNo)
@@ -69,6 +69,11 @@ namespace TrotTrax
         public bool RemoveHorse()
         {
             return database.DeleteHorseItem(number);
+        }
+
+        public bool AddBackNo(int backNo, int riderNo)
+        {
+            return database.AddBackNoItem(backNo, riderNo, number);
         }
     }
 

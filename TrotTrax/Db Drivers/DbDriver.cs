@@ -23,6 +23,7 @@ namespace TrotTrax
 
         public bool connected;
         private int year;
+        private string pragmaString = "PRAGMA foreign_keys = ON; ";
 
         #region Constructors/Initializers
 
@@ -129,6 +130,7 @@ namespace TrotTrax
             {
                 conn.Close();
                 conn.Open();
+                query = pragmaString + query;
                 command = new SQLiteCommand(query, conn);
                 command.ExecuteNonQuery();
                 conn.Close();
@@ -151,6 +153,7 @@ namespace TrotTrax
             {
                 query.Connection.Close();
                 query.Connection.Open();
+                query.CommandText = pragmaString + query.CommandText;
                 query.ExecuteNonQuery();
                 query.Connection.Close();
                 Console.WriteLine("\tSuccess! :D");
@@ -174,6 +177,7 @@ namespace TrotTrax
             {
                 conn.Close();
                 conn.Open();
+                query = pragmaString + query;
                 command = new SQLiteCommand(query, conn);
                 value = command.ExecuteScalar();
                 conn.Close();
@@ -197,6 +201,7 @@ namespace TrotTrax
             {
                 query.Connection.Close();
                 query.Connection.Open();
+                query.CommandText = pragmaString + query.CommandText;
                 value = query.ExecuteScalar();
                 query.Connection.Close();
                 Console.WriteLine("\tSuccess! :D");
@@ -220,6 +225,7 @@ namespace TrotTrax
             {
                 conn.Close();
                 conn.Open();
+                query = pragmaString + query;
                 command = new SQLiteCommand(query, conn);
                 reader = command.ExecuteReader();
                 Console.WriteLine("\tSuccess! :D");
@@ -242,6 +248,7 @@ namespace TrotTrax
             {
                 query.Connection.Close();
                 query.Connection.Open();
+                query.CommandText = pragmaString + query.CommandText;
                 reader = query.ExecuteReader();
                 Console.WriteLine("\tSuccess! :D");
                 return reader;
@@ -337,6 +344,7 @@ namespace TrotTrax
             string formString;
             switch (type)
             {
+                case FormType.BackNo: formString = "back"; break;
                 case FormType.Category: formString = "category"; break;
                 case FormType.Class: formString = "class"; break;
                 case FormType.Horse: formString = "horse"; break;
@@ -365,6 +373,7 @@ namespace TrotTrax
             string formString;
             switch (type)
             {
+                case FormType.BackNo: formString = "back"; break;
                 case FormType.Category: formString = "category"; break;
                 case FormType.Class: formString = "class"; break;
                 case FormType.Horse: formString = "horse"; break;

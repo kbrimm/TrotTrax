@@ -116,7 +116,7 @@ namespace TrotTrax
                 "horse_name TEXT NOT NULL, horse_alt TEXT, height TEXT, owner_name TEXT, horse_comment TEXT, PRIMARY KEY (horse_no) );";
 
             // back_no: back_no int (PK), rider_no int (FK), horse_no int (FK)
-            string backNoTable = "CREATE TABLE [" + year + "_backNo] ( back_no INTEGER NOT NULL, " +
+            string backNoTable = "CREATE TABLE [" + year + "_back] ( back_no INTEGER NOT NULL, " +
                 "rider_no INTEGER NOT NULL, horse_no INTEGER NOT NULL, PRIMARY KEY (back_no), " +
                 "FOREIGN KEY (rider_no) REFERENCES [" + year + "_rider](rider_no) ON DELETE CASCADE, " +
                 "FOREIGN KEY (horse_no) REFERENCES [" + year + "_horse](horse_no) ON DELETE CASCADE );";
@@ -140,7 +140,7 @@ namespace TrotTrax
                 "paid_in NUMERIC NOT NULL DEFAULT 0, paid_out NUMERIC, " +
                 "FOREIGN KEY (show_no) REFERENCES [" + year + "_show](show_no) ON DELETE CASCADE, " +
                 "FOREIGN KEY (class_no) REFERENCES [" + year + "_class](class_no) ON DELETE CASCADE, " +
-                "FOREIGN KEY (back_no) REFERENCES [" + year + "_backNo](back_no) ON DELETE CASCADE );";
+                "FOREIGN KEY (back_no) REFERENCES [" + year + "_back](back_no) ON DELETE CASCADE );";
 
             // And go!
             if(DoTheNonQuery(clubConn, yearInsert))
@@ -150,7 +150,7 @@ namespace TrotTrax
             if (DoTheNonQuery(clubConn, horseTable))
                 Console.WriteLine(year + "_horse successfully created.");
             if(DoTheNonQuery(clubConn, backNoTable))
-                Console.WriteLine(year + "_backNo successfully created.");
+                Console.WriteLine(year + "_back successfully created.");
             if(DoTheNonQuery(clubConn, showTable))
                 Console.WriteLine(year + "_show successfully created.");
             if(DoTheNonQuery(clubConn, categoryTable))

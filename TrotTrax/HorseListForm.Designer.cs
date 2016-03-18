@@ -38,35 +38,36 @@ namespace TrotTrax
         {
             this.horseBox = new System.Windows.Forms.GroupBox();
             this.horseListBox = new System.Windows.Forms.ListView();
+            this.horseNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.horseNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.newHorseBtn = new System.Windows.Forms.Button();
             this.viewHorseBtn = new System.Windows.Forms.Button();
             this.infoBox = new System.Windows.Forms.GroupBox();
+            this.ownerBox = new System.Windows.Forms.TextBox();
+            this.ownerLabel = new System.Windows.Forms.Label();
             this.commentsLabel = new System.Windows.Forms.Label();
             this.commentsBox = new System.Windows.Forms.TextBox();
             this.heightBox = new System.Windows.Forms.TextBox();
             this.heightLabel = new System.Windows.Forms.Label();
-            this.callNameBox = new System.Windows.Forms.TextBox();
+            this.altNameBox = new System.Windows.Forms.TextBox();
             this.altNameLabel = new System.Windows.Forms.Label();
             this.cancelBtn = new System.Windows.Forms.Button();
             this.deleteBtn = new System.Windows.Forms.Button();
             this.modifyBtn = new System.Windows.Forms.Button();
-            this.fullNameBox = new System.Windows.Forms.TextBox();
-            this.fullNameLabel = new System.Windows.Forms.Label();
+            this.horseNameBox = new System.Windows.Forms.TextBox();
+            this.horseNameLabel = new System.Windows.Forms.Label();
             this.numberBox = new System.Windows.Forms.TextBox();
             this.horseNoLabel = new System.Windows.Forms.Label();
             this.riderListGroup = new System.Windows.Forms.GroupBox();
             this.backNoLabel = new System.Windows.Forms.Label();
             this.backNoBox = new System.Windows.Forms.TextBox();
             this.riderComboBox = new System.Windows.Forms.ComboBox();
-            this.addRiderBtn = new System.Windows.Forms.Button();
+            this.addBackNoBtn = new System.Windows.Forms.Button();
             this.riderListBox = new System.Windows.Forms.ListView();
             this.backNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.riderNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.viewRiderBtn = new System.Windows.Forms.Button();
+            this.viewBackNoBtn = new System.Windows.Forms.Button();
             this.horseLabel = new System.Windows.Forms.Label();
-            this.ownerBox = new System.Windows.Forms.TextBox();
-            this.ownerLabel = new System.Windows.Forms.Label();
             this.horseBox.SuspendLayout();
             this.infoBox.SuspendLayout();
             this.riderListGroup.SuspendLayout();
@@ -93,6 +94,7 @@ namespace TrotTrax
             this.horseListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.horseListBox.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.horseNoHeader,
             this.horseNameHeader});
             this.horseListBox.FullRowSelect = true;
             this.horseListBox.LabelWrap = false;
@@ -104,6 +106,11 @@ namespace TrotTrax
             this.horseListBox.TabStop = false;
             this.horseListBox.UseCompatibleStateImageBehavior = false;
             this.horseListBox.View = System.Windows.Forms.View.Details;
+            this.horseListBox.DoubleClick += new System.EventHandler(this.ViewHorse);
+            // 
+            // horseNoHeader
+            // 
+            this.horseNoHeader.Width = 0;
             // 
             // horseNameHeader
             // 
@@ -141,13 +148,13 @@ namespace TrotTrax
             this.infoBox.Controls.Add(this.commentsBox);
             this.infoBox.Controls.Add(this.heightBox);
             this.infoBox.Controls.Add(this.heightLabel);
-            this.infoBox.Controls.Add(this.callNameBox);
+            this.infoBox.Controls.Add(this.altNameBox);
             this.infoBox.Controls.Add(this.altNameLabel);
             this.infoBox.Controls.Add(this.cancelBtn);
             this.infoBox.Controls.Add(this.deleteBtn);
             this.infoBox.Controls.Add(this.modifyBtn);
-            this.infoBox.Controls.Add(this.fullNameBox);
-            this.infoBox.Controls.Add(this.fullNameLabel);
+            this.infoBox.Controls.Add(this.horseNameBox);
+            this.infoBox.Controls.Add(this.horseNameLabel);
             this.infoBox.Controls.Add(this.numberBox);
             this.infoBox.Controls.Add(this.horseNoLabel);
             this.infoBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -157,6 +164,24 @@ namespace TrotTrax
             this.infoBox.TabIndex = 17;
             this.infoBox.TabStop = false;
             this.infoBox.Text = "Horse Information";
+            // 
+            // ownerBox
+            // 
+            this.ownerBox.Location = new System.Drawing.Point(81, 194);
+            this.ownerBox.MaxLength = 255;
+            this.ownerBox.Name = "ownerBox";
+            this.ownerBox.Size = new System.Drawing.Size(335, 22);
+            this.ownerBox.TabIndex = 4;
+            this.ownerBox.TextChanged += new System.EventHandler(this.DataChanged);
+            // 
+            // ownerLabel
+            // 
+            this.ownerLabel.AutoSize = true;
+            this.ownerLabel.Location = new System.Drawing.Point(81, 175);
+            this.ownerLabel.Name = "ownerLabel";
+            this.ownerLabel.Size = new System.Drawing.Size(86, 16);
+            this.ownerLabel.TabIndex = 17;
+            this.ownerLabel.Text = "Owner Name";
             // 
             // commentsLabel
             // 
@@ -194,14 +219,14 @@ namespace TrotTrax
             this.heightLabel.TabIndex = 13;
             this.heightLabel.Text = "Height";
             // 
-            // callNameBox
+            // altNameBox
             // 
-            this.callNameBox.Location = new System.Drawing.Point(9, 141);
-            this.callNameBox.MaxLength = 255;
-            this.callNameBox.Name = "callNameBox";
-            this.callNameBox.Size = new System.Drawing.Size(407, 22);
-            this.callNameBox.TabIndex = 2;
-            this.callNameBox.TextChanged += new System.EventHandler(this.DataChanged);
+            this.altNameBox.Location = new System.Drawing.Point(9, 141);
+            this.altNameBox.MaxLength = 255;
+            this.altNameBox.Name = "altNameBox";
+            this.altNameBox.Size = new System.Drawing.Size(407, 22);
+            this.altNameBox.TabIndex = 2;
+            this.altNameBox.TextChanged += new System.EventHandler(this.DataChanged);
             // 
             // altNameLabel
             // 
@@ -242,23 +267,23 @@ namespace TrotTrax
             this.modifyBtn.UseVisualStyleBackColor = true;
             this.modifyBtn.Click += new System.EventHandler(this.SaveHorse);
             // 
-            // fullNameBox
+            // horseNameBox
             // 
-            this.fullNameBox.Location = new System.Drawing.Point(9, 88);
-            this.fullNameBox.MaxLength = 255;
-            this.fullNameBox.Name = "fullNameBox";
-            this.fullNameBox.Size = new System.Drawing.Size(407, 22);
-            this.fullNameBox.TabIndex = 1;
-            this.fullNameBox.TextChanged += new System.EventHandler(this.DataChanged);
+            this.horseNameBox.Location = new System.Drawing.Point(9, 88);
+            this.horseNameBox.MaxLength = 255;
+            this.horseNameBox.Name = "horseNameBox";
+            this.horseNameBox.Size = new System.Drawing.Size(407, 22);
+            this.horseNameBox.TabIndex = 1;
+            this.horseNameBox.TextChanged += new System.EventHandler(this.DataChanged);
             // 
-            // fullNameLabel
+            // horseNameLabel
             // 
-            this.fullNameLabel.AutoSize = true;
-            this.fullNameLabel.Location = new System.Drawing.Point(6, 69);
-            this.fullNameLabel.Name = "fullNameLabel";
-            this.fullNameLabel.Size = new System.Drawing.Size(69, 16);
-            this.fullNameLabel.TabIndex = 4;
-            this.fullNameLabel.Text = "Full Name";
+            this.horseNameLabel.AutoSize = true;
+            this.horseNameLabel.Location = new System.Drawing.Point(6, 69);
+            this.horseNameLabel.Name = "horseNameLabel";
+            this.horseNameLabel.Size = new System.Drawing.Size(45, 16);
+            this.horseNameLabel.TabIndex = 4;
+            this.horseNameLabel.Text = "Name";
             // 
             // numberBox
             // 
@@ -286,9 +311,9 @@ namespace TrotTrax
             this.riderListGroup.Controls.Add(this.backNoLabel);
             this.riderListGroup.Controls.Add(this.backNoBox);
             this.riderListGroup.Controls.Add(this.riderComboBox);
-            this.riderListGroup.Controls.Add(this.addRiderBtn);
+            this.riderListGroup.Controls.Add(this.addBackNoBtn);
             this.riderListGroup.Controls.Add(this.riderListBox);
-            this.riderListGroup.Controls.Add(this.viewRiderBtn);
+            this.riderListGroup.Controls.Add(this.viewBackNoBtn);
             this.riderListGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.riderListGroup.Location = new System.Drawing.Point(671, 12);
             this.riderListGroup.Name = "riderListGroup";
@@ -316,6 +341,8 @@ namespace TrotTrax
             // 
             // riderComboBox
             // 
+            this.riderComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.riderComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.riderComboBox.FormattingEnabled = true;
             this.riderComboBox.Location = new System.Drawing.Point(7, 405);
             this.riderComboBox.Name = "riderComboBox";
@@ -323,16 +350,16 @@ namespace TrotTrax
             this.riderComboBox.TabIndex = 10;
             this.riderComboBox.TextChanged += new System.EventHandler(this.RiderChanged);
             // 
-            // addRiderBtn
+            // addBackNoBtn
             // 
-            this.addRiderBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addRiderBtn.Location = new System.Drawing.Point(6, 435);
-            this.addRiderBtn.Name = "addRiderBtn";
-            this.addRiderBtn.Size = new System.Drawing.Size(214, 25);
-            this.addRiderBtn.TabIndex = 11;
-            this.addRiderBtn.Text = "Add Rider";
-            this.addRiderBtn.UseVisualStyleBackColor = true;
-            this.addRiderBtn.Click += new System.EventHandler(this.AddBackNo);
+            this.addBackNoBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.addBackNoBtn.Location = new System.Drawing.Point(6, 435);
+            this.addBackNoBtn.Name = "addBackNoBtn";
+            this.addBackNoBtn.Size = new System.Drawing.Size(214, 25);
+            this.addBackNoBtn.TabIndex = 11;
+            this.addBackNoBtn.Text = "Add Back No.";
+            this.addBackNoBtn.UseVisualStyleBackColor = true;
+            this.addBackNoBtn.Click += new System.EventHandler(this.AddBackNo);
             // 
             // riderListBox
             // 
@@ -363,17 +390,17 @@ namespace TrotTrax
             this.riderNameHeader.Text = "Rider Name";
             this.riderNameHeader.Width = 145;
             // 
-            // viewRiderBtn
+            // viewBackNoBtn
             // 
-            this.viewRiderBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.viewRiderBtn.Location = new System.Drawing.Point(6, 346);
-            this.viewRiderBtn.Name = "viewRiderBtn";
-            this.viewRiderBtn.Size = new System.Drawing.Size(214, 25);
-            this.viewRiderBtn.TabIndex = 0;
-            this.viewRiderBtn.TabStop = false;
-            this.viewRiderBtn.Text = "View Rider";
-            this.viewRiderBtn.UseVisualStyleBackColor = true;
-            this.viewRiderBtn.Click += new System.EventHandler(this.ViewRider);
+            this.viewBackNoBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.viewBackNoBtn.Location = new System.Drawing.Point(6, 346);
+            this.viewBackNoBtn.Name = "viewBackNoBtn";
+            this.viewBackNoBtn.Size = new System.Drawing.Size(214, 25);
+            this.viewBackNoBtn.TabIndex = 0;
+            this.viewBackNoBtn.TabStop = false;
+            this.viewBackNoBtn.Text = "View Back No. Detail";
+            this.viewBackNoBtn.UseVisualStyleBackColor = true;
+            this.viewBackNoBtn.Click += new System.EventHandler(this.ViewBackNo);
             // 
             // horseLabel
             // 
@@ -384,24 +411,6 @@ namespace TrotTrax
             this.horseLabel.TabIndex = 15;
             this.horseLabel.Text = "New Horse Setup";
             this.horseLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ownerBox
-            // 
-            this.ownerBox.Location = new System.Drawing.Point(81, 194);
-            this.ownerBox.MaxLength = 255;
-            this.ownerBox.Name = "ownerBox";
-            this.ownerBox.Size = new System.Drawing.Size(335, 22);
-            this.ownerBox.TabIndex = 4;
-            this.ownerBox.TextChanged += new System.EventHandler(this.DataChanged);
-            // 
-            // ownerLabel
-            // 
-            this.ownerLabel.AutoSize = true;
-            this.ownerLabel.Location = new System.Drawing.Point(81, 175);
-            this.ownerLabel.Name = "ownerLabel";
-            this.ownerLabel.Size = new System.Drawing.Size(86, 16);
-            this.ownerLabel.TabIndex = 17;
-            this.ownerLabel.Text = "Owner Name";
             // 
             // HorseListForm
             // 
@@ -415,7 +424,6 @@ namespace TrotTrax
             this.Name = "HorseListForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New Horse Detail - TrotTrax";
-            this.Load += new System.EventHandler(this.HorseListForm_Load);
             this.horseBox.ResumeLayout(false);
             this.infoBox.ResumeLayout(false);
             this.infoBox.PerformLayout();
@@ -433,30 +441,31 @@ namespace TrotTrax
         private System.Windows.Forms.Button newHorseBtn;
         private System.Windows.Forms.Button viewHorseBtn;
         private System.Windows.Forms.GroupBox infoBox;
-        private System.Windows.Forms.TextBox callNameBox;
+        private System.Windows.Forms.TextBox altNameBox;
         private System.Windows.Forms.Label altNameLabel;
         private System.Windows.Forms.Button cancelBtn;
         private System.Windows.Forms.Button deleteBtn;
         private System.Windows.Forms.Button modifyBtn;
-        private System.Windows.Forms.TextBox fullNameBox;
-        private System.Windows.Forms.Label fullNameLabel;
+        private System.Windows.Forms.TextBox horseNameBox;
+        private System.Windows.Forms.Label horseNameLabel;
         private System.Windows.Forms.TextBox numberBox;
         private System.Windows.Forms.Label horseNoLabel;
         private System.Windows.Forms.GroupBox riderListGroup;
         private System.Windows.Forms.ListView riderListBox;
         private System.Windows.Forms.ColumnHeader backNoHeader;
         private System.Windows.Forms.ColumnHeader riderNameHeader;
-        private System.Windows.Forms.Button viewRiderBtn;
+        private System.Windows.Forms.Button viewBackNoBtn;
         private System.Windows.Forms.Label horseLabel;
         private System.Windows.Forms.TextBox heightBox;
         private System.Windows.Forms.Label heightLabel;
         private System.Windows.Forms.Label backNoLabel;
         private System.Windows.Forms.TextBox backNoBox;
         private System.Windows.Forms.ComboBox riderComboBox;
-        private System.Windows.Forms.Button addRiderBtn;
+        private System.Windows.Forms.Button addBackNoBtn;
         private System.Windows.Forms.Label commentsLabel;
         private System.Windows.Forms.TextBox commentsBox;
         private System.Windows.Forms.TextBox ownerBox;
         private System.Windows.Forms.Label ownerLabel;
+        private System.Windows.Forms.ColumnHeader horseNoHeader;
     }
 }

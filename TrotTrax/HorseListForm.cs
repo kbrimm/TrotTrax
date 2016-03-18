@@ -39,14 +39,16 @@ namespace TrotTrax
         {
             PopulateHorseList();
             PopulateRiderList();
+            PopulateDropDown();
             this.Text = "New Horse - TrotTrax";
             horseLabel.Text = "New Horse\nSetup";
             this.numberBox.Text = horse.number.ToString();
-            this.fullNameBox.Text = String.Empty;
-            this.fullNameBox.Focus();
-            this.callNameBox.Text = String.Empty;
+            this.horseNameBox.Text = String.Empty;
+            this.horseNameBox.Focus();
+            this.altNameBox.Text = String.Empty;
             this.heightBox.Text = String.Empty;
             this.commentsBox.Text = String.Empty;
+            this.backNoBox.Text = String.Empty;
             this.modifyBtn.Text = "Add Horse";
 
             // Modify btn is disabled until changes are made. Cannot delete record or add/view riders for an unsaved record.
@@ -54,10 +56,10 @@ namespace TrotTrax
             this.modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             this.deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.viewRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viewRiderBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.addRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addRiderBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.viewBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.viewBackNoBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.addBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addBackNoBtn.ForeColor = System.Drawing.SystemColors.GrayText;
 
             isNew = true;
             isChanged = false;
@@ -75,14 +77,16 @@ namespace TrotTrax
         {
             PopulateHorseList();
             PopulateRiderList();
+            PopulateDropDown();
             this.Text = horse.name + " Horse Detail - TrotTrax";
             horseLabel.Text = horse.name + "\nHorse Detail";
             this.numberBox.Text = horse.number.ToString();
-            this.fullNameBox.Text = horse.name;
-            this.fullNameBox.Focus();
-            this.callNameBox.Text = horse.altName;
+            this.horseNameBox.Text = horse.name;
+            this.horseNameBox.Focus();
+            this.altNameBox.Text = horse.altName;
             this.heightBox.Text = horse.height.ToString();
             this.commentsBox.Text = horse.comment;
+            this.backNoBox.Text = String.Empty;
             this.modifyBtn.Text = "Save Changes";
 
             // Modify btn is disabled until changes are made. View rider depends on presence of data.
@@ -90,8 +94,8 @@ namespace TrotTrax
             this.modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             this.deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deleteBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.addRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addRiderBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.addBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addBackNoBtn.ForeColor = System.Drawing.SystemColors.ControlText;
 
             isNew = false;
             isChanged = false;
@@ -145,9 +149,9 @@ namespace TrotTrax
         // If a rider is selected from drop down or back no is entered, activate add rider button.
         private void RiderChanged(object sender, EventArgs e)
         {
-            this.addRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, 
+            this.addBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, 
                 System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addRiderBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.addBackNoBtn.ForeColor = System.Drawing.SystemColors.ControlText;
         }
 
         // On form close, prompt to abandon unsaved changes.
@@ -176,8 +180,8 @@ namespace TrotTrax
             {
                 DialogResult confirm;
                 int number = Convert.ToInt32(this.numberBox.Text);
-                string name = this.fullNameBox.Text;
-                string callName = this.callNameBox.Text;
+                string name = this.horseNameBox.Text;
+                string altName = this.altNameBox.Text;
                 string height = this.heightBox.Text;
                 string owner = this.ownerBox.Text;
                 string comment = this.commentsBox.Text;
@@ -186,7 +190,7 @@ namespace TrotTrax
                 // If it's a new horse, add and prompt for more additions.
                 if (isNew)
                 {
-                    if (horse.AddHorse(number, name, callName, height, owner, comment))
+                    if (horse.AddHorse(number, name, altName, height, owner, comment))
                     {
                         confirm = MessageBox.Show("Would you like to add another horse?", "TrotTrax Alert", MessageBoxButtons.YesNo);
                         if (confirm == DialogResult.Yes)
@@ -202,7 +206,7 @@ namespace TrotTrax
                 // Otherwise: do or do not, there is no try.
                 else
                 {
-                    if (horse.ModifyHorse(number, name, callName, height, owner, comment))
+                    if (horse.ModifyHorse(number, name, altName, height, owner, comment))
                         RefreshForm(horse.clubID, horse.year, number);
                     // Unless something terrible happens.
                     else
@@ -306,15 +310,15 @@ namespace TrotTrax
             // If the riderList box is empty, no view option.
             if(riderListBox.Items.Count == 0)
             {
-                this.viewRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, 
+                this.viewBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, 
                     System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                this.viewRiderBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+                this.viewBackNoBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             }
             else
             {
-                this.viewRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, 
+                this.viewBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, 
                     System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                this.viewRiderBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+                this.viewBackNoBtn.ForeColor = System.Drawing.SystemColors.ControlText;
             } 
         }
 
@@ -337,7 +341,7 @@ namespace TrotTrax
 
             // Adds the contents of the category item list retrieved from the database.
             foreach (RiderItem entry in horse.riderList)
-                dropDownList.Add(new DropDownItem() { name = entry.firstName + " " + entry.lastName });
+                dropDownList.Add(new DropDownItem() { no = entry.no, name = entry.firstName + " " + entry.lastName });
 
             // Sets this list as the menu's data source and tells the menu which parts to show.
             this.riderComboBox.DataSource = dropDownList;
@@ -348,14 +352,46 @@ namespace TrotTrax
         // Loads new back number form, closes current.
         private void AddBackNo(object sender, EventArgs e)
         {
-            if (AbandonChanges())
+            int backNo = VerifyBackNo(backNoBox.Text);
+            int riderNo = VerifyRider(riderComboBox.SelectedValue.ToString());
+
+            if(backNo > 0 && riderNo > 0)
             {
-                this.Close();
+                horse.AddBackNo(backNo, riderNo);
+                RefreshForm(horse.clubID, horse.year, horse.number);
+            }
+        }
+
+        private int VerifyBackNo(string backNoString)
+        {
+            int backNo;
+            if(Int32.TryParse(backNoString, out backNo) && !horse.CheckIndexUsed(FormType.BackNo, backNo))
+            {
+                return backNo;
+            }
+            else
+            {
+                DialogResult confirm = MessageBox.Show("Invalid back number.", "TrotTrax Alert", MessageBoxButtons.OK);
+                return -1;
+            }
+        }
+
+        private int VerifyRider(string riderString)
+        {
+            int riderNo;
+            if (Int32.TryParse(riderString, out riderNo) && horse.CheckIndexUsed(FormType.Rider, riderNo))
+            {
+                return riderNo;
+            }
+            else
+            {
+                DialogResult confirm = MessageBox.Show("Rider not found.", "TrotTrax Alert", MessageBoxButtons.OK);
+                return -1;
             }
         }
 
         // If back number is selected from list, loads existing back number form, closes current.
-        private void ViewRider(object sender, EventArgs e)
+        private void ViewBackNo(object sender, EventArgs e)
         {
             if (riderListBox.SelectedItems.Count != 0)
             {
@@ -368,10 +404,5 @@ namespace TrotTrax
             }
         }
         #endregion
-
-        private void HorseListForm_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

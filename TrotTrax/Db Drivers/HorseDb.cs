@@ -112,12 +112,12 @@ namespace TrotTrax
         {
             SQLiteCommand query = new SQLiteCommand();
             query.CommandText = "UPDATE [" + year + "_horse] SET horse_no = @noparam, horse_name = @nameparam, " +
-                "horse_alt = @altparam, height = @heightparam, owner = @ownerparam, horse_comment = @commentparam " +
+                "horse_alt = @altparam, height = @heightparam, owner_name = @ownerparam, horse_comment = @commentparam " +
                 "WHERE horse_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@nameparam", name));
             query.Parameters.Add(new SQLiteParameter("@altparam", altName));
-            query.Parameters.Add(new SQLiteParameter("@height", height));
+            query.Parameters.Add(new SQLiteParameter("@heightparam", height));
             query.Parameters.Add(new SQLiteParameter("@ownerparam", owner));
             query.Parameters.Add(new SQLiteParameter("@noparam", horseNo));
             query.Parameters.Add(new SQLiteParameter("@commentparam", comment));

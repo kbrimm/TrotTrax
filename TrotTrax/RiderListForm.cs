@@ -6,7 +6,7 @@
  * Contact: kbrimm@pdx.edu
  */
  
- using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -39,6 +39,7 @@ namespace TrotTrax
         {
             PopulateRiderList();
             PopulateHorseList();
+            PopulateDropDown();
             this.Text = "New Rider - TrotTrax";
             riderLabel.Text = "New Rider\nSetup";
             this.numberBox.Text = rider.number.ToString();
@@ -60,12 +61,12 @@ namespace TrotTrax
             this.deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, 
                 System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.viewHorseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, 
+            this.viewBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, 
                 System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viewHorseBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.addHorseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, 
+            this.viewBackNoBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.addBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, 
                 System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addHorseBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.addBackNoBtn.ForeColor = System.Drawing.SystemColors.GrayText;
 
             isNew = true;
             isChanged = false;
@@ -83,6 +84,7 @@ namespace TrotTrax
         {
             PopulateRiderList();
             PopulateHorseList();
+            PopulateDropDown();
             this.Text = rider.firstName + " " + rider.lastName + " Rider Detail - TrotTrax";
             riderLabel.Text = rider.firstName + " " + rider.lastName + "\nRider Detail";
             this.numberBox.Text = rider.number.ToString();
@@ -119,9 +121,9 @@ namespace TrotTrax
             this.deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, 
                 System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deleteBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.addHorseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, 
+            this.addBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, 
                 System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addHorseBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.addBackNoBtn.ForeColor = System.Drawing.SystemColors.ControlText;
 
             isNew = false;
             isChanged = false;
@@ -174,8 +176,8 @@ namespace TrotTrax
         // If a horse is selected from drop down or back no is entered, activate add horse button.
         private void HorseChanged(object sender, EventArgs e)
         {
-            this.addHorseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addHorseBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.addBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addBackNoBtn.ForeColor = System.Drawing.SystemColors.ControlText;
         }
 
         // On form close, prompt to abandon unsaved changes.
@@ -348,15 +350,15 @@ namespace TrotTrax
             // If the riderList box is empty, no view option.
             if (horseListBox.Items.Count == 0)
             {
-                this.viewHorseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic,
+                this.viewBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic,
                     System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                this.viewHorseBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+                this.viewBackNoBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             }
             else
             {
-                this.viewHorseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular,
+                this.viewBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular,
                     System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                this.viewHorseBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+                this.viewBackNoBtn.ForeColor = System.Drawing.SystemColors.ControlText;
             } 
         }
 
@@ -389,14 +391,46 @@ namespace TrotTrax
         // Loads new back number form, closes current.
         private void AddBackNo(object sender, EventArgs e)
         {
-            if (AbandonChanges())
+            int backNo = VerifyBackNo(backNoBox.Text);
+            int horseNo = VerifyRider(horseComboBox.SelectedValue.ToString());
+
+            if (backNo > 0 && horseNo > 0)
             {
-                this.Close();
+                rider.AddBackNo(backNo, horseNo);
+                RefreshForm(rider.clubID, rider.year, rider.number);
+            }
+        }
+
+        private int VerifyBackNo(string backNoString)
+        {
+            int backNo;
+            if (Int32.TryParse(backNoString, out backNo) && !rider.CheckIndexUsed(FormType.BackNo, backNo))
+            {
+                return backNo;
+            }
+            else
+            {
+                DialogResult confirm = MessageBox.Show("Invalid back number.", "TrotTrax Alert", MessageBoxButtons.OK);
+                return -1;
+            }
+        }
+
+        private int VerifyRider(string horseString)
+        {
+            int horseNo;
+            if (Int32.TryParse(horseString, out horseNo) && rider.CheckIndexUsed(FormType.Horse, horseNo))
+            {
+                return horseNo;
+            }
+            else
+            {
+                DialogResult confirm = MessageBox.Show("Rider not found.", "TrotTrax Alert", MessageBoxButtons.OK);
+                return -1;
             }
         }
 
         // If back number is selected from list, loads existing back number form, closes current.
-        private void ViewHorse(object sender, EventArgs e)
+        private void ViewBackNo(object sender, EventArgs e)
         {
             if (horseListBox.SelectedItems.Count != 0)
             {

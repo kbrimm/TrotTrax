@@ -70,11 +70,11 @@
             this.backNoLabel = new System.Windows.Forms.Label();
             this.backNoBox = new System.Windows.Forms.TextBox();
             this.horseComboBox = new System.Windows.Forms.ComboBox();
-            this.addHorseBtn = new System.Windows.Forms.Button();
+            this.addBackNoBtn = new System.Windows.Forms.Button();
             this.horseListBox = new System.Windows.Forms.ListView();
             this.backNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.horseNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.viewHorseBtn = new System.Windows.Forms.Button();
+            this.viewBackNoBtn = new System.Windows.Forms.Button();
             this.riderListGroup.SuspendLayout();
             this.infoBox.SuspendLayout();
             this.horseBox.SuspendLayout();
@@ -391,9 +391,9 @@
             this.horseBox.Controls.Add(this.backNoLabel);
             this.horseBox.Controls.Add(this.backNoBox);
             this.horseBox.Controls.Add(this.horseComboBox);
-            this.horseBox.Controls.Add(this.addHorseBtn);
+            this.horseBox.Controls.Add(this.addBackNoBtn);
             this.horseBox.Controls.Add(this.horseListBox);
-            this.horseBox.Controls.Add(this.viewHorseBtn);
+            this.horseBox.Controls.Add(this.viewBackNoBtn);
             this.horseBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.horseBox.Location = new System.Drawing.Point(671, 12);
             this.horseBox.Name = "horseBox";
@@ -421,6 +421,8 @@
             // 
             // horseComboBox
             // 
+            this.horseComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.horseComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.horseComboBox.FormattingEnabled = true;
             this.horseComboBox.Location = new System.Drawing.Point(7, 405);
             this.horseComboBox.Name = "horseComboBox";
@@ -428,15 +430,16 @@
             this.horseComboBox.TabIndex = 13;
             this.horseComboBox.SelectedIndexChanged += new System.EventHandler(this.HorseChanged);
             // 
-            // addHorseBtn
+            // addBackNoBtn
             // 
-            this.addHorseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addHorseBtn.Location = new System.Drawing.Point(7, 435);
-            this.addHorseBtn.Name = "addHorseBtn";
-            this.addHorseBtn.Size = new System.Drawing.Size(213, 25);
-            this.addHorseBtn.TabIndex = 14;
-            this.addHorseBtn.Text = "Add Horse";
-            this.addHorseBtn.UseVisualStyleBackColor = true;
+            this.addBackNoBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.addBackNoBtn.Location = new System.Drawing.Point(7, 435);
+            this.addBackNoBtn.Name = "addBackNoBtn";
+            this.addBackNoBtn.Size = new System.Drawing.Size(213, 25);
+            this.addBackNoBtn.TabIndex = 14;
+            this.addBackNoBtn.Text = "Add Back No.";
+            this.addBackNoBtn.UseVisualStyleBackColor = true;
+            this.addBackNoBtn.Click += new System.EventHandler(this.AddBackNo);
             // 
             // horseListBox
             // 
@@ -468,16 +471,16 @@
             this.horseNameHeader.Text = "Name";
             this.horseNameHeader.Width = 145;
             // 
-            // viewHorseBtn
+            // viewBackNoBtn
             // 
-            this.viewHorseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.viewHorseBtn.Location = new System.Drawing.Point(7, 346);
-            this.viewHorseBtn.Name = "viewHorseBtn";
-            this.viewHorseBtn.Size = new System.Drawing.Size(213, 25);
-            this.viewHorseBtn.TabIndex = 0;
-            this.viewHorseBtn.TabStop = false;
-            this.viewHorseBtn.Text = "View Horse";
-            this.viewHorseBtn.UseVisualStyleBackColor = true;
+            this.viewBackNoBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.viewBackNoBtn.Location = new System.Drawing.Point(7, 346);
+            this.viewBackNoBtn.Name = "viewBackNoBtn";
+            this.viewBackNoBtn.Size = new System.Drawing.Size(213, 25);
+            this.viewBackNoBtn.TabIndex = 0;
+            this.viewBackNoBtn.TabStop = false;
+            this.viewBackNoBtn.Text = "View Back No. Detail";
+            this.viewBackNoBtn.UseVisualStyleBackColor = true;
             // 
             // RiderListForm
             // 
@@ -532,12 +535,12 @@
         private System.Windows.Forms.GroupBox horseBox;
         private System.Windows.Forms.ListView horseListBox;
         private System.Windows.Forms.ColumnHeader horseNameHeader;
-        private System.Windows.Forms.Button viewHorseBtn;
+        private System.Windows.Forms.Button viewBackNoBtn;
         private System.Windows.Forms.ColumnHeader noHeader;
         private System.Windows.Forms.Label commentsLabel;
         private System.Windows.Forms.TextBox commentsBox;
         private System.Windows.Forms.ColumnHeader backNoHeader;
-        private System.Windows.Forms.Button addHorseBtn;
+        private System.Windows.Forms.Button addBackNoBtn;
         private System.Windows.Forms.Label backNoLabel;
         private System.Windows.Forms.TextBox backNoBox;
         private System.Windows.Forms.ComboBox horseComboBox;
