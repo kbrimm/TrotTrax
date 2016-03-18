@@ -18,7 +18,7 @@ using System.Windows.Forms;
 
 namespace TrotTrax
 {
-    public partial class ResultsForm : Form
+    public partial class ResultListForm : Form
     {
         Results aClass;
        // private List<EntryBoxItem> entryBoxItemList = new List<EntryBoxItem>();
@@ -26,7 +26,7 @@ namespace TrotTrax
         bool isFirst;
         bool isLast;
 
-        public ResultsForm(string clubID, int year, int showNo, int classNo)
+        public ResultListForm(string clubID, int year, int showNo, int classNo)
         {
             aClass = new Results(clubID, year, showNo, classNo);
             InitializeComponent();
@@ -195,7 +195,7 @@ namespace TrotTrax
 
                 if (classNo >= 0)
                 {
-                    ResultsForm classInstance = new ResultsForm(aClass.clubID, aClass.year, aClass.showNo, classNo);
+                    ResultListForm classInstance = new ResultListForm(aClass.clubID, aClass.year, aClass.showNo, classNo);
                     classInstance.Visible = true;
                     this.Close();
                 }
@@ -212,7 +212,7 @@ namespace TrotTrax
                     loadNew = AbandonChanges();
                 if (loadNew)
                 {
-                    ResultsForm classInstance = new ResultsForm(aClass.clubID, aClass.year, aClass.showNo, aClass.GetPrev());
+                    ResultListForm classInstance = new ResultListForm(aClass.clubID, aClass.year, aClass.showNo, aClass.GetPrev());
                     classInstance.Visible = true;
                     this.Close();
                 }
@@ -229,7 +229,7 @@ namespace TrotTrax
                     loadNew = AbandonChanges();
                 if (loadNew)
                 {
-                    ResultsForm classInstance = new ResultsForm(aClass.clubID, aClass.year, aClass.showNo, aClass.GetNext());
+                    ResultListForm classInstance = new ResultListForm(aClass.clubID, aClass.year, aClass.showNo, aClass.GetNext());
                     classInstance.Visible = true;
                     this.Close();
                 }

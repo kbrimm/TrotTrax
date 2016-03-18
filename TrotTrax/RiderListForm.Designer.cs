@@ -69,12 +69,12 @@
             this.horseBox = new System.Windows.Forms.GroupBox();
             this.backNoLabel = new System.Windows.Forms.Label();
             this.backNoBox = new System.Windows.Forms.TextBox();
-            this.horseComboBox = new System.Windows.Forms.ComboBox();
             this.addBackNoBtn = new System.Windows.Forms.Button();
             this.horseListBox = new System.Windows.Forms.ListView();
             this.backNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.horseNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.viewBackNoBtn = new System.Windows.Forms.Button();
+            this.horseComboBox = new System.Windows.Forms.ComboBox();
             this.riderListGroup.SuspendLayout();
             this.infoBox.SuspendLayout();
             this.horseBox.SuspendLayout();
@@ -419,17 +419,6 @@
             this.backNoBox.TabIndex = 12;
             this.backNoBox.TextChanged += new System.EventHandler(this.HorseChanged);
             // 
-            // horseComboBox
-            // 
-            this.horseComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.horseComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.horseComboBox.FormattingEnabled = true;
-            this.horseComboBox.Location = new System.Drawing.Point(7, 405);
-            this.horseComboBox.Name = "horseComboBox";
-            this.horseComboBox.Size = new System.Drawing.Size(213, 24);
-            this.horseComboBox.TabIndex = 13;
-            this.horseComboBox.SelectedIndexChanged += new System.EventHandler(this.HorseChanged);
-            // 
             // addBackNoBtn
             // 
             this.addBackNoBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -481,6 +470,17 @@
             this.viewBackNoBtn.TabStop = false;
             this.viewBackNoBtn.Text = "View Back No. Detail";
             this.viewBackNoBtn.UseVisualStyleBackColor = true;
+            // 
+            // horseComboBox
+            // 
+            this.horseComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.horseComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.horseComboBox.FormattingEnabled = true;
+            this.horseComboBox.Location = new System.Drawing.Point(7, 405);
+            this.horseComboBox.Name = "horseComboBox";
+            this.horseComboBox.Size = new System.Drawing.Size(213, 24);
+            this.horseComboBox.TabIndex = 13;
+            this.horseComboBox.SelectedIndexChanged += new System.EventHandler(this.HorseChanged);
             // 
             // RiderListForm
             // 

@@ -36,6 +36,7 @@ namespace TrotTrax
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HorseListForm));
             this.horseBox = new System.Windows.Forms.GroupBox();
             this.horseListBox = new System.Windows.Forms.ListView();
             this.horseNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -421,6 +422,7 @@ namespace TrotTrax
             this.Controls.Add(this.infoBox);
             this.Controls.Add(this.riderListGroup);
             this.Controls.Add(this.horseLabel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HorseListForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New Horse Detail - TrotTrax";

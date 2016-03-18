@@ -8,7 +8,7 @@
 
 namespace TrotTrax
 {
-    partial class ResultsForm
+    partial class ResultListForm
     {
         /// <summary>
         /// Required designer variable.

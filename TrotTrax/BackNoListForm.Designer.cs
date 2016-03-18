@@ -1,0 +1,355 @@
+﻿namespace TrotTrax
+{
+    partial class BackNoListForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BackNoListForm));
+            this.riderListGroup = new System.Windows.Forms.GroupBox();
+            this.riderListBox = new System.Windows.Forms.ListView();
+            this.noHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.riderNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.backNoRiderFirstHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.backNoRiderLastHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.horseNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.backNoHorseNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.addBackNoBtn = new System.Windows.Forms.Button();
+            this.viewNoBtn = new System.Windows.Forms.Button();
+            this.backNoLabel = new System.Windows.Forms.Label();
+            this.detailGroup = new System.Windows.Forms.GroupBox();
+            this.horseLabel = new System.Windows.Forms.Label();
+            this.riderComboBox = new System.Windows.Forms.ComboBox();
+            this.horseComboBox = new System.Windows.Forms.ComboBox();
+            this.cancelBtn = new System.Windows.Forms.Button();
+            this.deleteBtn = new System.Windows.Forms.Button();
+            this.modifyBtn = new System.Windows.Forms.Button();
+            this.riderLabel = new System.Windows.Forms.Label();
+            this.classEntryGroup = new System.Windows.Forms.GroupBox();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.showHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.classHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.placeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.pointsHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.timeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.riderListGroup.SuspendLayout();
+            this.detailGroup.SuspendLayout();
+            this.classEntryGroup.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // riderListGroup
+            // 
+            this.riderListGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.riderListGroup.Controls.Add(this.riderListBox);
+            this.riderListGroup.Controls.Add(this.addBackNoBtn);
+            this.riderListGroup.Controls.Add(this.viewNoBtn);
+            this.riderListGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.riderListGroup.Location = new System.Drawing.Point(12, 92);
+            this.riderListGroup.Name = "riderListGroup";
+            this.riderListGroup.Size = new System.Drawing.Size(383, 386);
+            this.riderListGroup.TabIndex = 16;
+            this.riderListGroup.TabStop = false;
+            this.riderListGroup.Text = "Rider List";
+            // 
+            // riderListBox
+            // 
+            this.riderListBox.AllowColumnReorder = true;
+            this.riderListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.riderListBox.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.noHeader,
+            this.riderNoHeader,
+            this.backNoRiderFirstHeader,
+            this.backNoRiderLastHeader,
+            this.horseNoHeader,
+            this.backNoHorseNameHeader});
+            this.riderListBox.FullRowSelect = true;
+            this.riderListBox.LabelWrap = false;
+            this.riderListBox.Location = new System.Drawing.Point(7, 21);
+            this.riderListBox.MultiSelect = false;
+            this.riderListBox.Name = "riderListBox";
+            this.riderListBox.Size = new System.Drawing.Size(370, 328);
+            this.riderListBox.TabIndex = 0;
+            this.riderListBox.TabStop = false;
+            this.riderListBox.UseCompatibleStateImageBehavior = false;
+            this.riderListBox.View = System.Windows.Forms.View.Details;
+            // 
+            // noHeader
+            // 
+            this.noHeader.Text = "No.";
+            this.noHeader.Width = 45;
+            // 
+            // riderNoHeader
+            // 
+            this.riderNoHeader.Text = "Rider No.";
+            this.riderNoHeader.Width = 0;
+            // 
+            // backNoRiderFirstHeader
+            // 
+            this.backNoRiderFirstHeader.Text = "First Name";
+            this.backNoRiderFirstHeader.Width = 86;
+            // 
+            // backNoRiderLastHeader
+            // 
+            this.backNoRiderLastHeader.Text = "Last Name";
+            this.backNoRiderLastHeader.Width = 95;
+            // 
+            // horseNoHeader
+            // 
+            this.horseNoHeader.Text = "Horse No.";
+            this.horseNoHeader.Width = 0;
+            // 
+            // backNoHorseNameHeader
+            // 
+            this.backNoHorseNameHeader.Text = "Horse";
+            this.backNoHorseNameHeader.Width = 120;
+            // 
+            // addBackNoBtn
+            // 
+            this.addBackNoBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.addBackNoBtn.Location = new System.Drawing.Point(195, 355);
+            this.addBackNoBtn.Name = "addBackNoBtn";
+            this.addBackNoBtn.Size = new System.Drawing.Size(182, 25);
+            this.addBackNoBtn.TabIndex = 0;
+            this.addBackNoBtn.TabStop = false;
+            this.addBackNoBtn.Text = "New Back No.";
+            this.addBackNoBtn.UseVisualStyleBackColor = true;
+            // 
+            // viewNoBtn
+            // 
+            this.viewNoBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.viewNoBtn.Location = new System.Drawing.Point(7, 355);
+            this.viewNoBtn.Name = "viewNoBtn";
+            this.viewNoBtn.Size = new System.Drawing.Size(182, 25);
+            this.viewNoBtn.TabIndex = 0;
+            this.viewNoBtn.TabStop = false;
+            this.viewNoBtn.Text = "View Back No.";
+            this.viewNoBtn.UseVisualStyleBackColor = true;
+            // 
+            // backNoLabel
+            // 
+            this.backNoLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.backNoLabel.Location = new System.Drawing.Point(12, 9);
+            this.backNoLabel.Name = "backNoLabel";
+            this.backNoLabel.Size = new System.Drawing.Size(383, 80);
+            this.backNoLabel.TabIndex = 15;
+            this.backNoLabel.Text = "New Back Number Setup";
+            this.backNoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // detailGroup
+            // 
+            this.detailGroup.Controls.Add(this.horseLabel);
+            this.detailGroup.Controls.Add(this.riderComboBox);
+            this.detailGroup.Controls.Add(this.horseComboBox);
+            this.detailGroup.Controls.Add(this.cancelBtn);
+            this.detailGroup.Controls.Add(this.deleteBtn);
+            this.detailGroup.Controls.Add(this.modifyBtn);
+            this.detailGroup.Controls.Add(this.riderLabel);
+            this.detailGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.detailGroup.Location = new System.Drawing.Point(401, 373);
+            this.detailGroup.Name = "detailGroup";
+            this.detailGroup.Size = new System.Drawing.Size(496, 105);
+            this.detailGroup.TabIndex = 17;
+            this.detailGroup.TabStop = false;
+            this.detailGroup.Text = "Back Number Detail";
+            // 
+            // horseLabel
+            // 
+            this.horseLabel.AutoSize = true;
+            this.horseLabel.Location = new System.Drawing.Point(255, 25);
+            this.horseLabel.Name = "horseLabel";
+            this.horseLabel.Size = new System.Drawing.Size(45, 16);
+            this.horseLabel.TabIndex = 16;
+            this.horseLabel.Text = "Horse";
+            // 
+            // riderComboBox
+            // 
+            this.riderComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.riderComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.riderComboBox.FormattingEnabled = true;
+            this.riderComboBox.Location = new System.Drawing.Point(9, 44);
+            this.riderComboBox.Name = "riderComboBox";
+            this.riderComboBox.Size = new System.Drawing.Size(243, 24);
+            this.riderComboBox.TabIndex = 15;
+            // 
+            // horseComboBox
+            // 
+            this.horseComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.horseComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.horseComboBox.FormattingEnabled = true;
+            this.horseComboBox.Location = new System.Drawing.Point(258, 44);
+            this.horseComboBox.Name = "horseComboBox";
+            this.horseComboBox.Size = new System.Drawing.Size(232, 24);
+            this.horseComboBox.TabIndex = 14;
+            // 
+            // cancelBtn
+            // 
+            this.cancelBtn.Location = new System.Drawing.Point(334, 74);
+            this.cancelBtn.Name = "cancelBtn";
+            this.cancelBtn.Size = new System.Drawing.Size(156, 25);
+            this.cancelBtn.TabIndex = 11;
+            this.cancelBtn.Text = "Cancel";
+            this.cancelBtn.UseVisualStyleBackColor = true;
+            // 
+            // deleteBtn
+            // 
+            this.deleteBtn.Location = new System.Drawing.Point(171, 74);
+            this.deleteBtn.Name = "deleteBtn";
+            this.deleteBtn.Size = new System.Drawing.Size(157, 25);
+            this.deleteBtn.TabIndex = 10;
+            this.deleteBtn.Text = "Delete";
+            this.deleteBtn.UseVisualStyleBackColor = true;
+            // 
+            // modifyBtn
+            // 
+            this.modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.modifyBtn.Location = new System.Drawing.Point(9, 74);
+            this.modifyBtn.Name = "modifyBtn";
+            this.modifyBtn.Size = new System.Drawing.Size(156, 25);
+            this.modifyBtn.TabIndex = 9;
+            this.modifyBtn.Text = "Save Changes";
+            this.modifyBtn.UseVisualStyleBackColor = true;
+            // 
+            // riderLabel
+            // 
+            this.riderLabel.AutoSize = true;
+            this.riderLabel.Location = new System.Drawing.Point(6, 25);
+            this.riderLabel.Name = "riderLabel";
+            this.riderLabel.Size = new System.Drawing.Size(41, 16);
+            this.riderLabel.TabIndex = 0;
+            this.riderLabel.Text = "Rider";
+            // 
+            // classEntryGroup
+            // 
+            this.classEntryGroup.Controls.Add(this.listView1);
+            this.classEntryGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.classEntryGroup.Location = new System.Drawing.Point(401, 12);
+            this.classEntryGroup.Name = "classEntryGroup";
+            this.classEntryGroup.Size = new System.Drawing.Size(496, 355);
+            this.classEntryGroup.TabIndex = 18;
+            this.classEntryGroup.TabStop = false;
+            this.classEntryGroup.Text = "Class Entries";
+            // 
+            // listView1
+            // 
+            this.listView1.AllowColumnReorder = true;
+            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.showHeader,
+            this.classHeader,
+            this.placeHeader,
+            this.timeHeader,
+            this.pointsHeader});
+            this.listView1.FullRowSelect = true;
+            this.listView1.LabelWrap = false;
+            this.listView1.Location = new System.Drawing.Point(9, 27);
+            this.listView1.MultiSelect = false;
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(481, 322);
+            this.listView1.TabIndex = 1;
+            this.listView1.TabStop = false;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // showHeader
+            // 
+            this.showHeader.Text = "Show";
+            this.showHeader.Width = 85;
+            // 
+            // classHeader
+            // 
+            this.classHeader.Text = "Class";
+            this.classHeader.Width = 223;
+            // 
+            // placeHeader
+            // 
+            this.placeHeader.Text = "Place";
+            this.placeHeader.Width = 47;
+            // 
+            // pointsHeader
+            // 
+            this.pointsHeader.Text = "Points";
+            this.pointsHeader.Width = 49;
+            // 
+            // timeHeader
+            // 
+            this.timeHeader.Text = "Time";
+            this.timeHeader.Width = 48;
+            // 
+            // BackNoListForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(909, 487);
+            this.Controls.Add(this.classEntryGroup);
+            this.Controls.Add(this.detailGroup);
+            this.Controls.Add(this.riderListGroup);
+            this.Controls.Add(this.backNoLabel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "BackNoListForm";
+            this.Text = "BackNoListForm";
+            this.riderListGroup.ResumeLayout(false);
+            this.detailGroup.ResumeLayout(false);
+            this.detailGroup.PerformLayout();
+            this.classEntryGroup.ResumeLayout(false);
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.GroupBox riderListGroup;
+        private System.Windows.Forms.ListView riderListBox;
+        private System.Windows.Forms.ColumnHeader noHeader;
+        private System.Windows.Forms.ColumnHeader riderNoHeader;
+        private System.Windows.Forms.ColumnHeader backNoRiderFirstHeader;
+        private System.Windows.Forms.ColumnHeader backNoRiderLastHeader;
+        private System.Windows.Forms.ColumnHeader horseNoHeader;
+        private System.Windows.Forms.ColumnHeader backNoHorseNameHeader;
+        private System.Windows.Forms.Button addBackNoBtn;
+        private System.Windows.Forms.Button viewNoBtn;
+        private System.Windows.Forms.Label backNoLabel;
+        private System.Windows.Forms.GroupBox detailGroup;
+        private System.Windows.Forms.Button cancelBtn;
+        private System.Windows.Forms.Button deleteBtn;
+        private System.Windows.Forms.Button modifyBtn;
+        private System.Windows.Forms.Label riderLabel;
+        private System.Windows.Forms.ComboBox horseComboBox;
+        private System.Windows.Forms.ComboBox riderComboBox;
+        private System.Windows.Forms.Label horseLabel;
+        private System.Windows.Forms.GroupBox classEntryGroup;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader showHeader;
+        private System.Windows.Forms.ColumnHeader classHeader;
+        private System.Windows.Forms.ColumnHeader placeHeader;
+        private System.Windows.Forms.ColumnHeader timeHeader;
+        private System.Windows.Forms.ColumnHeader pointsHeader;
+    }
+}

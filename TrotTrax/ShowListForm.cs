@@ -370,7 +370,7 @@ namespace TrotTrax
 
                 if (selectedClass >= 0)
                 {
-                    ResultsForm classForm = new ResultsForm(show.clubID, show.year, show.number, selectedClass);
+                    ResultListForm classForm = new ResultListForm(show.clubID, show.year, show.number, selectedClass);
                     classForm.Visible = true;
                     this.Close();
                 }
