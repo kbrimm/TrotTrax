@@ -16,64 +16,68 @@ namespace TrotTrax
 {
     class Horse : ListObject
     {
-        public int number { get; private set; }
-        public string name { get; private set; }
-        public string altName { get; private set; }
-        public string height { get; private set; }
-        public string owner { get; private set; }
-        public string comment { get; private set; }
+        public int Number { get; private set; }
+        public string Name { get; private set; }
+        public string AltName { get; private set; }
+        public string Height { get; private set; }
+        public string Owner { get; private set; }
+        public string Comments { get; private set; }
+
+        #region Constructors
 
         public Horse(string clubID, int year)
         {
-            database = new DBDriver(1);
-            this.clubID = clubID;
-            this.year = year;
-            number = database.GetNextIndex(FormType.Horse);
-            backNoList = database.GetBackNoItemList(BackNoFilter.Horse, number);
-            horseList = database.GetHorseItemList(HorseSort.Name);
-            riderList = database.GetRiderItemList();
+            Database = new DBDriver(1);
+            this.ClubID = clubID;
+            this.Year = year;
+            Number = Database.GetNextIndex(FormType.Horse);
+            BackNoList = Database.GetBackNoItemList(BackNoFilter.Horse, Number);
+            HorseList = Database.GetHorseItemList(HorseSort.Name);
+            RiderList = Database.GetRiderItemList();
         }
 
         public Horse(string clubID, int year, int horseNo)
         {
-            database = new DBDriver(1);
-            this.clubID = clubID;
-            this.year = year;
-            this.number = horseNo;
+            Database = new DBDriver(1);
+            this.ClubID = clubID;
+            this.Year = year;
+            this.Number = horseNo;
             SetHorseData();
-            backNoList = database.GetBackNoItemList(BackNoFilter.Horse, number);
-            horseList = database.GetHorseItemList();
-            riderList = database.GetRiderItemList();
+            BackNoList = Database.GetBackNoItemList(BackNoFilter.Horse, Number);
+            HorseList = Database.GetHorseItemList();
+            RiderList = Database.GetRiderItemList();
         }
+
+        #endregion
 
         private void SetHorseData()
         {
-            HorseItem horseItem = database.GetHorseItem(number);
-            name = horseItem.name;
-            altName = horseItem.altName;
-            height = horseItem.height;
-            owner = horseItem.ownerName;
-            comment = horseItem.comments;
+            HorseItem horseItem = Database.GetHorseItem(Number);
+            Name = horseItem.Name;
+            AltName = horseItem.AltName;
+            Height = horseItem.Height;
+            Owner = horseItem.OwnerName;
+            Comments = horseItem.Comments;
         }
 
         public bool AddHorse(int number, string name, string callName, string height, string owner, string comment)
         {
-            return database.AddHorseItem(number, name, callName, height, owner, comment);
+            return Database.AddHorseItem(number, name, callName, height, owner, comment);
         }
 
         public bool ModifyHorse(int number, string name, string callName, string height, string owner, string comment)
         {
-            return database.UpdateHorseItem(number, name, callName, height, owner, comment);
+            return Database.UpdateHorseItem(number, name, callName, height, owner, comment);
         }
 
         public bool RemoveHorse()
         {
-            return database.DeleteHorseItem(number);
+            return Database.DeleteHorseItem(Number);
         }
 
         public bool AddBackNo(int backNo, int riderNo)
         {
-            return database.AddBackNoItem(backNo, riderNo, number);
+            return Database.AddBackNoItem(backNo, riderNo, Number);
         }
     }
 

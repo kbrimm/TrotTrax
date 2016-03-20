@@ -20,15 +20,15 @@ namespace TrotTrax
 {
     public partial class ShowListForm : Form
     {
-        private Show show;
-        private bool isChanged;
-        private bool isNew;
+        private Show ActiveShow;
+        private bool IsChanged;
+        private bool IsNew;
 
         #region Constructors
         // New show form.
         public ShowListForm(string clubID, int year)
         {
-            show = new Show(clubID, year);
+            ActiveShow = new Show(clubID, year);
             InitializeComponent();
             SetNewData();
         }
@@ -39,7 +39,7 @@ namespace TrotTrax
             PopulateShowList();
             this.Text = "New Show - TrotTrax";
             this.showLabel.Text = "New Show\nSetup";
-            this.numberBox.Text = show.number.ToString();
+            this.numberBox.Text = ActiveShow.Number.ToString();
             this.numberBox.Focus();
             this.descriptionBox.Text = String.Empty;
             this.commentsBox.Text = String.Empty;
@@ -53,14 +53,14 @@ namespace TrotTrax
             viewResultsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             viewResultsBtn.ForeColor = System.Drawing.SystemColors.GrayText;
 
-            isChanged = false;
-            isNew = true;
+            IsChanged = false;
+            IsNew = true;
         }
 
         // Existing show form.
         public ShowListForm(string clubID, int year, int showNo)
         {
-            show = new Show(clubID, year, showNo);
+            ActiveShow = new Show(clubID, year, showNo);
             InitializeComponent();
             SetExistingData();
         }
@@ -69,13 +69,13 @@ namespace TrotTrax
         {
             PopulateClassList();
             PopulateShowList();
-            this.Text = show.date.ToString("MM/dd/yyyy") + " Show Detail - TrotTrax";
-            numberBox.Text = show.number.ToString();
+            this.Text = ActiveShow.Date.ToString("MM/dd/yyyy") + " Show Detail - TrotTrax";
+            numberBox.Text = ActiveShow.Number.ToString();
             this.numberBox.Focus();
-            datePicker.Value = show.date;
-            descriptionBox.Text = show.name;
-            commentsBox.Text = show.comments;
-            showLabel.Text = show.date.ToString("MM/dd/yyyy") + "\r\nShow Detail";
+            datePicker.Value = ActiveShow.Date;
+            descriptionBox.Text = ActiveShow.Name;
+            commentsBox.Text = ActiveShow.Comments;
+            showLabel.Text = ActiveShow.Date.ToString("MM/dd/yyyy") + "\r\nShow Detail";
 
             // Modify btn is disabled until changes are made.
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -83,8 +83,8 @@ namespace TrotTrax
             deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             deleteBtn.ForeColor = System.Drawing.SystemColors.ControlText;
 
-            isChanged = false;
-            isNew = false;
+            IsChanged = false;
+            IsNew = false;
         }
 
         #endregion
@@ -93,24 +93,24 @@ namespace TrotTrax
         // Refresh to new show form.
         private void RefreshForm(string clubID, int year)
         {
-            show = new Show(clubID, year);
+            ActiveShow = new Show(clubID, year);
             SetNewData();
         }
 
         // Refresh to existing show form.
         private void RefreshForm(string clubID, int year, int showNo)
         {
-            show = new Show(clubID, year, showNo);
+            ActiveShow = new Show(clubID, year, showNo);
             SetExistingData();
         }
 
         private void RefreshOnClose(object sender, FormClosingEventArgs e)
         {
             if (AbandonChanges())
-                if (isNew)
-                    RefreshForm(show.clubID, show.year);
+                if (IsNew)
+                    RefreshForm(ActiveShow.ClubID, ActiveShow.Year);
                 else
-                    RefreshForm(show.clubID, show.year, show.number);
+                    RefreshForm(ActiveShow.ClubID, ActiveShow.Year, ActiveShow.Number);
             else
                 PopulateClassList();
         }
@@ -124,13 +124,13 @@ namespace TrotTrax
         {
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            isChanged = true;
+            IsChanged = true;
         }
 
         // On form close, prompt to abandon unsaved changes.
         private bool AbandonChanges()
         {
-            if (isChanged)
+            if (IsChanged)
             {
                 DialogResult confirm = MessageBox.Show("Do you want to abandon your changes?",
                         "TrotTrax Confirmation", MessageBoxButtons.YesNo);
@@ -153,7 +153,7 @@ namespace TrotTrax
         // or inserts new and deletes old entry for different number.
         private void SaveShow(object sender, EventArgs e)
         {
-            if (isChanged)
+            if (IsChanged)
             {
                 DialogResult confirm;
                 bool success;
@@ -162,17 +162,17 @@ namespace TrotTrax
                 string description = this.descriptionBox.Text;
                 string comments = this.commentsBox.Text;
 
-                if (isNew)
+                if (IsNew)
                 {
-                    success = show.AddShow(number, date, description, comments);
+                    success = ActiveShow.AddShow(number, date, description, comments);
                     if (success)
                     {
                         confirm = MessageBox.Show("Would you like to add another show?",
                             "TrotTrax Alert", MessageBoxButtons.YesNo);
                         if (confirm == DialogResult.Yes)
-                            RefreshForm(show.clubID, show.year);
+                            RefreshForm(ActiveShow.ClubID, ActiveShow.Year);
                         else
-                            RefreshForm(show.clubID, show.year, show.number);
+                            RefreshForm(ActiveShow.ClubID, ActiveShow.Year, ActiveShow.Number);
                     }
                     else
                         confirm = MessageBox.Show("Something went wrong. Unable to add show at this time.",
@@ -182,10 +182,10 @@ namespace TrotTrax
                 {
                     // If this update does not change the class number, just update the entry.
                     // Otherwise, insert new class at new number, delete current.
-                    if (number == show.number)
+                    if (number == ActiveShow.Number)
                     {
-                        if (show.ModifyShow(date, description, comments))
-                            RefreshForm(show.clubID, show.year, number);
+                        if (ActiveShow.ModifyShow(date, description, comments))
+                            RefreshForm(ActiveShow.ClubID, ActiveShow.Year, number);
                         // Unless something terrible happens.
                         else
                             confirm = MessageBox.Show("Something went wrong. Unable to save show at this time.",
@@ -195,10 +195,10 @@ namespace TrotTrax
                     {
                         // The deletion of the existing number relies on successful insertion of the new,
                         // so in the event of catastrophic failure, the data should hopefully still be there somewhere.
-                        if (show.AddShow(number, date, description, comments))
+                        if (ActiveShow.AddShow(number, date, description, comments))
                         {
-                            show.RemoveShow();
-                            RefreshForm(show.clubID, show.year, number);
+                            ActiveShow.RemoveShow();
+                            RefreshForm(ActiveShow.ClubID, ActiveShow.Year, number);
                         }
                         // Unless something terrible happens.
                         else
@@ -225,7 +225,7 @@ namespace TrotTrax
             }
 
             // If we're assigning a new number to a show, see if it exists.
-            if ((isNew || number != show.number) && show.CheckIndexUsed(FormType.Show, number))
+            if ((IsNew || number != ActiveShow.Number) && ActiveShow.CheckIndexUsed(FormType.Show, number))
             {
                 confirm = MessageBox.Show("Show number already exists.", "TrotTrax Alert", MessageBoxButtons.OK);
                 return -1;
@@ -238,15 +238,15 @@ namespace TrotTrax
 
         private void DeleteShow(object sender, EventArgs e)
         {
-            if (!isNew)
+            if (!IsNew)
             {
                 DialogResult confirm = MessageBox.Show("Do you really want to remove this show and all of its data?\n" +
                     "This operation cannot be undone.",
                     "TrotTrax Confirmation", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
                 {
-                    show.RemoveShow();
-                    RefreshForm(show.clubID, show.year);
+                    ActiveShow.RemoveShow();
+                    RefreshForm(ActiveShow.ClubID, ActiveShow.Year);
                 }
             }
         }
@@ -265,14 +265,14 @@ namespace TrotTrax
         private void PopulateShowList()
         {
             this.showListBox.Items.Clear();
-            foreach (ShowItem entry in show.showList)
+            foreach (ShowItem entry in ActiveShow.ShowList)
             {
                 string value;
-                string dateString = entry.date.ToString("MM/dd/yyyy");
-                if (entry.name == "")
+                string dateString = entry.Date.ToString("MM/dd/yyyy");
+                if (entry.Name == "")
                     value = dateString;
                 else
-                    value = dateString + " - " + entry.name;
+                    value = dateString + " - " + entry.Name;
                 showListBox.Items.Add(value);
             }
 
@@ -292,7 +292,7 @@ namespace TrotTrax
         private void NewShow(object sender, EventArgs e)
         {
             if (AbandonChanges())
-                RefreshForm(show.clubID, show.year);
+                RefreshForm(ActiveShow.ClubID, ActiveShow.Year);
         }
 
         // If show is selected, refreshes to exisitng show.
@@ -306,19 +306,19 @@ namespace TrotTrax
                 {
                     string selectedShow = showListBox.SelectedItems[0].ToString();
                     selectedShow = selectedShow.Substring(15, 10);
-                    foreach (ShowItem entry in show.showList)
+                    foreach (ShowItem entry in ActiveShow.ShowList)
                     {
-                        string dateString = entry.date.ToString("MM/dd/yyyy");
+                        string dateString = entry.Date.ToString("MM/dd/yyyy");
                         if (dateString == selectedShow)
                         {
-                            showNo = entry.no;
+                            showNo = entry.No;
                             break;
                         }
                     }
                 }
 
                 if (showNo >= 0)
-                    RefreshForm(show.clubID, show.year, showNo);
+                    RefreshForm(ActiveShow.ClubID, ActiveShow.Year, showNo);
             }
         }
 
@@ -330,10 +330,10 @@ namespace TrotTrax
         private void PopulateClassList()
         {
             this.classListBox.Items.Clear();
-            foreach (ClassItem entry in show.classList)
+            foreach (ClassItem entry in ActiveShow.ClassList)
             {
-                string[] row = { entry.name, };
-                classListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+                string[] row = { entry.Name, };
+                classListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
             }
 
             if (classListBox.Items.Count == 0)
@@ -352,9 +352,9 @@ namespace TrotTrax
         private void SortClass(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
-                show.SortClasses(ClassSort.Number);
+                ActiveShow.SortClasses(ClassSort.Number);
             else if (e.Column == 1)
-                show.SortClasses(ClassSort.Name);
+                ActiveShow.SortClasses(ClassSort.Name);
             PopulateClassList();
         }
 
@@ -370,7 +370,7 @@ namespace TrotTrax
 
                 if (selectedClass >= 0)
                 {
-                    ResultListForm classForm = new ResultListForm(show.clubID, show.year, show.number, selectedClass);
+                    ResultListForm classForm = new ResultListForm(ActiveShow.ClubID, ActiveShow.Year, ActiveShow.Number, selectedClass);
                     classForm.Visible = true;
                     this.Close();
                 }

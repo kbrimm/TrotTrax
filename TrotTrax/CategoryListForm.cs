@@ -20,15 +20,15 @@ namespace TrotTrax
 {
     public partial class CategoryListForm : Form
     {
-        private Category category;
-        private bool isChanged;
-        private bool isNew;
+        private Category ActiveCategory;
+        private bool IsChanged;
+        private bool IsNew;
 
         #region Constructors
         // Load a new category form.
         public CategoryListForm(string clubID, int year)
         {
-            category = new Category(clubID, year);
+            ActiveCategory = new Category(clubID, year);
             InitializeComponent();
             SetNewData();
         }
@@ -39,7 +39,7 @@ namespace TrotTrax
             PopulateClassList();
             this.Text = "New Category - TrotTrax";
             this.infoLabel.Text = "New Category\nSetup";
-            this.numberBox.Text = category.number.ToString();
+            this.numberBox.Text = ActiveCategory.Number.ToString();
             this.descriptionBox.Text = String.Empty;
             this.descriptionBox.Focus();
             this.timedCheckBox.Checked = false;
@@ -51,14 +51,14 @@ namespace TrotTrax
             this.deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0))); ;
             this.deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
 
-            isChanged = false;
-            isNew = true;
+            IsChanged = false;
+            IsNew = true;
         }
 
         // Load an existing category form.
         public CategoryListForm(string clubID, int year, int catNo)
         {
-            category = new Category(clubID, year, catNo);
+            ActiveCategory = new Category(clubID, year, catNo);
             InitializeComponent();
             SetExistingData();
         }
@@ -67,12 +67,12 @@ namespace TrotTrax
         {
             PopulateCatList();
             PopulateClassList();
-            this.Text = category.name + " Category Detail - TrotTrax";
-            this.infoLabel.Text = category.name + "\nCategory Detail";
-            this.numberBox.Text = category.number.ToString();
-            this.descriptionBox.Text = category.name;
+            this.Text = ActiveCategory.Name + " Category Detail - TrotTrax";
+            this.infoLabel.Text = ActiveCategory.Name + "\nCategory Detail";
+            this.numberBox.Text = ActiveCategory.Number.ToString();
+            this.descriptionBox.Text = ActiveCategory.Name;
             this.descriptionBox.Focus();
-            this.timedCheckBox.Checked = category.timed;
+            this.timedCheckBox.Checked = ActiveCategory.IsTimed;
             this.modifyBtn.Text = "Save Changes";
 
             // Modify btn is disabled until changes are made.
@@ -81,8 +81,8 @@ namespace TrotTrax
             this.deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0))); ;
             this.deleteBtn.ForeColor = System.Drawing.SystemColors.ControlText;
 
-            isChanged = false;
-            isNew = false;
+            IsChanged = false;
+            IsNew = false;
         }
 
         #endregion
@@ -92,24 +92,24 @@ namespace TrotTrax
         // Refresh to new category form.
         private void RefreshForm(string clubID, int year)
         {
-            category = new Category(clubID, year);
+            ActiveCategory = new Category(clubID, year);
             SetNewData();
         }
 
         // Refresh to existing category form.
         private void RefreshForm(string clubID, int year, int catNo)
         {
-            category = new Category(clubID, year, catNo);
+            ActiveCategory = new Category(clubID, year, catNo);
             SetExistingData();
         }
 
         private void RefreshOnClose(object sender, FormClosingEventArgs e)
         {
             if (AbandonChanges())
-                if (isNew)
-                    RefreshForm(category.clubID, category.year);
+                if (IsNew)
+                    RefreshForm(ActiveCategory.ClubID, ActiveCategory.Year);
                 else
-                    RefreshForm(category.clubID, category.year, category.number);
+                    RefreshForm(ActiveCategory.ClubID, ActiveCategory.Year, ActiveCategory.Number);
             else
                 PopulateClassList();
         }
@@ -125,13 +125,13 @@ namespace TrotTrax
             this.modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
             this.cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            isChanged = true;
+            IsChanged = true;
         }
 
         // On form close, prompt to abandon unsaved changes.
         private bool AbandonChanges()
         {
-            if (isChanged)
+            if (IsChanged)
             {
                 DialogResult confirm = MessageBox.Show("Do you want to abandon your changes?",
                         "TrotTrax Confirmation", MessageBoxButtons.YesNo);
@@ -162,23 +162,23 @@ namespace TrotTrax
         // For existing categories, modifies existing entry.
         private void SaveCategory(object sender, EventArgs e)
         {
-            if (isChanged)
+            if (IsChanged)
             {
                 string newDescription = this.descriptionBox.Text;
                 bool newTimed = this.timedCheckBox.Checked;
                 DialogResult confirm;
 
-                if (isNew)
+                if (IsNew)
                 {
-                    bool success = category.AddCategory(newDescription, newTimed);
+                    bool success = ActiveCategory.AddCategory(newDescription, newTimed);
                     if (success)
                     {
                         confirm = MessageBox.Show("Would you like to add another category?",
                             "TrotTrax Alert", MessageBoxButtons.YesNo);
                         if (confirm == DialogResult.Yes)
-                            RefreshForm(category.clubID, category.year);
+                            RefreshForm(ActiveCategory.ClubID, ActiveCategory.Year);
                         else
-                            RefreshForm(category.clubID, category.year, category.number);
+                            RefreshForm(ActiveCategory.ClubID, ActiveCategory.Year, ActiveCategory.Number);
                     }
                     else
                         confirm = MessageBox.Show("Unable to add category at this time.",
@@ -186,9 +186,9 @@ namespace TrotTrax
                 }
                 else
                 {
-                    bool success = category.ModifyCategory(newDescription, newTimed);
+                    bool success = ActiveCategory.ModifyCategory(newDescription, newTimed);
                     if (success)
-                        RefreshForm(category.clubID, category.year, category.number);
+                        RefreshForm(ActiveCategory.ClubID, ActiveCategory.Year, ActiveCategory.Number);
                     else
                         confirm = MessageBox.Show("Unable to modify category at this time.",
                             "TrotTrax Alert", MessageBoxButtons.OK);
@@ -199,7 +199,7 @@ namespace TrotTrax
         // Deletes category item from database. Prompts user, as this has a delete-on-cascade effect.
         private void DeleteCat(object sender, EventArgs e)
         {
-            if (!isNew)
+            if (!IsNew)
             {
                 DialogResult confirm = MessageBox.Show("Are you sure you want to delete this category?\n" +
                     "This operation will delete ALL classes in this category, and any data associated with them. " +
@@ -207,8 +207,8 @@ namespace TrotTrax
                     "TrotTrax Confirmation", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
                 {
-                    category.RemoveCategory();
-                    RefreshForm(category.clubID, category.year);
+                    ActiveCategory.RemoveCategory();
+                    RefreshForm(ActiveCategory.ClubID, ActiveCategory.Year);
                 }             
             }
         }
@@ -228,10 +228,10 @@ namespace TrotTrax
         private void PopulateCatList()
         {
             this.catListBox.Items.Clear();
-            foreach (CategoryItem entry in category.catList)
+            foreach (CategoryItem entry in ActiveCategory.CatList)
             {
-                string[] row = { entry.name, entry.timed.ToString() };
-                catListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+                string[] row = { entry.Name, entry.Timed.ToString() };
+                catListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
             }
 
             if (catListBox.Items.Count == 0)
@@ -250,11 +250,11 @@ namespace TrotTrax
         private void SortCats(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
-                category.SortCategories(CategorySort.Number);
+                ActiveCategory.SortCategories(CategorySort.Number);
             else if (e.Column == 1)
-                category.SortCategories(CategorySort.Name);
+                ActiveCategory.SortCategories(CategorySort.Name);
             else if (e.Column == 2)
-                category.SortCategories(CategorySort.Timed);
+                ActiveCategory.SortCategories(CategorySort.Timed);
             PopulateCatList();
         }
 
@@ -262,7 +262,7 @@ namespace TrotTrax
         private void NewCat(object sender, EventArgs e)
         {
             if (AbandonChanges())
-                RefreshForm(category.clubID, category.year);
+                RefreshForm(ActiveCategory.ClubID, ActiveCategory.Year);
         }
 
         // If category is selected from list, refreshes to existing category form.
@@ -276,7 +276,7 @@ namespace TrotTrax
                     catNo = Convert.ToInt32(catListBox.SelectedItems[0].Text);
 
                 if (catNo >= 0)
-                    RefreshForm(category.clubID, category.year, catNo);
+                    RefreshForm(ActiveCategory.ClubID, ActiveCategory.Year, catNo);
             }
         }
 
@@ -288,10 +288,10 @@ namespace TrotTrax
         private void PopulateClassList()
         {
             this.classListBox.Items.Clear();
-            foreach (ClassItem entry in category.classList)
+            foreach (ClassItem entry in ActiveCategory.ClassList)
             {
-                string[] row = { entry.name, };
-                classListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+                string[] row = { entry.Name, };
+                classListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
             }
 
             if (classListBox.Items.Count == 0)
@@ -310,9 +310,9 @@ namespace TrotTrax
         private void SortClasses(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
-                category.SortClasses(ClassSort.Number);
+                ActiveCategory.SortClasses(ClassSort.Number);
             else if (e.Column == 1)
-                category.SortClasses(ClassSort.Name);
+                ActiveCategory.SortClasses(ClassSort.Name);
             PopulateClassList();
         }
 
@@ -321,7 +321,7 @@ namespace TrotTrax
         {
             if (AbandonChanges())
             {
-                ClassListForm classList = new ClassListForm(category.clubID, category.year);
+                ClassListForm classList = new ClassListForm(ActiveCategory.ClubID, ActiveCategory.Year);
                 classList.Visible = true;
                 this.Close();
             }
@@ -339,7 +339,7 @@ namespace TrotTrax
 
                 if (classNo >= 0)
                 {
-                    ClassListForm showList = new ClassListForm(category.clubID, category.year, classNo);
+                    ClassListForm showList = new ClassListForm(ActiveCategory.ClubID, ActiveCategory.Year, classNo);
                     showList.Visible = true;
                     this.Close();
                 }

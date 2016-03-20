@@ -16,7 +16,63 @@ namespace TrotTrax
 {
     class BackNumber : ListObject
     {
+        public int Number { get; private set; }
+        public string RiderName { get; private set; }
+        public int RiderNo { get; private set; }
+        public string HorseName { get; private set; }
+        public int HorseNo { get; private set; }
 
+        #region Constructors
+
+        public BackNumber(string clubID, int year)
+        {
+            Database = new DBDriver(1);
+            this.ClubID = clubID;
+            this.Year = year;
+            Number = Database.GetNextIndex(FormType.BackNo);
+            BackNoList = Database.GetBackNoItemList();
+            HorseList = Database.GetHorseItemList(); 
+            RiderList = Database.GetRiderItemList();
+        }
+
+        public BackNumber(string clubID, int year, int backNo)
+        {
+            Database = new DBDriver(1);
+            this.ClubID = clubID;
+            this.Year = year;
+            this.Number = backNo;
+            SetBackNoData();
+            BackNoList = Database.GetBackNoItemList();
+            HorseList = Database.GetHorseItemList();
+            ResultList = Database.GetResultItemList(ResultFilter.BackNo, backNo);
+            RiderList = Database.GetRiderItemList();
+        }
+
+        #endregion
+
+        private void SetBackNoData()
+        {
+            BackNoItem backNoItem = Database.GetBackNoItem(Number);
+            RiderName = backNoItem.Rider;
+            RiderNo = backNoItem.RiderNo;
+            HorseName = backNoItem.Horse;
+            HorseNo = backNoItem.HorseNo;
+        }
+
+        public bool AddBackNo(int backNo, int riderNo, int horseNo)
+        {
+            return Database.AddBackNoItem(backNo, riderNo, horseNo);
+        }
+
+        public bool ModifyBackNo(int backNo, int riderNo, int horseNo)
+        {
+            return Database.UpdateBackNoItem(backNo, riderNo, horseNo);
+        }
+
+        public bool RemoveBackNo()
+        {
+            return Database.DeleteBackNoItem(Number);
+        }
     }
 
     public enum BackNoSort

@@ -20,17 +20,17 @@ namespace TrotTrax
 {
     public partial class ClassListForm : Form
     {
-        private Class aClass;
-        private bool isChanged;
-        private bool isNew;
-        private List<DropDownItem> dropDownList;
+        private Class ActiveClass;
+        private bool IsChanged;
+        private bool IsNew;
+        private List<DropDownItem> DropDownList;
 
         #region Constructors
 
         // New class form.
         public ClassListForm(string clubID, int year)
         {
-            aClass = new Class(clubID, year);
+            ActiveClass = new Class(clubID, year);
             InitializeComponent();
             SetNewData();
         }
@@ -42,7 +42,7 @@ namespace TrotTrax
             PopulateClassList();
             this.Text = "New Class - TrotTrax";
             this.showLabel.Text = "New Class\nSetup";
-            this.numberBox.Text = aClass.number.ToString();
+            this.numberBox.Text = ActiveClass.Number.ToString();
             this.nameBox.Text = String.Empty;
             this.nameBox.Focus();
             this.feeBox.Text = "0.00";
@@ -56,14 +56,14 @@ namespace TrotTrax
             this.viewResultBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.viewResultBtn.ForeColor = System.Drawing.SystemColors.GrayText;
 
-            isChanged = false;
-            isNew = true;
+            IsChanged = false;
+            IsNew = true;
         }
 
         // Existing class from.
         public ClassListForm(string clubID, int year, int classNo)
         {
-            aClass = new Class(clubID, year, classNo);
+            ActiveClass = new Class(clubID, year, classNo);
             InitializeComponent();
             SetExistingData();
         }
@@ -74,13 +74,13 @@ namespace TrotTrax
             PopulateCategoryList();
             PopulateClassList();
             PopulateShowList();
-            this.Text = aClass.name + " Class Detail - TrotTrax";
-            this.showLabel.Text = aClass.name + "\r\nClass Detail";
-            this.numberBox.Text = aClass.number.ToString();
-            this.nameBox.Text = aClass.name;
+            this.Text = ActiveClass.Name + " Class Detail - TrotTrax";
+            this.showLabel.Text = ActiveClass.Name + "\r\nClass Detail";
+            this.numberBox.Text = ActiveClass.Number.ToString();
+            this.nameBox.Text = ActiveClass.Name;
             this.nameBox.Focus();
-            this.feeBox.Text = aClass.fee.ToString("#,##0.00");
-            this.catComboBox.SelectedValue = aClass.catNo;
+            this.feeBox.Text = ActiveClass.Fee.ToString("#,##0.00");
+            this.catComboBox.SelectedValue = ActiveClass.CatNo;
             this.modifyBtn.Text = "Save Changes";
 
             // Modify btn is disabled until changes are made.
@@ -91,8 +91,8 @@ namespace TrotTrax
             this.viewResultBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.viewResultBtn.ForeColor = System.Drawing.SystemColors.ControlText;
 
-            isChanged = false;
-            isNew = false;
+            IsChanged = false;
+            IsNew = false;
         }
 
         #endregion
@@ -102,24 +102,24 @@ namespace TrotTrax
         // Refresh to new class form.
         private void RefreshForm(string clubID, int year)
         {
-            aClass = new Class(clubID, year);
+            ActiveClass = new Class(clubID, year);
             SetNewData();
         }
 
         // Refresh to existing class form.
         private void RefreshForm(string clubID, int year, int classNo)
         {
-            aClass = new Class(clubID, year, classNo);
+            ActiveClass = new Class(clubID, year, classNo);
             SetExistingData();
         }
 
         private void RefreshOnClose(object sender, FormClosingEventArgs e)
         {
             if (AbandonChanges())
-                if (isNew)
-                    RefreshForm(aClass.clubID, aClass.year);
+                if (IsNew)
+                    RefreshForm(ActiveClass.ClubID, ActiveClass.Year);
                 else
-                    RefreshForm(aClass.clubID, aClass.year, aClass.number);
+                    RefreshForm(ActiveClass.ClubID, ActiveClass.Year, ActiveClass.Number);
             else
             {
                 PopulateClassList();
@@ -137,13 +137,13 @@ namespace TrotTrax
         {
             modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            isChanged = true;
+            IsChanged = true;
         }
 
         // On form close, prompt to abandon unsaved changes.
         private bool AbandonChanges()
         {
-            if (isChanged)
+            if (IsChanged)
             {
                 DialogResult confirm = MessageBox.Show("Do you want to abandon your changes?",
                         "TrotTrax Confirmation", MessageBoxButtons.YesNo);
@@ -164,15 +164,15 @@ namespace TrotTrax
         private void PopulateDropDown()
         {
             // Initializes box with a 'null' item for display purposes.
-            dropDownList = new List<DropDownItem>();
-            dropDownList.Add(new DropDownItem() { no = 0, name = String.Empty });
+            DropDownList = new List<DropDownItem>();
+            DropDownList.Add(new DropDownItem() { No = 0, Name = String.Empty });
 
             // Adds the contents of the category item list retrieved from the database.
-            foreach (CategoryItem entry in aClass.catList)
-                dropDownList.Add(new DropDownItem() { no = entry.no, name = entry.no + " - " + entry.name });
+            foreach (CategoryItem entry in ActiveClass.CatList)
+                DropDownList.Add(new DropDownItem() { No = entry.No, Name = entry.No + " - " + entry.Name });
 
             // Sets this list as the menu's data source and tells the menu which parts to show.
-            catComboBox.DataSource = dropDownList;
+            catComboBox.DataSource = DropDownList;
             catComboBox.DisplayMember = "name";
             catComboBox.ValueMember = "no";
         }
@@ -184,7 +184,7 @@ namespace TrotTrax
         // or inserts new and deletes old entry for different number.
         private void SaveClass(object sender, EventArgs e)
         {
-            if (isChanged)
+            if (IsChanged)
             {
                 DialogResult confirm;
                 string name = this.nameBox.Text;
@@ -195,15 +195,15 @@ namespace TrotTrax
                 if(number > 0 && fee > 0 && category > 0)
                 {
                     // If it's a new class, add and prompt for more additions.
-                    if (isNew)
+                    if (IsNew)
                     {
-                        if (aClass.AddClass(number, category, name, fee))
+                        if (ActiveClass.AddClass(number, category, name, fee))
                         {
                             confirm = MessageBox.Show("Would you like to add another class?", "TrotTrax Alert", MessageBoxButtons.YesNo);
                             if (confirm == DialogResult.Yes)
-                                RefreshForm(aClass.clubID, aClass.year);
+                                RefreshForm(ActiveClass.ClubID, ActiveClass.Year);
                             else
-                                RefreshForm(aClass.clubID, aClass.year, number);
+                                RefreshForm(ActiveClass.ClubID, ActiveClass.Year, number);
                         }
                         // Something went wrong.
                         else
@@ -215,10 +215,10 @@ namespace TrotTrax
                     {
                         // If this update does not change the class number, just update the entry.
                         // Otherwise, insert new class at new number, delete current.
-                        if(number == aClass.number)
+                        if(number == ActiveClass.Number)
                         {
-                            if (aClass.ModifyClass(number, category, name, fee))
-                                RefreshForm(aClass.clubID, aClass.year, number);
+                            if (ActiveClass.ModifyClass(number, category, name, fee))
+                                RefreshForm(ActiveClass.ClubID, ActiveClass.Year, number);
                             // Unless something terrible happens.
                             else
                                 confirm = MessageBox.Show("Something went wrong. Unable to save class at this time.",
@@ -228,10 +228,10 @@ namespace TrotTrax
                         {
                             // The deletion of the existing number relies on successful insertion of the new,
                             // so in the event of catastrophic failure, the data should hopefully still be there somewhere.
-                            if (aClass.AddClass(number, category, name, fee))
+                            if (ActiveClass.AddClass(number, category, name, fee))
                             {
-                                aClass.RemoveClass();
-                                RefreshForm(aClass.clubID, aClass.year, number);
+                                ActiveClass.RemoveClass();
+                                RefreshForm(ActiveClass.ClubID, ActiveClass.Year, number);
                             }
                             // Unless something terrible happens.
                             else
@@ -259,7 +259,7 @@ namespace TrotTrax
             }
 
             // If we're assigning a new number to a class, it needs to be checked.
-            if ((isNew || number != aClass.number) && aClass.CheckIndexUsed(FormType.Class, number))
+            if ((IsNew || number != ActiveClass.Number) && ActiveClass.CheckIndexUsed(FormType.Class, number))
             {
                 confirm = MessageBox.Show("Class number already exists.", "TrotTrax Alert", MessageBoxButtons.OK);
                 return -1;
@@ -295,7 +295,7 @@ namespace TrotTrax
             DialogResult confirm;
             int category = Convert.ToInt32(this.catComboBox.SelectedValue);
 
-            if (aClass.catList.Count == 0)
+            if (ActiveClass.CatList.Count == 0)
             {
                 confirm = MessageBox.Show("Each class must have an associated category.",
                     "TrotTrax Confirmation", MessageBoxButtons.OK);
@@ -308,7 +308,7 @@ namespace TrotTrax
 
         private void DeleteClass(object sender, EventArgs e)
         {
-            if (!isNew)
+            if (!IsNew)
             {
                 DialogResult confirm = MessageBox.Show("Are you sure you want to delete this class?\n" +
                         "This operation will delete ALL data associated with this class.\n" +
@@ -316,8 +316,8 @@ namespace TrotTrax
                     "TrotTrax Confirmation", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
                 {
-                    aClass.RemoveClass();
-                    RefreshForm(aClass.clubID, aClass.year);
+                    ActiveClass.RemoveClass();
+                    RefreshForm(ActiveClass.ClubID, ActiveClass.Year);
                 }
             }
         }
@@ -336,10 +336,10 @@ namespace TrotTrax
         private void PopulateClassList()
         {
             classListBox.Items.Clear();
-            foreach (ClassItem entry in aClass.classList)
+            foreach (ClassItem entry in ActiveClass.ClassList)
             {
-                string[] row = { entry.name, };
-                classListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+                string[] row = { entry.Name, };
+                classListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
             }
 
             // If the classList box is empty, no view option.
@@ -359,9 +359,9 @@ namespace TrotTrax
         private void SortClassList(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
-                aClass.SortClasses(ClassSort.Number);
+                ActiveClass.SortClasses(ClassSort.Number);
             else if (e.Column == 1)
-                aClass.SortClasses(ClassSort.Name);
+                ActiveClass.SortClasses(ClassSort.Name);
             PopulateClassList();
         }
 
@@ -369,7 +369,7 @@ namespace TrotTrax
         private void NewClass(object sender, EventArgs e)
         {
             if (AbandonChanges())
-                RefreshForm(aClass.clubID, aClass.year);
+                RefreshForm(ActiveClass.ClubID, ActiveClass.Year);
         }
 
         // If class is selected, refreshes to existing class form.
@@ -382,7 +382,7 @@ namespace TrotTrax
                 if (AbandonChanges())
                     classNo = Convert.ToInt32(classListBox.SelectedItems[0].Text);
                 if (classNo >= 0)
-                    RefreshForm(aClass.clubID, aClass.year, classNo);
+                    RefreshForm(ActiveClass.ClubID, ActiveClass.Year, classNo);
             }
         }
 
@@ -393,10 +393,10 @@ namespace TrotTrax
         private void PopulateCategoryList()
         {
             catListBox.Items.Clear();
-            foreach (CategoryItem entry in aClass.catList)
+            foreach (CategoryItem entry in ActiveClass.CatList)
             {
-                string[] row = { entry.name, entry.timed.ToString() };
-                catListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+                string[] row = { entry.Name, entry.Timed.ToString() };
+                catListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
             }
 
             // If the catList box is empty, no view option.
@@ -415,9 +415,9 @@ namespace TrotTrax
         private void SortCategoryList(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
-                aClass.SortCategories(CategorySort.Number);
+                ActiveClass.SortCategories(CategorySort.Number);
             else if (e.Column == 1)
-                aClass.SortCategories(CategorySort.Name);
+                ActiveClass.SortCategories(CategorySort.Name);
             PopulateCategoryList();
         }
 
@@ -426,7 +426,7 @@ namespace TrotTrax
         {
             if (AbandonChanges())
             {
-                CategoryListForm catForm = new CategoryListForm(aClass.clubID, aClass.year);
+                CategoryListForm catForm = new CategoryListForm(ActiveClass.ClubID, ActiveClass.Year);
                 // catForm.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
                 catForm.Visible = true;
                 this.Close();
@@ -442,7 +442,7 @@ namespace TrotTrax
 
                 if (int.TryParse(catListBox.SelectedItems[0].Text, out catNo) && AbandonChanges())
                 {
-                    CategoryListForm catForm = new CategoryListForm(aClass.clubID, aClass.year, catNo);
+                    CategoryListForm catForm = new CategoryListForm(ActiveClass.ClubID, ActiveClass.Year, catNo);
                     // catForm.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
                     catForm.Visible = true;
                     this.Close();
@@ -458,14 +458,14 @@ namespace TrotTrax
         private void PopulateShowList()
         {
             this.showListBox.Items.Clear();
-            foreach (ShowItem entry in aClass.showList)
+            foreach (ShowItem entry in ActiveClass.ShowList)
             {
                 string value;
-                string dateString = entry.date.ToString("MM/dd/yyyy");
-                if (entry.name == "")
+                string dateString = entry.Date.ToString("MM/dd/yyyy");
+                if (entry.Name == "")
                     value = dateString;
                 else
-                    value = dateString + " - " + entry.name;
+                    value = dateString + " - " + entry.Name;
                 showListBox.Items.Add(value);
             }
         }
@@ -481,19 +481,19 @@ namespace TrotTrax
                 {
                     string selectedShow = showListBox.SelectedItems[0].ToString();
                     selectedShow = selectedShow.Substring(15, 10);
-                    foreach (ShowItem entry in aClass.showList)
+                    foreach (ShowItem entry in ActiveClass.ShowList)
                     {
-                        string dateString = entry.date.ToString("MM/dd/yyyy");
+                        string dateString = entry.Date.ToString("MM/dd/yyyy");
                         if (dateString == selectedShow)
                         {
-                            showNo = entry.no;
+                            showNo = entry.No;
                             break;
                         }
                     }
                 }
                 if (showNo >= 0)
                 {
-                    ResultListForm classForm = new ResultListForm(aClass.clubID, aClass.year, showNo, aClass.number);
+                    ResultListForm classForm = new ResultListForm(ActiveClass.ClubID, ActiveClass.Year, showNo, ActiveClass.Number);
                     //classForm.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
                     classForm.Visible = true;
                     this.Close();

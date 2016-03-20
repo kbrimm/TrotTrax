@@ -16,58 +16,58 @@ namespace TrotTrax
 {
     class Category : ListObject
     {
-        public int number { get; private set; }
-        public string name { get; private set; }
-        public bool timed { get; private set; }
+        public int Number { get; private set; }
+        public string Name { get; private set; }
+        public bool IsTimed { get; private set; }
 
         #region Constructors
 
         // New category item.
         public Category(string clubID, int year)
         {
-            database = new DBDriver(1);
-            this.clubID = clubID;
-            this.year = year;
+            Database = new DBDriver(1);
+            this.ClubID = clubID;
+            this.Year = year;
             // If this is a new item, pull in the next number from the database.
-            number = database.GetNextIndex(FormType.Category);
-            classList = database.GetClassItemList();
-            catList = database.GetCategoryItemList();
+            Number = Database.GetNextIndex(FormType.Category);
+            ClassList = Database.GetClassItemList();
+            CatList = Database.GetCategoryItemList();
         }
 
         // Existing category item.
         public Category(string clubID, int year, int number)
         {
-            database = new DBDriver(1);
-            this.clubID = clubID;
-            this.year = year;
-            this.number = number;
+            Database = new DBDriver(1);
+            this.ClubID = clubID;
+            this.Year = year;
+            this.Number = number;
             SetCategoryData();
-            classList = database.GetClassItemList();
-            catList = database.GetCategoryItemList();
+            ClassList = Database.GetClassItemList();
+            CatList = Database.GetCategoryItemList();
         }
 
         #endregion
 
         private void SetCategoryData()
         {
-            CategoryItem item = database.GetCategoryItem(number);
-            name = item.name;
-            timed = item.timed;
+            CategoryItem item = Database.GetCategoryItem(Number);
+            Name = item.Name;
+            IsTimed = item.Timed;
         }
 
         public bool AddCategory(string newDesc, bool newTimed)
         {
-            return database.AddCategoryItem(number, newDesc, newTimed);
+            return Database.AddCategoryItem(Number, newDesc, newTimed);
         }
 
         public bool ModifyCategory(string newDesc, bool newTimed)
         {
-            return database.UpdateCategoryItem(number, newDesc, newTimed);
+            return Database.UpdateCategoryItem(Number, newDesc, newTimed);
         }
 
         public bool RemoveCategory()
         {
-            return database.DeleteCategoryItem(number);
+            return Database.DeleteCategoryItem(Number);
         }
     }
 

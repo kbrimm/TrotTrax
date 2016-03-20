@@ -20,17 +20,17 @@ namespace TrotTrax
 {
     public partial class RiderListForm : Form
     {
-        Rider rider;
-        bool isNew;
-        bool isChanged;
-        private List<DropDownItem> dropDownList;
+        private Rider ActiveRider;
+        private bool IsNew;
+        private bool IsChanged;
+        private List<DropDownItem> DropDownList;
 
         #region Constructors
 
         // New rider form.
         public RiderListForm(string clubID, int year)
         {
-            rider = new Rider(clubID, year);
+            ActiveRider = new Rider(clubID, year);
             InitializeComponent();
             SetNewData();
         }
@@ -42,7 +42,7 @@ namespace TrotTrax
             PopulateDropDown();
             this.Text = "New Rider - TrotTrax";
             riderLabel.Text = "New Rider\nSetup";
-            this.numberBox.Text = rider.number.ToString();
+            this.numberBox.Text = ActiveRider.Number.ToString();
             this.firstNameBox.Text = String.Empty;
             this.firstNameBox.Focus();
             this.lastNameBox.Text = String.Empty;
@@ -68,14 +68,14 @@ namespace TrotTrax
                 System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addBackNoBtn.ForeColor = System.Drawing.SystemColors.GrayText;
 
-            isNew = true;
-            isChanged = false;
+            IsNew = true;
+            IsChanged = false;
         }
 
         // Existing rider form.
         public RiderListForm(string clubID, int year, int riderNo)
         {
-            rider = new Rider(clubID, year, riderNo);
+            ActiveRider = new Rider(clubID, year, riderNo);
             InitializeComponent();
             SetExistingData();
         }
@@ -85,21 +85,21 @@ namespace TrotTrax
             PopulateRiderList();
             PopulateHorseList();
             PopulateDropDown();
-            this.Text = rider.firstName + " " + rider.lastName + " Rider Detail - TrotTrax";
-            riderLabel.Text = rider.firstName + " " + rider.lastName + "\nRider Detail";
-            this.numberBox.Text = rider.number.ToString();
-            this.firstNameBox.Text = rider.firstName;
+            this.Text = ActiveRider.FirstName + " " + ActiveRider.LastName + " Rider Detail - TrotTrax";
+            riderLabel.Text = ActiveRider.FirstName + " " + ActiveRider.LastName + "\nRider Detail";
+            this.numberBox.Text = ActiveRider.Number.ToString();
+            this.firstNameBox.Text = ActiveRider.FirstName;
             this.firstNameBox.Focus();
-            this.lastNameBox.Text = rider.lastName;
+            this.lastNameBox.Text = ActiveRider.LastName;
 
             // Calculates age value from Jan first of the show year. Treat birthdays before this year as
             // empty values.
-            DateTime jan = new DateTime(rider.year, 1, 1);
+            DateTime jan = new DateTime(ActiveRider.Year, 1, 1);
             int age = 0;
-            if (rider.dob < jan)
+            if (ActiveRider.Birthdate < jan)
             {
-                this.birthdayPicker.Value = rider.dob;
-                age = ((TimeSpan)(new DateTime(rider.year, 1, 1) - rider.dob)).Days / 365;
+                this.birthdayPicker.Value = ActiveRider.Birthdate;
+                age = ((TimeSpan)(new DateTime(ActiveRider.Year, 1, 1) - ActiveRider.Birthdate)).Days / 365;
                 this.ageBox.Text = age.ToString();
             }
             else
@@ -108,10 +108,10 @@ namespace TrotTrax
                 this.ageBox.Text = String.Empty;
             }
 
-            this.memberCheckBox.Checked = rider.member;
-            this.phoneBox.Text = rider.phone;
-            this.emailBox.Text = rider.email;
-            this.commentsBox.Text = rider.comment;
+            this.memberCheckBox.Checked = ActiveRider.IsMember;
+            this.phoneBox.Text = ActiveRider.Phone;
+            this.emailBox.Text = ActiveRider.Email;
+            this.commentsBox.Text = ActiveRider.Comments;
             this.modifyBtn.Text = "Save Changes";
 
             // Modify btn is disabled until changes are made. View horse depends on presence of data.
@@ -125,8 +125,8 @@ namespace TrotTrax
                 System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addBackNoBtn.ForeColor = System.Drawing.SystemColors.ControlText;
 
-            isNew = false;
-            isChanged = false;
+            IsNew = false;
+            IsChanged = false;
         }
 
         #endregion
@@ -136,23 +136,23 @@ namespace TrotTrax
         // Refresh to new rider form.
         private void RefreshForm(string clubID, int year)
         {
-            rider = new Rider(clubID, year);
+            ActiveRider = new Rider(clubID, year);
             SetNewData();
         }
 
         private void RefreshForm(string clubID, int year, int riderNo)
         {
-            rider = new Rider(clubID, year, riderNo);
+            ActiveRider = new Rider(clubID, year, riderNo);
             SetExistingData();
         }
 
         private void RefreshOnClose(object sender, FormClosingEventArgs e)
         {
             if (AbandonChanges())
-                if (isNew)
-                    RefreshForm(rider.clubID, rider.year);
+                if (IsNew)
+                    RefreshForm(ActiveRider.ClubID, ActiveRider.Year);
                 else
-                    RefreshForm(rider.clubID, rider.year, rider.number);
+                    RefreshForm(ActiveRider.ClubID, ActiveRider.Year, ActiveRider.Number);
             else
             {
                 PopulateRiderList();
@@ -170,7 +170,7 @@ namespace TrotTrax
         {     
             this.modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            isChanged = true;
+            IsChanged = true;
         }
 
         // If a horse is selected from drop down or back no is entered, activate add horse button.
@@ -183,7 +183,7 @@ namespace TrotTrax
         // On form close, prompt to abandon unsaved changes.
         private bool AbandonChanges()
         {
-            if (isChanged)
+            if (IsChanged)
             {
                 DialogResult confirm = MessageBox.Show("Do you want to abandon your changes?",
                         "TrotTrax Confirmation", MessageBoxButtons.YesNo);
@@ -211,7 +211,7 @@ namespace TrotTrax
 
         private void SaveRider(object sender, EventArgs e)
         {
-            if (isChanged)
+            if (IsChanged)
             {
                 DialogResult confirm;
                 int number = Convert.ToInt32(this.numberBox.Text);
@@ -225,15 +225,15 @@ namespace TrotTrax
 
                 // Because the number is not accessible to the user, there's no need to validate it.
                 // If it's a new rider, add and prompt for more additions.
-                if (isNew)
+                if (IsNew)
                 {
-                    if (rider.AddRider(number, first, last, dob, phone, email, member, comment))
+                    if (ActiveRider.AddRider(number, first, last, dob, phone, email, member, comment))
                     {
                         confirm = MessageBox.Show("Would you like to add another rider?", "TrotTrax Alert", MessageBoxButtons.YesNo);
                         if (confirm == DialogResult.Yes)
-                            RefreshForm(rider.clubID, rider.year);
+                            RefreshForm(ActiveRider.ClubID, ActiveRider.Year);
                         else
-                            RefreshForm(rider.clubID, rider.year, number);
+                            RefreshForm(ActiveRider.ClubID, ActiveRider.Year, number);
                     }
                     // Something went wrong.
                     else
@@ -243,8 +243,8 @@ namespace TrotTrax
                 // Otherwise: do or do not, there is no try.
                 else
                 {
-                    if (rider.ModifyRider(number, first, last, dob, phone, email, member, comment))
-                        RefreshForm(rider.clubID, rider.year, number);
+                    if (ActiveRider.ModifyRider(number, first, last, dob, phone, email, member, comment))
+                        RefreshForm(ActiveRider.ClubID, ActiveRider.Year, number);
                     // Unless something terrible happens.
                     else
                         confirm = MessageBox.Show("Something went wrong. Unable to save rider at this time.",
@@ -255,15 +255,15 @@ namespace TrotTrax
 
         private void DeleteRider(object sender, EventArgs e)
         {
-            if (!isNew)
+            if (!IsNew)
             {
                 DialogResult confirm = MessageBox.Show("Are you sure you want to delete this rider?\n" +
                         "This operation CANNOT be undone.",
                     "TrotTrax Confirmation", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
                 {
-                    rider.RemoveRider();
-                    RefreshForm(rider.clubID, rider.year);
+                    ActiveRider.RemoveRider();
+                    RefreshForm(ActiveRider.ClubID, ActiveRider.Year);
                 }
             }
         }
@@ -281,10 +281,10 @@ namespace TrotTrax
         private void PopulateRiderList()
         {
             riderListBox.Items.Clear();
-            foreach (RiderItem entry in rider.riderList)
+            foreach (RiderItem entry in ActiveRider.RiderList)
             {
-                string[] row = { entry.firstName, entry.lastName };
-                riderListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+                string[] row = { entry.FirstName, entry.LastName };
+                riderListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
             }
 
             // If the riderList box is empty, no view option.
@@ -306,9 +306,9 @@ namespace TrotTrax
         private void SortRiderList(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 1)
-                rider.SortRiders(RiderSort.FirstName);
+                ActiveRider.SortRiders(RiderSort.FirstName);
             else if (e.Column == 2)
-                rider.SortRiders(RiderSort.LastName);
+                ActiveRider.SortRiders(RiderSort.LastName);
             PopulateRiderList();
         }
 
@@ -316,7 +316,7 @@ namespace TrotTrax
         private void NewRider(object sender, EventArgs e)
         {
             if (AbandonChanges())
-                RefreshForm(rider.clubID, rider.year);
+                RefreshForm(ActiveRider.ClubID, ActiveRider.Year);
         }
 
         // If rider is selected, refreshes to existing rider form.
@@ -329,7 +329,7 @@ namespace TrotTrax
                 if (AbandonChanges())
                     riderNo = Convert.ToInt32(riderListBox.SelectedItems[0].Text);
                 if (riderNo >= 0)
-                    RefreshForm(rider.clubID, rider.year, riderNo);
+                    RefreshForm(ActiveRider.ClubID, ActiveRider.Year, riderNo);
             }
         }
 
@@ -341,10 +341,10 @@ namespace TrotTrax
         private void PopulateHorseList()
         {
             horseListBox.Items.Clear();
-            foreach (BackNoItem entry in rider.backNoList)
+            foreach (BackNoItem entry in ActiveRider.BackNoList)
             {
-                string[] row = { entry.horse };
-                horseListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+                string[] row = { entry.Horse };
+                horseListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
             }
 
             // If the riderList box is empty, no view option.
@@ -366,15 +366,15 @@ namespace TrotTrax
         private void PopulateDropDown()
         {
             // Initializes box with a 'null' item for display purposes.
-            dropDownList = new List<DropDownItem>();
-            dropDownList.Add(new DropDownItem() { no = 0, name = String.Empty });
+            DropDownList = new List<DropDownItem>();
+            DropDownList.Add(new DropDownItem() { No = 0, Name = String.Empty });
 
             // Adds the contents of the category item list retrieved from the database.
-            foreach (HorseItem entry in rider.horseList)
-                dropDownList.Add(new DropDownItem() { no = entry.no, name = entry.name });
+            foreach (HorseItem entry in ActiveRider.HorseList)
+                DropDownList.Add(new DropDownItem() { No = entry.No, Name = entry.Name });
 
             // Sets this list as the menu's data source and tells the menu which parts to show.
-            this.horseComboBox.DataSource = dropDownList;
+            this.horseComboBox.DataSource = DropDownList;
             this.horseComboBox.DisplayMember = "name";
             this.horseComboBox.ValueMember = "no";
         }
@@ -382,9 +382,9 @@ namespace TrotTrax
         private void SortHorseList(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
-                rider.SortBackNos(BackNoSort.Number, BackNoFilter.Rider, rider.number);
+                ActiveRider.SortBackNos(BackNoSort.Number, BackNoFilter.Rider, ActiveRider.Number);
             else if (e.Column == 1)
-                rider.SortBackNos(BackNoSort.Horse, BackNoFilter.Rider, rider.number);
+                ActiveRider.SortBackNos(BackNoSort.Horse, BackNoFilter.Rider, ActiveRider.Number);
             PopulateHorseList();
         }
 
@@ -396,15 +396,15 @@ namespace TrotTrax
 
             if (backNo > 0 && horseNo > 0)
             {
-                rider.AddBackNo(backNo, horseNo);
-                RefreshForm(rider.clubID, rider.year, rider.number);
+                ActiveRider.AddBackNo(backNo, horseNo);
+                RefreshForm(ActiveRider.ClubID, ActiveRider.Year, ActiveRider.Number);
             }
         }
 
         private int VerifyBackNo(string backNoString)
         {
             int backNo;
-            if (Int32.TryParse(backNoString, out backNo) && !rider.CheckIndexUsed(FormType.BackNo, backNo))
+            if (Int32.TryParse(backNoString, out backNo) && !ActiveRider.CheckIndexUsed(FormType.BackNo, backNo))
             {
                 return backNo;
             }
@@ -418,7 +418,7 @@ namespace TrotTrax
         private int VerifyRider(string horseString)
         {
             int horseNo;
-            if (Int32.TryParse(horseString, out horseNo) && rider.CheckIndexUsed(FormType.Horse, horseNo))
+            if (Int32.TryParse(horseString, out horseNo) && ActiveRider.CheckIndexUsed(FormType.Horse, horseNo))
             {
                 return horseNo;
             }

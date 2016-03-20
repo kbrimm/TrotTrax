@@ -17,33 +17,33 @@ namespace TrotTrax
 {
     class ShowYear : ListObject
     {
-        public string clubName { get; private set; }
-        public List<ClubItem> clubList;
-        public List<int> yearList;
+        public string ClubName { get; private set; }
+        public List<ClubItem> ClubList;
+        public List<int> YearList;
 
         public ShowYear()
         {
-            database = new DBDriver(1);
+            Database = new DBDriver(1);
 
-            year = database.GetCurrentYear();
-            clubName = database.GetCurrentClubName();
+            Year = Database.GetCurrentYear();
+            ClubName = Database.GetCurrentClubName();
 
-            clubList = database.GetClubItemList();
-            yearList = database.GetYearItemList();
+            ClubList = Database.GetClubItemList();
+            YearList = Database.GetYearItemList();
 
-            backNoList = database.GetBackNoItemList();
-            classList = database.GetClassItemList();
-            showList = database.GetShowItemList();
+            BackNoList = Database.GetBackNoItemList();
+            ClassList = Database.GetClassItemList();
+            ShowList = Database.GetShowItemList();
         }
 
         public bool SetClub(string clubID)
         {
-            return database.SetCurrentClub(clubID);
+            return Database.SetCurrentClub(clubID);
         }
 
         public void SetYear(int setYear)
         {
-            database.SetCurrentYear(setYear);
+            Database.SetCurrentYear(setYear);
         }
     }
 }

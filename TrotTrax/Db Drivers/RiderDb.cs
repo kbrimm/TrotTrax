@@ -25,26 +25,26 @@ namespace TrotTrax
         {
             SQLiteCommand query = new SQLiteCommand();
             query.CommandText = "SELECT rider_no, rider_first, rider_last, rider_dob, phone, email, member, rider_comment " +
-                "FROM [" + year + "_rider] WHERE rider_no = @noparam;";
+                "FROM [" + Year + "_rider] WHERE rider_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", riderNo));
-            query.Connection = clubConn;
+            query.Connection = ClubConn;
             SQLiteDataReader reader = DoTheReader(query);
             RiderItem item = new RiderItem();
 
             while (reader.Read())
             {
-                item.no = reader.GetInt32(0);
-                item.firstName = reader.GetString(1);
-                item.lastName = reader.GetString(2);
-                item.dob = StringToDate(reader.GetString(3));
-                item.phone = reader.GetString(4);
-                item.email = reader.GetString(5);
-                item.member = (bool)IntToBool(reader.GetInt32(6));
-                item.comments = reader.GetString(7);
+                item.No = reader.GetInt32(0);
+                item.FirstName = reader.GetString(1);
+                item.LastName = reader.GetString(2);
+                item.Birthdate = StringToDate(reader.GetString(3));
+                item.Phone = reader.GetString(4);
+                item.Email = reader.GetString(5);
+                item.Member = (bool)IntToBool(reader.GetInt32(6));
+                item.Comments = reader.GetString(7);
             }
             reader.Close();
-            clubConn.Close();
+            ClubConn.Close();
             return item;
         }
 
@@ -62,27 +62,27 @@ namespace TrotTrax
             }
 
             string query = "SELECT rider_no, rider_first, rider_last, rider_dob, phone, email, member, rider_comment FROM [" + 
-                year + "_rider] ORDER BY " + sortString + ";";
-            SQLiteDataReader reader = DoTheReader(clubConn, query);
+                Year + "_rider] ORDER BY " + sortString + ";";
+            SQLiteDataReader reader = DoTheReader(ClubConn, query);
             List<RiderItem> riderItemList = new List<RiderItem>();
             RiderItem item;
 
-            reader = DoTheReader(clubConn, query);
+            reader = DoTheReader(ClubConn, query);
             while (reader.Read())
             {
                 item = new RiderItem();
-                item.no = reader.GetInt32(0);
-                item.firstName = reader.GetString(1);
-                item.lastName = reader.GetString(2);
-                item.dob = StringToDate(reader.GetString(3));
-                item.phone = reader.GetString(4);
-                item.email = reader.GetString(5);
-                item.member = (bool)IntToBool(reader.GetInt32(6));
-                item.comments = reader.GetString(7);
+                item.No = reader.GetInt32(0);
+                item.FirstName = reader.GetString(1);
+                item.LastName = reader.GetString(2);
+                item.Birthdate = StringToDate(reader.GetString(3));
+                item.Phone = reader.GetString(4);
+                item.Email = reader.GetString(5);
+                item.Member = (bool)IntToBool(reader.GetInt32(6));
+                item.Comments = reader.GetString(7);
                 riderItemList.Add(item);
             }
             reader.Close();
-            clubConn.Close();
+            ClubConn.Close();
             return riderItemList;
         }
 
@@ -94,7 +94,7 @@ namespace TrotTrax
             bool member, string comment)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "INSERT INTO [" + year + "_rider] " +
+            query.CommandText = "INSERT INTO [" + Year + "_rider] " +
                 "(rider_no, rider_first, rider_last, rider_dob, phone, email, member, rider_comment) " +
                 "VALUES (@noparam, @firstparam, @lastparam, @dobparam, @phoneparam, @emailparam, @memberparam, @commentparam)";
             query.CommandType = System.Data.CommandType.Text;
@@ -106,7 +106,7 @@ namespace TrotTrax
             query.Parameters.Add(new SQLiteParameter("@emailparam", email));
             query.Parameters.Add(new SQLiteParameter("@memberparam", BoolToInt(member)));
             query.Parameters.Add(new SQLiteParameter("@commentparam", comment));
-            query.Connection = clubConn;
+            query.Connection = ClubConn;
 
             return DoTheNonQuery(query);
         }
@@ -119,7 +119,7 @@ namespace TrotTrax
             bool member, string comment)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "UPDATE [" + year + "_rider] SET rider_no = @noparam, rider_first = @firstparam, " +
+            query.CommandText = "UPDATE [" + Year + "_rider] SET rider_no = @noparam, rider_first = @firstparam, " +
                 "rider_last = @lastparam, rider_dob = @dobparam, phone = @phoneparam, email = @emailparam, member = @memberparam, " +
                 "rider_comment = @commentparam WHERE rider_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
@@ -131,7 +131,7 @@ namespace TrotTrax
             query.Parameters.Add(new SQLiteParameter("@emailparam", email));
             query.Parameters.Add(new SQLiteParameter("@memberparam", BoolToInt(member)));
             query.Parameters.Add(new SQLiteParameter("@commentparam", comment));
-            query.Connection = clubConn;
+            query.Connection = ClubConn;
 
             return DoTheNonQuery(query);
         }
@@ -143,10 +143,10 @@ namespace TrotTrax
         public bool DeleteRiderItem(int riderNo)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "DELETE FROM [" + year + "_rider] WHERE rider_no = @noparam;";
+            query.CommandText = "DELETE FROM [" + Year + "_rider] WHERE rider_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", riderNo));
-            query.Connection = clubConn;
+            query.Connection = ClubConn;
 
             return DoTheNonQuery(query);
         }

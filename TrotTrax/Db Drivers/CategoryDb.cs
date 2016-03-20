@@ -25,23 +25,23 @@ namespace TrotTrax
         {
             // Construct and execute the query
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "SELECT category_no, category_name, timed FROM [" + year +
+            query.CommandText = "SELECT category_no, category_name, timed FROM [" + Year +
                 "_category] WHERE category_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", catNo));
-            query.Connection = clubConn;
+            query.Connection = ClubConn;
             SQLiteDataReader reader = DoTheReader(query);
 
             // Read the results
             CategoryItem item = new CategoryItem();
             while (reader.Read())
             {
-                item.no = reader.GetInt32(0);
-                item.name = reader.GetString(1);
-                item.timed = (bool)IntToBool(reader.GetInt32(2));
+                item.No = reader.GetInt32(0);
+                item.Name = reader.GetString(1);
+                item.Timed = (bool)IntToBool(reader.GetInt32(2));
             }
             reader.Close();
-            clubConn.Close();
+            ClubConn.Close();
             return item;
         }
 
@@ -58,9 +58,9 @@ namespace TrotTrax
             }
 
             // Construct and execute the query
-            string query = "SELECT category_no, category_name, timed FROM [" + year +
+            string query = "SELECT category_no, category_name, timed FROM [" + Year +
                 "_category] ORDER BY " + sortString + ";";
-            SQLiteDataReader reader = DoTheReader(clubConn, query);
+            SQLiteDataReader reader = DoTheReader(ClubConn, query);
             List<CategoryItem> catItemList = new List<CategoryItem>();
             CategoryItem item;
 
@@ -68,13 +68,13 @@ namespace TrotTrax
             while (reader.Read())
             {
                 item = new CategoryItem();
-                item.no = reader.GetInt32(0);
-                item.name = reader.GetString(1);
-                item.timed = (bool)IntToBool(reader.GetInt32(2));
+                item.No = reader.GetInt32(0);
+                item.Name = reader.GetString(1);
+                item.Timed = (bool)IntToBool(reader.GetInt32(2));
                 catItemList.Add(item);
             }
             reader.Close();
-            clubConn.Close();
+            ClubConn.Close();
             return catItemList;
         }
 
@@ -86,14 +86,14 @@ namespace TrotTrax
         {
             // Construct and execute the query
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "INSERT INTO [" + year + "_category] " +
+            query.CommandText = "INSERT INTO [" + Year + "_category] " +
                 "(category_no, category_name, timed) " +
                 "VALUES (@noparam, @nameparam, @timedparam)";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", catNo));
             query.Parameters.Add(new SQLiteParameter("@nameparam", catName));
             query.Parameters.Add(new SQLiteParameter("@timedparam", BoolToInt(timed)));
-            query.Connection = clubConn;
+            query.Connection = ClubConn;
 
             return DoTheNonQuery(query);
         }
@@ -106,13 +106,13 @@ namespace TrotTrax
         {
             // Construct and execute the query
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "UPDATE [" + year + "_category] SET category_name = @nameparam, timed = @timedparam " +
+            query.CommandText = "UPDATE [" + Year + "_category] SET category_name = @nameparam, timed = @timedparam " +
                 "WHERE category_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", catNo));
             query.Parameters.Add(new SQLiteParameter("@nameparam", catName));
             query.Parameters.Add(new SQLiteParameter("@timedparam", BoolToInt(timed)));
-            query.Connection = clubConn;
+            query.Connection = ClubConn;
 
             return DoTheNonQuery(query);
         }
@@ -125,10 +125,10 @@ namespace TrotTrax
         {
             // Construct and execute the query
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "DELETE FROM [" + year + "_category] WHERE category_no = @noparam;";
+            query.CommandText = "DELETE FROM [" + Year + "_category] WHERE category_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", classNo));
-            query.Connection = clubConn;
+            query.Connection = ClubConn;
 
             return DoTheNonQuery(query);
         }

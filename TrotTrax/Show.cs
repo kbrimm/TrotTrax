@@ -16,53 +16,53 @@ namespace TrotTrax
 {
     class Show : ListObject
     {
-        public int number { get; private set; }
-        public DateTime date { get; private set; }
-        public string name { get; private set; }
-        public string comments { get; private set; }
+        public int Number { get; private set; }
+        public DateTime Date { get; private set; }
+        public string Name { get; private set; }
+        public string Comments { get; private set; }
 
         public Show(string clubID, int year)
         {
-            database = new DBDriver(1);
-            this.year = year;
-            this.clubID = clubID;
-            number = database.GetNextIndex(FormType.Show);
-            classList = database.GetClassItemList();
-            showList = database.GetShowItemList();
+            Database = new DBDriver(1);
+            this.Year = year;
+            this.ClubID = clubID;
+            Number = Database.GetNextIndex(FormType.Show);
+            ClassList = Database.GetClassItemList();
+            ShowList = Database.GetShowItemList();
         }
 
         public Show(string clubID, int year, int number)
         {
-            database = new DBDriver(1);
-            this.year = year;
-            this.clubID = clubID;
-            this.number = number;
+            Database = new DBDriver(1);
+            this.Year = year;
+            this.ClubID = clubID;
+            this.Number = number;
             SetShowData();
-            classList = database.GetClassItemList();
-            showList = database.GetShowItemList();
+            ClassList = Database.GetClassItemList();
+            ShowList = Database.GetShowItemList();
         }
 
         private void SetShowData()
         {
-            ShowItem item = database.GetShowItem(number);
-            date = item.date;
-            name = item.name;
-            comments = item.comments;
+            ShowItem item = Database.GetShowItem(Number);
+            Date = item.Date;
+            Name = item.Name;
+            Comments = item.Comments;
         }
 
         public bool AddShow(int showNo, DateTime date, string description, string comments)
         {
-            return database.AddShowItem(showNo, date, description, comments);
+            return Database.AddShowItem(showNo, date, description, comments);
         }
 
         public bool ModifyShow(DateTime date, string description, string comments)
         {
-            return database.UpdateShowItem(number, date, description, comments);
+            return Database.UpdateShowItem(Number, date, description, comments);
         }
 
         public bool RemoveShow()
         {
-            return database.DeleteShowItem(number);
+            return Database.DeleteShowItem(Number);
         }
     }
 

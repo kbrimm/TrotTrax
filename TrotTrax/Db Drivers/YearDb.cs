@@ -24,7 +24,7 @@ namespace TrotTrax
         public int GetCurrentYear()
         {
             string query = "SELECT current_year FROM current LIMIT 1;";
-            object response = DoTheScalar(trotTraxConn, query);
+            object response = DoTheScalar(TrotTraxConn, query);
             try
             {
                 return Convert.ToInt32(response);
@@ -42,7 +42,7 @@ namespace TrotTrax
             object response;
 
             query = "SELECT year FROM show_year ORDER BY year DESC LIMIT 1;";
-            response = DoTheScalar(clubConn, query);
+            response = DoTheScalar(ClubConn, query);
 
             try
             {
@@ -62,7 +62,7 @@ namespace TrotTrax
             int count = -1;
             
             query = "SELECT COUNT(*) FROM show_year WHERE year = " + year + ";";
-            response = DoTheScalar(clubConn, query);
+            response = DoTheScalar(ClubConn, query);
 
             try
             {
@@ -85,13 +85,13 @@ namespace TrotTrax
             List<int> yearItemList = new List<int>();
             string query = "SELECT year FROM show_year ORDER BY year DESC;";
 
-            reader = DoTheReader(clubConn, query);
+            reader = DoTheReader(ClubConn, query);
             while (reader.Read())
             {
                 yearItemList.Add(reader.GetInt32(0));
             }
             reader.Close();
-            trotTraxConn.Close();
+            TrotTraxConn.Close();
             return yearItemList;
         }
 
@@ -143,21 +143,21 @@ namespace TrotTrax
                 "FOREIGN KEY (back_no) REFERENCES [" + year + "_back](back_no) ON DELETE CASCADE );";
 
             // And go!
-            if(DoTheNonQuery(clubConn, yearInsert))
+            if(DoTheNonQuery(ClubConn, yearInsert))
                 Console.WriteLine(year + " successfully inserted into show_year");
-            if (DoTheNonQuery(clubConn, riderTable))
+            if (DoTheNonQuery(ClubConn, riderTable))
                 Console.WriteLine(year + "_rider successfully created.");
-            if (DoTheNonQuery(clubConn, horseTable))
+            if (DoTheNonQuery(ClubConn, horseTable))
                 Console.WriteLine(year + "_horse successfully created.");
-            if(DoTheNonQuery(clubConn, backNoTable))
+            if(DoTheNonQuery(ClubConn, backNoTable))
                 Console.WriteLine(year + "_back successfully created.");
-            if(DoTheNonQuery(clubConn, showTable))
+            if(DoTheNonQuery(ClubConn, showTable))
                 Console.WriteLine(year + "_show successfully created.");
-            if(DoTheNonQuery(clubConn, categoryTable))
+            if(DoTheNonQuery(ClubConn, categoryTable))
                 Console.WriteLine(year + "_category successfully created.");
-            if(DoTheNonQuery(clubConn, classTable))
+            if(DoTheNonQuery(ClubConn, classTable))
                 Console.WriteLine(year + "_class successfully created.");
-            if(DoTheNonQuery(clubConn, resultTable))
+            if(DoTheNonQuery(ClubConn, resultTable))
                 Console.WriteLine(year + "_result successfully created.");
         }
 
@@ -168,13 +168,13 @@ namespace TrotTrax
         public bool DeleteYear(int year)
         {
             string showYearDelete = "DELETE FROM show_year WHERE year = " + year + ";";
-            if(DoTheNonQuery(clubConn, showYearDelete))
+            if(DoTheNonQuery(ClubConn, showYearDelete))
             {
                 string dropYearTables = "DROP TABLE [" + year + "_result] ; " +
                     "DROP TABLE [" + year + "_class] ; DROP TABLE [" + year + "_category] ; " +
                     "DROP TABLE [" + year + "_show] ; DROP TABLE [" + year + "_backNo] ; " +
                     "DROP TABLE [" + year + "_horse] ; DROP TABLE [" + year + "_rider];";
-                return DoTheNonQuery(clubConn, dropYearTables);
+                return DoTheNonQuery(ClubConn, dropYearTables);
             }
             return false;
         }

@@ -18,20 +18,20 @@ namespace TrotTrax
 {
     public partial class DBDriver
     {
-        private SQLiteConnection trotTraxConn;
-        private SQLiteConnection clubConn;
-
-        public bool connected;
-        private int year;
-        private string pragmaString = "PRAGMA foreign_keys = ON; ";
-
+        // Must be set for each db transaction in order to enforce foreign key constraints.
+        private const string PRAGMA_STRING = "PRAGMA foreign_keys = ON; ";
+        private SQLiteConnection TrotTraxConn;
+        private SQLiteConnection ClubConn;
+        private int Year;
+        public bool Connected;
+        
         #region Constructors/Initializers
 
         // Initializes variables & checks for instance of database
         // Creates trot_trax if not found, adds tables for club data & current data
         public DBDriver()
         {
-            trotTraxConn = new SQLiteConnection("Data Source=trot_trax.db;Version=3;");
+            TrotTraxConn = new SQLiteConnection("Data Source=trot_trax.db;Version=3;");
 
             // If the database check fails, we need to initalize some things.
             // Otherwise, we're good to go.
@@ -42,28 +42,28 @@ namespace TrotTrax
                 string currentString = "CREATE TABLE current ( club_id TEXT NOT NULL, current_year INTEGER, " +
                     "FOREIGN KEY (club_id) REFERENCES club(club_id) ON DELETE CASCADE );";
 
-                DoTheNonQuery(trotTraxConn, clubString);
-                DoTheNonQuery(trotTraxConn, currentString);
+                DoTheNonQuery(TrotTraxConn, clubString);
+                DoTheNonQuery(TrotTraxConn, currentString);
                 Console.WriteLine("\tDatabase creation successful.");
-                connected = true;
+                Connected = true;
             }
             else
             {
                 Console.WriteLine("\tDatabase connection successful!");
-                connected = true;
+                Connected = true;
             }
         }
 
         // Passing in a club name value skips the DB instance check step.
         public DBDriver(int skipCheck)
         {
-            trotTraxConn = new SQLiteConnection("Data Source=trot_trax.db;Version=3;");
+            TrotTraxConn = new SQLiteConnection("Data Source=trot_trax.db;Version=3;");
             string clubId = GetCurrentClubId();
             if (clubId != null)
-                clubConn = new SQLiteConnection("Data Source=" + clubId + ".db;Version=3;");
+                ClubConn = new SQLiteConnection("Data Source=" + clubId + ".db;Version=3;");
             else
-                clubConn = null;
-            year = GetCurrentYear();           
+                ClubConn = null;
+            Year = GetCurrentYear();           
         }
 
         // Checks the for instance of the trot_trax database.
@@ -73,7 +73,7 @@ namespace TrotTrax
             int response = 0;
 
             Console.WriteLine("\tChecking database...");
-            response = Convert.ToInt32(DoTheScalar(trotTraxConn, query));
+            response = Convert.ToInt32(DoTheScalar(TrotTraxConn, query));
             if (response > 0)
                 return true;
             else
@@ -130,7 +130,7 @@ namespace TrotTrax
             {
                 conn.Close();
                 conn.Open();
-                query = pragmaString + query;
+                query = PRAGMA_STRING + query;
                 command = new SQLiteCommand(query, conn);
                 command.ExecuteNonQuery();
                 conn.Close();
@@ -153,7 +153,7 @@ namespace TrotTrax
             {
                 query.Connection.Close();
                 query.Connection.Open();
-                query.CommandText = pragmaString + query.CommandText;
+                query.CommandText = PRAGMA_STRING + query.CommandText;
                 query.ExecuteNonQuery();
                 query.Connection.Close();
                 Console.WriteLine("\tSuccess! :D");
@@ -177,7 +177,7 @@ namespace TrotTrax
             {
                 conn.Close();
                 conn.Open();
-                query = pragmaString + query;
+                query = PRAGMA_STRING + query;
                 command = new SQLiteCommand(query, conn);
                 value = command.ExecuteScalar();
                 conn.Close();
@@ -201,7 +201,7 @@ namespace TrotTrax
             {
                 query.Connection.Close();
                 query.Connection.Open();
-                query.CommandText = pragmaString + query.CommandText;
+                query.CommandText = PRAGMA_STRING + query.CommandText;
                 value = query.ExecuteScalar();
                 query.Connection.Close();
                 Console.WriteLine("\tSuccess! :D");
@@ -225,7 +225,7 @@ namespace TrotTrax
             {
                 conn.Close();
                 conn.Open();
-                query = pragmaString + query;
+                query = PRAGMA_STRING + query;
                 command = new SQLiteCommand(query, conn);
                 reader = command.ExecuteReader();
                 Console.WriteLine("\tSuccess! :D");
@@ -248,7 +248,7 @@ namespace TrotTrax
             {
                 query.Connection.Close();
                 query.Connection.Open();
-                query.CommandText = pragmaString + query.CommandText;
+                query.CommandText = PRAGMA_STRING + query.CommandText;
                 reader = query.ExecuteReader();
                 Console.WriteLine("\tSuccess! :D");
                 return reader;
@@ -270,7 +270,7 @@ namespace TrotTrax
         public bool HasCurrent()
         {
             string query = "SELECT count(*) FROM current;";
-            object response = DoTheScalar(trotTraxConn, query);
+            object response = DoTheScalar(TrotTraxConn, query);
             Console.WriteLine("Checking for values in current...");
             try
             {
@@ -301,11 +301,11 @@ namespace TrotTrax
             currentInsert.CommandText = "INSERT INTO current (club_id) VALUES (@idparam)";
             currentInsert.CommandType = System.Data.CommandType.Text;
             currentInsert.Parameters.Add(new SQLiteParameter("@idparam", id));
-            currentInsert.Connection = trotTraxConn;
+            currentInsert.Connection = TrotTraxConn;
             
-            if (DoTheNonQuery(trotTraxConn, currentDelete) && DoTheNonQuery(currentInsert))
+            if (DoTheNonQuery(TrotTraxConn, currentDelete) && DoTheNonQuery(currentInsert))
             {
-                clubConn = new SQLiteConnection("Data Source=" + id + ".db;Version=3;");
+                ClubConn = new SQLiteConnection("Data Source=" + id + ".db;Version=3;");
                 return true;
             }
             return false;
@@ -318,7 +318,7 @@ namespace TrotTrax
             if (year == null)
             {
                 string yearSelect = "SELECT year FROM show_year ORDER BY year DESC LIMIT 1;";
-                year = (int)DoTheScalar(clubConn, yearSelect);
+                year = (int)DoTheScalar(ClubConn, yearSelect);
             }
 
             // Update the current values
@@ -327,9 +327,9 @@ namespace TrotTrax
             currentUpdate.CommandType = System.Data.CommandType.Text;
             currentUpdate.Parameters.Add(new SQLiteParameter("@yearparam", year));
             currentUpdate.Parameters.Add(new SQLiteParameter("@idparam", GetCurrentClubId()));
-            currentUpdate.Connection = trotTraxConn;
+            currentUpdate.Connection = TrotTraxConn;
             DoTheNonQuery(currentUpdate);
-            this.year = (int)year;
+            this.Year = (int)year;
             return (int)year;
         }
 
@@ -359,8 +359,8 @@ namespace TrotTrax
                 return -1;
             }
 
-            string query = "SELECT " + formString + "_no FROM [" + year + "_" + formString + "] ORDER BY " + formString + "_no DESC LIMIT 1;";
-            object value = DoTheScalar(clubConn, query);
+            string query = "SELECT " + formString + "_no FROM [" + Year + "_" + formString + "] ORDER BY " + formString + "_no DESC LIMIT 1;";
+            object value = DoTheScalar(ClubConn, query);
             if (value != null)
                 return Convert.ToInt32(value) + 1;
             else
@@ -388,8 +388,8 @@ namespace TrotTrax
                 return false;
             }
 
-            string query = "SELECT COUNT(*) FROM [" + year + "_" + formString + "] WHERE " + formString + "_no = " + number + ";";
-            object value = DoTheScalar(clubConn, query);
+            string query = "SELECT COUNT(*) FROM [" + Year + "_" + formString + "] WHERE " + formString + "_no = " + number + ";";
+            object value = DoTheScalar(ClubConn, query);
             if (value != null && Convert.ToInt32(value) > 0)
                 return true;
             else

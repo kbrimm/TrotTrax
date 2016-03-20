@@ -24,26 +24,26 @@ namespace TrotTrax
         public HorseItem GetHorseItem(int horseNo)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "SELECT horse_no, horse_name, horse_alt, height, owner_name, horse_comment FROM [" + year +
+            query.CommandText = "SELECT horse_no, horse_name, horse_alt, height, owner_name, horse_comment FROM [" + Year +
                 "_horse] WHERE horse_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", horseNo));
-            query.Connection = clubConn;
+            query.Connection = ClubConn;
             SQLiteDataReader reader = DoTheReader(query);
             HorseItem item = new HorseItem();
 
             while (reader.Read())
             {
                 item = new HorseItem();
-                item.no = reader.GetInt32(0);
-                item.name = reader.GetString(1);
-                item.altName = reader.GetString(2);
-                item.height = reader.GetString(3);
-                item.ownerName = reader.GetString(4);
-                item.comments = reader.GetString(5);
+                item.No = reader.GetInt32(0);
+                item.Name = reader.GetString(1);
+                item.AltName = reader.GetString(2);
+                item.Height = reader.GetString(3);
+                item.OwnerName = reader.GetString(4);
+                item.Comments = reader.GetString(5);
             }
             reader.Close();
-            clubConn.Close();
+            ClubConn.Close();
             return item;
         }
 
@@ -60,26 +60,26 @@ namespace TrotTrax
                 default: sortString = "horse_no"; break;
             }
 
-            string query = "SELECT horse_no, horse_name, horse_alt, height, owner_name, horse_comment FROM [" + year +
+            string query = "SELECT horse_no, horse_name, horse_alt, height, owner_name, horse_comment FROM [" + Year +
                 "_horse] ORDER BY " + sortString + ";";
-            SQLiteDataReader reader = DoTheReader(clubConn, query);
+            SQLiteDataReader reader = DoTheReader(ClubConn, query);
             List<HorseItem> horseItemList = new List<HorseItem>();
             HorseItem item;
 
-            reader = DoTheReader(clubConn, query);
+            reader = DoTheReader(ClubConn, query);
             while (reader.Read())
             {
                 item = new HorseItem();
-                item.no = reader.GetInt32(0);
-                item.name = reader.GetString(1);
-                item.altName = reader.GetString(2);
-                item.height = reader.GetString(3);
-                item.ownerName = reader.GetString(4);
-                item.comments = reader.GetString(5);
+                item.No = reader.GetInt32(0);
+                item.Name = reader.GetString(1);
+                item.AltName = reader.GetString(2);
+                item.Height = reader.GetString(3);
+                item.OwnerName = reader.GetString(4);
+                item.Comments = reader.GetString(5);
                 horseItemList.Add(item);
             }
             reader.Close();
-            clubConn.Close();
+            ClubConn.Close();
             return horseItemList;
         }
 
@@ -90,7 +90,7 @@ namespace TrotTrax
         public bool AddHorseItem(int horseNo, string name, string altName, string height, string owner, string comment)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "INSERT INTO [" + year + "_horse] " +
+            query.CommandText = "INSERT INTO [" + Year + "_horse] " +
                 "(horse_no, horse_name, horse_alt, height, owner_name, horse_comment) " +
                 "VALUES (@noparam, @nameparam, @altparam, @heightparam, @ownerparam, @commentparam)";
             query.CommandType = System.Data.CommandType.Text;
@@ -100,7 +100,7 @@ namespace TrotTrax
             query.Parameters.Add(new SQLiteParameter("@heightparam", height));
             query.Parameters.Add(new SQLiteParameter("@ownerparam", owner));
             query.Parameters.Add(new SQLiteParameter("@commentparam", comment));
-            query.Connection = clubConn;
+            query.Connection = ClubConn;
             return DoTheNonQuery(query);
         }
 
@@ -111,7 +111,7 @@ namespace TrotTrax
         public bool UpdateHorseItem(int horseNo, string name, string altName, string height, string owner, string comment)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "UPDATE [" + year + "_horse] SET horse_no = @noparam, horse_name = @nameparam, " +
+            query.CommandText = "UPDATE [" + Year + "_horse] SET horse_no = @noparam, horse_name = @nameparam, " +
                 "horse_alt = @altparam, height = @heightparam, owner_name = @ownerparam, horse_comment = @commentparam " +
                 "WHERE horse_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
@@ -121,7 +121,7 @@ namespace TrotTrax
             query.Parameters.Add(new SQLiteParameter("@ownerparam", owner));
             query.Parameters.Add(new SQLiteParameter("@noparam", horseNo));
             query.Parameters.Add(new SQLiteParameter("@commentparam", comment));
-            query.Connection = clubConn;
+            query.Connection = ClubConn;
             return DoTheNonQuery(query);
         }
 
@@ -132,10 +132,10 @@ namespace TrotTrax
         public bool DeleteHorseItem(int horseNo)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "DELETE FROM [" + year + "_horse] WHERE horse_no = @noparam;";
+            query.CommandText = "DELETE FROM [" + Year + "_horse] WHERE horse_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", horseNo));
-            query.Connection = clubConn;
+            query.Connection = ClubConn;
             return DoTheNonQuery(query);
         }
 

@@ -16,15 +16,14 @@ namespace TrotTrax
 {
     class Results : ListObject
     {
-        public List<BackNoItem> entryList = new List<BackNoItem>();
-        public List<BackNoItem> placingList = new List<BackNoItem>();
+        public List<BackNoItem> EntryList = new List<BackNoItem>();
+        public List<BackNoItem> PlacingList = new List<BackNoItem>();
 
-        private string qualifier; 
-        public int classNo { get; private set; }
-        public string className { get; private set; }
-        public int showNo { get; private set; }
-        public string showDate { get; private set; }
-        public int entryCount { get; private set; }
+        public int ClassNo { get; private set; }
+        public string ClassName { get; private set; }
+        public int ShowNo { get; private set; }
+        public string ShowDate { get; private set; }
+        public int EntryCount { get; private set; }
         // To be implemented at a later date:
         //public bool isTimed { get; private set; }
         //public bool isPayout { get; private set; }
@@ -33,15 +32,14 @@ namespace TrotTrax
 
         public Results(string clubID, int year, int showNo, int classNo)
         {
-            database = new DBDriver(1);
-            this.clubID = clubID;
-            this.year = year;
-            this.classNo = classNo;
-            this.showNo = showNo;
-            qualifier = "s.show_no = " + showNo + " AND s.class_no = " + classNo;
+            Database = new DBDriver(1);
+            this.ClubID = clubID;
+            this.Year = year;
+            this.ClassNo = classNo;
+            this.ShowNo = showNo;
 
-            classList = database.GetClassItemList();
-            backNoList = database.GetBackNoItemList();
+            ClassList = Database.GetClassItemList();
+            BackNoList = Database.GetBackNoItemList();
             // entryList = database.GetEntryList(clubID, year, String.Empty, qualifier);
             // placingList = database.GetEntryList(clubID, year, "place", "place IS NOT NULL AND show_no = " + showNo +
             //     " AND class_no = " + classNo);
@@ -67,22 +65,21 @@ namespace TrotTrax
 
         public bool IsFirstClass()
         {
-            foreach(ClassItem entry in classList)
-                if (entry.no < classNo)
+            foreach(ClassItem entry in ClassList)
+                if (entry.No < ClassNo)
                     return false;
-
             return true;
         }
 
         public int GetPrev()
         {
-            int prev = classNo - 1;
+            int prev = ClassNo - 1;
             bool found = false;
 
             while(!found && prev > 0)
             {
-                foreach (ClassItem entry in classList)
-                    if(entry.no == prev)
+                foreach (ClassItem entry in ClassList)
+                    if(entry.No == prev)
                     { 
                         found = true;
                         return prev;
@@ -94,8 +91,8 @@ namespace TrotTrax
 
         public bool IsLastClass()
         {
-            foreach (ClassItem entry in classList)
-                if (entry.no > classNo)
+            foreach (ClassItem entry in ClassList)
+                if (entry.No > ClassNo)
                     return false;
 
             return true;
@@ -103,13 +100,13 @@ namespace TrotTrax
 
         public int GetNext()
         {
-            int next = classNo + 1;
+            int next = ClassNo + 1;
             bool found = false;
 
             while (!found && next < 250)
             {
-                foreach (ClassItem entry in classList)
-                    if (entry.no == next)
+                foreach (ClassItem entry in ClassList)
+                    if (entry.No == next)
                     {
                         found = true;
                         return next;
@@ -123,16 +120,24 @@ namespace TrotTrax
     public enum ResultSort
     {
         Default,
-        Place,
+        BackNo,
+        Category,
         Class,
+        Horse,
+        Place,
+        Rider,
         Show
     }
 
-    public enum ResultFiler
+    public enum ResultFilter
     {
         Default,
-        Rider,
+        BackNo,
+        Category,
+        Class,
         Horse,
-        BackNo
+        Rider,
+        Show,
+        Time
     }
 }

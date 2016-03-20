@@ -16,60 +16,60 @@ namespace TrotTrax
 {
     class Class : ListObject
     {
-        public int number { get; private set; }
-        public string name { get; private set; }
-        public int catNo { get; private set; }
-        public string catName { get; private set; }
-        public decimal fee { get; private set; }
+        public int Number { get; private set; }
+        public string Name { get; private set; }
+        public int CatNo { get; private set; }
+        public string CatName { get; private set; }
+        public decimal Fee { get; private set; }
 
         public Class(string clubID, int year)
         {
-            database = new DBDriver(1);
-            this.year = year;
-            this.clubID = clubID;
-            number = database.GetNextIndex(FormType.Class);
-            classList = database.GetClassItemList();
-            catList = database.GetCategoryItemList(); 
-            showList = database.GetShowItemList();            
+            Database = new DBDriver(1);
+            this.Year = year;
+            this.ClubID = clubID;
+            Number = Database.GetNextIndex(FormType.Class);
+            ClassList = Database.GetClassItemList();
+            CatList = Database.GetCategoryItemList(); 
+            ShowList = Database.GetShowItemList();            
         }
 
         public Class(string clubID, int year, int number)
         {
-            database = new DBDriver(1);
-            this.year = year;
-            this.clubID = clubID;
-            this.number = number;
-            catList = database.GetCategoryItemList(); 
-            classList = database.GetClassItemList();
-            showList = database.GetShowItemList();
+            Database = new DBDriver(1);
+            this.Year = year;
+            this.ClubID = clubID;
+            this.Number = number;
+            CatList = Database.GetCategoryItemList(); 
+            ClassList = Database.GetClassItemList();
+            ShowList = Database.GetShowItemList();
             SetClassData();
         }
        
         private void SetClassData()
         {
-            ClassItem classItem = database.GetClassItem(number);
-            catNo = classItem.catNo;
-            name = classItem.name;
-            fee = classItem.fee;
-            CategoryItem catItem = database.GetCategoryItem(catNo);
-            catName = catItem.name;
+            ClassItem classItem = Database.GetClassItem(Number);
+            CatNo = classItem.CatNo;
+            Name = classItem.Name;
+            Fee = classItem.Fee;
+            CategoryItem catItem = Database.GetCategoryItem(CatNo);
+            CatName = catItem.Name;
         }
 
         public bool AddClass(int newClassNo, int newCatNo, string newClassName, decimal newFee)
         {
-            bool success = database.AddClassItem(newClassNo, newCatNo, newClassName, newFee);
+            bool success = Database.AddClassItem(newClassNo, newCatNo, newClassName, newFee);
             return success;
         }
 
         public bool ModifyClass(int newClassNo, int newCatNo, string newClassName, decimal newFee)
         {
-            bool success = database.UpdateClassItem(newClassNo, newCatNo, newClassName, newFee);
+            bool success = Database.UpdateClassItem(newClassNo, newCatNo, newClassName, newFee);
             return success;
         }
 
         public bool RemoveClass()
         {
-            bool success = database.DeleteClassItem(number);
+            bool success = Database.DeleteClassItem(Number);
             return success;
         }
     }

@@ -20,25 +20,24 @@ namespace TrotTrax
 {
     public partial class ShowYearForm : Form
     {
-        ShowYear year;
-        bool isNew;
+        private ShowYear Year;
+        private bool IsNew;
 
         #region Constructors 
 
         // No arguments opens an blank show year panel.
         public ShowYearForm()
         {
-            InitializeComponent();
-            isNew = true;
+            InitializeComponent(); 
             ActiveButtons();
+            IsNew = true;
         }
 
         // Passing an integer value indicates that there is data in trot_trax.current
         public ShowYearForm(int hasData)
         {
-            year = new ShowYear();
+            Year = new ShowYear();
             InitializeComponent();
-            isNew = false;
             ActiveButtons();
             PopulateClubMenu();
             PopulateYearMenu();
@@ -46,7 +45,8 @@ namespace TrotTrax
             PopulateClassList();
             PopulateBackNoList();
 
-            this.currentLabel.Text = year.clubName + "\n\n" + year.year + " Show Year";
+            this.currentLabel.Text = Year.ClubName + "\n\n" + Year.Year + " Show Year";
+            IsNew = false;
         }
 
         #endregion
@@ -55,22 +55,22 @@ namespace TrotTrax
 
         private void RefreshForm()
         {
-            year = new ShowYear();
-            isNew = false;
+            Year = new ShowYear();
+            InitializeComponent();
             ActiveButtons();
-
             PopulateClubMenu();
             PopulateYearMenu();
             PopulateShowList();
             PopulateClassList();
             PopulateBackNoList();
 
-            this.currentLabel.Text = year.clubName + "\n\n" + year.year + " Show Year";
+            this.currentLabel.Text = Year.ClubName + "\n\n" + Year.Year + " Show Year";
+            IsNew = false;
         }
 
         private void ActiveButtons()
         {
-            if(isNew)
+            if(IsNew)
             {
                 // If there's no data in the show, all menu items and view buttons are greyed out.
                 openYearToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -225,12 +225,12 @@ namespace TrotTrax
             while (openClubToolStripMenuItem.DropDownItems.Count > 2)
                 openClubToolStripMenuItem.DropDownItems[2].Dispose();
 
-            foreach (ClubItem clubItem in year.clubList)
+            foreach (ClubItem clubItem in Year.ClubList)
             {
                 ToolStripMenuItem clubMenuItem = new ToolStripMenuItem();
-                clubMenuItem.Name = clubItem.clubID + "MenuEntry";
+                clubMenuItem.Name = clubItem.ClubId + "MenuEntry";
                 clubMenuItem.Size = new System.Drawing.Size(152, 22);
-                clubMenuItem.Text = clubItem.clubName;
+                clubMenuItem.Text = clubItem.ClubName;
                 clubMenuItem.Click += new System.EventHandler(this.ViewClub);
                 this.openClubToolStripMenuItem.DropDownItems.Add(clubMenuItem);
             }
@@ -246,10 +246,10 @@ namespace TrotTrax
         private void ViewClub(object sender, EventArgs e)
         {
             string viewClub = Convert.ToString(sender);
-            foreach(ClubItem club in year.clubList)
-                if(club.clubName == viewClub)
+            foreach(ClubItem club in Year.ClubList)
+                if(club.ClubName == viewClub)
                 {
-                    if (year.SetClub(club.clubID))
+                    if (Year.SetClub(club.ClubId))
                     {
                         RefreshForm();
                         break;
@@ -271,7 +271,7 @@ namespace TrotTrax
             while (openYearToolStripMenuItem.DropDownItems.Count > 2)
                 openYearToolStripMenuItem.DropDownItems[2].Dispose();
 
-            foreach (int yearItem in year.yearList)
+            foreach (int yearItem in Year.YearList)
             {
                 ToolStripMenuItem yearMenuItem = new ToolStripMenuItem();
                 yearMenuItem.Name = Convert.ToString(yearItem) + "MenuEntry";
@@ -297,7 +297,7 @@ namespace TrotTrax
             try
             {
                 viewYear = Convert.ToInt32(yearString);
-                year.SetYear(viewYear);
+                Year.SetYear(viewYear);
                 RefreshForm();
             }
             catch
@@ -314,18 +314,18 @@ namespace TrotTrax
         private void PopulateShowList()
         {
             showListBox.Items.Clear();
-            foreach (ShowItem entry in year.showList)
+            foreach (ShowItem entry in Year.ShowList)
             {
-                string dateString = entry.date.ToString("MM/dd/yyyy");
+                string dateString = entry.Date.ToString("MM/dd/yyyy");
                 string value;
-                if(entry.name == "")
+                if(entry.Name == "")
                     value = dateString;
                 else
-                    value = dateString + " - " + entry.name;
+                    value = dateString + " - " + entry.Name;
                 showListBox.Items.Add(value);
             }
 
-            if (year.showList.Count() > 0)
+            if (Year.ShowList.Count() > 0)
             {
                 viewShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 viewShowBtn.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -335,9 +335,9 @@ namespace TrotTrax
         private void NewShow(object sender, EventArgs e)
         {
             {
-                if (!isNew)
+                if (!IsNew)
                 {
-                    ShowListForm showList = new ShowListForm(year.clubID, year.year);
+                    ShowListForm showList = new ShowListForm(Year.ClubID, Year.Year);
                     showList.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
                     showList.Visible = true;
                 }
@@ -348,16 +348,16 @@ namespace TrotTrax
         {
             int showNo = -1;
 
-            if (showListBox.SelectedItems.Count != 0 && !isNew)
+            if (showListBox.SelectedItems.Count != 0 && !IsNew)
             {
                 string selectedShow = showListBox.SelectedItems[0].ToString();
                 selectedShow = selectedShow.Substring(15, 10);
-                foreach (ShowItem entry in year.showList)
+                foreach (ShowItem entry in Year.ShowList)
                 {
-                    string dateString = entry.date.ToString("MM/dd/yyyy");
+                    string dateString = entry.Date.ToString("MM/dd/yyyy");
                     if (dateString == selectedShow)
                     {
-                        showNo = entry.no;
+                        showNo = entry.No;
                         break;
                     }
                 }
@@ -365,7 +365,7 @@ namespace TrotTrax
 
             if (showNo >= 0)
             {
-                ShowListForm showList = new ShowListForm(year.clubID, year.year, showNo);
+                ShowListForm showList = new ShowListForm(Year.ClubID, Year.Year, showNo);
                 showList.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
                 showList.Visible = true;
             }
@@ -378,13 +378,13 @@ namespace TrotTrax
         private void PopulateClassList()
         {
             classListBox.Items.Clear();
-            foreach (ClassItem entry in year.classList)
+            foreach (ClassItem entry in Year.ClassList)
             {
-                string[] row = { entry.name };
-                classListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+                string[] row = { entry.Name };
+                classListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
             }
 
-            if(year.classList.Count() > 0)
+            if(Year.ClassList.Count() > 0)
             {
                 viewClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 viewClassBtn.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -394,17 +394,18 @@ namespace TrotTrax
         private void SortClassList(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
-                year.SortClasses(ClassSort.Number);
+                Year.SortClasses(ClassSort.Number);
             else if (e.Column == 1)
-                year.SortClasses(ClassSort.Name);
+                Year.SortClasses(ClassSort.Name);
             PopulateClassList();
         }
 
         private void NewClass(object sender, EventArgs e)
         {
-            if (!isNew)
+            if (!IsNew)
             {
-                ClassListForm classList = new ClassListForm(year.clubID, year.year);
+                ClassListForm classList = new ClassListForm(Year.ClubID, Year.Year);
+                classList.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
                 classList.Visible = true;
             }
         }
@@ -413,12 +414,13 @@ namespace TrotTrax
         {
             int classNo = -1;
 
-            if (classListBox.SelectedItems.Count != 0 && !isNew)
+            if (classListBox.SelectedItems.Count != 0 && !IsNew)
                 classNo = Convert.ToInt32(classListBox.SelectedItems[0].Text);
 
             if (classNo >= 0)
             {
-                ClassListForm classList = new ClassListForm(year.clubID, year.year, classNo);
+                ClassListForm classList = new ClassListForm(Year.ClubID, Year.Year, classNo);
+                classList.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
                 classList.Visible = true;
             }
         }
@@ -430,13 +432,13 @@ namespace TrotTrax
         private void PopulateBackNoList()
         {
             backNoListBox.Items.Clear();
-            foreach (BackNoItem entry in year.backNoList)
+            foreach (BackNoItem entry in Year.BackNoList)
             {
-                string[] row = { entry.riderNo.ToString(), entry.rider, entry.horseNo.ToString(), entry.horse };
-                backNoListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+                string[] row = { entry.RiderNo.ToString(), entry.Rider, entry.HorseNo.ToString(), entry.Horse };
+                backNoListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
             }
 
-            if (year.backNoList.Count() > 0)
+            if (Year.BackNoList.Count() > 0)
             {
                 viewNumberBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 viewNumberBtn.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -446,47 +448,72 @@ namespace TrotTrax
         private void SortBackNoList(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
-                year.SortBackNos(BackNoSort.Number);
+                Year.SortBackNos(BackNoSort.Number);
             else if (e.Column == 1)
-                year.SortBackNos(BackNoSort.Rider);
+                Year.SortBackNos(BackNoSort.Rider);
             else if (e.Column == 2)
-                year.SortBackNos(BackNoSort.Horse);
+                Year.SortBackNos(BackNoSort.Horse);
             PopulateBackNoList();
         }
 
         private void NewBackNo(object sender, EventArgs e)
         {
-            
+            if (!IsNew)
+            {
+                BackNoListForm backNoList = new BackNoListForm(Year.ClubID, Year.Year);
+                backNoList.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
+                backNoList.Visible = true;
+            }
         }
 
         private void ViewBackNo(object sender, EventArgs e)
         {
-            
+            if (backNoListBox.SelectedItems.Count != 0)
+            {
+                int backNo = -1;
+
+                backNo = Convert.ToInt32(backNoListBox.SelectedItems[0].Text);
+                if (backNo >= 0)
+                {
+                    BackNoListForm backNoList = new BackNoListForm(Year.ClubID, Year.Year, backNo);
+                    backNoList.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
+                    backNoList.Visible = true;
+                }
+            }
         }
 
         private void NewRider(object sender, EventArgs e)
         {
-            if (!isNew)
+            if (!IsNew)
             {
-                RiderListForm riderList = new RiderListForm(year.clubID, year.year);
+                RiderListForm riderList = new RiderListForm(Year.ClubID, Year.Year);
+                riderList.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
                 riderList.Visible = true;
             }
         }
 
         private void ViewRider(object sender, EventArgs e)
         {
-            if (!isNew)
+            if (backNoListBox.SelectedItems.Count != 0)
             {
-                RiderListForm riderList = new RiderListForm(year.clubID, year.year);
-                riderList.Visible = true;
+                int riderNo = -1;
+
+                riderNo = Convert.ToInt32(backNoListBox.SelectedItems[1].Text);
+                if (riderNo >= 0)
+                {
+                    RiderListForm riderList = new RiderListForm (Year.ClubID, Year.Year, riderNo);
+                    riderList.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
+                    riderList.Visible = true;
+                }
             }
         }
 
         private void NewHorse(object sender, EventArgs e)
         {
-            if (!isNew)
+            if (!IsNew)
             {
-                HorseListForm horseList = new HorseListForm(year.clubID, year.year);
+                HorseListForm horseList = new HorseListForm(Year.ClubID, Year.Year);
+                horseList.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
                 horseList.Visible = true;
             }
         }
@@ -501,7 +528,8 @@ namespace TrotTrax
                 horseNo = Convert.ToInt32(backNoListBox.SelectedItems[3].Text);
                 if (horseNo >= 0)
                 {
-                    HorseListForm horseList = new HorseListForm(year.clubID, year.year, horseNo);
+                    HorseListForm horseList = new HorseListForm(Year.ClubID, Year.Year, horseNo);
+                    horseList.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
                     horseList.Visible = true;
                 }
             }
@@ -515,9 +543,10 @@ namespace TrotTrax
 
         private void NewCategory(object sender, EventArgs e)
         {
-            if (!isNew)
+            if (!IsNew)
             {
-                CategoryListForm catList = new CategoryListForm(year.clubID, year.year);
+                CategoryListForm catList = new CategoryListForm(Year.ClubID, Year.Year);
+                catList.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
                 catList.Visible = true;
             }
         }

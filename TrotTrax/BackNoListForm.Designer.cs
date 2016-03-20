@@ -38,9 +38,13 @@
             this.horseNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.backNoHorseNameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.addBackNoBtn = new System.Windows.Forms.Button();
-            this.viewNoBtn = new System.Windows.Forms.Button();
+            this.viewBackNoBtn = new System.Windows.Forms.Button();
             this.infoLabel = new System.Windows.Forms.Label();
             this.detailGroup = new System.Windows.Forms.GroupBox();
+            this.backNoLabel = new System.Windows.Forms.Label();
+            this.backNoBox = new System.Windows.Forms.TextBox();
+            this.viewHorseBtn = new System.Windows.Forms.Button();
+            this.viewRiderBtn = new System.Windows.Forms.Button();
             this.horseLabel = new System.Windows.Forms.Label();
             this.riderComboBox = new System.Windows.Forms.ComboBox();
             this.horseComboBox = new System.Windows.Forms.ComboBox();
@@ -55,10 +59,6 @@
             this.placeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.timeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pointsHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.viewHorseBtn = new System.Windows.Forms.Button();
-            this.viewRiderBtn = new System.Windows.Forms.Button();
-            this.backNoLabel = new System.Windows.Forms.Label();
-            this.backNoBox = new System.Windows.Forms.TextBox();
             this.riderListGroup.SuspendLayout();
             this.detailGroup.SuspendLayout();
             this.classEntryGroup.SuspendLayout();
@@ -70,14 +70,14 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.riderListGroup.Controls.Add(this.riderListBox);
             this.riderListGroup.Controls.Add(this.addBackNoBtn);
-            this.riderListGroup.Controls.Add(this.viewNoBtn);
+            this.riderListGroup.Controls.Add(this.viewBackNoBtn);
             this.riderListGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.riderListGroup.Location = new System.Drawing.Point(12, 92);
             this.riderListGroup.Name = "riderListGroup";
             this.riderListGroup.Size = new System.Drawing.Size(383, 386);
             this.riderListGroup.TabIndex = 16;
             this.riderListGroup.TabStop = false;
-            this.riderListGroup.Text = "Rider List";
+            this.riderListGroup.Text = "Back Number List";
             // 
             // riderListBox
             // 
@@ -144,16 +144,16 @@
             this.addBackNoBtn.Text = "New Back No.";
             this.addBackNoBtn.UseVisualStyleBackColor = true;
             // 
-            // viewNoBtn
+            // viewBackNoBtn
             // 
-            this.viewNoBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.viewNoBtn.Location = new System.Drawing.Point(7, 355);
-            this.viewNoBtn.Name = "viewNoBtn";
-            this.viewNoBtn.Size = new System.Drawing.Size(182, 25);
-            this.viewNoBtn.TabIndex = 0;
-            this.viewNoBtn.TabStop = false;
-            this.viewNoBtn.Text = "View Back No.";
-            this.viewNoBtn.UseVisualStyleBackColor = true;
+            this.viewBackNoBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.viewBackNoBtn.Location = new System.Drawing.Point(7, 355);
+            this.viewBackNoBtn.Name = "viewBackNoBtn";
+            this.viewBackNoBtn.Size = new System.Drawing.Size(182, 25);
+            this.viewBackNoBtn.TabIndex = 0;
+            this.viewBackNoBtn.TabStop = false;
+            this.viewBackNoBtn.Text = "View Back No.";
+            this.viewBackNoBtn.UseVisualStyleBackColor = true;
             // 
             // infoLabel
             // 
@@ -185,6 +185,45 @@
             this.detailGroup.TabIndex = 17;
             this.detailGroup.TabStop = false;
             this.detailGroup.Text = "Back Number Detail";
+            // 
+            // backNoLabel
+            // 
+            this.backNoLabel.AutoSize = true;
+            this.backNoLabel.Location = new System.Drawing.Point(6, 25);
+            this.backNoLabel.Name = "backNoLabel";
+            this.backNoLabel.Size = new System.Drawing.Size(63, 16);
+            this.backNoLabel.TabIndex = 20;
+            this.backNoLabel.Text = "Back No.";
+            // 
+            // backNoBox
+            // 
+            this.backNoBox.Location = new System.Drawing.Point(6, 44);
+            this.backNoBox.Name = "backNoBox";
+            this.backNoBox.Size = new System.Drawing.Size(71, 22);
+            this.backNoBox.TabIndex = 19;
+            // 
+            // viewHorseBtn
+            // 
+            this.viewHorseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.viewHorseBtn.Location = new System.Drawing.Point(251, 105);
+            this.viewHorseBtn.Name = "viewHorseBtn";
+            this.viewHorseBtn.Size = new System.Drawing.Size(240, 25);
+            this.viewHorseBtn.TabIndex = 17;
+            this.viewHorseBtn.TabStop = false;
+            this.viewHorseBtn.Text = "View Horse";
+            this.viewHorseBtn.UseVisualStyleBackColor = true;
+            // 
+            // viewRiderBtn
+            // 
+            this.viewRiderBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.viewRiderBtn.Location = new System.Drawing.Point(6, 105);
+            this.viewRiderBtn.Name = "viewRiderBtn";
+            this.viewRiderBtn.Size = new System.Drawing.Size(239, 25);
+            this.viewRiderBtn.TabIndex = 18;
+            this.viewRiderBtn.TabStop = false;
+            this.viewRiderBtn.Text = "View Rider";
+            this.viewRiderBtn.UseVisualStyleBackColor = true;
             // 
             // horseLabel
             // 
@@ -311,45 +350,6 @@
             this.pointsHeader.Text = "Points";
             this.pointsHeader.Width = 49;
             // 
-            // viewHorseBtn
-            // 
-            this.viewHorseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.viewHorseBtn.Location = new System.Drawing.Point(251, 105);
-            this.viewHorseBtn.Name = "viewHorseBtn";
-            this.viewHorseBtn.Size = new System.Drawing.Size(240, 25);
-            this.viewHorseBtn.TabIndex = 17;
-            this.viewHorseBtn.TabStop = false;
-            this.viewHorseBtn.Text = "View Horse";
-            this.viewHorseBtn.UseVisualStyleBackColor = true;
-            // 
-            // viewRiderBtn
-            // 
-            this.viewRiderBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.viewRiderBtn.Location = new System.Drawing.Point(6, 105);
-            this.viewRiderBtn.Name = "viewRiderBtn";
-            this.viewRiderBtn.Size = new System.Drawing.Size(239, 25);
-            this.viewRiderBtn.TabIndex = 18;
-            this.viewRiderBtn.TabStop = false;
-            this.viewRiderBtn.Text = "View Rider";
-            this.viewRiderBtn.UseVisualStyleBackColor = true;
-            // 
-            // backNoLabel
-            // 
-            this.backNoLabel.AutoSize = true;
-            this.backNoLabel.Location = new System.Drawing.Point(6, 25);
-            this.backNoLabel.Name = "backNoLabel";
-            this.backNoLabel.Size = new System.Drawing.Size(63, 16);
-            this.backNoLabel.TabIndex = 20;
-            this.backNoLabel.Text = "Back No.";
-            // 
-            // backNoBox
-            // 
-            this.backNoBox.Location = new System.Drawing.Point(6, 44);
-            this.backNoBox.Name = "backNoBox";
-            this.backNoBox.Size = new System.Drawing.Size(71, 22);
-            this.backNoBox.TabIndex = 19;
-            // 
             // BackNoListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -381,7 +381,7 @@
         private System.Windows.Forms.ColumnHeader horseNoHeader;
         private System.Windows.Forms.ColumnHeader backNoHorseNameHeader;
         private System.Windows.Forms.Button addBackNoBtn;
-        private System.Windows.Forms.Button viewNoBtn;
+        private System.Windows.Forms.Button viewBackNoBtn;
         private System.Windows.Forms.Label infoLabel;
         private System.Windows.Forms.GroupBox detailGroup;
         private System.Windows.Forms.Button cancelBtn;

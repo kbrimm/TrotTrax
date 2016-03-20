@@ -76,20 +76,20 @@ namespace TrotTrax
             this.addClassBtn = new System.Windows.Forms.Button();
             this.viewClassBtn = new System.Windows.Forms.Button();
             this.backNoGroup = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.addHorseBtn = new System.Windows.Forms.Button();
+            this.addRiderBtn = new System.Windows.Forms.Button();
             this.addNumberBtn = new System.Windows.Forms.Button();
             this.backNoListBox = new System.Windows.Forms.ListView();
             this.backNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.riderNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.riderHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.horseNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.horseHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.viewHorseBtn = new System.Windows.Forms.Button();
             this.viewRiderBtn = new System.Windows.Forms.Button();
             this.viewNumberBtn = new System.Windows.Forms.Button();
-            this.riderNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.horseNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.addRiderBtn = new System.Windows.Forms.Button();
-            this.addHorseBtn = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             this.showListGroup.SuspendLayout();
             this.classListGroup.SuspendLayout();
@@ -116,7 +116,7 @@ namespace TrotTrax
             this.settingsToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(950, 24);
+            this.menuStrip.Size = new System.Drawing.Size(954, 24);
             this.menuStrip.TabIndex = 4;
             // 
             // fileToolStripMenuItem
@@ -463,6 +463,46 @@ namespace TrotTrax
             this.backNoGroup.TabStop = false;
             this.backNoGroup.Text = "Registered Back Numbers";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label2.Location = new System.Drawing.Point(278, 467);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(2, 18);
+            this.label2.TabIndex = 16;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label1.Location = new System.Drawing.Point(118, 467);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(2, 18);
+            this.label1.TabIndex = 15;
+            // 
+            // addHorseBtn
+            // 
+            this.addHorseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.addHorseBtn.Location = new System.Drawing.Point(407, 463);
+            this.addHorseBtn.Name = "addHorseBtn";
+            this.addHorseBtn.Size = new System.Drawing.Size(25, 25);
+            this.addHorseBtn.TabIndex = 14;
+            this.addHorseBtn.Text = "+";
+            this.addHorseBtn.UseVisualStyleBackColor = true;
+            this.addHorseBtn.Click += new System.EventHandler(this.NewHorse);
+            // 
+            // addRiderBtn
+            // 
+            this.addRiderBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.addRiderBtn.Location = new System.Drawing.Point(247, 463);
+            this.addRiderBtn.Name = "addRiderBtn";
+            this.addRiderBtn.Size = new System.Drawing.Size(25, 25);
+            this.addRiderBtn.TabIndex = 13;
+            this.addRiderBtn.Text = "+";
+            this.addRiderBtn.UseVisualStyleBackColor = true;
+            this.addRiderBtn.Click += new System.EventHandler(this.NewRider);
+            // 
             // addNumberBtn
             // 
             this.addNumberBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -503,10 +543,20 @@ namespace TrotTrax
             this.backNoHeader.Text = "Back No.";
             this.backNoHeader.Width = 70;
             // 
+            // riderNoHeader
+            // 
+            this.riderNoHeader.Text = "Rider No.";
+            this.riderNoHeader.Width = 0;
+            // 
             // riderHeader
             // 
             this.riderHeader.Text = "Rider Name";
             this.riderHeader.Width = 150;
+            // 
+            // horseNoHeader
+            // 
+            this.horseNoHeader.Text = "Horse No.";
+            this.horseNoHeader.Width = 0;
             // 
             // horseHeader
             // 
@@ -528,7 +578,7 @@ namespace TrotTrax
             // viewRiderBtn
             // 
             this.viewRiderBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.viewRiderBtn.Location = new System.Drawing.Point(122, 463);
+            this.viewRiderBtn.Location = new System.Drawing.Point(126, 463);
             this.viewRiderBtn.Name = "viewRiderBtn";
             this.viewRiderBtn.Size = new System.Drawing.Size(115, 25);
             this.viewRiderBtn.TabIndex = 9;
@@ -542,61 +592,11 @@ namespace TrotTrax
             | System.Windows.Forms.AnchorStyles.Right)));
             this.viewNumberBtn.Location = new System.Drawing.Point(6, 463);
             this.viewNumberBtn.Name = "viewNumberBtn";
-            this.viewNumberBtn.Size = new System.Drawing.Size(71, 25);
+            this.viewNumberBtn.Size = new System.Drawing.Size(75, 25);
             this.viewNumberBtn.TabIndex = 7;
             this.viewNumberBtn.Text = "View No.";
             this.viewNumberBtn.UseVisualStyleBackColor = true;
             this.viewNumberBtn.Click += new System.EventHandler(this.ViewBackNo);
-            // 
-            // riderNoHeader
-            // 
-            this.riderNoHeader.Text = "Rider No.";
-            this.riderNoHeader.Width = 0;
-            // 
-            // horseNoHeader
-            // 
-            this.horseNoHeader.Text = "Horse No.";
-            this.horseNoHeader.Width = 0;
-            // 
-            // addRiderBtn
-            // 
-            this.addRiderBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addRiderBtn.Location = new System.Drawing.Point(247, 463);
-            this.addRiderBtn.Name = "addRiderBtn";
-            this.addRiderBtn.Size = new System.Drawing.Size(25, 25);
-            this.addRiderBtn.TabIndex = 13;
-            this.addRiderBtn.Text = "+";
-            this.addRiderBtn.UseVisualStyleBackColor = true;
-            this.addRiderBtn.Click += new System.EventHandler(this.NewRider);
-            // 
-            // addHorseBtn
-            // 
-            this.addHorseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addHorseBtn.Location = new System.Drawing.Point(407, 463);
-            this.addHorseBtn.Name = "addHorseBtn";
-            this.addHorseBtn.Size = new System.Drawing.Size(25, 25);
-            this.addHorseBtn.TabIndex = 14;
-            this.addHorseBtn.Text = "+";
-            this.addHorseBtn.UseVisualStyleBackColor = true;
-            this.addHorseBtn.Click += new System.EventHandler(this.NewHorse);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label1.Location = new System.Drawing.Point(118, 471);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(2, 18);
-            this.label1.TabIndex = 15;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label2.Location = new System.Drawing.Point(278, 471);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(2, 18);
-            this.label2.TabIndex = 16;
             // 
             // ShowYearForm
             // 

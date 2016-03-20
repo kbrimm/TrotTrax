@@ -20,31 +20,31 @@ namespace TrotTrax
 {
     public partial class ResultListForm : Form
     {
-        Results aClass;
-       // private List<EntryBoxItem> entryBoxItemList = new List<EntryBoxItem>();
-        bool isChanged;
-        bool isFirst;
-        bool isLast;
+        private Results ActiveResults;
+        // private List<EntryBoxItem> entryBoxItemList = new List<EntryBoxItem>();
+        private bool IsChanged;
+        private bool IsFirst;
+        private bool IsLast;
 
         public ResultListForm(string clubID, int year, int showNo, int classNo)
         {
-            aClass = new Results(clubID, year, showNo, classNo);
+            ActiveResults = new Results(clubID, year, showNo, classNo);
             InitializeComponent();
-            this.Text = aClass.showDate + " " + aClass.className + " - TrotTrax";
-            showLabel.Text = aClass.showDate + "\n" + classNo + ". " + aClass.className;
-            totalBox.Text = aClass.entryCount.ToString();
+            this.Text = ActiveResults.ShowDate + " " + ActiveResults.ClassName + " - TrotTrax";
+            showLabel.Text = ActiveResults.ShowDate + "\n" + classNo + ". " + ActiveResults.ClassName;
+            totalBox.Text = ActiveResults.EntryCount.ToString();
             PopulateEntryList();
             PopulateClassList();
             PopulateListBox();
-            isChanged = false;
-            isFirst = aClass.IsFirstClass();
-            isLast = aClass.IsLastClass();
-            if(isFirst)
+            IsChanged = false;
+            IsFirst = ActiveResults.IsFirstClass();
+            IsLast = ActiveResults.IsLastClass();
+            if(IsFirst)
             {
                 prevBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 prevBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             }
-            if(isLast)
+            if(IsLast)
             {
                 nextBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 nextBtn.ForeColor = System.Drawing.SystemColors.GrayText;
@@ -54,27 +54,27 @@ namespace TrotTrax
         private void PopulateClassList()
         {
             classListBox.Items.Clear();
-            foreach (ClassItem entry in aClass.classList)
+            foreach (ClassItem entry in ActiveResults.ClassList)
             {
-                string[] row = { entry.name, };
-                classListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+                string[] row = { entry.Name, };
+                classListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
             }
         }
 
         private void PopulateEntryList()
         {
             entryListBox.Items.Clear();
-            foreach (BackNoItem entry in aClass.entryList)
+            foreach (BackNoItem entry in ActiveResults.EntryList)
             {
-                string[] row = { entry.rider, entry.horse };
-                entryListBox.Items.Add(entry.no.ToString()).SubItems.AddRange(row);
+                string[] row = { entry.Rider, entry.Horse };
+                entryListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
             }
         }
 
         private void PopulateListBox()
         {
             //entryBoxItemList.Add(new EntryBoxItem() { no = 0, combo = String.Empty });
-            foreach (BackNoItem entry in aClass.backNoList)
+            foreach (BackNoItem entry in ActiveResults.BackNoList)
             {
                // entryBoxItemList.Add(new EntryBoxItem() { no = entry.no, 
                //     combo = entry.no + " - " + entry.rider +  " - " + entry.horse});
@@ -99,20 +99,20 @@ namespace TrotTrax
         {
             
             if (e.Column == 0)
-                aClass.SortEntries("b.back_no");
+                ActiveResults.SortEntries("b.back_no");
             else if (e.Column == 1)
-                aClass.SortEntries("r.last_name");
+                ActiveResults.SortEntries("r.last_name");
             else if (e.Column == 2)
-                aClass.SortEntries("h.name");
+                ActiveResults.SortEntries("h.name");
             PopulateEntryList();
         }
 
         private void classListBox_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == 0)
-                aClass.SortClasses(ClassSort.Number);
+                ActiveResults.SortClasses(ClassSort.Number);
             else if (e.Column == 1)
-                aClass.SortClasses(ClassSort.Name);
+                ActiveResults.SortClasses(ClassSort.Name);
             PopulateClassList();
         }
 
@@ -129,10 +129,10 @@ namespace TrotTrax
             }
             if (backNo > 0)
             {
-                bool success = aClass.AddEntry(backNo);
+                bool success = ActiveResults.AddEntry(backNo);
                 if (success)
                 {
-                    totalBox.Text = aClass.entryCount.ToString();
+                    totalBox.Text = ActiveResults.EntryCount.ToString();
                     manualBox.Text = String.Empty;
                     PopulateEntryList();
                 }
@@ -153,8 +153,8 @@ namespace TrotTrax
                     "TrotTrax Alert", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
                 {
-                    aClass.RemoveEntry(backNo);
-                    totalBox.Text = aClass.entryCount.ToString();
+                    ActiveResults.RemoveEntry(backNo);
+                    totalBox.Text = ActiveResults.EntryCount.ToString();
                     PopulateEntryList();
                 }
             }
@@ -165,10 +165,10 @@ namespace TrotTrax
             int backNo = Convert.ToInt32(this.entryBox.SelectedValue);
             if (backNo > 0)
             {
-                bool success = aClass.AddEntry(backNo);
+                bool success = ActiveResults.AddEntry(backNo);
                 if (success)
                 {
-                    totalBox.Text = aClass.entryCount.ToString();
+                    totalBox.Text = ActiveResults.EntryCount.ToString();
                     manualBox.Text = String.Empty;
                     PopulateEntryList();
                     entryBox.SelectedIndex = 0;
@@ -188,14 +188,14 @@ namespace TrotTrax
                 bool loadNew = true;
                 int classNo = -1;
 
-                if (isChanged)
+                if (IsChanged)
                     loadNew = AbandonChanges();
                 if (loadNew)
                     classNo = Convert.ToInt32(classListBox.SelectedItems[0].Text);
 
                 if (classNo >= 0)
                 {
-                    ResultListForm classInstance = new ResultListForm(aClass.clubID, aClass.year, aClass.showNo, classNo);
+                    ResultListForm classInstance = new ResultListForm(ActiveResults.ClubID, ActiveResults.Year, ActiveResults.ShowNo, classNo);
                     classInstance.Visible = true;
                     this.Close();
                 }
@@ -204,15 +204,15 @@ namespace TrotTrax
 
         private void prevBtn_Click(object sender, EventArgs e)
         {
-            if(!isFirst)
+            if(!IsFirst)
             {
                 bool loadNew = true;
                 
-                if (isChanged)
+                if (IsChanged)
                     loadNew = AbandonChanges();
                 if (loadNew)
                 {
-                    ResultListForm classInstance = new ResultListForm(aClass.clubID, aClass.year, aClass.showNo, aClass.GetPrev());
+                    ResultListForm classInstance = new ResultListForm(ActiveResults.ClubID, ActiveResults.Year, ActiveResults.ShowNo, ActiveResults.GetPrev());
                     classInstance.Visible = true;
                     this.Close();
                 }
@@ -221,15 +221,15 @@ namespace TrotTrax
 
         private void nextBtn_Click(object sender, EventArgs e)
         {
-            if (!isLast)
+            if (!IsLast)
             {
                 bool loadNew = true;
 
-                if (isChanged)
+                if (IsChanged)
                     loadNew = AbandonChanges();
                 if (loadNew)
                 {
-                    ResultListForm classInstance = new ResultListForm(aClass.clubID, aClass.year, aClass.showNo, aClass.GetNext());
+                    ResultListForm classInstance = new ResultListForm(ActiveResults.ClubID, ActiveResults.Year, ActiveResults.ShowNo, ActiveResults.GetNext());
                     classInstance.Visible = true;
                     this.Close();
                 }

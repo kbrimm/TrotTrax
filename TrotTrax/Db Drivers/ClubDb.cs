@@ -23,7 +23,7 @@ namespace TrotTrax
         public string GetCurrentClubId()
         {
             string query = "SELECT club_id FROM current LIMIT 1;";
-            object response = DoTheScalar(trotTraxConn, query);
+            object response = DoTheScalar(TrotTraxConn, query);
             if (response != null)
                 return response.ToString();
             else
@@ -36,7 +36,7 @@ namespace TrotTrax
             query.CommandText = "SELECT club_name FROM club WHERE club_id = @idparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@idparam", GetCurrentClubId()));
-            query.Connection = trotTraxConn;
+            query.Connection = TrotTraxConn;
 
             object response = DoTheScalar(query);
             return response.ToString();
@@ -46,7 +46,7 @@ namespace TrotTrax
         private string GetExistingClub()
         {
             string clubSelect = "SELECT club_id FROM club ORDER BY club_id LIMIT 1;";
-            return DoTheScalar(trotTraxConn, clubSelect).ToString();
+            return DoTheScalar(TrotTraxConn, clubSelect).ToString();
         }
 
         public bool CheckClubExists(string id)
@@ -58,7 +58,7 @@ namespace TrotTrax
             query.CommandText = "SELECT COUNT(*) FROM club WHERE club_id = @idparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@idparam", id));
-            query.Connection = trotTraxConn;
+            query.Connection = TrotTraxConn;
             response = DoTheScalar(query);
 
             try
@@ -83,16 +83,16 @@ namespace TrotTrax
             List<ClubItem> clubItemList = new List<ClubItem>();
             string query = "SELECT club_id, club_name FROM club ORDER BY club_name DESC;";
 
-            reader = DoTheReader(trotTraxConn, query);
+            reader = DoTheReader(TrotTraxConn, query);
             while (reader.Read())
             {
                 item = new ClubItem();
-                item.clubID = reader.GetString(0);
-                item.clubName = reader.GetString(1);
+                item.ClubId = reader.GetString(0);
+                item.ClubName = reader.GetString(1);
                 clubItemList.Add(item);
             }
             reader.Close();
-            trotTraxConn.Close();
+            TrotTraxConn.Close();
             return clubItemList;
         }
 
@@ -112,19 +112,19 @@ namespace TrotTrax
             clubInsert.CommandType = System.Data.CommandType.Text;
             clubInsert.Parameters.Add(new SQLiteParameter("@idparam", id));
             clubInsert.Parameters.Add(new SQLiteParameter("@nameparam", name));
-            clubInsert.Connection = trotTraxConn;
+            clubInsert.Connection = TrotTraxConn;
             bool success = DoTheNonQuery(clubInsert);
 
             // If club successfully added, create database and year table
             if(success)
             {
                 // Create new club database
-                clubConn = new SQLiteConnection("Data Source=" + id + ".db;Version=3;");
+                ClubConn = new SQLiteConnection("Data Source=" + id + ".db;Version=3;");
                 SQLiteConnection.CreateFile(id + ".db");
 
                 // Construct and execute year table creation query
                 string yearTable = "CREATE TABLE show_year ( year INTEGER NOT NULL, UNIQUE (year) );";
-                success =  DoTheNonQuery(clubConn, yearTable);
+                success =  DoTheNonQuery(ClubConn, yearTable);
             }
             return success;
         }
@@ -141,7 +141,7 @@ namespace TrotTrax
                 "DELETE FROM current WHERE club_id = @idparam;";
             clubDelete.CommandType = System.Data.CommandType.Text;
             clubDelete.Parameters.Add(new SQLiteParameter("@idparam", id));
-            clubDelete.Connection = trotTraxConn;
+            clubDelete.Connection = TrotTraxConn;
             if (DoTheNonQuery(clubDelete))
             {
                 Console.Out.WriteLine(id + " deleted from club database.");
@@ -152,9 +152,9 @@ namespace TrotTrax
             }
 
             // Reset clubConn, drop club database
-            clubConn.Close();
-            clubConn.Dispose();
-            clubConn = null;
+            ClubConn.Close();
+            ClubConn.Dispose();
+            ClubConn = null;
             File.Delete(id + ".db");
             if (File.Exists(id + ".db"))
             {
