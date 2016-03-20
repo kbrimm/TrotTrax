@@ -56,7 +56,6 @@ namespace TrotTrax
         private void RefreshForm()
         {
             Year = new ShowYear();
-            InitializeComponent();
             ActiveButtons();
             PopulateClubMenu();
             PopulateYearMenu();
@@ -119,10 +118,10 @@ namespace TrotTrax
                 addClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
                 addNumberBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 addNumberBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-                viewRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                viewRiderBtn.ForeColor = System.Drawing.SystemColors.GrayText;                
-                viewHorseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                viewHorseBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+                addRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                addRiderBtn.ForeColor = System.Drawing.SystemColors.GrayText;                
+                addHorseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                addHorseBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             }
             else
             {
@@ -173,11 +172,7 @@ namespace TrotTrax
                 addClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 addClassBtn.ForeColor = System.Drawing.SystemColors.ControlText;
                 addNumberBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                addNumberBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-                viewRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                viewRiderBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-                viewHorseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                viewHorseBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+                addNumberBtn.ForeColor = System.Drawing.SystemColors.ControlText; 
             }
 
             // These buttons depend on the presence of particular data.
@@ -187,6 +182,10 @@ namespace TrotTrax
             viewClassBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             viewNumberBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             viewNumberBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            viewRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewRiderBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+            viewHorseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            viewHorseBtn.ForeColor = System.Drawing.SystemColors.GrayText;
         }
 
         private void RefreshOnClose(object sender, FormClosingEventArgs e)
@@ -434,7 +433,7 @@ namespace TrotTrax
             backNoListBox.Items.Clear();
             foreach (BackNoItem entry in Year.BackNoList)
             {
-                string[] row = { entry.RiderNo.ToString(), entry.Rider, entry.HorseNo.ToString(), entry.Horse };
+                string[] row = { entry.RiderNo.ToString(), entry.RiderLast + ", " + entry.RiderFirst, entry.HorseNo.ToString(), entry.Horse };
                 backNoListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
             }
 
@@ -442,6 +441,10 @@ namespace TrotTrax
             {
                 viewNumberBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 viewNumberBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+                viewRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                viewRiderBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+                viewHorseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                viewHorseBtn.ForeColor = System.Drawing.SystemColors.ControlText;
             }
         }
 
@@ -449,9 +452,9 @@ namespace TrotTrax
         {
             if (e.Column == 0)
                 Year.SortBackNos(BackNoSort.Number);
-            else if (e.Column == 1)
-                Year.SortBackNos(BackNoSort.Rider);
             else if (e.Column == 2)
+                Year.SortBackNos(BackNoSort.RiderLast);
+            else if (e.Column == 4)
                 Year.SortBackNos(BackNoSort.Horse);
             PopulateBackNoList();
         }
@@ -498,7 +501,7 @@ namespace TrotTrax
             {
                 int riderNo = -1;
 
-                riderNo = Convert.ToInt32(backNoListBox.SelectedItems[1].Text);
+                riderNo = Convert.ToInt32(backNoListBox.SelectedItems[0].SubItems[1].Text);
                 if (riderNo >= 0)
                 {
                     RiderListForm riderList = new RiderListForm (Year.ClubID, Year.Year, riderNo);
@@ -525,7 +528,7 @@ namespace TrotTrax
             {
                 int horseNo = -1;
 
-                horseNo = Convert.ToInt32(backNoListBox.SelectedItems[3].Text);
+                horseNo = Convert.ToInt32(backNoListBox.SelectedItems[0].SubItems[3].Text);
                 if (horseNo >= 0)
                 {
                     HorseListForm horseList = new HorseListForm(Year.ClubID, Year.Year, horseNo);

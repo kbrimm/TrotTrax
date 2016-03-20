@@ -225,7 +225,7 @@ namespace TrotTrax
             }
 
             // If we're assigning a new number to a show, see if it exists.
-            if ((IsNew || number != ActiveShow.Number) && ActiveShow.CheckIndexUsed(FormType.Show, number))
+            if ((IsNew || number != ActiveShow.Number) && ActiveShow.CheckIndexUsed(ItemType.Show, number))
             {
                 confirm = MessageBox.Show("Show number already exists.", "TrotTrax Alert", MessageBoxButtons.OK);
                 return -1;

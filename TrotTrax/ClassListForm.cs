@@ -259,7 +259,7 @@ namespace TrotTrax
             }
 
             // If we're assigning a new number to a class, it needs to be checked.
-            if ((IsNew || number != ActiveClass.Number) && ActiveClass.CheckIndexUsed(FormType.Class, number))
+            if ((IsNew || number != ActiveClass.Number) && ActiveClass.CheckIndexUsed(ItemType.Class, number))
             {
                 confirm = MessageBox.Show("Class number already exists.", "TrotTrax Alert", MessageBoxButtons.OK);
                 return -1;

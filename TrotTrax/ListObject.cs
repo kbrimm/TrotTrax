@@ -61,19 +61,20 @@ namespace TrotTrax
 
         #endregion
 
-        public bool CheckIndexUsed(FormType type, int classNo)
+        public bool CheckIndexUsed(ItemType type, int number)
         {
-            return Database.CheckIndexUsed(type, classNo);
+            return Database.CheckIndexUsed(type, number);
         }
     }
 
     public struct BackNoItem
     {
         public int No;
-        public string Rider;
         public int RiderNo;
-        public string Horse;
+        public string RiderFirst;
+        public string RiderLast;
         public int HorseNo;
+        public string Horse;
     }
     
     public struct CategoryItem
@@ -151,7 +152,7 @@ namespace TrotTrax
         public string Comments;
     }
 
-    public enum FormType
+    public enum ItemType
     {
         BackNo,
         Category,

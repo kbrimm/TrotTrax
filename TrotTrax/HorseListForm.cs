@@ -304,7 +304,7 @@ namespace TrotTrax
             riderListBox.Items.Clear();
             foreach (BackNoItem entry in ActiveHorse.BackNoList)
             {
-                string[] row = { entry.Rider };
+                string[] row = { entry.RiderLast + ", " + entry.RiderFirst };
                 riderListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
             }
 
@@ -329,7 +329,7 @@ namespace TrotTrax
             if (e.Column == 0)
                 ActiveHorse.SortBackNos(BackNoSort.Number);
             else if (e.Column == 1)
-                ActiveHorse.SortBackNos(BackNoSort.Rider);
+                ActiveHorse.SortBackNos(BackNoSort.RiderLast);
             PopulateRiderList();
         }
 
@@ -338,11 +338,11 @@ namespace TrotTrax
         {
             // Initializes box with a 'null' item for display purposes.
             DropDownList = new List<DropDownItem>();
-            DropDownList.Add(new DropDownItem() { No = 0, Name = String.Empty });
+            DropDownList.Add(new DropDownItem() { No = 0, Name = "Select Rider" });
 
             // Adds the contents of the category item list retrieved from the database.
             foreach (RiderItem entry in ActiveHorse.RiderList)
-                DropDownList.Add(new DropDownItem() { No = entry.No, Name = entry.FirstName + " " + entry.LastName });
+                DropDownList.Add(new DropDownItem() { No = entry.No, Name = entry.LastName + ", " + entry.FirstName });
 
             // Sets this list as the menu's data source and tells the menu which parts to show.
             this.riderComboBox.DataSource = DropDownList;
@@ -366,7 +366,7 @@ namespace TrotTrax
         private int VerifyBackNo(string backNoString)
         {
             int backNo;
-            if(Int32.TryParse(backNoString, out backNo) && !ActiveHorse.CheckIndexUsed(FormType.BackNo, backNo))
+            if(Int32.TryParse(backNoString, out backNo) && !ActiveHorse.CheckIndexUsed(ItemType.BackNo, backNo))
             {
                 return backNo;
             }
@@ -380,7 +380,7 @@ namespace TrotTrax
         private int VerifyRider(string riderString)
         {
             int riderNo;
-            if (Int32.TryParse(riderString, out riderNo) && ActiveHorse.CheckIndexUsed(FormType.Rider, riderNo))
+            if (Int32.TryParse(riderString, out riderNo) && ActiveHorse.CheckIndexUsed(ItemType.Rider, riderNo))
             {
                 return riderNo;
             }

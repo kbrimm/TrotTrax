@@ -66,7 +66,7 @@ namespace TrotTrax
             entryListBox.Items.Clear();
             foreach (BackNoItem entry in ActiveResults.EntryList)
             {
-                string[] row = { entry.Rider, entry.Horse };
+                string[] row = { entry.RiderLast + ", " + entry.RiderFirst, entry.Horse };
                 entryListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
             }
         }

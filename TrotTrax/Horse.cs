@@ -30,7 +30,7 @@ namespace TrotTrax
             Database = new DBDriver(1);
             this.ClubID = clubID;
             this.Year = year;
-            Number = Database.GetNextIndex(FormType.Horse);
+            Number = Database.GetNextIndex(ItemType.Horse);
             BackNoList = Database.GetBackNoItemList(BackNoFilter.Horse, Number);
             HorseList = Database.GetHorseItemList(HorseSort.Name);
             RiderList = Database.GetRiderItemList();

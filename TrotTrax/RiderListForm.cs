@@ -367,11 +367,11 @@ namespace TrotTrax
         {
             // Initializes box with a 'null' item for display purposes.
             DropDownList = new List<DropDownItem>();
-            DropDownList.Add(new DropDownItem() { No = 0, Name = String.Empty });
+            DropDownList.Add(new DropDownItem() { No = 0, Name = "Select Horse" });
 
             // Adds the contents of the category item list retrieved from the database.
             foreach (HorseItem entry in ActiveRider.HorseList)
-                DropDownList.Add(new DropDownItem() { No = entry.No, Name = entry.Name });
+                DropDownList.Add(new DropDownItem() { No = entry.No, Name = entry.No + ". " + entry.Name });
 
             // Sets this list as the menu's data source and tells the menu which parts to show.
             this.horseComboBox.DataSource = DropDownList;
@@ -404,7 +404,7 @@ namespace TrotTrax
         private int VerifyBackNo(string backNoString)
         {
             int backNo;
-            if (Int32.TryParse(backNoString, out backNo) && !ActiveRider.CheckIndexUsed(FormType.BackNo, backNo))
+            if (Int32.TryParse(backNoString, out backNo) && !ActiveRider.CheckIndexUsed(ItemType.BackNo, backNo))
             {
                 return backNo;
             }
@@ -418,7 +418,7 @@ namespace TrotTrax
         private int VerifyRider(string horseString)
         {
             int horseNo;
-            if (Int32.TryParse(horseString, out horseNo) && ActiveRider.CheckIndexUsed(FormType.Horse, horseNo))
+            if (Int32.TryParse(horseString, out horseNo) && ActiveRider.CheckIndexUsed(ItemType.Horse, horseNo))
             {
                 return horseNo;
             }

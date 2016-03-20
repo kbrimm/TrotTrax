@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BackNoListForm));
             this.riderListGroup = new System.Windows.Forms.GroupBox();
-            this.riderListBox = new System.Windows.Forms.ListView();
+            this.backNoListBox = new System.Windows.Forms.ListView();
             this.noHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.riderNoHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.backNoRiderFirstHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -53,7 +53,7 @@
             this.modifyBtn = new System.Windows.Forms.Button();
             this.riderLabel = new System.Windows.Forms.Label();
             this.classEntryGroup = new System.Windows.Forms.GroupBox();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.classEntryListBox = new System.Windows.Forms.ListView();
             this.showHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.classHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.placeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -68,7 +68,7 @@
             // 
             this.riderListGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.riderListGroup.Controls.Add(this.riderListBox);
+            this.riderListGroup.Controls.Add(this.backNoListBox);
             this.riderListGroup.Controls.Add(this.addBackNoBtn);
             this.riderListGroup.Controls.Add(this.viewBackNoBtn);
             this.riderListGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -79,28 +79,30 @@
             this.riderListGroup.TabStop = false;
             this.riderListGroup.Text = "Back Number List";
             // 
-            // riderListBox
+            // backNoListBox
             // 
-            this.riderListBox.AllowColumnReorder = true;
-            this.riderListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.backNoListBox.AllowColumnReorder = true;
+            this.backNoListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.riderListBox.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.backNoListBox.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.noHeader,
             this.riderNoHeader,
             this.backNoRiderFirstHeader,
             this.backNoRiderLastHeader,
             this.horseNoHeader,
             this.backNoHorseNameHeader});
-            this.riderListBox.FullRowSelect = true;
-            this.riderListBox.LabelWrap = false;
-            this.riderListBox.Location = new System.Drawing.Point(7, 21);
-            this.riderListBox.MultiSelect = false;
-            this.riderListBox.Name = "riderListBox";
-            this.riderListBox.Size = new System.Drawing.Size(370, 328);
-            this.riderListBox.TabIndex = 0;
-            this.riderListBox.TabStop = false;
-            this.riderListBox.UseCompatibleStateImageBehavior = false;
-            this.riderListBox.View = System.Windows.Forms.View.Details;
+            this.backNoListBox.FullRowSelect = true;
+            this.backNoListBox.LabelWrap = false;
+            this.backNoListBox.Location = new System.Drawing.Point(7, 21);
+            this.backNoListBox.MultiSelect = false;
+            this.backNoListBox.Name = "backNoListBox";
+            this.backNoListBox.Size = new System.Drawing.Size(370, 328);
+            this.backNoListBox.TabIndex = 0;
+            this.backNoListBox.TabStop = false;
+            this.backNoListBox.UseCompatibleStateImageBehavior = false;
+            this.backNoListBox.View = System.Windows.Forms.View.Details;
+            this.backNoListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.SortBackNoList);
+            this.backNoListBox.DoubleClick += new System.EventHandler(this.ViewBackNo);
             // 
             // noHeader
             // 
@@ -143,6 +145,7 @@
             this.addBackNoBtn.TabStop = false;
             this.addBackNoBtn.Text = "New Back No.";
             this.addBackNoBtn.UseVisualStyleBackColor = true;
+            this.addBackNoBtn.Click += new System.EventHandler(this.NewBackNo);
             // 
             // viewBackNoBtn
             // 
@@ -154,6 +157,7 @@
             this.viewBackNoBtn.TabStop = false;
             this.viewBackNoBtn.Text = "View Back No.";
             this.viewBackNoBtn.UseVisualStyleBackColor = true;
+            this.viewBackNoBtn.Click += new System.EventHandler(this.ViewBackNo);
             // 
             // infoLabel
             // 
@@ -161,9 +165,10 @@
             this.infoLabel.Location = new System.Drawing.Point(12, 9);
             this.infoLabel.Name = "infoLabel";
             this.infoLabel.Size = new System.Drawing.Size(383, 80);
-            this.infoLabel.TabIndex = 15;
+            this.infoLabel.TabIndex = 0;
             this.infoLabel.Text = "New Back Number Setup";
             this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.infoLabel.UseMnemonic = false;
             // 
             // detailGroup
             // 
@@ -200,7 +205,8 @@
             this.backNoBox.Location = new System.Drawing.Point(6, 44);
             this.backNoBox.Name = "backNoBox";
             this.backNoBox.Size = new System.Drawing.Size(71, 22);
-            this.backNoBox.TabIndex = 19;
+            this.backNoBox.TabIndex = 1;
+            this.backNoBox.TextChanged += new System.EventHandler(this.DataChanged);
             // 
             // viewHorseBtn
             // 
@@ -209,10 +215,11 @@
             this.viewHorseBtn.Location = new System.Drawing.Point(251, 105);
             this.viewHorseBtn.Name = "viewHorseBtn";
             this.viewHorseBtn.Size = new System.Drawing.Size(240, 25);
-            this.viewHorseBtn.TabIndex = 17;
+            this.viewHorseBtn.TabIndex = 8;
             this.viewHorseBtn.TabStop = false;
             this.viewHorseBtn.Text = "View Horse";
             this.viewHorseBtn.UseVisualStyleBackColor = true;
+            this.viewHorseBtn.Click += new System.EventHandler(this.ViewHorse);
             // 
             // viewRiderBtn
             // 
@@ -220,10 +227,11 @@
             this.viewRiderBtn.Location = new System.Drawing.Point(6, 105);
             this.viewRiderBtn.Name = "viewRiderBtn";
             this.viewRiderBtn.Size = new System.Drawing.Size(239, 25);
-            this.viewRiderBtn.TabIndex = 18;
+            this.viewRiderBtn.TabIndex = 7;
             this.viewRiderBtn.TabStop = false;
             this.viewRiderBtn.Text = "View Rider";
             this.viewRiderBtn.UseVisualStyleBackColor = true;
+            this.viewRiderBtn.Click += new System.EventHandler(this.ViewRider);
             // 
             // horseLabel
             // 
@@ -242,7 +250,8 @@
             this.riderComboBox.Location = new System.Drawing.Point(86, 44);
             this.riderComboBox.Name = "riderComboBox";
             this.riderComboBox.Size = new System.Drawing.Size(199, 24);
-            this.riderComboBox.TabIndex = 15;
+            this.riderComboBox.TabIndex = 2;
+            this.riderComboBox.SelectedIndexChanged += new System.EventHandler(this.DataChanged);
             // 
             // horseComboBox
             // 
@@ -252,25 +261,28 @@
             this.horseComboBox.Location = new System.Drawing.Point(291, 44);
             this.horseComboBox.Name = "horseComboBox";
             this.horseComboBox.Size = new System.Drawing.Size(199, 24);
-            this.horseComboBox.TabIndex = 14;
+            this.horseComboBox.TabIndex = 3;
+            this.horseComboBox.SelectedIndexChanged += new System.EventHandler(this.DataChanged);
             // 
             // cancelBtn
             // 
             this.cancelBtn.Location = new System.Drawing.Point(333, 74);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(157, 25);
-            this.cancelBtn.TabIndex = 11;
+            this.cancelBtn.TabIndex = 6;
             this.cancelBtn.Text = "Cancel";
             this.cancelBtn.UseVisualStyleBackColor = true;
+            this.cancelBtn.Click += new System.EventHandler(this.CancelChanges);
             // 
             // deleteBtn
             // 
             this.deleteBtn.Location = new System.Drawing.Point(169, 74);
             this.deleteBtn.Name = "deleteBtn";
             this.deleteBtn.Size = new System.Drawing.Size(158, 25);
-            this.deleteBtn.TabIndex = 10;
+            this.deleteBtn.TabIndex = 5;
             this.deleteBtn.Text = "Delete";
             this.deleteBtn.UseVisualStyleBackColor = true;
+            this.deleteBtn.Click += new System.EventHandler(this.DeleteBackNo);
             // 
             // modifyBtn
             // 
@@ -279,9 +291,10 @@
             this.modifyBtn.Location = new System.Drawing.Point(6, 74);
             this.modifyBtn.Name = "modifyBtn";
             this.modifyBtn.Size = new System.Drawing.Size(157, 25);
-            this.modifyBtn.TabIndex = 9;
+            this.modifyBtn.TabIndex = 4;
             this.modifyBtn.Text = "Save Changes";
             this.modifyBtn.UseVisualStyleBackColor = true;
+            this.modifyBtn.Click += new System.EventHandler(this.SaveBackNo);
             // 
             // riderLabel
             // 
@@ -294,36 +307,36 @@
             // 
             // classEntryGroup
             // 
-            this.classEntryGroup.Controls.Add(this.listView1);
+            this.classEntryGroup.Controls.Add(this.classEntryListBox);
             this.classEntryGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.classEntryGroup.Location = new System.Drawing.Point(401, 161);
             this.classEntryGroup.Name = "classEntryGroup";
             this.classEntryGroup.Size = new System.Drawing.Size(496, 317);
-            this.classEntryGroup.TabIndex = 18;
+            this.classEntryGroup.TabIndex = 0;
             this.classEntryGroup.TabStop = false;
             this.classEntryGroup.Text = "Class Entries";
             // 
-            // listView1
+            // classEntryListBox
             // 
-            this.listView1.AllowColumnReorder = true;
-            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.classEntryListBox.AllowColumnReorder = true;
+            this.classEntryListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.classEntryListBox.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.showHeader,
             this.classHeader,
             this.placeHeader,
             this.timeHeader,
             this.pointsHeader});
-            this.listView1.FullRowSelect = true;
-            this.listView1.LabelWrap = false;
-            this.listView1.Location = new System.Drawing.Point(9, 27);
-            this.listView1.MultiSelect = false;
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(481, 284);
-            this.listView1.TabIndex = 1;
-            this.listView1.TabStop = false;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.classEntryListBox.FullRowSelect = true;
+            this.classEntryListBox.LabelWrap = false;
+            this.classEntryListBox.Location = new System.Drawing.Point(9, 27);
+            this.classEntryListBox.MultiSelect = false;
+            this.classEntryListBox.Name = "classEntryListBox";
+            this.classEntryListBox.Size = new System.Drawing.Size(481, 284);
+            this.classEntryListBox.TabIndex = 0;
+            this.classEntryListBox.TabStop = false;
+            this.classEntryListBox.UseCompatibleStateImageBehavior = false;
+            this.classEntryListBox.View = System.Windows.Forms.View.Details;
             // 
             // showHeader
             // 
@@ -373,7 +386,7 @@
         #endregion
 
         private System.Windows.Forms.GroupBox riderListGroup;
-        private System.Windows.Forms.ListView riderListBox;
+        private System.Windows.Forms.ListView backNoListBox;
         private System.Windows.Forms.ColumnHeader noHeader;
         private System.Windows.Forms.ColumnHeader riderNoHeader;
         private System.Windows.Forms.ColumnHeader backNoRiderFirstHeader;
@@ -392,7 +405,7 @@
         private System.Windows.Forms.ComboBox riderComboBox;
         private System.Windows.Forms.Label horseLabel;
         private System.Windows.Forms.GroupBox classEntryGroup;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView classEntryListBox;
         private System.Windows.Forms.ColumnHeader showHeader;
         private System.Windows.Forms.ColumnHeader classHeader;
         private System.Windows.Forms.ColumnHeader placeHeader;

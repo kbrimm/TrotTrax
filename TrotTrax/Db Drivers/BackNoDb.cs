@@ -37,7 +37,8 @@ namespace TrotTrax
             {
                 item.No = reader.GetInt32(0);
                 item.RiderNo = reader.GetInt32(1);
-                item.Rider = reader.GetString(2) + " " + reader.GetString(3);
+                item.RiderFirst = reader.GetString(2);
+                item.RiderLast = reader.GetString(3);
                 item.HorseNo = reader.GetInt32(4);
                 item.Horse = reader.GetString(5);
             }
@@ -54,7 +55,8 @@ namespace TrotTrax
             switch (sort)
             {
                 case BackNoSort.Horse: sortString = "h.horse_name"; break;
-                case BackNoSort.Rider: sortString = "r.rider_last, r.rider_first"; break;
+                case BackNoSort.RiderFirst: sortString = "r.rider_first, r.rider_last"; break;
+                case BackNoSort.RiderLast: sortString = "r.rider_last, r.rider_first"; break;
                 default: sortString = "b.back_no"; break;
             }
 
@@ -72,7 +74,8 @@ namespace TrotTrax
 
                 item.No = reader.GetInt32(0);
                 item.RiderNo = reader.GetInt32(1);
-                item.Rider = reader.GetString(2) + " " + reader.GetString(3);
+                item.RiderFirst = reader.GetString(2);
+                item.RiderLast = reader.GetString(3);
                 item.HorseNo = reader.GetInt32(4);
                 item.Horse = reader.GetString(5);
 
@@ -90,7 +93,8 @@ namespace TrotTrax
             switch (sort)
             {
                 case BackNoSort.Horse: sortString = "h.horse_name"; break;
-                case BackNoSort.Rider: sortString = "r.rider_last, r.rider_first"; break;
+                case BackNoSort.RiderFirst: sortString = "r.rider_first, r.rider_last"; break;
+                case BackNoSort.RiderLast: sortString = "r.rider_last, r.rider_first"; break;
                 default: sortString = "b.back_no"; break;
             }
             
@@ -118,7 +122,8 @@ namespace TrotTrax
 
                 item.No = reader.GetInt32(0);
                 item.RiderNo = reader.GetInt32(1);
-                item.Rider = reader.GetString(2) + " " + reader.GetString(3);
+                item.RiderFirst = reader.GetString(2);
+                item.RiderLast = reader.GetString(3);
                 item.HorseNo = reader.GetInt32(4);
                 item.Horse = reader.GetString(5);
 

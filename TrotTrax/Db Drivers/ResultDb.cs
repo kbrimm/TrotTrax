@@ -71,7 +71,7 @@ namespace TrotTrax
             }
 
             string query = "SELECT b.back_no, r.rider_no, r.rider_first, r.rider_last, h.horse_no, h.horse_name, " +
-                "s.show_no, s.show_date, c.class_no, c.class_name, t.place, t.time, t.points, t.pay_in, t.pay_out" +
+                "s.show_no, s.date, c.class_no, c.class_name, t.place, t.time, t.points, t.paid_in, t.paid_out " +
                 "FROM [" + Year + "_result] AS t JOIN [" + Year + "_backNo] AS b ON t.back_no = b.back_no " +
                 "JOIN [" + Year + "_rider] AS r ON b.rider_no = r.rider_no " +
                 "JOIN [" + Year + "_horse] AS h ON b.horse_no = h.horse_no " +
@@ -108,19 +108,18 @@ namespace TrotTrax
         }
 
         // Optional: sort (default is back_no)
-        public List<ResultItem> GetResultItemList(ResultFilter filter, int number, ResultSort sort= ResultSort.Default)
+        public List<ResultItem> GetResultItemList(ResultFilter filter, int number, ResultSort sort = ResultSort.Default)
         {
             // Case statment for sort column
             string sortString = null;
             switch (sort)
             {
-                case ResultSort.BackNo: sortString = "b.back_no, s.date, c.class_no"; break;
                 case ResultSort.Class: sortString = "c.class_no"; break;
                 case ResultSort.Horse: sortString = "h.horse_no"; break;
                 case ResultSort.Place: sortString = "t.place"; break;
                 case ResultSort.Rider: sortString = "r.rider_last, r.rider_first, s.date, c.class_no, t.place"; break;
                 case ResultSort.Show: sortString = "s.date, c.class_no"; break;
-                default: sortString = "back_no"; break;
+                default: sortString = "b.back_no, s.date, c.class_no"; break;
             }
 
             string filterString = null;
@@ -131,12 +130,12 @@ namespace TrotTrax
                 case ResultFilter.Horse: filterString = "h.horse_no"; break;
                 case ResultFilter.Rider: filterString = "r.rider_no"; break;
                 case ResultFilter.Show: filterString = "s.show_no"; break;
-                default: sortString = "back_no"; break;
+                default: sortString = "b.back_no"; break;
             }
 
             string query = "SELECT b.back_no, r.rider_no, r.rider_first, r.rider_last, h.horse_no, h.horse_name, " +
-                "s.show_no, s.show_date, c.class_no, c.class_name, t.place, t.time, t.points, t.pay_in, t.pay_out" +
-                "FROM [" + Year + "_result] AS t JOIN [" + Year + "_backNo] AS b ON t.back_no = b.back_no " +
+                "s.show_no, s.date, c.class_no, c.class_name, t.place, t.time, t.points, t.paid_in, t.paid_out " +
+                "FROM [" + Year + "_result] AS t JOIN [" + Year + "_back] AS b ON t.back_no = b.back_no " +
                 "JOIN [" + Year + "_rider] AS r ON b.rider_no = r.rider_no " +
                 "JOIN [" + Year + "_horse] AS h ON b.horse_no = h.horse_no " +
                 "JOIN [" + Year + "_class] AS c ON t.class_no = c.class_no " +

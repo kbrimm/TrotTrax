@@ -27,7 +27,7 @@ namespace TrotTrax
             Database = new DBDriver(1);
             this.Year = year;
             this.ClubID = clubID;
-            Number = Database.GetNextIndex(FormType.Class);
+            Number = Database.GetNextIndex(ItemType.Class);
             ClassList = Database.GetClassItemList();
             CatList = Database.GetCategoryItemList(); 
             ShowList = Database.GetShowItemList();            

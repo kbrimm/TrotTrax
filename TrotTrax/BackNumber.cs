@@ -17,10 +17,11 @@ namespace TrotTrax
     class BackNumber : ListObject
     {
         public int Number { get; private set; }
-        public string RiderName { get; private set; }
         public int RiderNo { get; private set; }
-        public string HorseName { get; private set; }
+        public string RiderFirst { get; private set; }
+        public string RiderLast { get; private set; }
         public int HorseNo { get; private set; }
+        public string HorseName { get; private set; }
 
         #region Constructors
 
@@ -29,7 +30,7 @@ namespace TrotTrax
             Database = new DBDriver(1);
             this.ClubID = clubID;
             this.Year = year;
-            Number = Database.GetNextIndex(FormType.BackNo);
+            Number = -1;
             BackNoList = Database.GetBackNoItemList();
             HorseList = Database.GetHorseItemList(); 
             RiderList = Database.GetRiderItemList();
@@ -53,7 +54,8 @@ namespace TrotTrax
         private void SetBackNoData()
         {
             BackNoItem backNoItem = Database.GetBackNoItem(Number);
-            RiderName = backNoItem.Rider;
+            RiderFirst = backNoItem.RiderFirst;
+            RiderLast = backNoItem.RiderLast;
             RiderNo = backNoItem.RiderNo;
             HorseName = backNoItem.Horse;
             HorseNo = backNoItem.HorseNo;
@@ -80,7 +82,8 @@ namespace TrotTrax
         Default,
         Horse,
         Number,
-        Rider
+        RiderFirst,
+        RiderLast
     }
 
     public enum BackNoFilter

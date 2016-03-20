@@ -339,17 +339,17 @@ namespace TrotTrax
 
         // Returns 1 + the greatest index.
         // Returns 1 for empty database, -1 for invalid selector.
-        public int GetNextIndex(FormType type)
+        public int GetNextIndex(ItemType type)
         {
             string formString;
             switch (type)
             {
-                case FormType.BackNo: formString = "back"; break;
-                case FormType.Category: formString = "category"; break;
-                case FormType.Class: formString = "class"; break;
-                case FormType.Horse: formString = "horse"; break;
-                case FormType.Rider: formString = "rider"; break;
-                case FormType.Show: formString = "show"; break;
+                case ItemType.BackNo: formString = "back"; break;
+                case ItemType.Category: formString = "category"; break;
+                case ItemType.Class: formString = "class"; break;
+                case ItemType.Horse: formString = "horse"; break;
+                case ItemType.Rider: formString = "rider"; break;
+                case ItemType.Show: formString = "show"; break;
                 default: formString = String.Empty; break;
             }
 
@@ -368,17 +368,17 @@ namespace TrotTrax
         }
 
         // Returns true if requested index is in use, false otherwise.
-        public bool CheckIndexUsed(FormType type, int number)
+        public bool CheckIndexUsed(ItemType type, int number)
         {
             string formString;
             switch (type)
             {
-                case FormType.BackNo: formString = "back"; break;
-                case FormType.Category: formString = "category"; break;
-                case FormType.Class: formString = "class"; break;
-                case FormType.Horse: formString = "horse"; break;
-                case FormType.Rider: formString = "rider"; break;
-                case FormType.Show: formString = "show"; break;
+                case ItemType.BackNo: formString = "back"; break;
+                case ItemType.Category: formString = "category"; break;
+                case ItemType.Class: formString = "class"; break;
+                case ItemType.Horse: formString = "horse"; break;
+                case ItemType.Rider: formString = "rider"; break;
+                case ItemType.Show: formString = "show"; break;
                 default: formString = String.Empty; break;
             }
 
