@@ -401,6 +401,10 @@ namespace TrotTrax
             }
         }
 
+        #endregion
+
+        #region Data Verifiers
+
         private int VerifyBackNo(string backNoString)
         {
             int backNo;
@@ -438,6 +442,8 @@ namespace TrotTrax
 
                 if (int.TryParse(horseListBox.SelectedItems[0].Text, out backNo) && AbandonChanges())
                 {
+                    BackNoListForm form = new BackNoListForm(ActiveRider.ClubID, ActiveRider.Year, backNo);
+                    form.Visible = true;
                     this.Close();
                 }
             }

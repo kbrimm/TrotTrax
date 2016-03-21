@@ -32,7 +32,7 @@ namespace TrotTrax
             this.Year = year;
             Number = -1;
             BackNoList = Database.GetBackNoItemList();
-            HorseList = Database.GetHorseItemList(); 
+            HorseList = Database.GetHorseItemList(HorseSort.Name); 
             RiderList = Database.GetRiderItemList();
         }
 
@@ -44,7 +44,7 @@ namespace TrotTrax
             this.Number = backNo;
             SetBackNoData();
             BackNoList = Database.GetBackNoItemList();
-            HorseList = Database.GetHorseItemList();
+            HorseList = Database.GetHorseItemList(HorseSort.Name);
             ResultList = Database.GetResultItemList(ResultFilter.BackNo, backNo);
             RiderList = Database.GetRiderItemList();
         }

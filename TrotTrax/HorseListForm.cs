@@ -363,10 +363,29 @@ namespace TrotTrax
             }
         }
 
+        // If back number is selected from list, loads existing back number form, closes current.
+        private void ViewBackNo(object sender, EventArgs e)
+        {
+            if (riderListBox.SelectedItems.Count != 0)
+            {
+                int backNo = -1;
+
+                if (int.TryParse(riderListBox.SelectedItems[0].Text, out backNo) && AbandonChanges())
+                {
+                    BackNoListForm form = new BackNoListForm(ActiveHorse.ClubID, ActiveHorse.Year, backNo);
+                    form.Visible = true;
+                    this.Close();
+                }
+            }
+        }
+        #endregion
+
+        #region Data Verifiers
+
         private int VerifyBackNo(string backNoString)
         {
             int backNo;
-            if(Int32.TryParse(backNoString, out backNo) && !ActiveHorse.CheckIndexUsed(ItemType.BackNo, backNo))
+            if (Int32.TryParse(backNoString, out backNo) && !ActiveHorse.CheckIndexUsed(ItemType.BackNo, backNo))
             {
                 return backNo;
             }
@@ -391,19 +410,6 @@ namespace TrotTrax
             }
         }
 
-        // If back number is selected from list, loads existing back number form, closes current.
-        private void ViewBackNo(object sender, EventArgs e)
-        {
-            if (riderListBox.SelectedItems.Count != 0)
-            {
-                int backNo = -1;
-
-                if (int.TryParse(riderListBox.SelectedItems[0].Text, out backNo) && AbandonChanges())
-                {
-                    this.Close();
-                }
-            }
-        }
         #endregion
     }
 }

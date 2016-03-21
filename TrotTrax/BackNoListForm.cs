@@ -247,9 +247,9 @@ namespace TrotTrax
             if(IsChanged)
             {
                 DialogResult confirm;
-                int backNo = VerifyBackNo(backNoBox.Text);
-                int riderNo = VerifyRiderNo(riderComboBox.SelectedValue.ToString());
-                int horseNo = VerifyHorseNo(horseComboBox.SelectedValue.ToString());
+                int backNo = VerifyUniqueBackNo(backNoBox.Text);
+                int riderNo = VerifyExistsRiderNo(riderComboBox.SelectedValue.ToString());
+                int horseNo = VerifyExistsHorseNo(horseComboBox.SelectedValue.ToString());
 
                 // If all parameters are valid...
                 if(backNo > 0 && riderNo > 0 && horseNo > 0)
@@ -281,85 +281,10 @@ namespace TrotTrax
                                 "TrotTrax Alert", MessageBoxButtons.OK);
                     }
                 }
-                
             }
         }
 
-        // Checks that back no. is an integer and that it is unique. Returns -1 on error.
-        private int VerifyBackNo(string backNoString)
-        {
-            DialogResult confirm;
-            int backNo;
-            if(Int32.TryParse(backNoString, out backNo))
-            {
-                if (!ActiveBackNo.CheckIndexUsed(ItemType.BackNo, backNo) || backNo == ActiveBackNo.Number)
-                {
-                    return backNo;
-                }
-                else
-                {
-                    confirm = MessageBox.Show("Back number must be unique.",
-                        "TrotTrax Alert", MessageBoxButtons.OK);
-                    return -1;
-                }
-            }
-
-            confirm = MessageBox.Show("Back number must be an integer value.",
-                "TrotTrax Alert", MessageBoxButtons.OK);
-
-            return -1;
-        }
-
-        #region Data Entry Verifiers
-
-        // Checks that rider exists in database. Returns -1 on error.
-        private int VerifyRiderNo(string riderNoString)
-        {
-            DialogResult confirm;
-            int riderNo;
-            if (Int32.TryParse(riderNoString, out riderNo))
-            {
-                if (ActiveBackNo.CheckIndexUsed(ItemType.Rider, riderNo))
-                {
-                    return riderNo;
-                }
-                else
-                {
-                    confirm = MessageBox.Show("Rider does not exist in database.",
-                        "TrotTrax Alert", MessageBoxButtons.OK);
-                    return -1;
-                }
-            }
-            confirm = MessageBox.Show("Unable to identify rider.",
-                "TrotTrax Alert", MessageBoxButtons.OK);
-
-            return -1;
-        }
-
-        private int VerifyHorseNo(string horseNoString)
-        {
-            DialogResult confirm;
-            int horseNo;
-            if (Int32.TryParse(horseNoString, out horseNo))
-            {
-                if (ActiveBackNo.CheckIndexUsed(ItemType.Rider, horseNo))
-                {
-                    return horseNo;
-                }
-                else
-                {
-                    confirm = MessageBox.Show("Horse does not exist in database.",
-                        "TrotTrax Alert", MessageBoxButtons.OK);
-                    return -1;
-                }
-            }
-            confirm = MessageBox.Show("Unable to identify horse.",
-                "TrotTrax Alert", MessageBoxButtons.OK);
-
-            return -1;
-        }
-
-        #endregion
+        
 
         private void DeleteBackNo(object sender, EventArgs e)
         {
@@ -376,6 +301,8 @@ namespace TrotTrax
             }
         }
 
+        #endregion
+
         #region Horse & Rider Selections
 
         private void PopulateHorseDropDown()
@@ -386,12 +313,26 @@ namespace TrotTrax
 
             // Adds the contents of the category item list retrieved from the database.
             foreach (HorseItem entry in ActiveBackNo.HorseList)
-                HorseDropDown.Add(new DropDownItem() { No = entry.No, Name = entry.No + ". " + entry.Name });
+                HorseDropDown.Add(new DropDownItem() { No = entry.No, Name = entry.Name });
 
             // Sets this list as the menu's data source and tells the menu which parts to show.
             this.horseComboBox.DataSource = HorseDropDown;
             this.horseComboBox.DisplayMember = "name";
             this.horseComboBox.ValueMember = "no";
+        }
+
+        private void ViewHorse(object sender, EventArgs e)
+        {
+            if (AbandonChanges())
+            {
+                int horseNo = VerifyExistsHorseNo(horseComboBox.SelectedValue.ToString());
+                if (horseNo > 0)
+                {
+                    HorseListForm form = new HorseListForm(ActiveBackNo.ClubID, ActiveBackNo.Year, horseNo);
+                    form.Visible = true;
+                    this.Close();
+                }
+            }
         }
 
         private void PopulateRiderDropDown()
@@ -410,27 +351,19 @@ namespace TrotTrax
             this.riderComboBox.ValueMember = "no";
         }
 
-        private void ViewHorse(object sender, EventArgs e)
-        {
-            if (AbandonChanges())
-            {
-                HorseListForm horseForm = new HorseListForm(ActiveBackNo.ClubID, ActiveBackNo.Year);
-                horseForm.Visible = true;
-                this.Close();
-            }
-        }
-
         private void ViewRider(object sender, EventArgs e)
         {
             if (AbandonChanges())
             {
-                RiderListForm riderForm = new RiderListForm(ActiveBackNo.ClubID, ActiveBackNo.Year);
-                riderForm.Visible = true;
-                this.Close();
+                int riderNo = VerifyExistsRiderNo(riderComboBox.SelectedValue.ToString());
+                if (riderNo > 0)
+                {
+                    RiderListForm form = new RiderListForm(ActiveBackNo.ClubID, ActiveBackNo.Year, riderNo);
+                    form.Visible = true;
+                    this.Close();
+                }
             }
         }
-
-        #endregion
 
         #endregion
 
@@ -492,6 +425,82 @@ namespace TrotTrax
                 string[] row = { entry.ClassName, entry.Place.ToString(), entry.Time.ToString(), entry.Points.ToString() };
                 backNoListBox.Items.Add(entry.ShowDate.ToString()).SubItems.AddRange(row);
             }
+        }
+
+        #endregion
+
+        #region Data Entry Verifiers
+
+        // Checks that back no. is an integer and that it is unique. Returns -1 on error.
+        private int VerifyUniqueBackNo(string backNoString)
+        {
+            DialogResult confirm;
+            int backNo;
+            if (Int32.TryParse(backNoString, out backNo))
+            {
+                if (!ActiveBackNo.CheckIndexUsed(ItemType.BackNo, backNo) || backNo == ActiveBackNo.Number)
+                {
+                    return backNo;
+                }
+                else
+                {
+                    confirm = MessageBox.Show("Back number must be unique.",
+                        "TrotTrax Alert", MessageBoxButtons.OK);
+                    return -1;
+                }
+            }
+            confirm = MessageBox.Show("Back number must be an integer value.",
+                "TrotTrax Alert", MessageBoxButtons.OK);
+
+            return -1;
+        }
+
+        // Checks that rider exists in database. Returns -1 on error.
+        private int VerifyExistsRiderNo(string riderNoString)
+        {
+            DialogResult confirm;
+            int riderNo;
+            if (Int32.TryParse(riderNoString, out riderNo))
+            {
+                if (ActiveBackNo.CheckIndexUsed(ItemType.Rider, riderNo))
+                {
+                    return riderNo;
+                }
+                else
+                {
+                    confirm = MessageBox.Show("Rider does not exist in database.",
+                        "TrotTrax Alert", MessageBoxButtons.OK);
+                    return -1;
+                }
+            }
+            confirm = MessageBox.Show("Unable to identify rider.",
+                "TrotTrax Alert", MessageBoxButtons.OK);
+
+            return -1;
+        }
+
+        // Checks that horse exists in database. Returns -1 on error.
+        private int VerifyExistsHorseNo(string horseNoString)
+        {
+            DialogResult confirm;
+            int horseNo;
+            if (Int32.TryParse(horseNoString, out horseNo))
+            {
+                if (ActiveBackNo.CheckIndexUsed(ItemType.Horse, horseNo))
+                {
+                    return horseNo;
+                }
+                else
+                {
+                    confirm = MessageBox.Show("Horse does not exist in database.",
+                        "TrotTrax Alert", MessageBoxButtons.OK);
+                    return -1;
+                }
+            }
+            confirm = MessageBox.Show("Unable to identify horse.",
+                "TrotTrax Alert", MessageBoxButtons.OK);
+
+            return -1;
         }
 
         #endregion

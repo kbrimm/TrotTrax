@@ -460,6 +460,7 @@
             this.horseListBox.UseCompatibleStateImageBehavior = false;
             this.horseListBox.View = System.Windows.Forms.View.Details;
             this.horseListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.SortHorseList);
+            this.horseListBox.DoubleClick += new System.EventHandler(this.ViewBackNo);
             // 
             // backNoHeader
             // 
@@ -481,6 +482,7 @@
             this.viewBackNoBtn.TabStop = false;
             this.viewBackNoBtn.Text = "View Back No. Detail";
             this.viewBackNoBtn.UseVisualStyleBackColor = true;
+            this.viewBackNoBtn.Click += new System.EventHandler(this.ViewBackNo);
             // 
             // RiderListForm
             // 
