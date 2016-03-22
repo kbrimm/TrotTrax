@@ -328,7 +328,7 @@ namespace TrotTrax
             this.Controls.Add(this.showLabel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ShowListForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "New Show - TrotTrax";
             this.showListGroup.ResumeLayout(false);
             this.infoBox.ResumeLayout(false);

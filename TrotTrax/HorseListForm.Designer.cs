@@ -424,7 +424,7 @@ namespace TrotTrax
             this.Controls.Add(this.horseLabel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HorseListForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "New Horse Detail - TrotTrax";
             this.horseBox.ResumeLayout(false);
             this.infoBox.ResumeLayout(false);

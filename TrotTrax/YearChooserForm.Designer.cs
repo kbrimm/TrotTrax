@@ -116,6 +116,7 @@
             this.Controls.Add(this.yearChooserGroup);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "YearChooserForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "TrotTrax - New Show Year";
             this.yearChooserGroup.ResumeLayout(false);
             this.yearChooserGroup.PerformLayout();

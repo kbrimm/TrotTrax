@@ -20,7 +20,7 @@ namespace TrotTrax
 {
     public partial class ResultListForm : Form
     {
-        private Results ActiveResults;
+        private Result ActiveResults;
         // private List<EntryBoxItem> entryBoxItemList = new List<EntryBoxItem>();
         private bool IsChanged;
         private bool IsFirst;
@@ -28,10 +28,10 @@ namespace TrotTrax
 
         public ResultListForm(string clubID, int year, int showNo, int classNo)
         {
-            ActiveResults = new Results(clubID, year, showNo, classNo);
+            ActiveResults = new Result(clubID, year, showNo, classNo);
             InitializeComponent();
             this.Text = ActiveResults.ShowDate + " " + ActiveResults.ClassName + " - TrotTrax";
-            showLabel.Text = ActiveResults.ShowDate + "\n" + classNo + ". " + ActiveResults.ClassName;
+            infoLabel.Text = ActiveResults.ShowDate + "\n" + classNo + ". " + ActiveResults.ClassName;
             totalBox.Text = ActiveResults.EntryCount.ToString();
             PopulateEntryList();
             PopulateClassList();

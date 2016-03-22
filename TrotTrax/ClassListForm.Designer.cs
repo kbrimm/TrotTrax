@@ -427,7 +427,7 @@ namespace TrotTrax
             this.Controls.Add(this.showLabel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ClassListForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "New Class - TrotTrax";
             this.classListGroup.ResumeLayout(false);
             this.infoBox.ResumeLayout(false);

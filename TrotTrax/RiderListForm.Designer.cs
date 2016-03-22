@@ -495,7 +495,7 @@
             this.Controls.Add(this.riderLabel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RiderListForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "New Rider - TrotTrax";
             this.riderListGroup.ResumeLayout(false);
             this.infoBox.ResumeLayout(false);

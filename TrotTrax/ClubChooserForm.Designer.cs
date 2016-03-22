@@ -122,6 +122,7 @@
             this.Controls.Add(this.getStartedGroup);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ClubChooserForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "TrotTrax - New Club";
             this.getStartedGroup.ResumeLayout(false);
             this.getStartedGroup.PerformLayout();

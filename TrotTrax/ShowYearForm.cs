@@ -544,14 +544,21 @@ namespace TrotTrax
 
         #region Settings Menu
 
-        private void NewCategory(object sender, EventArgs e)
+        private void OpenCategoryListForm(object sender, EventArgs e)
         {
             if (!IsNew)
             {
-                CategoryListForm catList = new CategoryListForm(Year.ClubID, Year.Year);
-                catList.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
-                catList.Visible = true;
+                CategoryListForm form = new CategoryListForm(Year.ClubID, Year.Year);
+                form.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
+                form.Visible = true;
             }
+        }
+
+        private void OpenSettingsForm(object sender, EventArgs e)
+        {
+            SettingsForm form = new SettingsForm(Year.ClubID, Year.Year);
+            form.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
+            form.Visible = true;
         }
 
         #endregion

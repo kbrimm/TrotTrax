@@ -209,35 +209,35 @@ namespace TrotTrax
             this.backNumbersToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.backNumbersToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.backNumbersToolStripMenuItem.Name = "backNumbersToolStripMenuItem";
-            this.backNumbersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.backNumbersToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.backNumbersToolStripMenuItem.Text = "Back Numbers";
             this.backNumbersToolStripMenuItem.Click += new System.EventHandler(this.NewBackNo);
             // 
             // classesToolStripMenuItem
             // 
             this.classesToolStripMenuItem.Name = "classesToolStripMenuItem";
-            this.classesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.classesToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.classesToolStripMenuItem.Text = "Class List";
             this.classesToolStripMenuItem.Click += new System.EventHandler(this.NewClass);
             // 
             // horsesToolStripMenuItem
             // 
             this.horsesToolStripMenuItem.Name = "horsesToolStripMenuItem";
-            this.horsesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.horsesToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.horsesToolStripMenuItem.Text = "Horses";
             this.horsesToolStripMenuItem.Click += new System.EventHandler(this.NewHorse);
             // 
             // ridersToolStripMenuItem
             // 
             this.ridersToolStripMenuItem.Name = "ridersToolStripMenuItem";
-            this.ridersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ridersToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.ridersToolStripMenuItem.Text = "Riders";
             this.ridersToolStripMenuItem.Click += new System.EventHandler(this.NewRider);
             // 
             // showsToolStripMenuItem
             // 
             this.showsToolStripMenuItem.Name = "showsToolStripMenuItem";
-            this.showsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.showsToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.showsToolStripMenuItem.Text = "Shows";
             this.showsToolStripMenuItem.Click += new System.EventHandler(this.NewShow);
             // 
@@ -295,7 +295,7 @@ namespace TrotTrax
             this.categoriesToolStripMenuItem.Name = "categoriesToolStripMenuItem";
             this.categoriesToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.categoriesToolStripMenuItem.Text = "Categories";
-            this.categoriesToolStripMenuItem.Click += new System.EventHandler(this.NewCategory);
+            this.categoriesToolStripMenuItem.Click += new System.EventHandler(this.OpenCategoryListForm);
             // 
             // importToolStripMenuItem
             // 
@@ -312,6 +312,7 @@ namespace TrotTrax
             this.pointsSchemeToolStripMenuItem.Name = "pointsSchemeToolStripMenuItem";
             this.pointsSchemeToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.pointsSchemeToolStripMenuItem.Text = "Points Scheme";
+            this.pointsSchemeToolStripMenuItem.Click += new System.EventHandler(this.OpenSettingsForm);
             // 
             // showListGroup
             // 
@@ -616,7 +617,7 @@ namespace TrotTrax
             this.MaximumSize = new System.Drawing.Size(970, 575);
             this.MinimumSize = new System.Drawing.Size(970, 575);
             this.Name = "ShowYearForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TrotTrax";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExitPrompt);
             this.menuStrip.ResumeLayout(false);

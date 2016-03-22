@@ -36,7 +36,7 @@ namespace TrotTrax
         /// </summary>
         private void InitializeComponent()
         {
-            this.showLabel = new System.Windows.Forms.Label();
+            this.infoLabel = new System.Windows.Forms.Label();
             this.classListGroup = new System.Windows.Forms.GroupBox();
             this.prevBtn = new System.Windows.Forms.Button();
             this.nextBtn = new System.Windows.Forms.Button();
@@ -109,15 +109,15 @@ namespace TrotTrax
             this.placingGroup.SuspendLayout();
             this.SuspendLayout();
             // 
-            // showLabel
+            // infoLabel
             // 
-            this.showLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.showLabel.Location = new System.Drawing.Point(12, 9);
-            this.showLabel.Name = "showLabel";
-            this.showLabel.Size = new System.Drawing.Size(250, 100);
-            this.showLabel.TabIndex = 8;
-            this.showLabel.Text = "Show Date\r\nNumber\r\nClass Name";
-            this.showLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.infoLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.infoLabel.Location = new System.Drawing.Point(12, 9);
+            this.infoLabel.Name = "infoLabel";
+            this.infoLabel.Size = new System.Drawing.Size(250, 100);
+            this.infoLabel.TabIndex = 8;
+            this.infoLabel.Text = "Result Setup";
+            this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // classListGroup
             // 
@@ -748,7 +748,7 @@ namespace TrotTrax
             this.firstLabel.TabIndex = 0;
             this.firstLabel.Text = "1st";
             // 
-            // ClassInstanceForm
+            // ResultListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -757,8 +757,8 @@ namespace TrotTrax
             this.Controls.Add(this.addEntryGroup);
             this.Controls.Add(this.entryGroup);
             this.Controls.Add(this.classListGroup);
-            this.Controls.Add(this.showLabel);
-            this.Name = "ClassInstanceForm";
+            this.Controls.Add(this.infoLabel);
+            this.Name = "ResultListForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "TrotTrax";
             this.classListGroup.ResumeLayout(false);
@@ -774,7 +774,7 @@ namespace TrotTrax
 
         #endregion
 
-        private System.Windows.Forms.Label showLabel;
+        private System.Windows.Forms.Label infoLabel;
         private System.Windows.Forms.GroupBox classListGroup;
         private System.Windows.Forms.Button prevBtn;
         private System.Windows.Forms.Button nextBtn;

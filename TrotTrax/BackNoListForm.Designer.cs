@@ -374,6 +374,7 @@
             this.Controls.Add(this.infoLabel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "BackNoListForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "BackNoListForm";
             this.riderListGroup.ResumeLayout(false);
             this.detailGroup.ResumeLayout(false);
