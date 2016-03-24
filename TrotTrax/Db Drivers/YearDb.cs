@@ -106,12 +106,12 @@ namespace TrotTrax
         {
             string yearInsert = "INSERT INTO show_year (year) VALUES(" + year + ");";
 
-            // rider: rider_no int (PK), first_name VC(255), last_name VC(255), age INT, contact VC(255), member BOOLEAN
+            // rider: rider_no int (PK), first_name text, last_name text, age INT, contact text, member int
             string riderTable = "CREATE TABLE [" + year + "_rider] ( rider_no INTEGER NOT NULL, " +
                 "rider_first TEXT NOT NULL, rider_last TEXT NOT NULL, rider_dob TEXT, phone TEXT, " +
                 "email TEXT, member INTEGER NOT NULL DEFAULT 0, rider_comment TEXT, PRIMARY KEY (rider_no) );";
 
-            // horse: horse_no int (PK), name VC(255), nickname VC(255), height decimal(4,2)
+            // horse: horse_no int (PK), name text, nickname text, height real
             string horseTable = "CREATE TABLE [" + year + "_horse] ( horse_no INTEGER NOT NULL, " +
                 "horse_name TEXT NOT NULL, horse_alt TEXT, height TEXT, owner_name TEXT, horse_comment TEXT, PRIMARY KEY (horse_no) );";
 
@@ -121,26 +121,31 @@ namespace TrotTrax
                 "FOREIGN KEY (rider_no) REFERENCES [" + year + "_rider](rider_no) ON DELETE CASCADE, " +
                 "FOREIGN KEY (horse_no) REFERENCES [" + year + "_horse](horse_no) ON DELETE CASCADE );";
 
-            // show: show_no int (PK), date VC(10), description VC(255), comments VC(500)
+            // show: show_no int (PK), date int, description text, comments text
             string showTable = "CREATE TABLE [" + year + "_show] ( show_no INTEGER NOT NULL, " +
                 "date TEXT NOT NULL, show_name TEXT, show_comment TEXT, UNIQUE (date), PRIMARY KEY (show_no) );";
 
-            // category: category_no int (PK), description VC(255), 
+            // category: category_no int (PK), description text, 
             string categoryTable = "CREATE TABLE [" + year + "_category] ( category_no INTEGER NOT NULL, " +
                 "category_name TEXT, timed INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (category_no) );";
 
-            // class: class_no int (PK), category_no int (FK), name VC(255), fee decimal(5,2)
+            // class: class_no int (PK), category_no int (FK), name text, fee real
             string classTable = "CREATE TABLE [" + year + "_class] ( class_no INTEGER NOT NULL, category_no INTEGER NOT NULL, " +
                 "class_name TEXT NOT NULL, fee NUMERIC NOT NULL, PRIMARY KEY (class_no), " +
                 "FOREIGN KEY (category_no) REFERENCES [" + year + "_category](category_no) ON DELETE CASCADE );";
 
-            // result: show_no (FK), class_no (FK), back_no (FK), place int, time decimal(6,3), points int, paid_in decimal(5,2), paid_out decimal (5,2)
+            // result: show_no (FK), class_no (FK), back_no (FK), place int, time real, points int, paid_in real, paid_out real
             string resultTable = "CREATE TABLE [" + year + "_result] ( show_no INTEGER NOT NULL, class_no INTEGER NOT NULL, " +
                 "back_no INTEGER NOT NULL, place INTEGER, time NUMERIC, points INTEGER DEFAULT 0, " +
                 "paid_in NUMERIC NOT NULL DEFAULT 0, paid_out NUMERIC, " +
                 "FOREIGN KEY (show_no) REFERENCES [" + year + "_show](show_no) ON DELETE CASCADE, " +
                 "FOREIGN KEY (class_no) REFERENCES [" + year + "_class](class_no) ON DELETE CASCADE, " +
                 "FOREIGN KEY (back_no) REFERENCES [" + year + "_back](back_no) ON DELETE CASCADE );";
+
+            // settings: discount_type text, discount_amount real, non_member_points int, points_type text, no_placings int
+            string settingsTable = "CREATE TABLE [" + year + "]_settings ( discount_type TEXT NOT NULL, discount_amount REAL, " +
+                "non_member_points INTEGER NOT NULL, points_type TEXT NOT NULL, no_placings INT ); " +
+                "INSERT INTO [" + year + "]_settings VALUES ( 'n', 0, 0, 'f', 6 );";
 
             // And go!
             if(DoTheNonQuery(ClubConn, yearInsert))
@@ -159,6 +164,8 @@ namespace TrotTrax
                 Console.WriteLine(year + "_class successfully created.");
             if(DoTheNonQuery(ClubConn, resultTable))
                 Console.WriteLine(year + "_result successfully created.");
+            if (DoTheNonQuery(ClubConn, settingsTable))
+                Console.WriteLine(year + "_settings successfully created.");
         }
 
         #endregion

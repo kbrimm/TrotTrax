@@ -30,6 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
             this.settingsGroupBox = new System.Windows.Forms.GroupBox();
+            this.percentLabel = new System.Windows.Forms.Label();
+            this.percentDiscountRadioBtn = new System.Windows.Forms.RadioButton();
+            this.percentDiscountTextBox = new System.Windows.Forms.TextBox();
+            this.flatDiscountRadioBtn = new System.Windows.Forms.RadioButton();
             this.nonmemberPointsCheckBox = new System.Windows.Forms.CheckBox();
             this.flatDiscountTextBox = new System.Windows.Forms.TextBox();
             this.discountCheckBox = new System.Windows.Forms.CheckBox();
@@ -42,10 +46,6 @@
             this.graduatedRadioButton = new System.Windows.Forms.RadioButton();
             this.flatRadioButton = new System.Windows.Forms.RadioButton();
             this.schemeLabel = new System.Windows.Forms.Label();
-            this.flatDiscountRadioBtn = new System.Windows.Forms.RadioButton();
-            this.percentDiscountRadioBtn = new System.Windows.Forms.RadioButton();
-            this.percentDiscountTextBox = new System.Windows.Forms.TextBox();
-            this.percentLabel = new System.Windows.Forms.Label();
             this.saveBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
             this.settingsGroupBox.SuspendLayout();
@@ -68,6 +68,44 @@
             this.settingsGroupBox.TabIndex = 0;
             this.settingsGroupBox.TabStop = false;
             this.settingsGroupBox.Text = "TrotTrax Settings";
+            // 
+            // percentLabel
+            // 
+            this.percentLabel.AutoSize = true;
+            this.percentLabel.Location = new System.Drawing.Point(454, 29);
+            this.percentLabel.Name = "percentLabel";
+            this.percentLabel.Size = new System.Drawing.Size(15, 13);
+            this.percentLabel.TabIndex = 6;
+            this.percentLabel.Text = "%";
+            // 
+            // percentDiscountRadioBtn
+            // 
+            this.percentDiscountRadioBtn.AutoSize = true;
+            this.percentDiscountRadioBtn.Location = new System.Drawing.Point(320, 27);
+            this.percentDiscountRadioBtn.Name = "percentDiscountRadioBtn";
+            this.percentDiscountRadioBtn.Size = new System.Drawing.Size(65, 17);
+            this.percentDiscountRadioBtn.TabIndex = 5;
+            this.percentDiscountRadioBtn.TabStop = true;
+            this.percentDiscountRadioBtn.Text = "Percent:";
+            this.percentDiscountRadioBtn.UseVisualStyleBackColor = true;
+            // 
+            // percentDiscountTextBox
+            // 
+            this.percentDiscountTextBox.Location = new System.Drawing.Point(383, 26);
+            this.percentDiscountTextBox.Name = "percentDiscountTextBox";
+            this.percentDiscountTextBox.Size = new System.Drawing.Size(65, 20);
+            this.percentDiscountTextBox.TabIndex = 4;
+            // 
+            // flatDiscountRadioBtn
+            // 
+            this.flatDiscountRadioBtn.AutoSize = true;
+            this.flatDiscountRadioBtn.Location = new System.Drawing.Point(189, 27);
+            this.flatDiscountRadioBtn.Name = "flatDiscountRadioBtn";
+            this.flatDiscountRadioBtn.Size = new System.Drawing.Size(57, 17);
+            this.flatDiscountRadioBtn.TabIndex = 3;
+            this.flatDiscountRadioBtn.TabStop = true;
+            this.flatDiscountRadioBtn.Text = "Flat:  $";
+            this.flatDiscountRadioBtn.UseVisualStyleBackColor = true;
             // 
             // nonmemberPointsCheckBox
             // 
@@ -146,6 +184,7 @@
             this.placingCountTextBox.Name = "placingCountTextBox";
             this.placingCountTextBox.Size = new System.Drawing.Size(128, 20);
             this.placingCountTextBox.TabIndex = 4;
+            this.placingCountTextBox.Leave += new System.EventHandler(this.CalculateColumns);
             // 
             // placingsLabel
             // 
@@ -187,44 +226,6 @@
             this.schemeLabel.TabIndex = 0;
             this.schemeLabel.Text = "Points Scheme:";
             // 
-            // flatDiscountRadioBtn
-            // 
-            this.flatDiscountRadioBtn.AutoSize = true;
-            this.flatDiscountRadioBtn.Location = new System.Drawing.Point(189, 27);
-            this.flatDiscountRadioBtn.Name = "flatDiscountRadioBtn";
-            this.flatDiscountRadioBtn.Size = new System.Drawing.Size(57, 17);
-            this.flatDiscountRadioBtn.TabIndex = 3;
-            this.flatDiscountRadioBtn.TabStop = true;
-            this.flatDiscountRadioBtn.Text = "Flat:  $";
-            this.flatDiscountRadioBtn.UseVisualStyleBackColor = true;
-            // 
-            // percentDiscountRadioBtn
-            // 
-            this.percentDiscountRadioBtn.AutoSize = true;
-            this.percentDiscountRadioBtn.Location = new System.Drawing.Point(320, 27);
-            this.percentDiscountRadioBtn.Name = "percentDiscountRadioBtn";
-            this.percentDiscountRadioBtn.Size = new System.Drawing.Size(65, 17);
-            this.percentDiscountRadioBtn.TabIndex = 5;
-            this.percentDiscountRadioBtn.TabStop = true;
-            this.percentDiscountRadioBtn.Text = "Percent:";
-            this.percentDiscountRadioBtn.UseVisualStyleBackColor = true;
-            // 
-            // percentDiscountTextBox
-            // 
-            this.percentDiscountTextBox.Location = new System.Drawing.Point(383, 26);
-            this.percentDiscountTextBox.Name = "percentDiscountTextBox";
-            this.percentDiscountTextBox.Size = new System.Drawing.Size(65, 20);
-            this.percentDiscountTextBox.TabIndex = 4;
-            // 
-            // percentLabel
-            // 
-            this.percentLabel.AutoSize = true;
-            this.percentLabel.Location = new System.Drawing.Point(454, 29);
-            this.percentLabel.Name = "percentLabel";
-            this.percentLabel.Size = new System.Drawing.Size(15, 13);
-            this.percentLabel.TabIndex = 6;
-            this.percentLabel.Text = "%";
-            // 
             // saveBtn
             // 
             this.saveBtn.Location = new System.Drawing.Point(331, 373);
@@ -242,6 +243,7 @@
             this.cancelBtn.TabIndex = 9;
             this.cancelBtn.Text = "Cancel";
             this.cancelBtn.UseVisualStyleBackColor = true;
+            this.cancelBtn.Click += new System.EventHandler(this.CloseForm);
             // 
             // SettingsForm
             // 

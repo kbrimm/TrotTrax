@@ -11,6 +11,13 @@ namespace TrotTrax
         public string ClubID { get; private set; }
         public int Year { get; private set; }
 
+        public char EntryFeeDiscountType;
+        public decimal EntryFeeDiscountAmount;
+        public bool NonMemberPoints;
+        public char PointsSchemeType;
+        public int Placings;
+        public int[][] PointSchemeValues;
+
         public Settings(string clubId, int year)
         {
             Database = new DBDriver(1);
