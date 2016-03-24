@@ -23,6 +23,13 @@ namespace TrotTrax
             Database = new DBDriver(1);
             ClubID = clubId;
             Year = year;
+
+
+        }
+
+        public void SaveValues()
+        {
+
         }
     }
 }

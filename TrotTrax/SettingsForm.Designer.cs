@@ -43,8 +43,8 @@
             this.pointSchemeGridView = new System.Windows.Forms.DataGridView();
             this.placingCountTextBox = new System.Windows.Forms.TextBox();
             this.placingsLabel = new System.Windows.Forms.Label();
-            this.graduatedRadioButton = new System.Windows.Forms.RadioButton();
-            this.flatRadioButton = new System.Windows.Forms.RadioButton();
+            this.graduatedPointsRadioButton = new System.Windows.Forms.RadioButton();
+            this.flatPointsRadioButton = new System.Windows.Forms.RadioButton();
             this.schemeLabel = new System.Windows.Forms.Label();
             this.saveBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
@@ -133,6 +133,8 @@
             this.discountCheckBox.TabIndex = 0;
             this.discountCheckBox.Text = "Entry Fee Discount for Members";
             this.discountCheckBox.UseVisualStyleBackColor = true;
+            this.discountCheckBox.CheckedChanged += new System.EventHandler(this.EntryFeeGroupAction);
+            this.discountCheckBox.Leave += new System.EventHandler(this.EntryFeeGroupAction);
             // 
             // pointsGroupBox
             // 
@@ -141,8 +143,8 @@
             this.pointsGroupBox.Controls.Add(this.pointSchemeGridView);
             this.pointsGroupBox.Controls.Add(this.placingCountTextBox);
             this.pointsGroupBox.Controls.Add(this.placingsLabel);
-            this.pointsGroupBox.Controls.Add(this.graduatedRadioButton);
-            this.pointsGroupBox.Controls.Add(this.flatRadioButton);
+            this.pointsGroupBox.Controls.Add(this.graduatedPointsRadioButton);
+            this.pointsGroupBox.Controls.Add(this.flatPointsRadioButton);
             this.pointsGroupBox.Controls.Add(this.schemeLabel);
             this.pointsGroupBox.Location = new System.Drawing.Point(12, 94);
             this.pointsGroupBox.Name = "pointsGroupBox";
@@ -195,27 +197,27 @@
             this.placingsLabel.TabIndex = 3;
             this.placingsLabel.Text = "Number of Placings:";
             // 
-            // graduatedRadioButton
+            // graduatedPointsRadioButton
             // 
-            this.graduatedRadioButton.AutoSize = true;
-            this.graduatedRadioButton.Location = new System.Drawing.Point(248, 23);
-            this.graduatedRadioButton.Name = "graduatedRadioButton";
-            this.graduatedRadioButton.Size = new System.Drawing.Size(200, 17);
-            this.graduatedRadioButton.TabIndex = 2;
-            this.graduatedRadioButton.TabStop = true;
-            this.graduatedRadioButton.Text = "Graduated (Dependent on class size)";
-            this.graduatedRadioButton.UseVisualStyleBackColor = true;
+            this.graduatedPointsRadioButton.AutoSize = true;
+            this.graduatedPointsRadioButton.Location = new System.Drawing.Point(248, 23);
+            this.graduatedPointsRadioButton.Name = "graduatedPointsRadioButton";
+            this.graduatedPointsRadioButton.Size = new System.Drawing.Size(200, 17);
+            this.graduatedPointsRadioButton.TabIndex = 2;
+            this.graduatedPointsRadioButton.TabStop = true;
+            this.graduatedPointsRadioButton.Text = "Graduated (Dependent on class size)";
+            this.graduatedPointsRadioButton.UseVisualStyleBackColor = true;
             // 
-            // flatRadioButton
+            // flatPointsRadioButton
             // 
-            this.flatRadioButton.AutoSize = true;
-            this.flatRadioButton.Location = new System.Drawing.Point(93, 23);
-            this.flatRadioButton.Name = "flatRadioButton";
-            this.flatRadioButton.Size = new System.Drawing.Size(149, 17);
-            this.flatRadioButton.TabIndex = 1;
-            this.flatRadioButton.TabStop = true;
-            this.flatRadioButton.Text = "Flat (Same for every class)";
-            this.flatRadioButton.UseVisualStyleBackColor = true;
+            this.flatPointsRadioButton.AutoSize = true;
+            this.flatPointsRadioButton.Location = new System.Drawing.Point(93, 23);
+            this.flatPointsRadioButton.Name = "flatPointsRadioButton";
+            this.flatPointsRadioButton.Size = new System.Drawing.Size(149, 17);
+            this.flatPointsRadioButton.TabIndex = 1;
+            this.flatPointsRadioButton.TabStop = true;
+            this.flatPointsRadioButton.Text = "Flat (Same for every class)";
+            this.flatPointsRadioButton.UseVisualStyleBackColor = true;
             // 
             // schemeLabel
             // 
@@ -234,6 +236,7 @@
             this.saveBtn.TabIndex = 8;
             this.saveBtn.Text = "Save";
             this.saveBtn.UseVisualStyleBackColor = true;
+            this.saveBtn.Click += new System.EventHandler(this.SaveSettings);
             // 
             // cancelBtn
             // 
@@ -281,8 +284,8 @@
         private System.Windows.Forms.DataGridView pointSchemeGridView;
         private System.Windows.Forms.TextBox placingCountTextBox;
         private System.Windows.Forms.Label placingsLabel;
-        private System.Windows.Forms.RadioButton graduatedRadioButton;
-        private System.Windows.Forms.RadioButton flatRadioButton;
+        private System.Windows.Forms.RadioButton graduatedPointsRadioButton;
+        private System.Windows.Forms.RadioButton flatPointsRadioButton;
         private System.Windows.Forms.Label schemeLabel;
         private System.Windows.Forms.Label pointValueLabel;
         private System.Windows.Forms.Label entryCountLabel;

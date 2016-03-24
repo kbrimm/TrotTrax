@@ -142,10 +142,10 @@ namespace TrotTrax
                 "FOREIGN KEY (class_no) REFERENCES [" + year + "_class](class_no) ON DELETE CASCADE, " +
                 "FOREIGN KEY (back_no) REFERENCES [" + year + "_back](back_no) ON DELETE CASCADE );";
 
-            // settings: discount_type text, discount_amount real, non_member_points int, points_type text, no_placings int
-            string settingsTable = "CREATE TABLE [" + year + "]_settings ( discount_type TEXT NOT NULL, discount_amount REAL, " +
-                "non_member_points INTEGER NOT NULL, points_type TEXT NOT NULL, no_placings INT ); " +
-                "INSERT INTO [" + year + "]_settings VALUES ( 'n', 0, 0, 'f', 6 );";
+            // settings: setting_name text, setting_value text
+            string settingsTable = "CREATE TABLE [" + year + "_settings] ( setting_name TEXT UNIQUE NOT NULL, " +
+                "setting_value TEXT NOT NULL ); INSERT INTO [" + year + "_settings] VALUES ( 'EntryFeeDiscountType', 'n' ), " +
+                "( 'EntryFeeDiscountAmount', 0 ), ( 'NonMemberPoints', 1 ), ( 'PointSchemeType', 'f' ), ( 'Placings', 6 );";
 
             // And go!
             if(DoTheNonQuery(ClubConn, yearInsert))
@@ -165,7 +165,7 @@ namespace TrotTrax
             if(DoTheNonQuery(ClubConn, resultTable))
                 Console.WriteLine(year + "_result successfully created.");
             if (DoTheNonQuery(ClubConn, settingsTable))
-                Console.WriteLine(year + "_settings successfully created.");
+                Console.WriteLine(year + "_settings successfully created and populated.");
         }
 
         #endregion
