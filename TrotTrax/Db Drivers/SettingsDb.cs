@@ -40,16 +40,20 @@ namespace TrotTrax
         #region Update Statements
         public bool UpdateSettings(char discountType, decimal discountAmount, bool nonMemberPoint, char schemeType, int placingNo)
         {
+            // Parameterizing the character input yielded unsatisfactory results.
+            if (discountType == '\'')
+                discountType = 'n';
+            if (schemeType == '\'')
+                schemeType = 'f';
+
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "UPDATE [" + Year + "_settings] SET setting_value = @discountTypeParam WHERE setting_name = 'EntryFeeDiscountType'; " +
+            query.CommandText = "UPDATE [" + Year + "_settings] SET setting_value = '" + discountType + "' WHERE setting_name = 'EntryFeeDiscountType'; " +
                 "UPDATE [" + Year + "_settings] SET setting_value = @discountAmountParam WHERE setting_name = 'EntryFeeDiscountAmount'; " +
                 "UPDATE [" + Year + "_settings] SET setting_value = @memberPointParam WHERE setting_name = 'NonMemberPoint'; " +
-                "UPDATE [" + Year + "_settings] SET setting_value = @schemeTypeParam WHERE setting_name = 'PointSchemeType'; " +
+                "UPDATE [" + Year + "_settings] SET setting_value = '" + schemeType + "' WHERE setting_name = 'PointSchemeType'; " +
                 "UPDATE [" + Year + "_settings] SET setting_value = @placingNoParam WHERE setting_name = 'PlacingNo';";
-            query.Parameters.Add(new SQLiteParameter("@discountTypeParam", discountType));
             query.Parameters.Add(new SQLiteParameter("@discountAmountParam", discountAmount));
             query.Parameters.Add(new SQLiteParameter("@memberPointParam", nonMemberPoint));
-            query.Parameters.Add(new SQLiteParameter("@schemeTypeParam", schemeType));
             query.Parameters.Add(new SQLiteParameter("@placingNoParam", placingNo));
             query.Connection = ClubConn;
             return DoTheNonQuery(query);

@@ -88,6 +88,7 @@
             this.percentDiscountRadioBtn.TabStop = true;
             this.percentDiscountRadioBtn.Text = "Percent:";
             this.percentDiscountRadioBtn.UseVisualStyleBackColor = true;
+            this.percentDiscountRadioBtn.CheckedChanged += new System.EventHandler(this.DiscountSelectionAction);
             // 
             // percentDiscountTextBox
             // 
@@ -106,6 +107,7 @@
             this.flatDiscountRadioBtn.TabStop = true;
             this.flatDiscountRadioBtn.Text = "Flat:  $";
             this.flatDiscountRadioBtn.UseVisualStyleBackColor = true;
+            this.flatDiscountRadioBtn.CheckedChanged += new System.EventHandler(this.DiscountSelectionAction);
             // 
             // nonmemberPointsCheckBox
             // 

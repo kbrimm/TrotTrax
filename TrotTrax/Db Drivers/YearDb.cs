@@ -147,15 +147,15 @@ namespace TrotTrax
                 Console.WriteLine(year + "_rider successfully created.");
             if (DoTheNonQuery(ClubConn, horseTable))
                 Console.WriteLine(year + "_horse successfully created.");
-            if(DoTheNonQuery(ClubConn, backNoTable))
+            if (DoTheNonQuery(ClubConn, backNoTable))
                 Console.WriteLine(year + "_back successfully created.");
-            if(DoTheNonQuery(ClubConn, showTable))
+            if (DoTheNonQuery(ClubConn, showTable))
                 Console.WriteLine(year + "_show successfully created.");
-            if(DoTheNonQuery(ClubConn, categoryTable))
+            if (DoTheNonQuery(ClubConn, categoryTable))
                 Console.WriteLine(year + "_category successfully created.");
-            if(DoTheNonQuery(ClubConn, classTable))
+            if (DoTheNonQuery(ClubConn, classTable))
                 Console.WriteLine(year + "_class successfully created.");
-            if(DoTheNonQuery(ClubConn, resultTable))
+            if (DoTheNonQuery(ClubConn, resultTable))
                 Console.WriteLine(year + "_result successfully created.");
             if (DoTheNonQuery(ClubConn, settingsTable))
                 Console.WriteLine(year + "_settings successfully created and populated.");
@@ -168,12 +168,13 @@ namespace TrotTrax
         public bool DeleteYear(int year)
         {
             string showYearDelete = "DELETE FROM show_year WHERE year = " + year + ";";
-            if(DoTheNonQuery(ClubConn, showYearDelete))
+            if (DoTheNonQuery(ClubConn, showYearDelete))
             {
                 string dropYearTables = "DROP TABLE [" + year + "_result] ; " +
                     "DROP TABLE [" + year + "_class] ; DROP TABLE [" + year + "_category] ; " +
                     "DROP TABLE [" + year + "_show] ; DROP TABLE [" + year + "_backNo] ; " +
-                    "DROP TABLE [" + year + "_horse] ; DROP TABLE [" + year + "_rider];";
+                    "DROP TABLE [" + year + "_horse] ; DROP TABLE [" + year + "_rider]; " +
+                    "DROP TABLE [" + year + "_settings];";
                 return DoTheNonQuery(ClubConn, dropYearTables);
             }
             return false;

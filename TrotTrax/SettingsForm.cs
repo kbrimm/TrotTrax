@@ -92,10 +92,30 @@ namespace TrotTrax
             }
         }
 
+        private void DiscountSelectionAction(object sender, EventArgs e)
+        {
+            if(flatDiscountRadioBtn.Checked)
+            {
+                this.flatDiscountTextBox.BackColor = System.Drawing.SystemColors.Window;
+                this.flatDiscountTextBox.Enabled = true;
+                this.percentDiscountTextBox.BackColor = System.Drawing.SystemColors.InactiveCaption;
+                this.percentDiscountTextBox.Enabled = false;
+                this.percentDiscountTextBox.Text = String.Empty;
+            }
+            else if(percentDiscountRadioBtn.Checked)
+            {
+                this.percentDiscountTextBox.BackColor = System.Drawing.SystemColors.Window;
+                this.percentDiscountTextBox.Enabled = true;
+                this.flatDiscountTextBox.BackColor = System.Drawing.SystemColors.InactiveCaption;
+                this.flatDiscountTextBox.Enabled = false;
+                this.flatDiscountTextBox.Text = String.Empty;
+            }
+        }
+
         private void CalculateColumns(object sender, EventArgs e)
         {
-            int places = -1;
-            if (Int32.TryParse(placingCountTextBox.Text, out places) && places > 0)
+            int places = VerifyPlacings(placingCountTextBox.Text);
+            if (places > 0)
             {
 
             }

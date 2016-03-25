@@ -79,12 +79,12 @@ namespace TrotTrax
                 refreshDataToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 refreshDataToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
 
-                viewToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                viewToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+                newToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                newToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
                 backNumbersToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 backNumbersToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
-                classesToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                classesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+                classToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                classToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
                 horsesToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 horsesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
                 ridersToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -134,12 +134,12 @@ namespace TrotTrax
                 refreshDataToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 refreshDataToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
 
-                viewToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                viewToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+                newToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                newToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
                 backNumbersToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 backNumbersToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
-                classesToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                classesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+                classToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                classToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
                 horsesToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 horsesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
                 ridersToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

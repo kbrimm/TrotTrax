@@ -18,6 +18,7 @@ namespace TrotTrax
     {
         public List<BackNoItem> EntryList = new List<BackNoItem>();
         public List<BackNoItem> PlacingList = new List<BackNoItem>();
+        public Settings ActiveSettings;
 
         public int ClassNo { get; private set; }
         public string ClassName { get; private set; }
@@ -33,6 +34,7 @@ namespace TrotTrax
         public Result(string clubID, int year, int showNo, int classNo)
         {
             Database = new DBDriver(1);
+            ActiveSettings = new Settings(clubID, year);
             this.ClubID = clubID;
             this.Year = year;
             this.ClassNo = classNo;
