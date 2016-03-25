@@ -91,7 +91,7 @@
             // 
             // percentDiscountTextBox
             // 
-            this.percentDiscountTextBox.Location = new System.Drawing.Point(383, 26);
+            this.percentDiscountTextBox.Location = new System.Drawing.Point(385, 26);
             this.percentDiscountTextBox.Name = "percentDiscountTextBox";
             this.percentDiscountTextBox.Size = new System.Drawing.Size(65, 20);
             this.percentDiscountTextBox.TabIndex = 4;
@@ -112,9 +112,9 @@
             this.nonmemberPointsCheckBox.AutoSize = true;
             this.nonmemberPointsCheckBox.Location = new System.Drawing.Point(6, 51);
             this.nonmemberPointsCheckBox.Name = "nonmemberPointsCheckBox";
-            this.nonmemberPointsCheckBox.Size = new System.Drawing.Size(183, 17);
+            this.nonmemberPointsCheckBox.Size = new System.Drawing.Size(180, 17);
             this.nonmemberPointsCheckBox.TabIndex = 2;
-            this.nonmemberPointsCheckBox.Text = "Non-Members Accumulate Points";
+            this.nonmemberPointsCheckBox.Text = "Non-members accumulate points";
             this.nonmemberPointsCheckBox.UseVisualStyleBackColor = true;
             // 
             // flatDiscountTextBox
@@ -129,9 +129,9 @@
             this.discountCheckBox.AutoSize = true;
             this.discountCheckBox.Location = new System.Drawing.Point(6, 28);
             this.discountCheckBox.Name = "discountCheckBox";
-            this.discountCheckBox.Size = new System.Drawing.Size(177, 17);
+            this.discountCheckBox.Size = new System.Drawing.Size(171, 17);
             this.discountCheckBox.TabIndex = 0;
-            this.discountCheckBox.Text = "Entry Fee Discount for Members";
+            this.discountCheckBox.Text = "Entry fee discount for members";
             this.discountCheckBox.UseVisualStyleBackColor = true;
             this.discountCheckBox.CheckedChanged += new System.EventHandler(this.EntryFeeGroupAction);
             this.discountCheckBox.Leave += new System.EventHandler(this.EntryFeeGroupAction);
@@ -193,9 +193,9 @@
             this.placingsLabel.AutoSize = true;
             this.placingsLabel.Location = new System.Drawing.Point(6, 50);
             this.placingsLabel.Name = "placingsLabel";
-            this.placingsLabel.Size = new System.Drawing.Size(102, 13);
+            this.placingsLabel.Size = new System.Drawing.Size(101, 13);
             this.placingsLabel.TabIndex = 3;
-            this.placingsLabel.Text = "Number of Placings:";
+            this.placingsLabel.Text = "Number of placings:";
             // 
             // graduatedPointsRadioButton
             // 
@@ -224,9 +224,9 @@
             this.schemeLabel.AutoSize = true;
             this.schemeLabel.Location = new System.Drawing.Point(6, 25);
             this.schemeLabel.Name = "schemeLabel";
-            this.schemeLabel.Size = new System.Drawing.Size(81, 13);
+            this.schemeLabel.Size = new System.Drawing.Size(79, 13);
             this.schemeLabel.TabIndex = 0;
-            this.schemeLabel.Text = "Points Scheme:";
+            this.schemeLabel.Text = "Points scheme:";
             // 
             // saveBtn
             // 

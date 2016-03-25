@@ -38,11 +38,8 @@ namespace TrotTrax
 
         private int GetLatestYear()
         {
-            string query;
-            object response;
-
-            query = "SELECT year FROM show_year ORDER BY year DESC LIMIT 1;";
-            response = DoTheScalar(ClubConn, query);
+            string query = "SELECT year FROM show_year ORDER BY year DESC LIMIT 1;";
+            object response = DoTheScalar(ClubConn, query);
 
             try
             {
@@ -57,12 +54,9 @@ namespace TrotTrax
 
         public bool CheckYearExists(int year)
         {
-            string query;
-            object response;
-            int count = -1;
-            
-            query = "SELECT COUNT(*) FROM show_year WHERE year = " + year + ";";
-            response = DoTheScalar(ClubConn, query);
+            string query = "SELECT COUNT(*) FROM show_year WHERE year = " + year + ";";
+            object response = DoTheScalar(ClubConn, query);
+            int count = -1;            
 
             try
             {
@@ -80,12 +74,11 @@ namespace TrotTrax
         }
 
         public List<int> GetYearItemList()
-        {
-            SQLiteDataReader reader;
-            List<int> yearItemList = new List<int>();
+        {          
             string query = "SELECT year FROM show_year ORDER BY year DESC;";
+            SQLiteDataReader reader = DoTheReader(ClubConn, query);
+            List<int> yearItemList = new List<int>();
 
-            reader = DoTheReader(ClubConn, query);
             while (reader.Read())
             {
                 yearItemList.Add(reader.GetInt32(0));
@@ -145,7 +138,7 @@ namespace TrotTrax
             // settings: setting_name text, setting_value text
             string settingsTable = "CREATE TABLE [" + year + "_settings] ( setting_name TEXT UNIQUE NOT NULL, " +
                 "setting_value TEXT NOT NULL ); INSERT INTO [" + year + "_settings] VALUES ( 'EntryFeeDiscountType', 'n' ), " +
-                "( 'EntryFeeDiscountAmount', 0 ), ( 'NonMemberPoints', 1 ), ( 'PointSchemeType', 'f' ), ( 'Placings', 6 );";
+                "( 'EntryFeeDiscountAmount', 0 ), ( 'NonMemberPoint', 1 ), ( 'PointSchemeType', 'f' ), ( 'PlacingNo', 6 );";
 
             // And go!
             if(DoTheNonQuery(ClubConn, yearInsert))

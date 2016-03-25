@@ -137,20 +137,20 @@ namespace TrotTrax
             this.newClubToolStripMenuItem,
             this.clubSeparator});
             this.openClubToolStripMenuItem.Name = "openClubToolStripMenuItem";
-            this.openClubToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
-            this.openClubToolStripMenuItem.Text = "Open Club";
+            this.openClubToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openClubToolStripMenuItem.Text = "Clubs";
             // 
             // newClubToolStripMenuItem
             // 
             this.newClubToolStripMenuItem.Name = "newClubToolStripMenuItem";
-            this.newClubToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.newClubToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newClubToolStripMenuItem.Text = "New Club";
             this.newClubToolStripMenuItem.Click += new System.EventHandler(this.NewClub);
             // 
             // clubSeparator
             // 
             this.clubSeparator.Name = "clubSeparator";
-            this.clubSeparator.Size = new System.Drawing.Size(123, 6);
+            this.clubSeparator.Size = new System.Drawing.Size(149, 6);
             // 
             // openYearToolStripMenuItem
             // 
@@ -158,37 +158,37 @@ namespace TrotTrax
             this.newYearToolStripMenuItem,
             this.yearSeparator});
             this.openYearToolStripMenuItem.Name = "openYearToolStripMenuItem";
-            this.openYearToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
-            this.openYearToolStripMenuItem.Text = "Open Year";
+            this.openYearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openYearToolStripMenuItem.Text = "Years";
             // 
             // newYearToolStripMenuItem
             // 
             this.newYearToolStripMenuItem.Name = "newYearToolStripMenuItem";
-            this.newYearToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.newYearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newYearToolStripMenuItem.Text = "New Year";
             this.newYearToolStripMenuItem.Click += new System.EventHandler(this.NewYear);
             // 
             // yearSeparator
             // 
             this.yearSeparator.Name = "yearSeparator";
-            this.yearSeparator.Size = new System.Drawing.Size(121, 6);
+            this.yearSeparator.Size = new System.Drawing.Size(149, 6);
             // 
             // refreshDataToolStripMenuItem
             // 
             this.refreshDataToolStripMenuItem.Name = "refreshDataToolStripMenuItem";
-            this.refreshDataToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.refreshDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.refreshDataToolStripMenuItem.Text = "Refresh Data";
             this.refreshDataToolStripMenuItem.Click += new System.EventHandler(this.RefreshOnClick);
             // 
             // fileSeparator
             // 
             this.fileSeparator.Name = "fileSeparator";
-            this.fileSeparator.Size = new System.Drawing.Size(137, 6);
+            this.fileSeparator.Size = new System.Drawing.Size(149, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitMenu);
             // 
@@ -209,35 +209,35 @@ namespace TrotTrax
             this.backNumbersToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.backNumbersToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.backNumbersToolStripMenuItem.Name = "backNumbersToolStripMenuItem";
-            this.backNumbersToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.backNumbersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.backNumbersToolStripMenuItem.Text = "Back Numbers";
             this.backNumbersToolStripMenuItem.Click += new System.EventHandler(this.NewBackNo);
             // 
             // classesToolStripMenuItem
             // 
             this.classesToolStripMenuItem.Name = "classesToolStripMenuItem";
-            this.classesToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.classesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.classesToolStripMenuItem.Text = "Class List";
             this.classesToolStripMenuItem.Click += new System.EventHandler(this.NewClass);
             // 
             // horsesToolStripMenuItem
             // 
             this.horsesToolStripMenuItem.Name = "horsesToolStripMenuItem";
-            this.horsesToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.horsesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.horsesToolStripMenuItem.Text = "Horses";
             this.horsesToolStripMenuItem.Click += new System.EventHandler(this.NewHorse);
             // 
             // ridersToolStripMenuItem
             // 
             this.ridersToolStripMenuItem.Name = "ridersToolStripMenuItem";
-            this.ridersToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.ridersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ridersToolStripMenuItem.Text = "Riders";
             this.ridersToolStripMenuItem.Click += new System.EventHandler(this.NewRider);
             // 
             // showsToolStripMenuItem
             // 
             this.showsToolStripMenuItem.Name = "showsToolStripMenuItem";
-            this.showsToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.showsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.showsToolStripMenuItem.Text = "Shows";
             this.showsToolStripMenuItem.Click += new System.EventHandler(this.NewShow);
             // 
@@ -293,24 +293,24 @@ namespace TrotTrax
             // categoriesToolStripMenuItem
             // 
             this.categoriesToolStripMenuItem.Name = "categoriesToolStripMenuItem";
-            this.categoriesToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.categoriesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.categoriesToolStripMenuItem.Text = "Categories";
             this.categoriesToolStripMenuItem.Click += new System.EventHandler(this.OpenCategoryListForm);
             // 
             // importToolStripMenuItem
             // 
-            this.importToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.importToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.importToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.importToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.importToolStripMenuItem.Text = "Import Data";
             // 
             // pointsSchemeToolStripMenuItem
             // 
-            this.pointsSchemeToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pointsSchemeToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.pointsSchemeToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pointsSchemeToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.pointsSchemeToolStripMenuItem.Name = "pointsSchemeToolStripMenuItem";
-            this.pointsSchemeToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.pointsSchemeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.pointsSchemeToolStripMenuItem.Text = "Points Scheme";
             this.pointsSchemeToolStripMenuItem.Click += new System.EventHandler(this.OpenSettingsForm);
             // 

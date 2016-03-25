@@ -37,17 +37,22 @@ namespace TrotTrax
                     this.percentDiscountTextBox.Text = ActiveSettings.EntryFeeDiscountAmount.ToString();
                     break;
             }
-            nonmemberPointsCheckBox.Checked = ActiveSettings.NonMemberPoints;           
+            nonmemberPointsCheckBox.Checked = ActiveSettings.NonMemberPoint;           
             // Set points scheme radio buttons
-            switch (ActiveSettings.PointsSchemeType)
+            switch (ActiveSettings.PointSchemeType)
             {
                 case 'f': flatPointsRadioButton.Checked = true; break;
                 case 'g': graduatedPointsRadioButton.Checked = true; break;
             }
-            placingCountTextBox.Text = ActiveSettings.Placings.ToString();
+            placingCountTextBox.Text = ActiveSettings.PlacingNo.ToString();
             EntryFeeGroupAction();
         }
 
+        #endregion
+
+        #region Dynamic Form Elements
+
+        // Sets elements active/inactive based on entry fee group selections. Triggers on change of status/leaving.
         private void EntryFeeGroupAction(object sender=null, EventArgs e=null)
         {
             // If there is not discount selected, grey out discount radio selectors and text boxes.
@@ -87,11 +92,49 @@ namespace TrotTrax
             }
         }
 
+        private void CalculateColumns(object sender, EventArgs e)
+        {
+            int places = -1;
+            if (Int32.TryParse(placingCountTextBox.Text, out places) && places > 0)
+            {
+
+            }
+        }
+
         #endregion
 
+        #region Save/Close
+        // In the absence of explicit settings, application will revert to defaults:
+        // No discount, non-members accumulate points, flat points scheme, 6 places.
         private void SaveSettings(object sender, EventArgs e)
         {
-            ActiveSettings.SaveValues();
+            // Entry fee discount
+            char discountType = 'n';
+            decimal discountAmount = 0;
+            if (flatDiscountRadioBtn.Checked)
+            {
+                discountType = 'f';
+                discountAmount = VerifyDiscount(flatDiscountTextBox.Text);
+            }
+            else if (percentDiscountRadioBtn.Checked)
+            {
+                discountType = 'p';
+                discountAmount = VerifyDiscount(percentDiscountTextBox.Text);
+            }
+
+            // Non-member points
+            bool nonMemberPoint = false;
+            if (nonmemberPointsCheckBox.Checked)
+                nonMemberPoint = true;
+
+            // Point scheme
+            char schemeType = 'f';
+            if (graduatedPointsRadioButton.Checked)
+                schemeType = 'p';
+            int placingNo = VerifyPlacings(placingCountTextBox.Text);
+
+            if (discountAmount >= 0 && placingNo >= 0)
+                ActiveSettings.SaveSettings(discountType, discountAmount, nonMemberPoint, schemeType, placingNo);
         }
 
         private void CloseForm(object sender, EventArgs e)
@@ -99,13 +142,42 @@ namespace TrotTrax
             this.Close();
         }
 
-        private void CalculateColumns(object sender, EventArgs e)
+        #endregion
+
+        #region Data Verifiers
+
+        private decimal VerifyDiscount(string discountString)
+        {
+            decimal discount = -1;
+
+            bool validDiscount = decimal.TryParse(discountString, System.Globalization.NumberStyles.Any,
+                new System.Globalization.CultureInfo("en-US"), out discount);
+            if (discountString == String.Empty || !validDiscount || discount < 0)
+            {
+                DialogResult confirm = MessageBox.Show("Discount must be a positive decimal value.", 
+                    "TrotTrax Alert", MessageBoxButtons.OK);
+                return -1;
+            }
+            else
+                return discount;
+        }
+
+        private int VerifyPlacings(string placeString)
         {
             int places = -1;
-            if(Int32.TryParse(placingCountTextBox.Text, out places) && places > 0)
-            {
 
+            bool validInteger = Int32.TryParse(placeString, out places);
+            if (placeString == String.Empty || !validInteger || places < 0)
+            {
+                DialogResult confirm = MessageBox.Show("Number of places must be a positive integer value.",
+                    "TrotTrax Alert", MessageBoxButtons.OK);
+                return -1;
             }
+            else
+                return places;
         }
+
+        #endregion
+
     }
 }

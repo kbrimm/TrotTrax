@@ -244,68 +244,6 @@ namespace TrotTrax
             }
         }
 
-        #region Data Verifiers
-
-        // Verifies class number input - returns -1 on fail.
-        private int VerifyNumber(string noString)
-        {
-            DialogResult confirm;
-            int number;
-
-            if (noString == String.Empty || !int.TryParse(noString, out number))
-            { 
-                confirm = MessageBox.Show("Class number must be an integer value.", "TrotTrax Alert", MessageBoxButtons.OK);
-                return -1;
-            }
-
-            // If we're assigning a new number to a class, it needs to be checked.
-            if ((IsNew || number != ActiveClass.Number) && ActiveClass.CheckIndexUsed(ItemType.Class, number))
-            {
-                confirm = MessageBox.Show("Class number already exists.", "TrotTrax Alert", MessageBoxButtons.OK);
-                return -1;
-            }
-
-            return number;
-        }
-
-        // Verifies fee input - returns -1 on fail.
-        private decimal VerifyFee(string feeString)
-        {
-            DialogResult confirm;
-            bool validFee;
-            decimal fee;
-
-            Console.WriteLine("String value for fee: " + feeString);
-            Console.WriteLine("Length of string: " + feeString.Length);
-            validFee = decimal.TryParse(feeString, System.Globalization.NumberStyles.Any, 
-                new System.Globalization.CultureInfo("en-US"), out fee);
-            Console.WriteLine("Parsed value for fee: " + fee);
-            if (feeString == String.Empty || !validFee)
-            {
-                confirm = MessageBox.Show("Fee must be a valid decimal value.", "TrotTrax Alert", MessageBoxButtons.OK);
-                return -1;
-            }
-            else
-                return fee;
-        }
-
-        // Verifies category number - returns -1 on fail.
-        private int VerifyCategory(object categoryObject)
-        {
-            DialogResult confirm;
-            int category = Convert.ToInt32(this.catComboBox.SelectedValue);
-
-            if (ActiveClass.CatList.Count == 0)
-            {
-                confirm = MessageBox.Show("Each class must have an associated category.",
-                    "TrotTrax Confirmation", MessageBoxButtons.OK);
-                return -1;
-            }
-            return category;
-        }
-
-        #endregion
-
         private void DeleteClass(object sender, EventArgs e)
         {
             if (!IsNew)
@@ -510,6 +448,66 @@ namespace TrotTrax
                 this.viewResultBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 this.viewResultBtn.ForeColor = System.Drawing.SystemColors.ControlText;
             }
+        }
+
+        #endregion
+
+        #region Data Verifiers
+
+        // Verifies class number input - returns -1 on fail.
+        private int VerifyNumber(string noString)
+        {
+            DialogResult confirm;
+            int number;
+
+            if (noString == String.Empty || !int.TryParse(noString, out number))
+            {
+                confirm = MessageBox.Show("Class number must be an integer value.", "TrotTrax Alert", MessageBoxButtons.OK);
+                return -1;
+            }
+
+            // If we're assigning a new number to a class, it needs to be checked.
+            if ((IsNew || number != ActiveClass.Number) && ActiveClass.CheckIndexUsed(ItemType.Class, number))
+            {
+                confirm = MessageBox.Show("Class number already exists.", "TrotTrax Alert", MessageBoxButtons.OK);
+                return -1;
+            }
+
+            return number;
+        }
+
+        // Verifies fee input - returns -1 on fail.
+        private decimal VerifyFee(string feeString)
+        {
+            DialogResult confirm;
+            bool validFee;
+            decimal fee;
+
+            validFee = decimal.TryParse(feeString, System.Globalization.NumberStyles.Any,
+                new System.Globalization.CultureInfo("en-US"), out fee);
+            Console.WriteLine("Parsed value for fee: " + fee);
+            if (feeString == String.Empty || !validFee)
+            {
+                confirm = MessageBox.Show("Fee must be a valid decimal value.", "TrotTrax Alert", MessageBoxButtons.OK);
+                return -1;
+            }
+            else
+                return fee;
+        }
+
+        // Verifies category number - returns -1 on fail.
+        private int VerifyCategory(object categoryObject)
+        {
+            DialogResult confirm;
+            int category = Convert.ToInt32(this.catComboBox.SelectedValue);
+
+            if (ActiveClass.CatList.Count == 0)
+            {
+                confirm = MessageBox.Show("Each class must have an associated category.",
+                    "TrotTrax Confirmation", MessageBoxButtons.OK);
+                return -1;
+            }
+            return category;
         }
 
         #endregion
