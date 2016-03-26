@@ -162,6 +162,10 @@ namespace TrotTrax
                 string description = this.descriptionBox.Text;
                 string comments = this.commentsBox.Text;
 
+                // Ensure required parameters are satisfied.
+                if (number <= 0)
+                    return;
+
                 if (IsNew)
                 {
                     success = ActiveShow.AddShow(number, date, description, comments);
@@ -208,33 +212,6 @@ namespace TrotTrax
                 }
             }
         }
-
-        #region Data Verifiers
-
-        // Verifies class number input - returns -1 on fail.
-        private int VerifyNumber(string noString)
-        {
-            DialogResult confirm;
-            int number;
-
-            // If the number field is empty or not a valid integer
-            if (noString == String.Empty || !int.TryParse(noString, out number))
-            {
-                confirm = MessageBox.Show("Show number must be an integer value.", "TrotTrax Alert", MessageBoxButtons.OK);
-                return -1;
-            }
-
-            // If we're assigning a new number to a show, see if it exists.
-            if ((IsNew || number != ActiveShow.Number) && ActiveShow.CheckIndexUsed(ItemType.Show, number))
-            {
-                confirm = MessageBox.Show("Show number already exists.", "TrotTrax Alert", MessageBoxButtons.OK);
-                return -1;
-            }
-
-            return number;
-        }
-
-        #endregion
 
         private void DeleteShow(object sender, EventArgs e)
         {
@@ -376,6 +353,33 @@ namespace TrotTrax
                 }
             }
         }
+        #endregion
+
+        #region Data Verifiers
+
+        // Verifies class number input - returns -1 on fail.
+        private int VerifyNumber(string noString)
+        {
+            DialogResult confirm;
+            int number;
+
+            // If the number field is empty or not a valid integer
+            if (noString == String.Empty || !int.TryParse(noString, out number))
+            {
+                confirm = MessageBox.Show("Show number must be an integer value.", "TrotTrax Alert", MessageBoxButtons.OK);
+                return -1;
+            }
+
+            // If we're assigning a new number to a show, see if it exists.
+            if ((IsNew || number != ActiveShow.Number) && ActiveShow.CheckIndexUsed(ItemType.Show, number))
+            {
+                confirm = MessageBox.Show("Show number already exists.", "TrotTrax Alert", MessageBoxButtons.OK);
+                return -1;
+            }
+
+            return number;
+        }
+
         #endregion
     }
 }

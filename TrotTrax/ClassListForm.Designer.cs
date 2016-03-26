@@ -250,9 +250,9 @@ namespace TrotTrax
             this.catLabel.AutoSize = true;
             this.catLabel.Location = new System.Drawing.Point(145, 137);
             this.catLabel.Name = "catLabel";
-            this.catLabel.Size = new System.Drawing.Size(63, 16);
+            this.catLabel.Size = new System.Drawing.Size(68, 16);
             this.catLabel.TabIndex = 6;
-            this.catLabel.Text = "Category";
+            this.catLabel.Text = "Category*";
             // 
             // nameBox
             // 
@@ -268,9 +268,9 @@ namespace TrotTrax
             this.descriptionLabel.AutoSize = true;
             this.descriptionLabel.Location = new System.Drawing.Point(6, 80);
             this.descriptionLabel.Name = "descriptionLabel";
-            this.descriptionLabel.Size = new System.Drawing.Size(82, 16);
+            this.descriptionLabel.Size = new System.Drawing.Size(87, 16);
             this.descriptionLabel.TabIndex = 4;
-            this.descriptionLabel.Text = "Class Name";
+            this.descriptionLabel.Text = "Class Name*";
             // 
             // numberBox
             // 
@@ -286,9 +286,9 @@ namespace TrotTrax
             this.showNoLabel.AutoSize = true;
             this.showNoLabel.Location = new System.Drawing.Point(6, 25);
             this.showNoLabel.Name = "showNoLabel";
-            this.showNoLabel.Size = new System.Drawing.Size(93, 16);
+            this.showNoLabel.Size = new System.Drawing.Size(98, 16);
             this.showNoLabel.TabIndex = 0;
-            this.showNoLabel.Text = "Class Number";
+            this.showNoLabel.Text = "Class Number*";
             // 
             // catGroup
             // 

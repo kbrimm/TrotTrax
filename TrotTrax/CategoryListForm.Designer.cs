@@ -296,9 +296,9 @@
             this.descriptionLabel.AutoSize = true;
             this.descriptionLabel.Location = new System.Drawing.Point(6, 78);
             this.descriptionLabel.Name = "descriptionLabel";
-            this.descriptionLabel.Size = new System.Drawing.Size(76, 16);
+            this.descriptionLabel.Size = new System.Drawing.Size(81, 16);
             this.descriptionLabel.TabIndex = 5;
-            this.descriptionLabel.Text = "Description";
+            this.descriptionLabel.Text = "Description*";
             // 
             // numberBox
             // 

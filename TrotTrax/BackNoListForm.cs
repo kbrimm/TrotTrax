@@ -251,40 +251,38 @@ namespace TrotTrax
                 int riderNo = VerifyExistsRiderNo(riderComboBox.SelectedValue.ToString());
                 int horseNo = VerifyExistsHorseNo(horseComboBox.SelectedValue.ToString());
 
-                // If all parameters are valid...
-                if(backNo > 0 && riderNo > 0 && horseNo > 0)
+                // Ensure required parameters are satisfied.
+                if (backNo <= 0 || riderNo <= 0 || horseNo <= 0)
+                    return;
+
+                // If it's a new entry, go ahead and add it. Prompt for more additions.
+                if (IsNew)
                 {
-                    // ... and it's a new entry, go ahead and add it. Prompt for more additions.
-                    if (IsNew)
+                    if (ActiveBackNo.AddBackNo(backNo, riderNo, horseNo))
                     {
-                        if (ActiveBackNo.AddBackNo(backNo, riderNo, horseNo))
-                        {
-                            confirm = MessageBox.Show("Would you like to add another back number?", "TrotTrax Alert", MessageBoxButtons.YesNo);
-                            if (confirm == DialogResult.Yes)
-                                RefreshForm(ActiveBackNo.ClubID, ActiveBackNo.Year);
-                            else
-                                RefreshForm(ActiveBackNo.ClubID, ActiveBackNo.Year, backNo);
-                        }
-                        // Something went wrong.
+                        confirm = MessageBox.Show("Would you like to add another back number?", "TrotTrax Alert", MessageBoxButtons.YesNo);
+                        if (confirm == DialogResult.Yes)
+                            RefreshForm(ActiveBackNo.ClubID, ActiveBackNo.Year);
                         else
-                            confirm = MessageBox.Show("Something went wrong. Unable to save back number at this time.",
-                                "TrotTrax Alert", MessageBoxButtons.OK);
-                    }
-                    // Otherwise: do or do not, there is no try.
-                    else
-                    {
-                        if (ActiveBackNo.ModifyBackNo(backNo, riderNo, horseNo))
                             RefreshForm(ActiveBackNo.ClubID, ActiveBackNo.Year, backNo);
-                        // Unless something terrible happens.
-                        else
-                            confirm = MessageBox.Show("Something went wrong. Unable to save back number at this time.",
-                                "TrotTrax Alert", MessageBoxButtons.OK);
                     }
+                    // Something went wrong.
+                    else
+                        confirm = MessageBox.Show("Something went wrong. Unable to save back number at this time.",
+                            "TrotTrax Alert", MessageBoxButtons.OK);
+                }
+                // Otherwise: do or do not, there is no try.
+                else
+                {
+                    if (ActiveBackNo.ModifyBackNo(backNo, riderNo, horseNo))
+                        RefreshForm(ActiveBackNo.ClubID, ActiveBackNo.Year, backNo);
+                    // Unless something terrible happens.
+                    else
+                        confirm = MessageBox.Show("Something went wrong. Unable to save back number at this time.",
+                            "TrotTrax Alert", MessageBoxButtons.OK);
                 }
             }
         }
-
-        
 
         private void DeleteBackNo(object sender, EventArgs e)
         {

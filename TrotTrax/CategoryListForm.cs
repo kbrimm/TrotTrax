@@ -164,10 +164,14 @@ namespace TrotTrax
         {
             if (IsChanged)
             {
-                string newDescription = this.descriptionBox.Text;
+                string newDescription = VerifyDescription(this.descriptionBox.Text);
                 bool newTimed = this.timedCheckBox.Checked;
                 DialogResult confirm;
 
+                // Ensure required parameters are satisfied.
+                if (newDescription == null)
+                    return;
+                
                 if (IsNew)
                 {
                     bool success = ActiveCategory.AddCategory(newDescription, newTimed);
@@ -347,5 +351,19 @@ namespace TrotTrax
         }
         #endregion
 
+        #region Data Verifiers
+
+        private string VerifyDescription(string descString)
+        {
+            if (descString.Equals(String.Empty))
+            {
+                DialogResult confirm = MessageBox.Show("Category entry requires description.", "TrotTrax Alert", MessageBoxButtons.OK);
+                return null;
+            }
+            else
+                return descString;
+        }
+
+        #endregion
     }
 }

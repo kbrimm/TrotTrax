@@ -282,9 +282,9 @@ namespace TrotTrax
             this.horseNameLabel.AutoSize = true;
             this.horseNameLabel.Location = new System.Drawing.Point(6, 69);
             this.horseNameLabel.Name = "horseNameLabel";
-            this.horseNameLabel.Size = new System.Drawing.Size(45, 16);
+            this.horseNameLabel.Size = new System.Drawing.Size(50, 16);
             this.horseNameLabel.TabIndex = 4;
-            this.horseNameLabel.Text = "Name";
+            this.horseNameLabel.Text = "Name*";
             // 
             // numberBox
             // 
@@ -418,10 +418,10 @@ namespace TrotTrax
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(909, 487);
+            this.Controls.Add(this.horseLabel);
             this.Controls.Add(this.horseBox);
             this.Controls.Add(this.infoBox);
             this.Controls.Add(this.riderListGroup);
-            this.Controls.Add(this.horseLabel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HorseListForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

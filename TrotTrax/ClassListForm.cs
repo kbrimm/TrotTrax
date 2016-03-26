@@ -191,56 +191,58 @@ namespace TrotTrax
                 int number = VerifyNumber(this.numberBox.Text);
                 decimal fee = VerifyFee(this.feeBox.Text);
                 int category = VerifyCategory(this.catComboBox.SelectedValue);
- 
-                if(number > 0 && fee > 0 && category > 0)
+
+                // Ensure required parameters are satisfied.
+                if (number <= 0 || fee < 0 || category <= 0 || name == null)
+                    return;
+                
+                // If it's a new class, add and prompt for more additions.
+                if (IsNew)
                 {
-                    // If it's a new class, add and prompt for more additions.
-                    if (IsNew)
+                    if (ActiveClass.AddClass(number, category, name, fee))
                     {
-                        if (ActiveClass.AddClass(number, category, name, fee))
-                        {
-                            confirm = MessageBox.Show("Would you like to add another class?", "TrotTrax Alert", MessageBoxButtons.YesNo);
-                            if (confirm == DialogResult.Yes)
-                                RefreshForm(ActiveClass.ClubID, ActiveClass.Year);
-                            else
-                                RefreshForm(ActiveClass.ClubID, ActiveClass.Year, number);
-                        }
-                        // Something went wrong.
+                        confirm = MessageBox.Show("Would you like to add another class?", "TrotTrax Alert", MessageBoxButtons.YesNo);
+                        if (confirm == DialogResult.Yes)
+                            RefreshForm(ActiveClass.ClubID, ActiveClass.Year);
+                        else
+                            RefreshForm(ActiveClass.ClubID, ActiveClass.Year, number);
+                    }
+                    // Something went wrong.
+                    else
+                        confirm = MessageBox.Show("Something went wrong. Unable to save class at this time.",
+                            "TrotTrax Alert", MessageBoxButtons.OK);
+                }
+                // Otherwise: do or do not, there is no try.
+                else
+                {
+                    // If this update does not change the class number, just update the entry.
+                    // Otherwise, insert new class at new number, delete current.
+                    if(number == ActiveClass.Number)
+                    {
+                        if (ActiveClass.ModifyClass(number, category, name, fee))
+                            RefreshForm(ActiveClass.ClubID, ActiveClass.Year, number);
+                        // Unless something terrible happens.
                         else
                             confirm = MessageBox.Show("Something went wrong. Unable to save class at this time.",
                                 "TrotTrax Alert", MessageBoxButtons.OK);
                     }
-                    // Otherwise: do or do not, there is no try.
                     else
                     {
-                        // If this update does not change the class number, just update the entry.
-                        // Otherwise, insert new class at new number, delete current.
-                        if(number == ActiveClass.Number)
+                        // The deletion of the existing number relies on successful insertion of the new,
+                        // so in the event of catastrophic failure, the data should hopefully still be there somewhere.
+                        if (ActiveClass.AddClass(number, category, name, fee))
                         {
-                            if (ActiveClass.ModifyClass(number, category, name, fee))
-                                RefreshForm(ActiveClass.ClubID, ActiveClass.Year, number);
-                            // Unless something terrible happens.
-                            else
-                                confirm = MessageBox.Show("Something went wrong. Unable to save class at this time.",
-                                    "TrotTrax Alert", MessageBoxButtons.OK);
+                            ActiveClass.RemoveClass();
+                            RefreshForm(ActiveClass.ClubID, ActiveClass.Year, number);
                         }
+                        // Unless something terrible happens.
                         else
-                        {
-                            // The deletion of the existing number relies on successful insertion of the new,
-                            // so in the event of catastrophic failure, the data should hopefully still be there somewhere.
-                            if (ActiveClass.AddClass(number, category, name, fee))
-                            {
-                                ActiveClass.RemoveClass();
-                                RefreshForm(ActiveClass.ClubID, ActiveClass.Year, number);
-                            }
-                            // Unless something terrible happens.
-                            else
-                                confirm = MessageBox.Show("Something went wrong. Unable to save class at this time.",
-                                    "TrotTrax Alert", MessageBoxButtons.OK);
-                        }
-                        
+                            confirm = MessageBox.Show("Something went wrong. Unable to save class at this time.",
+                                "TrotTrax Alert", MessageBoxButtons.OK);
                     }
+                        
                 }
+                
             }
         }
 
@@ -479,16 +481,13 @@ namespace TrotTrax
         // Verifies fee input - returns -1 on fail.
         private decimal VerifyFee(string feeString)
         {
-            DialogResult confirm;
-            bool validFee;
             decimal fee;
-
-            validFee = decimal.TryParse(feeString, System.Globalization.NumberStyles.Any,
+            bool validFee = decimal.TryParse(feeString, System.Globalization.NumberStyles.Any,
                 new System.Globalization.CultureInfo("en-US"), out fee);
-            Console.WriteLine("Parsed value for fee: " + fee);
+
             if (feeString == String.Empty || !validFee)
             {
-                confirm = MessageBox.Show("Fee must be a valid decimal value.", "TrotTrax Alert", MessageBoxButtons.OK);
+                DialogResult confirm = MessageBox.Show("Fee must be a valid decimal value.", "TrotTrax Alert", MessageBoxButtons.OK);
                 return -1;
             }
             else
@@ -498,16 +497,27 @@ namespace TrotTrax
         // Verifies category number - returns -1 on fail.
         private int VerifyCategory(object categoryObject)
         {
-            DialogResult confirm;
             int category = Convert.ToInt32(this.catComboBox.SelectedValue);
 
             if (ActiveClass.CatList.Count == 0)
             {
-                confirm = MessageBox.Show("Each class must have an associated category.",
+                DialogResult confirm = MessageBox.Show("Each class must have an associated category.",
                     "TrotTrax Confirmation", MessageBoxButtons.OK);
                 return -1;
             }
-            return category;
+            else
+                return category;
+        }
+
+        private string VerifyName(string nameString)
+        {
+            if (nameString.Equals(String.Empty))
+            {
+                DialogResult confirm = MessageBox.Show("Class entry requires a name.", "TrotTrax Alert", MessageBoxButtons.OK);
+                return null;
+            }
+            else
+                return nameString;
         }
 
         #endregion

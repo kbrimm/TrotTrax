@@ -310,6 +310,7 @@
             // 
             // lastNameBox
             // 
+            this.lastNameBox.BackColor = System.Drawing.SystemColors.Window;
             this.lastNameBox.Location = new System.Drawing.Point(203, 88);
             this.lastNameBox.MaxLength = 255;
             this.lastNameBox.Name = "lastNameBox";
@@ -322,9 +323,9 @@
             this.lastNameLabel.AutoSize = true;
             this.lastNameLabel.Location = new System.Drawing.Point(200, 69);
             this.lastNameLabel.Name = "lastNameLabel";
-            this.lastNameLabel.Size = new System.Drawing.Size(73, 16);
+            this.lastNameLabel.Size = new System.Drawing.Size(78, 16);
             this.lastNameLabel.TabIndex = 0;
-            this.lastNameLabel.Text = "Last Name";
+            this.lastNameLabel.Text = "Last Name*";
             // 
             // deleteBtn
             // 
@@ -350,6 +351,7 @@
             // 
             // firstNameBox
             // 
+            this.firstNameBox.BackColor = System.Drawing.SystemColors.Window;
             this.firstNameBox.Location = new System.Drawing.Point(9, 88);
             this.firstNameBox.MaxLength = 255;
             this.firstNameBox.Name = "firstNameBox";
@@ -362,9 +364,9 @@
             this.firstNameLabel.AutoSize = true;
             this.firstNameLabel.Location = new System.Drawing.Point(6, 69);
             this.firstNameLabel.Name = "firstNameLabel";
-            this.firstNameLabel.Size = new System.Drawing.Size(73, 16);
+            this.firstNameLabel.Size = new System.Drawing.Size(78, 16);
             this.firstNameLabel.TabIndex = 0;
-            this.firstNameLabel.Text = "First Name";
+            this.firstNameLabel.Text = "First Name*";
             // 
             // numberBox
             // 

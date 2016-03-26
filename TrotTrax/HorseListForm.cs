@@ -181,11 +181,15 @@ namespace TrotTrax
             {
                 DialogResult confirm;
                 int number = Convert.ToInt32(this.numberBox.Text);
-                string name = this.horseNameBox.Text;
+                string name = VerifyName(this.horseNameBox.Text);
                 string altName = this.altNameBox.Text;
                 string height = this.heightBox.Text;
                 string owner = this.ownerBox.Text;
                 string comment = this.commentsBox.Text;
+
+                // Ensure required parameters are satisfied.
+                if (name == null)
+                    return;
 
                 // Because the number is not accessible to the user, there's no need to validate it.
                 // If it's a new horse, add and prompt for more additions.
@@ -408,6 +412,17 @@ namespace TrotTrax
                 DialogResult confirm = MessageBox.Show("Rider not found.", "TrotTrax Alert", MessageBoxButtons.OK);
                 return -1;
             }
+        }
+
+        private string VerifyName(string nameString)
+        {
+            if (nameString.Equals(String.Empty))
+            {
+                DialogResult confirm = MessageBox.Show("Horse entry requires a name.", "TrotTrax Alert", MessageBoxButtons.OK);
+                return null;
+            }
+            else
+                return nameString;
         }
 
         #endregion

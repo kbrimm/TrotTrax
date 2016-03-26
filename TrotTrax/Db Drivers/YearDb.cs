@@ -120,11 +120,11 @@ namespace TrotTrax
 
             // category: category_no int (PK), description text, 
             string categoryTable = "CREATE TABLE [" + year + "_category] ( category_no INTEGER NOT NULL, " +
-                "category_name TEXT, timed INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (category_no) );";
+                "category_name TEXT NOT NULL, timed INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (category_no) );";
 
             // class: class_no int (PK), category_no int (FK), name text, fee real
             string classTable = "CREATE TABLE [" + year + "_class] ( class_no INTEGER NOT NULL, category_no INTEGER NOT NULL, " +
-                "class_name TEXT NOT NULL, fee NUMERIC NOT NULL, PRIMARY KEY (class_no), " +
+                "class_name TEXT NOT NULL, fee NUMERIC NOT NULL DEFAULT 0, PRIMARY KEY (class_no), " +
                 "FOREIGN KEY (category_no) REFERENCES [" + year + "_category](category_no) ON DELETE CASCADE );";
 
             // result: show_no (FK), class_no (FK), back_no (FK), place int, time real, points int, paid_in real, paid_out real

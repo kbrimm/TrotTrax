@@ -231,9 +231,9 @@ namespace TrotTrax
             this.dateLabel.AutoSize = true;
             this.dateLabel.Location = new System.Drawing.Point(120, 25);
             this.dateLabel.Name = "dateLabel";
-            this.dateLabel.Size = new System.Drawing.Size(73, 16);
+            this.dateLabel.Size = new System.Drawing.Size(78, 16);
             this.dateLabel.TabIndex = 3;
-            this.dateLabel.Text = "Show Date";
+            this.dateLabel.Text = "Show Date*";
             // 
             // datePicker
             // 
@@ -249,7 +249,7 @@ namespace TrotTrax
             this.numberBox.BackColor = System.Drawing.SystemColors.Window;
             this.numberBox.Location = new System.Drawing.Point(9, 44);
             this.numberBox.Name = "numberBox";
-            this.numberBox.Size = new System.Drawing.Size(89, 22);
+            this.numberBox.Size = new System.Drawing.Size(94, 22);
             this.numberBox.TabIndex = 1;
             // 
             // showNoLabel
@@ -257,9 +257,9 @@ namespace TrotTrax
             this.showNoLabel.AutoSize = true;
             this.showNoLabel.Location = new System.Drawing.Point(6, 25);
             this.showNoLabel.Name = "showNoLabel";
-            this.showNoLabel.Size = new System.Drawing.Size(92, 16);
+            this.showNoLabel.Size = new System.Drawing.Size(97, 16);
             this.showNoLabel.TabIndex = 0;
-            this.showNoLabel.Text = "Show Number";
+            this.showNoLabel.Text = "Show Number*";
             // 
             // classListGroup
             // 

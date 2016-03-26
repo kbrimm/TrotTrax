@@ -196,13 +196,13 @@
             this.backNoLabel.AutoSize = true;
             this.backNoLabel.Location = new System.Drawing.Point(6, 25);
             this.backNoLabel.Name = "backNoLabel";
-            this.backNoLabel.Size = new System.Drawing.Size(63, 16);
+            this.backNoLabel.Size = new System.Drawing.Size(68, 16);
             this.backNoLabel.TabIndex = 20;
-            this.backNoLabel.Text = "Back No.";
+            this.backNoLabel.Text = "Back No.*";
             // 
             // backNoBox
             // 
-            this.backNoBox.Location = new System.Drawing.Point(6, 44);
+            this.backNoBox.Location = new System.Drawing.Point(9, 44);
             this.backNoBox.Name = "backNoBox";
             this.backNoBox.Size = new System.Drawing.Size(71, 22);
             this.backNoBox.TabIndex = 1;
@@ -238,9 +238,9 @@
             this.horseLabel.AutoSize = true;
             this.horseLabel.Location = new System.Drawing.Point(288, 25);
             this.horseLabel.Name = "horseLabel";
-            this.horseLabel.Size = new System.Drawing.Size(45, 16);
+            this.horseLabel.Size = new System.Drawing.Size(50, 16);
             this.horseLabel.TabIndex = 16;
-            this.horseLabel.Text = "Horse";
+            this.horseLabel.Text = "Horse*";
             // 
             // riderComboBox
             // 
@@ -301,9 +301,9 @@
             this.riderLabel.AutoSize = true;
             this.riderLabel.Location = new System.Drawing.Point(83, 25);
             this.riderLabel.Name = "riderLabel";
-            this.riderLabel.Size = new System.Drawing.Size(41, 16);
+            this.riderLabel.Size = new System.Drawing.Size(46, 16);
             this.riderLabel.TabIndex = 0;
-            this.riderLabel.Text = "Rider";
+            this.riderLabel.Text = "Rider*";
             // 
             // classEntryGroup
             // 

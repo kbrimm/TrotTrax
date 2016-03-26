@@ -215,13 +215,17 @@ namespace TrotTrax
             {
                 DialogResult confirm;
                 int number = Convert.ToInt32(this.numberBox.Text);
-                string first = this.firstNameBox.Text;
-                string last = this.lastNameBox.Text;
+                string first = VerifyFirstName(this.firstNameBox.Text);
+                string last = VerifyLastName(this.lastNameBox.Text);
                 DateTime dob = this.birthdayPicker.Value;
                 bool member = this.memberCheckBox.Checked;
                 string phone = this.phoneBox.Text;
                 string email = this.emailBox.Text;
                 string comment = this.commentsBox.Text;
+
+                // Ensure required parameters are satisfied.                
+                if (first == null || last == null)
+                    return;
 
                 // Because the number is not accessible to the user, there's no need to validate it.
                 // If it's a new rider, add and prompt for more additions.
@@ -404,6 +408,28 @@ namespace TrotTrax
         #endregion
 
         #region Data Verifiers
+
+        private string VerifyFirstName(string nameString)
+        {
+            if (nameString.Equals(String.Empty))
+            {
+                DialogResult confirm = MessageBox.Show("Rider entry requires first name.", "TrotTrax Alert", MessageBoxButtons.OK);
+                return null;
+            }
+            else
+                return nameString;
+        }
+
+        private string VerifyLastName(string nameString)
+        {
+            if (nameString.Equals(String.Empty))
+            {
+                DialogResult confirm = MessageBox.Show("Rider entry requires last name.", "TrotTrax Alert", MessageBoxButtons.OK);
+                return null;
+            }
+            else
+                return nameString;
+        }
 
         private int VerifyBackNo(string backNoString)
         {
