@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -37,6 +38,7 @@ namespace TrotTrax
                     this.percentDiscountTextBox.Text = ActiveSettings.EntryFeeDiscountAmount.ToString();
                     break;
             }
+            EntryFeeGroupAction();
             nonmemberPointsCheckBox.Checked = ActiveSettings.NonMemberPoint;           
             // Set points scheme radio buttons
             switch (ActiveSettings.PointSchemeType)
@@ -45,7 +47,7 @@ namespace TrotTrax
                 case 'g': graduatedPointsRadioButton.Checked = true; break;
             }
             placingCountTextBox.Text = ActiveSettings.PlacingNo.ToString();
-            EntryFeeGroupAction();
+            pointSchemeGridView.DataSource = ActiveSettings.PointSchemeValues;          
         }
 
         #endregion
@@ -151,10 +153,14 @@ namespace TrotTrax
             char schemeType = 'f';
             if (graduatedPointsRadioButton.Checked)
                 schemeType = 'p';
-            int placingNo = VerifyPlacings(placingCountTextBox.Text);
+            int places = VerifyPlacings(placingCountTextBox.Text);
 
-            if (discountAmount >= 0 && placingNo >= 0)
-                ActiveSettings.SaveSettings(discountType, discountAmount, nonMemberPoint, schemeType, placingNo);
+            ArrayList pointScheme = VerifyPointScheme(places);
+
+            if (discountAmount >= 0 && places > 0 && pointScheme != null)
+                ActiveSettings.SaveSettings(discountType, discountAmount, nonMemberPoint, schemeType, places, pointScheme);
+
+            this.Close();
         }
 
         private void CloseForm(object sender, EventArgs e)
@@ -195,6 +201,30 @@ namespace TrotTrax
             }
             else
                 return places;
+        }
+
+        private ArrayList VerifyPointScheme(int places)
+        {
+            ArrayList pointScheme = new ArrayList();
+            int[] pointList;
+            int pointValue;
+            foreach (DataRow row in pointSchemeGridView.Rows)
+            {
+                pointList = new int[places + 1];
+                for (int i = 0; i <= places; i++)
+                {
+                    if (Int32.TryParse(row[i].ToString(), out pointValue))
+                        pointList[i] = pointValue;
+                    else
+                    {
+                        DialogResult confirm = MessageBox.Show("Point values must be positive integers.",
+                            "TrotTrax Alert", MessageBoxButtons.OK);
+                        return null;
+                    }
+                }
+                pointScheme.Add(pointList);
+            }
+            return pointScheme;
         }
 
         #endregion

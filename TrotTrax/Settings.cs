@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 
@@ -16,18 +18,23 @@ namespace TrotTrax
         public bool NonMemberPoint;
         public char PointSchemeType;
         public int PlacingNo;
-        public int[][] PointSchemeValues;
+        public ArrayList PointSchemeValues;
 
         public Settings(string clubId, int year)
         {
             Database = new DBDriver(1);
             ClubID = clubId;
             Year = year;
+            GetSettingsValues();
+        }
+
+        private void GetSettingsValues()
+        {
             EntryFeeDiscountType =  Char.Parse(Database.GetSettingValue(SettingType.EntryFeeDiscountType));
             if (EntryFeeDiscountType != 'n')
                 EntryFeeDiscountAmount = Decimal.Parse(Database.GetSettingValue(SettingType.EntryFeeDiscountAmount));
             
-            // Boolean requires extra switch. This is pretty inelegant.
+            // Boolean requires extra switch. 
             if(Int32.Parse(Database.GetSettingValue(SettingType.NonMemberPoint)) == 0)
                 NonMemberPoint = false;
             else
@@ -35,12 +42,17 @@ namespace TrotTrax
 
             PointSchemeType = Char.Parse(Database.GetSettingValue(SettingType.PointSchemeType));
             PlacingNo = Int32.Parse(Database.GetSettingValue(SettingType.PlacingNo));
-            
+            if (PointSchemeType == 'f')
+                PointSchemeValues = Database.GetFlatPointScheme(PlacingNo);
+            else
+                PointSchemeValues = Database.GetGraduatedPointScheme(PlacingNo);
         }
 
-        public void SaveSettings(char discountType, decimal discountAmount, bool nonMemberPoint, char schemeType, int placingNo)
+        public void SaveSettings(char discountType, decimal discountAmount, bool nonMemberPoint, char schemeType, int placingNo,
+            ArrayList pointScheme)
         {
             Database.UpdateSettings(discountType, discountAmount, nonMemberPoint, schemeType, placingNo);
+            Database.AddPointScheme(pointScheme, placingNo);
         }
     }
 
