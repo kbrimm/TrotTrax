@@ -22,7 +22,7 @@ namespace TrotTrax
         [STAThread]
         static void Main()
         {
-            // Startup process: Check DB, create trot_trax.db if necessary.
+            // Startup process: Check DB, create trot_trax.trax if necessary.
             // Check for existence of initial tables.
             DBDriver database = new DBDriver();
             if (database.Connected)

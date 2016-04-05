@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Web;
 using System.Windows.Forms;
 
 namespace TrotTrax
@@ -119,8 +120,10 @@ namespace TrotTrax
             int places = VerifyPlacings(placingCountTextBox.Text);
             if (places > 0)
             {
-
+                ActiveSettings.NewPointScheme(places, graduatedPointsRadioButton.Checked);
             }
+
+            pointSchemeGridView.DataSource = ActiveSettings.PointSchemeValues;
         }
 
         #endregion

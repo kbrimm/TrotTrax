@@ -97,6 +97,7 @@ namespace TrotTrax
         // Adds year to show_year table
         public void AddYear(int year)
         {
+            Year = year;
             string yearInsert = "INSERT INTO show_year (year) VALUES(" + year + ");";
 
             // rider: rider_no int (PK), first_name text, last_name text, age INT, contact text, member int
@@ -137,8 +138,11 @@ namespace TrotTrax
 
             // settings: setting_name text, setting_value text
             string settingsTable = "CREATE TABLE [" + year + "_settings] ( setting_name TEXT UNIQUE NOT NULL, " +
-                "setting_value TEXT NOT NULL ); INSERT INTO [" + year + "_settings] VALUES ( 'EntryFeeDiscountType', 'n' ), " +
-                "( 'EntryFeeDiscountAmount', 0 ), ( 'NonMemberPoint', 1 ), ( 'PointSchemeType', 'f' ), ( 'PlacingNo', 6 );";
+                "setting_value TEXT NOT NULL ); INSERT INTO [" + year + "_settings] VALUES ( 'EntryFeeDiscountType', 'n' ); " +
+                "INSERT INTO [" + year + "_settings] VALUES ( 'EntryFeeDiscountAmount', 0 ); " +
+                "INSERT INTO [" + year + "_settings] VALUES ( 'NonMemberPoint', 1 ); " +
+                "INSERT INTO [" + year + "_settings] VALUES ( 'PointSchemeType', 'f' ); " +
+                "INSERT INTO [" + year + "_settings] VALUES ( 'PlacingNo', 6 );";
 
             // And go!
             if(DoTheNonQuery(ClubConn, yearInsert))
@@ -158,6 +162,9 @@ namespace TrotTrax
             if (DoTheNonQuery(ClubConn, resultTable))
                 Console.WriteLine(year + "_result successfully created.");
             if (DoTheNonQuery(ClubConn, settingsTable))
+                Console.WriteLine(year + "_settings successfully created and populated.");
+            // pointscheme table is created dynamically. Initialized to a flat points scheme of 6 places.
+            if (GetDefaultPointSchemeTable())
                 Console.WriteLine(year + "_settings successfully created and populated.");
         }
 

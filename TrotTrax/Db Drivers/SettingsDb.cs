@@ -61,12 +61,12 @@ namespace TrotTrax
             ArrayList pointScheme = new ArrayList();
             int[] pointList;
 
-            string query = "SELECT * FROM [" + Year + "_pointscheme LIMIT 1;";
+            string query = "SELECT * FROM [" + Year + "_pointscheme] LIMIT 1;";
             SQLiteDataReader reader = DoTheReader(ClubConn, query);
-            pointList = new int[places];
-
+            reader.Read();
+            pointList = new int[places + 1];
             for (int p = 0; p <= places; p++)
-                pointList[p] = reader.GetInt32(p + 1);
+                pointList[p] = reader.GetInt32(p);
 
             pointScheme.Add(pointList);
             reader.Close();
@@ -78,12 +78,12 @@ namespace TrotTrax
 
         #region Insert Statements
 
-        public bool AddPointScheme(ArrayList pointScheme, int places = 1)
+        public bool AddPointScheme(ArrayList pointScheme, int places = 6)
         {
             string insertString = String.Empty;
             int entries = 1;
 
-            string dropString = "DROP TABLE [" + Year + "_pointscheme];";
+            string dropString = "DROP TABLE IF EXISTS [" + Year + "_pointscheme];";
             if (DoTheNonQuery(ClubConn, dropString))
             {
                 // Create tables
@@ -103,12 +103,20 @@ namespace TrotTrax
                 insertString += "INSERT INTO [" + Year + "_pointscheme] VALUES ( " + entries;
 
                 for (int i = 1; i <= places; i++)
-                    insertString += ", " + pointScheme[i]; 
+                    insertString += ", " + item[i]; 
 
                 insertString += " ); ";
                 entries++;
             }
             return DoTheNonQuery(ClubConn, insertString); ;
+        }
+
+        private bool GetDefaultPointSchemeTable()
+        {
+            ArrayList pointScheme = new ArrayList();
+            int[] points = new int[7] {0, 6, 5, 4, 3, 2, 1};
+            pointScheme.Add(points);
+            return AddPointScheme(pointScheme);
         }
 
         #endregion

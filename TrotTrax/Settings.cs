@@ -54,6 +54,26 @@ namespace TrotTrax
             Database.UpdateSettings(discountType, discountAmount, nonMemberPoint, schemeType, placingNo);
             Database.AddPointScheme(pointScheme, placingNo);
         }
+
+        public void NewPointScheme(int size, bool multidimensional)
+        {
+            int[] pointArray;
+            ArrayList pointScheme = new ArrayList();
+
+            if (multidimensional)
+            for (int i = 1; i <= size; i++)
+            {
+                pointArray = new int[size + 1];
+                pointArray[0] = i;
+                pointScheme.Add(pointArray);
+            }
+            else
+            {
+                pointArray = new int[size + 1];
+                pointArray[0] = 0;
+                pointScheme.Add(pointArray);
+            }
+        }
     }
 
     public enum SettingType

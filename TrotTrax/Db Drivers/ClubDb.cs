@@ -119,8 +119,8 @@ namespace TrotTrax
             if(success)
             {
                 // Create new club database
-                ClubConn = new SQLiteConnection("Data Source=" + id + ".db;Version=3;");
-                SQLiteConnection.CreateFile(id + ".db");
+                ClubConn = new SQLiteConnection("Data Source=" + id + ".trax;Version=3;");
+                SQLiteConnection.CreateFile(id + ".trax");
 
                 // Construct and execute year table creation query
                 string yearTable = "CREATE TABLE show_year ( year INTEGER NOT NULL, UNIQUE (year) );";
@@ -155,8 +155,8 @@ namespace TrotTrax
             ClubConn.Close();
             ClubConn.Dispose();
             ClubConn = null;
-            File.Delete(id + ".db");
-            if (File.Exists(id + ".db"))
+            File.Delete(id + ".trax");
+            if (File.Exists(id + ".trax"))
             {
                 Console.Out.WriteLine("Unable to delete database file.");
             }

@@ -31,7 +31,7 @@ namespace TrotTrax
         // Creates trot_trax if not found, adds tables for club data & current data
         public DBDriver()
         {
-            TrotTraxConn = new SQLiteConnection("Data Source=trot_trax.db;Version=3;");
+            TrotTraxConn = new SQLiteConnection("Data Source=trot_trax.trax;Version=3;");
 
             // If the database check fails, we need to initalize some things.
             // Otherwise, we're good to go.
@@ -57,10 +57,10 @@ namespace TrotTrax
         // Passing in a club name value skips the DB instance check step.
         public DBDriver(int skipCheck)
         {
-            TrotTraxConn = new SQLiteConnection("Data Source=trot_trax.db;Version=3;");
+            TrotTraxConn = new SQLiteConnection("Data Source=trot_trax.trax;Version=3;");
             string clubId = GetCurrentClubId();
             if (clubId != null)
-                ClubConn = new SQLiteConnection("Data Source=" + clubId + ".db;Version=3;");
+                ClubConn = new SQLiteConnection("Data Source=" + clubId + ".trax;Version=3;");
             else
                 ClubConn = null;
             Year = GetCurrentYear();           
@@ -305,7 +305,7 @@ namespace TrotTrax
             
             if (DoTheNonQuery(TrotTraxConn, currentDelete) && DoTheNonQuery(currentInsert))
             {
-                ClubConn = new SQLiteConnection("Data Source=" + id + ".db;Version=3;");
+                ClubConn = new SQLiteConnection("Data Source=" + id + ".trax;Version=3;");
                 return true;
             }
             return false;
