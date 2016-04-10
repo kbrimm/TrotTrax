@@ -18,12 +18,12 @@ namespace TrotTrax
 {
     public partial class DBDriver
     {
-        // Must be set for each db transaction in order to enforce foreign key constraints.
-        private const string PRAGMA_STRING = "PRAGMA foreign_keys = ON; ";
         private SQLiteConnection TrotTraxConn;
         private SQLiteConnection ClubConn;
         private int Year;
         public bool Connected;
+        // Must be set for each db transaction in order to enforce foreign key constraints.
+        private const string PRAGMA_STRING = "PRAGMA foreign_keys = ON; ";
         
         #region Constructors/Initializers
 
