@@ -49,6 +49,7 @@ namespace TrotTrax
             }
             placingCountTextBox.Text = ActiveSettings.PlacingNo.ToString();
             pointSchemeGridView.DataSource = ActiveSettings.PointSchemeValues;          
+            // pointSchemeGridView.Data
         }
 
         #endregion

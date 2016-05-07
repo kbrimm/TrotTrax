@@ -51,19 +51,43 @@ namespace TrotTrax
         private string CreateReportBody(string clubName, string itemName, List<ResultItem> reportItems)
         {
             string body = String.Empty;
+            string header;
 
             foreach (var ResultItem in reportItems)
             {
                 
             }
 
-            body += @"        </table>
-                        </div>
-                        </div>
-                    </body>
-                    </html>";
+            body += String.Join("\n",
+                "        </table>",
+                "    </div>",
+                "    </div>",
+                "</body>",
+                "</html>");
             return null;
         }
+
+        private string GetHeaderName(ReportType type, ResultItem item)
+        {
+            string header = String.Empty;
+            switch (type)
+            {
+                case ReportType.Category: header = item.ShowDate ; break;
+                case ReportType.Class: header = item.ShowDate; break;
+                //case ReportType.Horse: header = Database.GetHorseItem(no).Name; break;
+                //case ReportType.Rider: RiderItem riderItem = Database.GetRiderItem(no);
+                //    header = riderItem.FirstName + " " + riderItem.LastName;
+                //    break;
+                //case ReportType.Show: ShowItem showItem = Database.GetShowItem(no);
+                //    header = showItem.Date.ToString("MM/dd/yyyy");
+                //    if (showItem.Name != null) { header += " - " + showItem.Name; }
+                //    break;
+                case ReportType.Year: header = Year.ToString(); break;
+                default: header = null; break;
+            }
+            return header;
+        }
+
         private string CreateFileName(string itemName, string clubName)
         {
             string directory = @"Reports\" + clubName + "\\" + Year + "\\";

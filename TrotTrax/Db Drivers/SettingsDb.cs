@@ -1,6 +1,6 @@
 ﻿/* 
  * TrotTrax
- *     Copyright (c) 2015 Katy Brimm
+ *     Copyright (c) 2015-2016 Katy Brimm
  *     This source file is licensed under the GNU General Public License. 
  *     Please see the file LICENSE in this distribution for license terms.
  * Contact: info@trottrax.org
@@ -43,7 +43,7 @@ namespace TrotTrax
             int[] pointList;
             for (int i = 1; i <= places; i++)
             {
-                string query = "SELECT * FROM [" + Year + "_pointscheme WHERE entries = '" + places + "';";
+                string query = "SELECT * FROM [" + Year + "_pointscheme] WHERE entries = '" + places + "';";
                 SQLiteDataReader reader = DoTheReader(ClubConn, query);
                 pointList = new int[places];
 
@@ -90,7 +90,7 @@ namespace TrotTrax
                 string createString = "CREATE TABLE [" + Year + "_pointscheme] ( entries INTEGER NOT NULL";
 
                 for (int i = 1; i <= places; i++)
-                    createString += ", [" + i + "] INTEGER";
+                    createString += ", [" + i + "_entry] INTEGER";
 
                 createString += " );";
                 DoTheNonQuery(ClubConn, createString);

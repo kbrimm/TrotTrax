@@ -1,4 +1,12 @@
-﻿using System;
+﻿/* 
+ * TrotTrax
+ *     Copyright (c) 2015-2016 Katy Brimm
+ *     This source file is licensed under the GNU General Public License. 
+ *     Please see the file LICENSE in this distribution for license terms.
+ * Contact: info@trottrax.org
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;

@@ -1,6 +1,6 @@
 ﻿/* 
  * TrotTrax
- *     Copyright (c) 2015 Katy Brimm
+ *     Copyright (c) 2015-2016 Katy Brimm
  *     This source file is licensed under the GNU General Public License. 
  *     Please see the file LICENSE in this distribution for license terms.
  * Contact: info@trottrax.org
@@ -28,15 +28,16 @@ namespace TrotTrax
         // No arguments opens an blank show year panel.
         public ShowYearForm()
         {
-            InitializeComponent(); 
-            ActiveButtons();
+            InitializeComponent();
             IsNew = true;
+            ActiveButtons();
         }
 
         // Passing an integer value indicates that there is data in trot_trax.current
         public ShowYearForm(int hasData)
         {
             Year = new ShowYear();
+            IsNew = false;
             InitializeComponent();
             ActiveButtons();
             PopulateClubMenu();
@@ -45,8 +46,7 @@ namespace TrotTrax
             PopulateClassList();
             PopulateBackNoList();
 
-            this.currentLabel.Text = Year.ClubName + "\n\n" + Year.Year + " Show Year";
-            IsNew = false;
+            this.currentLabel.Text = Year.ClubName + "\n\n" + Year.Year + " Show Year"; 
         }
 
         #endregion
@@ -56,15 +56,23 @@ namespace TrotTrax
         private void RefreshForm()
         {
             Year = new ShowYear();
-            ActiveButtons();
-            PopulateClubMenu();
-            PopulateYearMenu();
-            PopulateShowList();
-            PopulateClassList();
-            PopulateBackNoList();
-
-            this.currentLabel.Text = Year.ClubName + "\n\n" + Year.Year + " Show Year";
-            IsNew = false;
+            // If no club in database
+            if(Year.ClubName == null)
+            {
+                IsNew = true;
+                ActiveButtons();
+            }
+            else 
+            {
+                IsNew = false;
+                ActiveButtons();
+                PopulateClubMenu();
+                PopulateYearMenu();
+                PopulateShowList();
+                PopulateClassList();
+                PopulateBackNoList();
+                this.currentLabel.Text = Year.ClubName + "\n\n" + Year.Year + " Show Year";
+            }
         }
 
         private void ActiveButtons()
@@ -146,7 +154,8 @@ namespace TrotTrax
                 ridersToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
                 showsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 showsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
-
+                
+                /*  Reporting is not currently functional
                 reportsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 reportsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
                 classReportsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -157,7 +166,21 @@ namespace TrotTrax
                 showReportsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
                 yearlyReportsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 yearlyReportsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+                */
 
+                // Remove this block when reports are added.
+                reportsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                reportsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+                classReportsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                classReportsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+                membershipReportsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                membershipReportsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+                showReportsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                showReportsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+                yearlyReportsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                yearlyReportsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+
+                /*  Most settings functions are not currently functional
                 settingsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 settingsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
                 categoriesToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -166,13 +189,28 @@ namespace TrotTrax
                 importToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
                 pointsSchemeToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 pointsSchemeToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+                */
 
+                // Remove this block when settings functions are added
+                settingsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                settingsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+                categoriesToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                categoriesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+                importToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                importToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+                pointsSchemeToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                pointsSchemeToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+                
                 addShowBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 addShowBtn.ForeColor = System.Drawing.SystemColors.ControlText;
                 addClassBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 addClassBtn.ForeColor = System.Drawing.SystemColors.ControlText;
                 addNumberBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                addNumberBtn.ForeColor = System.Drawing.SystemColors.ControlText; 
+                addNumberBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+                addHorseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                addHorseBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+                addRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                addRiderBtn.ForeColor = System.Drawing.SystemColors.ControlText; 
             }
 
             // These buttons depend on the presence of particular data.
