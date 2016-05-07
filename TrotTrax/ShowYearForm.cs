@@ -192,8 +192,8 @@ namespace TrotTrax
                 */
 
                 // Remove this block when settings functions are added
-                settingsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                settingsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.GrayText;
+                settingsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                settingsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
                 categoriesToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 categoriesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
                 importToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
