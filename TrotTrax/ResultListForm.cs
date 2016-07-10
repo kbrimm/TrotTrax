@@ -39,7 +39,7 @@ namespace TrotTrax
         {
             PopulateEntryList();
             PopulateClassList();
-            PopulateListBox();
+            PopulateBackNoBox();
             this.Text = ActiveResults.ShowDate + " " + ActiveResults.ClassName + " - TrotTrax";
             this.infoLabel.Text = ActiveResults.ShowDate + "\n" + ActiveResults.ClassNo 
                 + ". " + ActiveResults.ClassName;
@@ -90,7 +90,7 @@ namespace TrotTrax
             {
                 PopulateEntryList();
                 PopulateClassList();
-                PopulateListBox();
+                PopulateBackNoBox();
             }
         }
 
@@ -123,7 +123,6 @@ namespace TrotTrax
                 return true;
         }
 
-
         #endregion
 
         #region Result Data
@@ -131,6 +130,8 @@ namespace TrotTrax
 
 
         #endregion
+
+        #region Class List
 
         private void PopulateClassList()
         {
@@ -142,31 +143,35 @@ namespace TrotTrax
             }
         }
 
+        #endregion
+
+        #region Back Number List
+
         private void PopulateEntryList()
         {
             entryListBox.Items.Clear();
-            foreach (BackNoItem entry in ActiveResults.EntryList)
+            foreach (ResultItem entry in ActiveResults.EntryList)
             {
                 string[] row = { entry.RiderLast + ", " + entry.RiderFirst, entry.Horse };
-                entryListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
+                entryListBox.Items.Add(entry.BackNo.ToString()).SubItems.AddRange(row);
             }
         }
 
-        private void PopulateListBox()
+        private void PopulateBackNoBox()
         {
             //entryBoxItemList.Add(new EntryBoxItem() { no = 0, combo = String.Empty });
             foreach (BackNoItem entry in ActiveResults.BackNoList)
             {
-               // entryBoxItemList.Add(new EntryBoxItem() { no = entry.no, 
-               //     combo = entry.no + " - " + entry.rider +  " - " + entry.horse});
+                // entryBoxItemList.Add(new EntryBoxItem() { no = entry.no, 
+                //     combo = entry.no + " - " + entry.rider +  " - " + entry.horse});
             }
 
-           // this.entryBox.DataSource = entryBoxItemList;
-           // this.entryBox.DisplayMember = "combo";
-           // this.entryBox.ValueMember = "no";
+            // this.entryBox.DataSource = entryBoxItemList;
+            // this.entryBox.DisplayMember = "combo";
+            // this.entryBox.ValueMember = "no";
         }
 
-
+        #endregion
 
         private void entryListBox_ColumnClick(object sender, ColumnClickEventArgs e)
         {
@@ -236,7 +241,7 @@ namespace TrotTrax
 
         private void listBtn_Click(object sender, EventArgs e)
         {
-            int backNo = Convert.ToInt32(this.entryBox.SelectedValue);
+            int backNo = Convert.ToInt32(this.backNoComboBox.SelectedValue);
             if (backNo > 0)
             {
                 bool success = ActiveResults.AddEntry(backNo);
@@ -245,7 +250,7 @@ namespace TrotTrax
                     totalBox.Text = ActiveResults.EntryCount.ToString();
                     manualBox.Text = String.Empty;
                     PopulateEntryList();
-                    entryBox.SelectedIndex = 0;
+                    backNoComboBox.SelectedIndex = 0;
                 }
                 else
                 {

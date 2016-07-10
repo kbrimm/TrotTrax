@@ -56,7 +56,7 @@ namespace TrotTrax
             this.addEntryGroup = new System.Windows.Forms.GroupBox();
             this.listBtn = new System.Windows.Forms.Button();
             this.manualBtn = new System.Windows.Forms.Button();
-            this.entryBox = new System.Windows.Forms.ComboBox();
+            this.backNoComboBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.manualBox = new System.Windows.Forms.TextBox();
             this.manualEntryLabel = new System.Windows.Forms.Label();
@@ -303,7 +303,7 @@ namespace TrotTrax
             // 
             this.addEntryGroup.Controls.Add(this.listBtn);
             this.addEntryGroup.Controls.Add(this.manualBtn);
-            this.addEntryGroup.Controls.Add(this.entryBox);
+            this.addEntryGroup.Controls.Add(this.backNoComboBox);
             this.addEntryGroup.Controls.Add(this.label1);
             this.addEntryGroup.Controls.Add(this.manualBox);
             this.addEntryGroup.Controls.Add(this.manualEntryLabel);
@@ -335,15 +335,15 @@ namespace TrotTrax
             this.manualBtn.UseVisualStyleBackColor = true;
             this.manualBtn.Click += new System.EventHandler(this.manualBtn_Click);
             // 
-            // entryBox
+            // backNoComboBox
             // 
-            this.entryBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.entryBox.DropDownWidth = 265;
-            this.entryBox.FormattingEnabled = true;
-            this.entryBox.Location = new System.Drawing.Point(9, 149);
-            this.entryBox.Name = "entryBox";
-            this.entryBox.Size = new System.Drawing.Size(165, 24);
-            this.entryBox.TabIndex = 3;
+            this.backNoComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.backNoComboBox.DropDownWidth = 265;
+            this.backNoComboBox.FormattingEnabled = true;
+            this.backNoComboBox.Location = new System.Drawing.Point(9, 149);
+            this.backNoComboBox.Name = "backNoComboBox";
+            this.backNoComboBox.Size = new System.Drawing.Size(165, 24);
+            this.backNoComboBox.TabIndex = 3;
             // 
             // label1
             // 
@@ -792,7 +792,7 @@ namespace TrotTrax
         private System.Windows.Forms.GroupBox addEntryGroup;
         private System.Windows.Forms.Button listBtn;
         private System.Windows.Forms.Button manualBtn;
-        private System.Windows.Forms.ComboBox entryBox;
+        private System.Windows.Forms.ComboBox backNoComboBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox manualBox;
         private System.Windows.Forms.Label manualEntryLabel;

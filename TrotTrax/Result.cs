@@ -16,20 +16,19 @@ namespace TrotTrax
 {
     class Result : ListObject
     {
-        public List<BackNoItem> EntryList = new List<BackNoItem>();
-        public List<BackNoItem> PlacingList = new List<BackNoItem>();
+        public List<ResultItem> EntryList = new List<ResultItem>();
+        public List<ResultItem> PlacingList = new List<ResultItem>();
         public Settings ActiveSettings;
 
         public int ClassNo { get; private set; }
         public string ClassName { get; private set; }
         public int ShowNo { get; private set; }
-        public string ShowDate { get; private set; }
+        public DateTime ShowDate { get; private set; }
         public int EntryCount { get; private set; }
-        // To be implemented at a later date:
-        //public bool isTimed { get; private set; }
-        //public bool isPayout { get; private set; }
-        //public bool isJackpot { get; private set; }
-        //public decimal fee { get; private set; }
+        public bool Timed { get; private set; }
+        public decimal EntryFee { get; private set; }
+
+        #region Constructor
 
         public Result(string clubID, int year, int showNo, int classNo)
         {
@@ -39,16 +38,24 @@ namespace TrotTrax
             this.Year = year;
             this.ClassNo = classNo;
             this.ShowNo = showNo;
+            SetShowData();
 
             ClassList = Database.GetClassItemList();
             BackNoList = Database.GetBackNoItemList();
-            // entryList = database.GetEntryList(clubID, year, String.Empty, qualifier);
-            // placingList = database.GetEntryList(clubID, year, "place", "place IS NOT NULL AND show_no = " + showNo +
-            //     " AND class_no = " + classNo);
-            // className = database.GetValueString(clubID, year + "_class_list", "name", "class_no = " + classNo);
-            // showDate = database.GetValueString(clubID, year + "_show_list", "date", "show_no = " + showNo);
-            // entryCount = database.CountValue(clubID, year + "_results", "back_no", "class_no = " + classNo + " AND show_no = " + showNo);
+            EntryList = Database.GetClassResultItemList(ClassNo, ShowNo);
+            EntryCount = Database.CountValue(clubID, year + "_results", "back_no", 
+                "class_no = " + classNo + " AND show_no = " + showNo);
         }
+
+        private void SetShowData()
+        {
+            ClassItem aClass = Database.GetClassItem(ClassNo);
+            ClassName = aClass.Name;
+            ShowItem show = Database.GetShowItem(ShowNo);
+            ShowDate = show.Date;
+        }
+
+        #endregion
 
         public void SortEntries(string field)
         {
@@ -73,6 +80,15 @@ namespace TrotTrax
             return true;
         }
 
+        public bool IsLastClass()
+        {
+            foreach (ClassItem entry in ClassList)
+                if (entry.No > ClassNo)
+                    return false;
+
+            return true;
+        }
+
         public int GetPrev()
         {
             int prev = ClassNo - 1;
@@ -89,15 +105,6 @@ namespace TrotTrax
                 prev -= 1;
             }
             return 0;
-        }
-
-        public bool IsLastClass()
-        {
-            foreach (ClassItem entry in ClassList)
-                if (entry.No > ClassNo)
-                    return false;
-
-            return true;
         }
 
         public int GetNext()

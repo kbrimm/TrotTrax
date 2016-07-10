@@ -24,8 +24,8 @@ namespace TrotTrax
         public ResultItem GetResultItem(int riderNo)
         {
             SQLiteCommand query = new SQLiteCommand();
-            query.CommandText = "SELECT rider_no, rider_first, rider_last, rider_dob, phone, email, member FROM [" + Year +
-                "_rider] WHERE rider_no = @noparam;";
+            query.CommandText = "SELECT rider_no, rider_first, rider_last, rider_dob, phone, " +
+                "email, member FROM [" + Year + "_rider] WHERE rider_no = @noparam;";
             query.CommandType = System.Data.CommandType.Text;
             query.Parameters.Add(new SQLiteParameter("@noparam", riderNo));
             query.Connection = ClubConn;
@@ -36,7 +36,8 @@ namespace TrotTrax
             {
                 item.BackNo = reader.GetInt32(0);
                 item.RiderNo = reader.GetInt32(1);
-                item.Rider = reader.GetString(2) + " " + reader.GetString(3);
+                item.RiderFirst = reader.GetString(2);
+                item.RiderLast = reader.GetString(3);
                 item.HorseNo = reader.GetInt32(4);
                 item.Horse = reader.GetString(5);
                 item.ShowNo = reader.GetInt32(6);
@@ -55,6 +56,7 @@ namespace TrotTrax
         }
 
         // Optional: sort (default is back_no)
+        // Returns a list of ALL results, ordered by given parameter
         public List<ResultItem> GetResultItemList(ResultSort sort = ResultSort.Default)
         {
             // Case statment for sort column
@@ -65,29 +67,33 @@ namespace TrotTrax
                 case ResultSort.Class: sortString = "c.class_no"; break;
                 case ResultSort.Horse: sortString = "h.horse_no"; break;
                 case ResultSort.Place: sortString = "t.place"; break;
-                case ResultSort.Rider: sortString = "r.rider_last, r.rider_first, s.date, c.class_no, t.place"; break;
+                case ResultSort.Rider: sortString = "r.rider_last, r.rider_first, s.date, " +
+                    "c.class_no, t.place"; break;
                 case ResultSort.Show: sortString = "s.date, c.class_no"; break;
                 default: sortString = "back_no"; break;
             }
 
-            string query = "SELECT b.back_no, r.rider_no, r.rider_first, r.rider_last, h.horse_no, h.horse_name, " +
-                "s.show_no, s.date, c.class_no, c.class_name, t.place, t.time, t.points, t.paid_in, t.paid_out " +
-                "FROM [" + Year + "_result] AS t JOIN [" + Year + "_backNo] AS b ON t.back_no = b.back_no " +
+            string query = "SELECT b.back_no, r.rider_no, r.rider_first, r.rider_last, " + 
+                "h.horse_no, h.horse_name, s.show_no, s.date, c.class_no, c.class_name, " +
+                "t.place, t.time, t.points, t.paid_in, t.paid_out " +
+                "FROM [" + Year + "_result] AS t " +
+                "JOIN [" + Year + "_backNo] AS b ON t.back_no = b.back_no " +
                 "JOIN [" + Year + "_rider] AS r ON b.rider_no = r.rider_no " +
                 "JOIN [" + Year + "_horse] AS h ON b.horse_no = h.horse_no " +
                 "JOIN [" + Year + "_class] AS c ON t.class_no = c.class_no " +
-                "JOIN [" + Year + "_show] AS s ON t.show_no = s.show_no " + "ORDER BY " + sort + ";";
+                "JOIN [" + Year + "_show] AS s ON t.show_no = s.show_no " + 
+                "ORDER BY " + sortString + ";";
             SQLiteDataReader reader = DoTheReader(ClubConn, query);
             List<ResultItem> resultItemList = new List<ResultItem>();
             ResultItem item;
 
-            reader = DoTheReader(ClubConn, query);
             while (reader.Read())
             {
                 item = new ResultItem();
                 item.BackNo = reader.GetInt32(0);
                 item.RiderNo = reader.GetInt32(1);
-                item.Rider = reader.GetString(2) + " " + reader.GetString(3);
+                item.RiderFirst = reader.GetString(2);
+                item.RiderLast = reader.GetString(3);
                 item.HorseNo = reader.GetInt32(4);
                 item.Horse = reader.GetString(5);
                 item.ShowNo = reader.GetInt32(6);
@@ -108,7 +114,8 @@ namespace TrotTrax
         }
 
         // Optional: sort (default is back_no)
-        public List<ResultItem> GetResultItemList(ResultFilter filter, int number, ResultSort sort = ResultSort.Default)
+        // Returns a list of results particular to one meta-entity
+        public List<ResultItem> GetResultItemList(ResultFilter filter, int filterVal, ResultSort sort = ResultSort.Default)
         {
             // Case statment for sort column
             string sortString = null;
@@ -133,26 +140,28 @@ namespace TrotTrax
                 default: sortString = "b.back_no"; break;
             }
 
-            string query = "SELECT b.back_no, r.rider_no, r.rider_first, r.rider_last, h.horse_no, h.horse_name, " +
-                "s.show_no, s.date, c.class_no, c.class_name, t.place, t.time, t.points, t.paid_in, t.paid_out " +
-                "FROM [" + Year + "_result] AS t JOIN [" + Year + "_back] AS b ON t.back_no = b.back_no " +
+            string query = "SELECT b.back_no, r.rider_no, r.rider_first, r.rider_last, " +
+                "h.horse_no, h.horse_name, s.show_no, s.date, c.class_no, c.class_name, " +
+                "t.place, t.time, t.points, t.paid_in, t.paid_out " +
+                "FROM [" + Year + "_result] AS t " +
+                "JOIN [" + Year + "_back] AS b ON t.back_no = b.back_no " +
                 "JOIN [" + Year + "_rider] AS r ON b.rider_no = r.rider_no " +
                 "JOIN [" + Year + "_horse] AS h ON b.horse_no = h.horse_no " +
                 "JOIN [" + Year + "_class] AS c ON t.class_no = c.class_no " +
-                "JOIN [" + Year + "_show] AS s ON t.show_no = s.show_no " + 
-                "WHERE " + filterString + " = " + number + " " +
+                "JOIN [" + Year + "_show] AS s ON t.show_no = s.show_no " +
+                "WHERE " + filterString + " = " + filterVal + " " +
                 "ORDER BY " + sortString + ";";
             SQLiteDataReader reader = DoTheReader(ClubConn, query);
             List<ResultItem> resultItemList = new List<ResultItem>();
             ResultItem item;
 
-            reader = DoTheReader(ClubConn, query);
             while (reader.Read())
             {
                 item = new ResultItem();
                 item.BackNo = reader.GetInt32(0);
                 item.RiderNo = reader.GetInt32(1);
-                item.Rider = reader.GetString(2) + " " + reader.GetString(3);
+                item.RiderFirst = reader.GetString(2);
+                item.RiderLast = reader.GetString(3);
                 item.HorseNo = reader.GetInt32(4);
                 item.Horse = reader.GetString(5);
                 item.ShowNo = reader.GetInt32(6);
@@ -170,6 +179,79 @@ namespace TrotTrax
             reader.Close();
             ClubConn.Close();
             return resultItemList;
+        }
+
+        // Optional: sort (default is back_no)
+        // Returns a list of results per class/show instance
+        public List<ResultItem> GetClassResultItemList(int classNo, int showNo, 
+            ResultSort sort = ResultSort.Default)
+        {
+            // Case statment for sort column
+            string sortString = null;
+            switch (sort)
+            {
+                case ResultSort.BackNo: sortString = "b.back_no"; break;
+                case ResultSort.Class: sortString = "c.class_no"; break;
+                case ResultSort.Horse: sortString = "h.horse_no"; break;
+                case ResultSort.Place: sortString = "t.place"; break;
+                case ResultSort.Rider: sortString = "r.rider_last, r.rider_first"; break;
+                case ResultSort.Show: sortString = "s.date, c.class_no"; break;
+                default: sortString = "b.back_no"; break;
+            }
+
+            string query = "SELECT b.back_no, r.rider_no, r.rider_first, r.rider_last, " + 
+                "h.horse_no, h.horse_name, s.show_no, s.date, c.class_no, c.class_name, " +
+                "t.place, t.time, t.points, t.paid_in, t.paid_out " +
+                "FROM [" + Year + "_result] AS t " +
+                "JOIN [" + Year + "_backNo] AS b ON t.back_no = b.back_no " +
+                "JOIN [" + Year + "_rider] AS r ON b.rider_no = r.rider_no " +
+                "JOIN [" + Year + "_horse] AS h ON b.horse_no = h.horse_no " +
+                "JOIN [" + Year + "_class] AS c ON t.class_no = c.class_no " +
+                "JOIN [" + Year + "_show] AS s ON t.show_no = s.show_no " +
+                "WHERE t.class_no = " + classNo + " AND t.show_no = " + showNo + " " +
+                "ORDER BY " + sortString + ";";
+            SQLiteDataReader reader = DoTheReader(ClubConn, query);
+            List<ResultItem> resultItemList = new List<ResultItem>();
+            ResultItem item;
+
+            while (reader.Read())
+            {
+                item = new ResultItem();
+                item.BackNo = reader.GetInt32(0);
+                item.RiderNo = reader.GetInt32(1);
+                item.RiderFirst = reader.GetString(2);
+                item.RiderLast = reader.GetString(3);
+                item.HorseNo = reader.GetInt32(4);
+                item.Horse = reader.GetString(5);
+                item.ShowNo = reader.GetInt32(6);
+                item.ShowDate = reader.GetString(7);
+                item.ClassNo = reader.GetInt32(8);
+                item.ClassName = reader.GetString(9);
+                item.Place = reader.GetInt32(10);
+                item.Time = reader.GetDecimal(11);
+                item.Points = reader.GetInt32(12);
+                item.PayIn = reader.GetDecimal(13);
+                item.PayOut = reader.GetDecimal(14);
+
+                resultItemList.Add(item);
+            }
+            reader.Close();
+            ClubConn.Close();
+            return resultItemList;
+        }
+
+        // Returns a count of entries in a given class instance.
+        public int GetClassEntryCount(int classNo, int showNo)
+        {
+            string query = "SELECT COUNT(*) FROM [" + Year + "_result] " +
+                "WHERE class_no = " + classNo + " AND show_no = " + showNo + ";";
+            Object result = DoTheScalar(ClubConn, query);
+            int entryCount;
+
+            if (Int32.TryParse(result.ToString(), out entryCount))
+                return entryCount;
+            else
+                return 0;
         }
 
         #endregion
