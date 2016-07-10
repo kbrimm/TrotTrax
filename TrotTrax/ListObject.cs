@@ -118,7 +118,8 @@ namespace TrotTrax
     {
         public int BackNo;
         public int RiderNo;
-        public string Rider;
+        public string RiderFirst;
+        public string RiderLast;
         public int HorseNo;
         public string Horse;
         public int ShowNo;

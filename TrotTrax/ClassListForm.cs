@@ -413,7 +413,6 @@ namespace TrotTrax
         // If class is selected from list, loads results form, closes current;
         private void ViewResults(object sender, EventArgs e)
         {
-            /* Functionality disabled for pre-release
             if (showListBox.SelectedItems.Count != 0)
             {
                 int showNo = -1;
@@ -440,7 +439,6 @@ namespace TrotTrax
                     this.Close();
                 }
             }
-             */
 
             if (showListBox.Items.Count == 0)
             {
@@ -449,14 +447,8 @@ namespace TrotTrax
             }
             else
             {
-                /* Button disabled for pre-release
                 this.viewResultBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 this.viewResultBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-                 */
-
-                // Delete this block when functionality added back in
-                this.viewResultBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                this.viewResultBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             }
         }
 

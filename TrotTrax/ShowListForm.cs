@@ -320,14 +320,8 @@ namespace TrotTrax
             }
             else
             {
-                /*   Button disabled for pre-release
                 this.viewResultsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 this.viewResultsBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-                 * */
-
-                // Delete this block when results functionality added.
-                this.viewResultsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                this.viewResultsBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             }
         }
 
@@ -344,7 +338,6 @@ namespace TrotTrax
         // If class selected, launches results form for current show and selected class.
         private void ViewResults(object sender, EventArgs e)
         {
-            /* Functionality disabled for pre-release
             if (classListBox.SelectedItems.Count != 0)
             {
                 int selectedClass = -1;
@@ -359,7 +352,6 @@ namespace TrotTrax
                     this.Close();
                 }
             }
-             * */
         }
         #endregion
 

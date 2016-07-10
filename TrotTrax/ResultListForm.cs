@@ -21,35 +21,116 @@ namespace TrotTrax
     public partial class ResultListForm : Form
     {
         private Result ActiveResults;
-        // private List<EntryBoxItem> entryBoxItemList = new List<EntryBoxItem>();
+        private List<ResultItem> EntryList = new List<ResultItem>();
         private bool IsChanged;
         private bool IsFirst;
         private bool IsLast;
 
+        #region Constructors
+        // This form is only ever opened with an existing class/show.
         public ResultListForm(string clubID, int year, int showNo, int classNo)
         {
             ActiveResults = new Result(clubID, year, showNo, classNo);
             InitializeComponent();
-            this.Text = ActiveResults.ShowDate + " " + ActiveResults.ClassName + " - TrotTrax";
-            infoLabel.Text = ActiveResults.ShowDate + "\n" + classNo + ". " + ActiveResults.ClassName;
-            totalBox.Text = ActiveResults.EntryCount.ToString();
+            SetData();
+        }
+
+        private void SetData()
+        {
             PopulateEntryList();
             PopulateClassList();
             PopulateListBox();
-            IsChanged = false;
+            this.Text = ActiveResults.ShowDate + " " + ActiveResults.ClassName + " - TrotTrax";
+            this.infoLabel.Text = ActiveResults.ShowDate + "\n" + ActiveResults.ClassNo 
+                + ". " + ActiveResults.ClassName;
+            this.totalBox.Text = ActiveResults.EntryCount.ToString();
+
+            // Assign placings button is disabled until changes are made.
+            this.placeBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, 
+                System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.placeBtn.ForeColor = System.Drawing.SystemColors.GrayText;
+
+            // Determine position in list
             IsFirst = ActiveResults.IsFirstClass();
             IsLast = ActiveResults.IsLastClass();
-            if(IsFirst)
+            if (IsFirst)
             {
-                prevBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                prevBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, 
+                    System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 prevBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             }
-            if(IsLast)
+            if (IsLast)
             {
-                nextBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                nextBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, 
+                    System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 nextBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             }
+
+            IsChanged = false;
         }
+
+        #endregion
+
+        #region Refresh Form
+
+        private void RefreshForm(string clubID, int year, int showNo, int classNo)
+        {
+            ActiveResults = new Result(clubID, year, showNo, classNo);
+            SetData();
+        }
+
+        private void RefreshOnClose(object sender, FormClosingEventArgs e)
+        {
+            if (AbandonChanges())
+            {
+                RefreshForm(ActiveResults.ClubID, ActiveResults.Year, ActiveResults.ShowNo, 
+                    ActiveResults.ClassNo);
+            }
+            else
+            {
+                PopulateEntryList();
+                PopulateClassList();
+                PopulateListBox();
+            }
+        }
+
+        #endregion
+
+        #region Form Changes
+
+        // When changes are made, activates relevant buttons.
+        private void DataChanged(object sender, EventArgs e)
+        {
+            this.placeBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, 
+                System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.placeBtn.ForeColor = System.Drawing.SystemColors.ControlText;
+            IsChanged = true;
+        }
+
+        // On form close, prompt to abandon unsaved changes.
+        private bool AbandonChanges()
+        {
+            if (IsChanged)
+            {
+                DialogResult confirm = MessageBox.Show("Do you want to abandon your changes?",
+                        "TrotTrax Confirmation", MessageBoxButtons.YesNo);
+                if (confirm == DialogResult.Yes)
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return true;
+        }
+
+
+        #endregion
+
+        #region Result Data
+
+
+
+        #endregion
 
         private void PopulateClassList()
         {
@@ -85,15 +166,7 @@ namespace TrotTrax
            // this.entryBox.ValueMember = "no";
         }
 
-        private bool AbandonChanges()
-        {
-            DialogResult confirm = MessageBox.Show("Do you want to abandon your changes?",
-                    "TrotTrax Confirmation", MessageBoxButtons.YesNo);
-            if (confirm == DialogResult.Yes)
-                return true;
-            else
-                return false;
-        }
+
 
         private void entryListBox_ColumnClick(object sender, ColumnClickEventArgs e)
         {
@@ -149,7 +222,8 @@ namespace TrotTrax
             if (entryListBox.SelectedItems.Count != 0)
             {
                 int backNo = Convert.ToInt32(entryListBox.SelectedItems[0].Text);
-                DialogResult confirm = MessageBox.Show("Do you want to remove back number " + backNo + " from this class?",
+                DialogResult confirm = MessageBox.Show("Do you want to remove back number " 
+                    + backNo + " from this class?",
                     "TrotTrax Alert", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
                 {
@@ -195,7 +269,8 @@ namespace TrotTrax
 
                 if (classNo >= 0)
                 {
-                    ResultListForm classInstance = new ResultListForm(ActiveResults.ClubID, ActiveResults.Year, ActiveResults.ShowNo, classNo);
+                    ResultListForm classInstance = new ResultListForm(ActiveResults.ClubID,
+                        ActiveResults.Year, ActiveResults.ShowNo, classNo);
                     classInstance.Visible = true;
                     this.Close();
                 }
@@ -212,7 +287,8 @@ namespace TrotTrax
                     loadNew = AbandonChanges();
                 if (loadNew)
                 {
-                    ResultListForm classInstance = new ResultListForm(ActiveResults.ClubID, ActiveResults.Year, ActiveResults.ShowNo, ActiveResults.GetPrev());
+                    ResultListForm classInstance = new ResultListForm(ActiveResults.ClubID, 
+                        ActiveResults.Year, ActiveResults.ShowNo, ActiveResults.GetPrev());
                     classInstance.Visible = true;
                     this.Close();
                 }
@@ -229,7 +305,8 @@ namespace TrotTrax
                     loadNew = AbandonChanges();
                 if (loadNew)
                 {
-                    ResultListForm classInstance = new ResultListForm(ActiveResults.ClubID, ActiveResults.Year, ActiveResults.ShowNo, ActiveResults.GetNext());
+                    ResultListForm classInstance = new ResultListForm(ActiveResults.ClubID, 
+                        ActiveResults.Year, ActiveResults.ShowNo, ActiveResults.GetNext());
                     classInstance.Visible = true;
                     this.Close();
                 }

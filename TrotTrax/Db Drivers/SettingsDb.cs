@@ -90,7 +90,7 @@ namespace TrotTrax
                 string createString = "CREATE TABLE [" + Year + "_pointscheme] ( entries INTEGER NOT NULL";
 
                 for (int i = 1; i <= places; i++)
-                    createString += ", [" + i + "_entry] INTEGER";
+                    createString += ", [place_" + i + "] INTEGER";
 
                 createString += " );";
                 DoTheNonQuery(ClubConn, createString);
@@ -114,8 +114,18 @@ namespace TrotTrax
         private bool GetDefaultPointSchemeTable()
         {
             ArrayList pointScheme = new ArrayList();
-            int[] points = new int[7] {0, 6, 5, 4, 3, 2, 1};
-            pointScheme.Add(points);
+            int[] entryCount1 = new int[7] { 1, 5, 0, 0, 0, 0, 0 };
+            int[] entryCount2 = new int[7] { 2, 6, 5, 0, 0, 0, 0 };
+            int[] entryCount3 = new int[7] { 3, 7, 6, 5, 0, 0, 0 };
+            int[] entryCount4 = new int[7] { 4, 8, 7, 6, 5, 0, 0 };
+            int[] entryCount5 = new int[7] { 5, 9, 8, 7, 6, 5, 0 };
+            int[] entryCount6 = new int[7] { 6, 10, 9, 8, 7, 6, 5 };
+            pointScheme.Add(entryCount1);
+            pointScheme.Add(entryCount2);
+            pointScheme.Add(entryCount3);
+            pointScheme.Add(entryCount4);
+            pointScheme.Add(entryCount5);
+            pointScheme.Add(entryCount6);
             return AddPointScheme(pointScheme);
         }
 

@@ -41,7 +41,7 @@ namespace TrotTrax
             PopulateHorseList();
             PopulateDropDown();
             this.Text = "New Rider - TrotTrax";
-            riderLabel.Text = "New Rider\nSetup";
+            this.riderLabel.Text = "New Rider\nSetup";
             this.numberBox.Text = ActiveRider.Number.ToString();
             this.firstNameBox.Text = String.Empty;
             this.firstNameBox.Focus();
@@ -54,18 +54,19 @@ namespace TrotTrax
             this.commentsBox.Text = String.Empty;
             this.modifyBtn.Text = "Add Rider";
 
-            // Modify btn is disabled until changes are made. Cannot delete record or add/view horses for an unsaved record.
-            this.modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, 
-                System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            // Modify btn is disabled until changes are made. Cannot delete record or 
+            //   add/view horses for an unsaved record.
+            this.modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, 
+                System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modifyBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, 
-                System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.deleteBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, 
+                System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deleteBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.viewBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, 
-                System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.viewBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F,
+                System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.viewBackNoBtn.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.addBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, 
-                System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F,
+                System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addBackNoBtn.ForeColor = System.Drawing.SystemColors.GrayText;
 
             IsNew = true;
@@ -149,10 +150,12 @@ namespace TrotTrax
         private void RefreshOnClose(object sender, FormClosingEventArgs e)
         {
             if (AbandonChanges())
+            {
                 if (IsNew)
                     RefreshForm(ActiveRider.ClubID, ActiveRider.Year);
                 else
                     RefreshForm(ActiveRider.ClubID, ActiveRider.Year, ActiveRider.Number);
+            }
             else
             {
                 PopulateRiderList();
@@ -168,7 +171,8 @@ namespace TrotTrax
         // When changes are made, activates relevant buttons.
         private void DataChanged(object sender, EventArgs e)
         {     
-            this.modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modifyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, 
+                System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modifyBtn.ForeColor = System.Drawing.SystemColors.ControlText;
             IsChanged = true;
         }
@@ -176,7 +180,8 @@ namespace TrotTrax
         // If a horse is selected from drop down or back no is entered, activate add horse button.
         private void HorseChanged(object sender, EventArgs e)
         {
-            this.addBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, 
+                System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addBackNoBtn.ForeColor = System.Drawing.SystemColors.ControlText;
         }
 
@@ -233,7 +238,8 @@ namespace TrotTrax
                 {
                     if (ActiveRider.AddRider(number, first, last, dob, phone, email, member, comment))
                     {
-                        confirm = MessageBox.Show("Would you like to add another rider?", "TrotTrax Alert", MessageBoxButtons.YesNo);
+                        confirm = MessageBox.Show("Would you like to add another rider?", 
+                            "TrotTrax Alert", MessageBoxButtons.YesNo);
                         if (confirm == DialogResult.Yes)
                             RefreshForm(ActiveRider.ClubID, ActiveRider.Year);
                         else
@@ -261,9 +267,8 @@ namespace TrotTrax
         {
             if (!IsNew)
             {
-                DialogResult confirm = MessageBox.Show("Are you sure you want to delete this rider?\n" +
-                        "This operation CANNOT be undone.",
-                    "TrotTrax Confirmation", MessageBoxButtons.YesNo);
+                DialogResult confirm = MessageBox.Show("Are you sure you want to delete this rider?\n" 
+                    + "This operation CANNOT be undone.", "TrotTrax Confirmation", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
                 {
                     ActiveRider.RemoveRider();
@@ -294,14 +299,14 @@ namespace TrotTrax
             // If the riderList box is empty, no view option.
             if(riderListBox.Items.Count == 0)
             {
-                this.viewRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, 
-                    System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.viewRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, 
+                    System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 this.viewRiderBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             }
             else
             {
-                this.viewRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, 
-                    System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.viewRiderBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, 
+                    System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 this.viewRiderBtn.ForeColor = System.Drawing.SystemColors.ControlText;
             } 
         }
@@ -354,14 +359,14 @@ namespace TrotTrax
             // If the riderList box is empty, no view option.
             if (horseListBox.Items.Count == 0)
             {
-                this.viewBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic,
-                    System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.viewBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, 
+                    System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 this.viewBackNoBtn.ForeColor = System.Drawing.SystemColors.GrayText;
             }
             else
             {
-                this.viewBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular,
-                    System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                this.viewBackNoBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, 
+                    System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 this.viewBackNoBtn.ForeColor = System.Drawing.SystemColors.ControlText;
             } 
         }
@@ -413,7 +418,8 @@ namespace TrotTrax
         {
             if (nameString.Equals(String.Empty))
             {
-                DialogResult confirm = MessageBox.Show("Rider entry requires first name.", "TrotTrax Alert", MessageBoxButtons.OK);
+                DialogResult confirm = MessageBox.Show("Rider entry requires first name.", 
+                    "TrotTrax Alert", MessageBoxButtons.OK);
                 return null;
             }
             else
@@ -424,7 +430,8 @@ namespace TrotTrax
         {
             if (nameString.Equals(String.Empty))
             {
-                DialogResult confirm = MessageBox.Show("Rider entry requires last name.", "TrotTrax Alert", MessageBoxButtons.OK);
+                DialogResult confirm = MessageBox.Show("Rider entry requires last name.", 
+                    "TrotTrax Alert", MessageBoxButtons.OK);
                 return null;
             }
             else
@@ -434,13 +441,15 @@ namespace TrotTrax
         private int VerifyBackNo(string backNoString)
         {
             int backNo;
-            if (Int32.TryParse(backNoString, out backNo) && !ActiveRider.CheckIndexUsed(ItemType.BackNo, backNo))
+            if (Int32.TryParse(backNoString, out backNo) 
+                && !ActiveRider.CheckIndexUsed(ItemType.BackNo, backNo))
             {
                 return backNo;
             }
             else
             {
-                DialogResult confirm = MessageBox.Show("Invalid back number.", "TrotTrax Alert", MessageBoxButtons.OK);
+                DialogResult confirm = MessageBox.Show("Invalid back number.", "TrotTrax Alert", 
+                    MessageBoxButtons.OK);
                 return -1;
             }
         }
@@ -448,13 +457,15 @@ namespace TrotTrax
         private int VerifyRider(string horseString)
         {
             int horseNo;
-            if (Int32.TryParse(horseString, out horseNo) && ActiveRider.CheckIndexUsed(ItemType.Horse, horseNo))
+            if (Int32.TryParse(horseString, out horseNo) 
+                && ActiveRider.CheckIndexUsed(ItemType.Horse, horseNo))
             {
                 return horseNo;
             }
             else
             {
-                DialogResult confirm = MessageBox.Show("Rider not found.", "TrotTrax Alert", MessageBoxButtons.OK);
+                DialogResult confirm = MessageBox.Show("Rider not found.", 
+                    "TrotTrax Alert", MessageBoxButtons.OK);
                 return -1;
             }
         }

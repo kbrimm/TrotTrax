@@ -283,8 +283,9 @@ namespace TrotTrax
         private void ViewClub(object sender, EventArgs e)
         {
             string viewClub = Convert.ToString(sender);
-            foreach(ClubItem club in Year.ClubList)
-                if(club.ClubName == viewClub)
+            foreach (ClubItem club in Year.ClubList)
+            {
+                if (club.ClubName == viewClub)
                 {
                     if (Year.SetClub(club.ClubId))
                     {
@@ -297,6 +298,7 @@ namespace TrotTrax
                             "TrotTrax Alert", MessageBoxButtons.OK);
                     }
                 }
+            }
         }
 
         #endregion
@@ -306,7 +308,9 @@ namespace TrotTrax
         private void PopulateYearMenu()
         {
             while (openYearToolStripMenuItem.DropDownItems.Count > 2)
+            {
                 openYearToolStripMenuItem.DropDownItems[2].Dispose();
+            }
 
             foreach (int yearItem in Year.YearList)
             {
@@ -371,13 +375,11 @@ namespace TrotTrax
 
         private void NewShow(object sender, EventArgs e)
         {
+            if (!IsNew)
             {
-                if (!IsNew)
-                {
-                    ShowListForm showList = new ShowListForm(Year.ClubID, Year.Year);
-                    showList.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
-                    showList.Visible = true;
-                }
+                ShowListForm showList = new ShowListForm(Year.ClubID, Year.Year);
+                showList.FormClosing += new FormClosingEventHandler(this.RefreshOnClose);
+                showList.Visible = true;
             }
         }
 
