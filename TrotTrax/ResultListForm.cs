@@ -21,10 +21,10 @@ namespace TrotTrax
     public partial class ResultListForm : Form
     {
         private Result ActiveResults;
-        private List<ResultItem> EntryList = new List<ResultItem>();
         private bool IsChanged;
         private bool IsFirst;
         private bool IsLast;
+        private List<ResultItem> EntryList = new List<ResultItem>();
 
         #region Constructors
         // This form is only ever opened with an existing class/show.
@@ -125,27 +125,7 @@ namespace TrotTrax
 
         #endregion
 
-        #region Result Data
-
-
-
-        #endregion
-
-        #region Class List
-
-        private void PopulateClassList()
-        {
-            classListBox.Items.Clear();
-            foreach (ClassItem entry in ActiveResults.ClassList)
-            {
-                string[] row = { entry.Name, };
-                classListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
-            }
-        }
-
-        #endregion
-
-        #region Back Number List
+        #region Enry Data
 
         private void PopulateEntryList()
         {
@@ -157,44 +137,7 @@ namespace TrotTrax
             }
         }
 
-        private void PopulateBackNoBox()
-        {
-            //entryBoxItemList.Add(new EntryBoxItem() { no = 0, combo = String.Empty });
-            foreach (BackNoItem entry in ActiveResults.BackNoList)
-            {
-                // entryBoxItemList.Add(new EntryBoxItem() { no = entry.no, 
-                //     combo = entry.no + " - " + entry.rider +  " - " + entry.horse});
-            }
-
-            // this.entryBox.DataSource = entryBoxItemList;
-            // this.entryBox.DisplayMember = "combo";
-            // this.entryBox.ValueMember = "no";
-        }
-
-        #endregion
-
-        private void entryListBox_ColumnClick(object sender, ColumnClickEventArgs e)
-        {
-            
-            if (e.Column == 0)
-                ActiveResults.SortEntries("b.back_no");
-            else if (e.Column == 1)
-                ActiveResults.SortEntries("r.last_name");
-            else if (e.Column == 2)
-                ActiveResults.SortEntries("h.name");
-            PopulateEntryList();
-        }
-
-        private void classListBox_ColumnClick(object sender, ColumnClickEventArgs e)
-        {
-            if (e.Column == 0)
-                ActiveResults.SortClasses(ClassSort.Number);
-            else if (e.Column == 1)
-                ActiveResults.SortClasses(ClassSort.Name);
-            PopulateClassList();
-        }
-
-        private void manualBtn_Click(object sender, EventArgs e)
+        private void AddManualEntry(object sender, EventArgs e)
         {
             string noString = this.manualBox.Text.ToString();
             int backNo = 0;
@@ -222,24 +165,7 @@ namespace TrotTrax
             }
         }
 
-        private void removeEntryBtn_Click(object sender, EventArgs e)
-        {
-            if (entryListBox.SelectedItems.Count != 0)
-            {
-                int backNo = Convert.ToInt32(entryListBox.SelectedItems[0].Text);
-                DialogResult confirm = MessageBox.Show("Do you want to remove back number " 
-                    + backNo + " from this class?",
-                    "TrotTrax Alert", MessageBoxButtons.YesNo);
-                if (confirm == DialogResult.Yes)
-                {
-                    ActiveResults.RemoveEntry(backNo);
-                    totalBox.Text = ActiveResults.EntryCount.ToString();
-                    PopulateEntryList();
-                }
-            }
-        }
-
-        private void listBtn_Click(object sender, EventArgs e)
+        private void AddDropdownEntry(object sender, EventArgs e)
         {
             int backNo = Convert.ToInt32(this.backNoComboBox.SelectedValue);
             if (backNo > 0)
@@ -260,62 +186,110 @@ namespace TrotTrax
             }
         }
 
-        private void viewClassBtn_Click(object sender, EventArgs e)
+        private void RemoveEntry(object sender, EventArgs e)
         {
-            if (classListBox.SelectedItems.Count != 0)
+            if (entryListBox.SelectedItems.Count != 0)
             {
-                bool loadNew = true;
-                int classNo = -1;
-
-                if (IsChanged)
-                    loadNew = AbandonChanges();
-                if (loadNew)
-                    classNo = Convert.ToInt32(classListBox.SelectedItems[0].Text);
-
-                if (classNo >= 0)
+                int backNo = Convert.ToInt32(entryListBox.SelectedItems[0].Text);
+                DialogResult confirm = MessageBox.Show("Do you want to remove back number "
+                    + backNo + " from this class?",
+                    "TrotTrax Alert", MessageBoxButtons.YesNo);
+                if (confirm == DialogResult.Yes)
                 {
-                    ResultListForm classInstance = new ResultListForm(ActiveResults.ClubID,
-                        ActiveResults.Year, ActiveResults.ShowNo, classNo);
-                    classInstance.Visible = true;
-                    this.Close();
+                    ActiveResults.RemoveEntry(backNo);
+                    totalBox.Text = ActiveResults.EntryCount.ToString();
+                    PopulateEntryList();
                 }
             }
         }
 
-        private void prevBtn_Click(object sender, EventArgs e)
+        private void SortEntries(object sender, ColumnClickEventArgs e)
         {
-            if(!IsFirst)
-            {
-                bool loadNew = true;
-                
-                if (IsChanged)
-                    loadNew = AbandonChanges();
-                if (loadNew)
-                {
-                    ResultListForm classInstance = new ResultListForm(ActiveResults.ClubID, 
-                        ActiveResults.Year, ActiveResults.ShowNo, ActiveResults.GetPrev());
-                    classInstance.Visible = true;
-                    this.Close();
-                }
-            }   
+
+            if (e.Column == 0)
+                ActiveResults.SortEntries("b.back_no");
+            else if (e.Column == 1)
+                ActiveResults.SortEntries("r.last_name");
+            else if (e.Column == 2)
+                ActiveResults.SortEntries("h.name");
+            PopulateEntryList();
         }
 
-        private void nextBtn_Click(object sender, EventArgs e)
-        {
-            if (!IsLast)
-            {
-                bool loadNew = true;
+        #endregion
 
-                if (IsChanged)
-                    loadNew = AbandonChanges();
-                if (loadNew)
-                {
-                    ResultListForm classInstance = new ResultListForm(ActiveResults.ClubID, 
-                        ActiveResults.Year, ActiveResults.ShowNo, ActiveResults.GetNext());
-                    classInstance.Visible = true;
-                    this.Close();
-                }
-            }  
+        #region Result Data
+
+
+
+        #endregion
+
+        #region Class List
+
+        private void PopulateClassList()
+        {
+            classListBox.Items.Clear();
+            foreach (ClassItem entry in ActiveResults.ClassList)
+            {
+                string[] row = { entry.Name, };
+                classListBox.Items.Add(entry.No.ToString()).SubItems.AddRange(row);
+            }
         }
+
+        private void SortClassList(object sender, ColumnClickEventArgs e)
+        {
+            if (e.Column == 0)
+                ActiveResults.SortClasses(ClassSort.Number);
+            else if (e.Column == 1)
+                ActiveResults.SortClasses(ClassSort.Name);
+            PopulateClassList();
+        }
+
+        private void ViewClass(object sender, EventArgs e)
+        {
+            if (classListBox.SelectedItems.Count != 0)
+            {
+                int classNo = -1;
+
+                if (AbandonChanges())
+                    classNo = Convert.ToInt32(classListBox.SelectedItems[0].Text);
+                if (classNo >= 0)
+                    RefreshForm(ActiveResults.ClubID, ActiveResults.Year, 
+                        ActiveResults.ShowNo, classNo);
+            }
+        }
+
+        private void GetPreviousClass(object sender, EventArgs e)
+        {
+            if(!IsFirst && AbandonChanges())
+                RefreshForm(ActiveResults.ClubID, ActiveResults.Year, 
+                    ActiveResults.ShowNo, ActiveResults.GetPrev());
+        }
+
+        private void GetNextClass(object sender, EventArgs e)
+        {
+            if (!IsLast && AbandonChanges())
+                RefreshForm(ActiveResults.ClubID, ActiveResults.Year, 
+                    ActiveResults.ShowNo, ActiveResults.GetNext());
+        }
+
+        #endregion
+
+        #region Back Number List
+
+        private void PopulateBackNoBox()
+        {
+            //entryBoxItemList.Add(new EntryBoxItem() { no = 0, combo = String.Empty });
+            foreach (BackNoItem entry in ActiveResults.BackNoList)
+            {
+                // entryBoxItemList.Add(new EntryBoxItem() { no = entry.no, 
+                //     combo = entry.no + " - " + entry.rider +  " - " + entry.horse});
+            }
+
+            // this.entryBox.DataSource = entryBoxItemList;
+            // this.entryBox.DisplayMember = "combo";
+            // this.entryBox.ValueMember = "no";
+        }
+
+        #endregion
     }
 }

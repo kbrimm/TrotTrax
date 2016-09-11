@@ -258,7 +258,7 @@ namespace TrotTrax
             this.entryListBox.TabStop = false;
             this.entryListBox.UseCompatibleStateImageBehavior = false;
             this.entryListBox.View = System.Windows.Forms.View.Details;
-            this.entryListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.entryListBox_ColumnClick);
+            this.entryListBox.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.SortEntries);
             // 
             // backNoHeader
             // 
@@ -286,7 +286,7 @@ namespace TrotTrax
             this.removeEntryBtn.TabStop = false;
             this.removeEntryBtn.Text = "Remove Entry";
             this.removeEntryBtn.UseVisualStyleBackColor = true;
-            this.removeEntryBtn.Click += new System.EventHandler(this.removeEntryBtn_Click);
+            this.removeEntryBtn.Click += new System.EventHandler(this.RemoveEntry);
             // 
             // viewNumber
             // 
@@ -323,7 +323,7 @@ namespace TrotTrax
             this.listBtn.TabIndex = 4;
             this.listBtn.Text = "Add Entry";
             this.listBtn.UseVisualStyleBackColor = true;
-            this.listBtn.Click += new System.EventHandler(this.listBtn_Click);
+            this.listBtn.Click += new System.EventHandler(this.AddDropdownEntry);
             // 
             // manualBtn
             // 
@@ -333,7 +333,7 @@ namespace TrotTrax
             this.manualBtn.TabIndex = 2;
             this.manualBtn.Text = "Add Entry";
             this.manualBtn.UseVisualStyleBackColor = true;
-            this.manualBtn.Click += new System.EventHandler(this.manualBtn_Click);
+            this.manualBtn.Click += new System.EventHandler(this.AddManualEntry);
             // 
             // backNoComboBox
             // 
